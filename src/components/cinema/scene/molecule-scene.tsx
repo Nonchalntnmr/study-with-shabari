@@ -2,9 +2,10 @@
 
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { useEffect, useMemo, useRef } from "react";
-import { CanvasTexture, type Mesh, type MeshBasicMaterial, PMREMGenerator, type PerspectiveCamera, Vector3 } from "three";
+import { CanvasTexture, MathUtils, type Mesh, type MeshBasicMaterial, PMREMGenerator, type PerspectiveCamera, Vector3 } from "three";
 import { RoomEnvironment } from "three/examples/jsm/environments/RoomEnvironment.js";
-import { FOV, MoleculeModel } from "./molecule-model";
+import { MoleculeModel } from "./molecule-model";
+import { FOV } from "./poses";
 import { chapterWeights, narrative } from "./narrative-store";
 
 /** Neutral studio reflections, generated locally (no HDR download). */
@@ -64,7 +65,7 @@ function Shadow() {
     if (!m) return;
     m.position.set(narrative.model.x, narrative.model.bottom - 0.45, -0.6);
     m.scale.set(narrative.model.width * 0.85, narrative.model.width * 0.85 * 0.25, 1);
-    (m.material as MeshBasicMaterial).opacity = Math.max(0, 1 - w.c * 1.8);
+    (m.material as MeshBasicMaterial).opacity = 1 - MathUtils.smoothstep(w.c, 0.05, 0.38);
   });
   return (
     <mesh ref={ref}>

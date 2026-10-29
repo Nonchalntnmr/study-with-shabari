@@ -2,11 +2,11 @@
 
 import { useFrame } from "@react-three/fiber";
 import { useLayoutEffect, useMemo, useRef } from "react";
-import { Color, type Group, type InstancedMesh, Matrix4, Quaternion, Vector3 } from "three";
+import { Color, type Group, type InstancedMesh, MathUtils, Matrix4, type MeshPhysicalMaterial, Quaternion, Vector3 } from "three";
 import { MOLECULES, roles } from "@/lib/molecules/analyze";
 import { MODEL_LABELS, labelNodes } from "./labels";
 import { type Chapter, chapterWeights, narrative } from "./narrative-store";
-import { ATOMS, NEW_OH_VIEW, POS, RADIUS, REST, RING_VIEW, ROCK, type Shot, bounds, fitDistance, offsetFor } from "./poses";
+import { ATOMS, FOV, NEW_OH_VIEW, POS, RADIUS, REST, RING_VIEW, ROCK, type Shot, bounds, fitDistance, offsetFor, shotFor } from "./poses";
 
 const dopamine = MOLECULES.dopamine;
 const COLOR: Record<string, string> = { C: "#2E2560", O: "#D9577E", N: "#1E7F7C", H: "#FBFCFC" };
@@ -15,18 +15,9 @@ const BOND = new Color("#B7BDC7");
 const BOND_STRONG = new Color("#5B5487");
 const Y = new Vector3(0, 1, 0);
 const X = new Vector3(1, 0, 0);
-export const FOV = { wide: 30, narrow: 34 };
 
 type Piece = { a: number; b: number; offset: Vector3; radius: number; ring: boolean };
 type Framing = { z: number; x: number; y: number; bottom: number; width: number };
-
-/** Where a pose sits on screen: centred in the clear space right of the text column, with margin. */
-function shotFor(textRight: number, wide: boolean): Shot {
-  if (!wide) return { u: 0.5, v: 0.5, fillW: 0.84, fillH: 0.78 };
-  const start = Math.min(0.7, textRight + 0.04);
-  const end = 0.965;
-  return { u: (start + end) / 2, v: 0.5, fillW: end - start, fillH: 0.6 };
-}
 
 function frame(q: Quaternion, shot: Shot, fov: number, aspect: number): Framing {
   const b = bounds(q);
@@ -60,6 +51,8 @@ export function MoleculeModel({ layout }: { layout: "wide" | "narrow" }) {
   const atomMesh = useRef<InstancedMesh>(null);
   const bondMesh = useRef<InstancedMesh>(null);
   const group = useRef<Group>(null);
+  const atomMat = useRef<MeshPhysicalMaterial>(null);
+  const bondMat = useRef<MeshPhysicalMaterial>(null);
 
   useLayoutEffect(() => {
     const m = new Matrix4();
@@ -133,10 +126,21 @@ export function MoleculeModel({ layout }: { layout: "wide" | "narrow" }) {
       tmp.target.lerp(tmp.vta, w.c);
     }
     g.position.lerp(tmp.target, 1 - Math.exp(-dt * 5));
-    // Shrinks all the way into the VTA dot, then is hidden.
-    const scale = 1 - w.c;
+    // Drifts toward the VTA dot while it fades out, and is gone before it gets small
+    // enough to read as stray specks on the diagram.
+    const scale = 1 - 0.45 * w.c;
     g.scale.setScalar(g.scale.x + (scale - g.scale.x) * (1 - Math.exp(-dt * 5)));
-    g.visible = g.scale.x > 0.03;
+    const fade = 1 - MathUtils.smoothstep(w.c, 0.08, 0.42);
+    for (const mat of [atomMat.current, bondMat.current]) {
+      if (!mat) continue;
+      const transparent = fade < 0.999;
+      if (mat.transparent !== transparent) {
+        mat.transparent = transparent;
+        mat.needsUpdate = true;
+      }
+      mat.opacity = fade;
+    }
+    g.visible = fade > 0.01;
     narrative.model.x = g.position.x;
     narrative.model.y = g.position.y;
     narrative.model.bottom = (mix("bottom") - mix("y")) * g.scale.x + g.position.y;
@@ -174,11 +178,11 @@ export function MoleculeModel({ layout }: { layout: "wide" | "narrow" }) {
     <group ref={group}>
       <instancedMesh ref={atomMesh} args={[undefined, undefined, ATOMS.length]}>
         <sphereGeometry args={[1, 40, 40]} />
-        <meshPhysicalMaterial roughness={0.5} metalness={0} clearcoat={0.25} clearcoatRoughness={0.45} envMapIntensity={0.4} sheen={0.25} sheenRoughness={0.8} />
+        <meshPhysicalMaterial ref={atomMat} roughness={0.5} metalness={0} clearcoat={0.25} clearcoatRoughness={0.45} envMapIntensity={0.4} sheen={0.25} sheenRoughness={0.8} />
       </instancedMesh>
       <instancedMesh ref={bondMesh} args={[undefined, undefined, pieces.length]}>
         <cylinderGeometry args={[1, 1, 1, 18, 1]} />
-        <meshPhysicalMaterial roughness={0.55} metalness={0} clearcoat={0.15} envMapIntensity={0.35} />
+        <meshPhysicalMaterial ref={bondMat} roughness={0.55} metalness={0} clearcoat={0.15} envMapIntensity={0.35} />
       </instancedMesh>
     </group>
   );

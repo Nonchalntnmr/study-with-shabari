@@ -12,6 +12,13 @@ export const siteUrl = (
 export const contactEmail =
   process.env.NEXT_PUBLIC_CONTACT_EMAIL || "jshankar@mit.edu";
 
+/**
+ * Where sessions happen. Founder copy from the original site: the FAQ "Where do sessions happen?
+ * On Zoom, so you can be anywhere.", the free call "15 minutes on Zoom", and the booking page
+ * "You’ll get a confirmation email with a Zoom link."
+ */
+export const sessionPlatform = "Zoom";
+
 export const founder = {
   name: "Shabari Shankar",
   shortName: "Shabari",

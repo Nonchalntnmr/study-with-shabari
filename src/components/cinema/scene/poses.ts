@@ -46,7 +46,7 @@ export function clearance(q: Quaternion): number {
   return min;
 }
 
-export const ROCK = { yaw: 0.16, pitch: 0.06 };
+export const ROCK = { yaw: 0.12, pitch: 0.05 };
 
 export type Pose = { yaw: number; pitch: number; score: number; q: Quaternion };
 
@@ -67,8 +67,15 @@ function search(yaws: [number, number], pitches: [number, number], keep: (yaw: n
   return { ...best, q: turn(FACE_ON, best.yaw, best.pitch) };
 }
 
-/** Hero: a three-quarter view with real depth, clean across the rocking motion. */
-export const REST = search([-1, 1], [-0.75, 0.75], (y, p) => Math.abs(y) >= 0.35 || Math.abs(p) >= 0.3, ROCK);
+/**
+ * Hero: a three-quarter view with real depth, clean across the rocking motion
+ * when seen through the hero's actual off-axis perspective framings (heroScore).
+ * That search takes seconds, too slow for page load, so the result is fixed
+ * here and tests/unit/poses.test.ts re-checks it.
+ */
+const REST_YAW = -0.625;
+const REST_PITCH = 0.25;
+export const REST: Pose = { yaw: REST_YAW, pitch: REST_PITCH, score: NaN, q: turn(FACE_ON, REST_YAW, REST_PITCH) };
 
 /** Chapter A: the ring close to face-on (within ~25°) so its hexagon and bond lengths read. */
 export const RING_VIEW = search([-0.45, 0.45], [-0.45, 0.45], (y, p) => Math.hypot(y, p) <= 0.45);
@@ -77,6 +84,7 @@ export const RING_VIEW = search([-0.45, 0.45], [-0.45, 0.45], (y, p) => Math.hyp
 export const NEW_OH_VIEW = search([-0.95, -0.2], [0.05, 0.7], () => true);
 
 export type Bounds = { width: number; height: number; cx: number; cy: number };
+
 
 /** Projected bounding box of the model (atoms with radii) for an orientation. */
 export function bounds(q: Quaternion): Bounds {
@@ -113,3 +121,71 @@ export function offsetFor(b: Bounds, shot: Shot, distance: number, fovDeg: numbe
   const halfW = halfH * aspect;
   return { x: (shot.u * 2 - 1) * halfW - b.cx, y: (1 - shot.v * 2) * halfH - b.cy };
 }
+
+export const FOV = { wide: 30, narrow: 34 };
+
+/** Where a pose sits on screen: centred in the clear space right of the text column, with margin. */
+export function shotFor(textRight: number, wide: boolean): Shot {
+  if (!wide) return { u: 0.5, v: 0.5, fillW: 0.84, fillH: 0.78 };
+  const start = Math.min(0.7, textRight + 0.04);
+  const end = 0.965;
+  return { u: (start + end) / 2, v: 0.5, fillW: end - start, fillH: 0.6 };
+}
+
+/**
+ * Like clearance(), but seen through a perspective camera at `eye` (relative to
+ * the model's origin, in ångströms), and counting every pair, bonded or not. Off-axis
+ * framing shifts near atoms against far ones, so a pose that is clean head-on
+ * can still overlap in the hero.
+ */
+export function perspectiveClearance(q: Quaternion, eye: Vector3): number {
+  const p = POS.map((v) => {
+    const r = v.clone().applyQuaternion(q);
+    const s = eye.z / (eye.z - r.z);
+    return { x: eye.x + (r.x - eye.x) * s, y: eye.y + (r.y - eye.y) * s, s };
+  });
+  let min = Infinity;
+  for (let i = 0; i < p.length; i++) {
+    for (let j = i + 1; j < p.length; j++) {
+      // Bonded pairs count too: a bond pointing at the camera stacks one atom on the other.
+      const gap = Math.hypot(p[i].x - p[j].x, p[i].y - p[j].y) - (RADIUS[ATOMS[i].el] * p[i].s + RADIUS[ATOMS[j].el] * p[j].s);
+      if (gap < min) min = gap;
+    }
+  }
+  return min;
+}
+
+/** Camera positions for the hero as the site frames it: desktop canvases beside the text column, and the phone stage. */
+export function heroEyes(q: Quaternion): Vector3[] {
+  const b = bounds(q);
+  const views: [number, number, boolean][] = [
+    [1920, 1080, true],
+    [1440, 900, true],
+    [1366, 768, true],
+    [1280, 800, true],
+    [1024, 768, true],
+    [820, 1180, true],
+    [390, 380, false],
+  ];
+  return views.map(([w, h, wide]) => {
+    const fov = wide ? FOV.wide : FOV.narrow;
+    const shot = shotFor(0.5, wide);
+    const z = fitDistance(b, shot, fov, w / h);
+    const o = offsetFor(b, shot, z, fov, w / h);
+    return new Vector3(-o.x, -o.y, z);
+  });
+}
+
+/** The hero pose's worst on-screen gap across the rocking motion and every hero framing. */
+export function heroScore(yaw: number, pitch: number): number {
+  let score = Infinity;
+  for (const dy of [-ROCK.yaw, 0, ROCK.yaw]) {
+    for (const dp of [-ROCK.pitch, 0, ROCK.pitch]) {
+      const q = turn(FACE_ON, yaw + dy, pitch + dp);
+      for (const eye of heroEyes(q)) score = Math.min(score, perspectiveClearance(q, eye));
+    }
+  }
+  return score;
+}
+
+REST.score = heroScore(REST_YAW, REST_PITCH);

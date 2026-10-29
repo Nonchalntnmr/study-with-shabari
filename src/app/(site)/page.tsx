@@ -20,9 +20,10 @@ export default function HomePage() {
         <section aria-labelledby="hero-h" className="hero relative z-10 flex min-h-svh flex-col justify-center pb-16 pt-28 md:pb-10">
           <div className="mx-auto w-full max-w-[1400px] px-5 sm:px-8">
             <div className="hero-copy md:w-[52%] lg:w-[50%]">
-              <h1 id="hero-h" className="text-[clamp(3rem,5.6vw,5.5rem)] leading-[0.98] [text-wrap:initial]">
-                <span className="md:block">MCAT tutoring </span>
-                <span className="md:block md:whitespace-nowrap">from a 522 scorer.</span>
+              {/* Two even lines at every width: "MCAT tutoring / from a 522 scorer." The phone size is set so the longer line fits from 320px up. */}
+              <h1 id="hero-h" className="text-[clamp(2.25rem,11.2vw,3rem)] leading-[0.98] [text-wrap:balance] md:text-[clamp(3rem,5.6vw,5.5rem)]">
+                <span className="block">MCAT tutoring </span>
+                <span className="block md:whitespace-nowrap">from a 522 scorer.</span>
               </h1>
               <p className="mt-8 max-w-[34rem] text-[1.1875rem] leading-relaxed text-specimen/90">
                 I’m Shabari, an MIT student in biochemistry and computational neuroscience. I scored 522 on the MCAT in January 2026. My notes and

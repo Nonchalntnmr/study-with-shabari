@@ -72,7 +72,9 @@ export function MoleculeStage({ linked, className = "" }: { linked: boolean; cla
         src={wide && linked ? "/images/dopamine-model.png" : "/images/dopamine-model-tight.png"}
         alt=""
         fill
-        priority
+        // Eager and high priority, but no <link rel=preload>: once WebGL takes over the poster is hidden and Chrome would flag the preload as unused.
+        loading="eager"
+        fetchPriority="high"
         sizes={wide && linked ? "100vw" : "(min-width: 768px) 50vw, 100vw"}
         className={`pointer-events-none transition-opacity duration-700 ${wide && linked ? "object-cover object-right" : "object-contain"} ${mode === "live" && ready ? "opacity-0" : "opacity-100"}`}
       />

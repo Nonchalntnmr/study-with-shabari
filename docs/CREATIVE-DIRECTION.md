@@ -137,3 +137,24 @@ are close. Revise the following before anything else, then re-shoot the same set
 10. **Founder.** List section scores in the same order everywhere: Chem/Phys 131, Bio/Biochem 132, Psych/Soc 132.
 11. **Mobile hero.** No CTA is visible on the first screen. On < 768px order it: H1, intro, both CTAs, then the molecule (about 45vh).
 12. **Reduced motion.** Confirm in writing that there is no scroll-scrub, no pinning and no auto-rotation with `prefers-reduced-motion: reduce`, and that the chapters stack as normal sections.
+
+## Review 2 (CD, 2026-10-29 08:35) — Review 1 is essentially done; good work.
+
+Fixed and approved: hero wrap and eyebrow, neutral shadow, flat panels, molecule framing, chapter B caption,
+the TH-added hydroxyl highlighted on the correct (meta) position, brain redraw and NAc placement, mobile CTAs
+in the first screen, score order. Remaining, small, do them before the journey screenshots:
+
+1. **522 data bars must never show wrong values.** The capture shows the section bars part-filled
+   (131 drawn at ~70%, a 132 at ~27%) and the total line stopping short of the marker. If the draw is
+   scroll-scrubbed, a visitor who stops scrolling sees false numbers. Make it a one-shot timed draw
+   (≤ 900 ms) triggered once in view, and re-shoot after it completes. Reduced motion: final state immediately.
+2. **Stray dots at the VTA** in chapter C (small purple/pink specks around the VTA marker) read as a rendering
+   glitch. Remove them or make them one deliberate, labelled cluster.
+3. **"How I can help" numbering (01–04).** These aren't a sequence; drop the numbers.
+4. **"Live Zoom sessions"**: we have no founder confirmation that sessions are on Zoom. Say "Live online sessions"
+   unless `src/lib/site.ts` or the original page says Zoom.
+5. **Mobile H1** leaves "scorer." alone on line 3. Use `text-wrap: balance` and/or a slightly smaller clamp so it
+   breaks "MCAT tutoring / from a 522 / scorer." evenly or fits in two/three balanced lines.
+6. **Hero rest pose**: two hydrogens still overlap side-chain carbons near the amine. Nudge the rotation.
+7. **Screenshots**: take evidence screenshots from the production build (`next build && next start`) so the Next.js dev
+   indicator isn't in them, or set `devIndicators: false` for dev.

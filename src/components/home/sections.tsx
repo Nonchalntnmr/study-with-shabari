@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { PlanCards } from "@/components/site/plan-cards";
-import { founder } from "@/lib/site";
+import { founder, sessionPlatform } from "@/lib/site";
 import { FounderPortrait } from "./founder-portrait";
 import { ScoreInstrument } from "./score-instrument";
 
@@ -21,7 +21,7 @@ export function SecondaryCta({ href = "/practice", children = "Try a free practi
 }
 
 const HELP = [
-  { href: "/mcat-tutoring", title: "One-on-one MCAT tutoring", line: "Live Zoom sessions on Chem/Phys, Bio/Biochem and Psych/Soc, built around your test date." },
+  { href: "/mcat-tutoring", title: "One-on-one MCAT tutoring", line: `Live ${sessionPlatform} sessions on Chem/Phys, Bio/Biochem and Psych/Soc, built around your test date.` },
   { href: "/practice", title: "Free practice sets", line: "Original passage-based questions in a test-day interface, with an explanation for every answer." },
   { href: "/resources", title: "Free study notes", line: "The content-review notes I made while studying, one per section." },
   { href: "/admissions", title: "Application help", line: "Help with the application side, scoped together on a free call." },
@@ -34,10 +34,9 @@ export function HowIHelp() {
         How I can help
       </h2>
       <ol className="mt-14 border-t border-hema/20">
-        {HELP.map((h, i) => (
+        {HELP.map((h) => (
           <li key={h.href} className="border-b border-hema/20">
-            <Link href={h.href} className="group grid gap-2 py-8 sm:grid-cols-[4rem_1fr_1.1fr] sm:items-baseline sm:gap-8 sm:py-10">
-              <span className="text-sm tabular-nums text-quiet">{String(i + 1).padStart(2, "0")}</span>
+            <Link href={h.href} className="group grid gap-2 py-8 sm:grid-cols-[1fr_1.1fr] sm:items-baseline sm:gap-8 sm:py-10">
               <span className="font-display text-[clamp(1.9rem,3.4vw,3rem)] leading-[1.05] text-hema transition-colors group-hover:text-eosin-ink">{h.title}</span>
               <span className="text-[1.0625rem] text-specimen/80">{h.line}</span>
             </Link>

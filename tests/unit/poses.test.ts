@@ -1,12 +1,16 @@
 import { describe, expect, it } from "vitest";
-import { FACE_ON, NEW_OH_VIEW, REST, RING_VIEW, ROCK, bounds, clearance, fitDistance, offsetFor, turn } from "@/components/cinema/scene/poses";
+import { NEW_OH_VIEW, REST, RING_VIEW, bounds, fitDistance, heroScore, offsetFor } from "@/components/cinema/scene/poses";
 
 describe("model poses", () => {
-  it("the hero rest pose leaves every pair of non-bonded atoms visibly apart, across the rocking range", () => {
-    expect(REST.score).toBeGreaterThan(0.05);
-    for (const dy of [-ROCK.yaw, 0, ROCK.yaw]) for (const dp of [-ROCK.pitch, 0, ROCK.pitch]) {
-      expect(clearance(turn(FACE_ON, REST.yaw + dy, REST.pitch + dp))).toBeGreaterThan(0);
-    }
+  it("no atom overlaps any other on screen, bonded or not, in the hero framings (1920 to 390 wide) across the rock", () => {
+    expect(heroScore(REST.yaw, REST.pitch)).toBeGreaterThan(0.03);
+  });
+
+  it("the fixed rest pose is the best (or close to it) on a coarse search", () => {
+    let best = -Infinity;
+    for (let yaw = -1; yaw <= 1 + 1e-9; yaw += 0.05)
+      for (let pitch = -0.75; pitch <= 0.75 + 1e-9; pitch += 0.05) if (Math.abs(yaw) >= 0.35 || Math.abs(pitch) >= 0.3) best = Math.max(best, heroScore(yaw, pitch));
+    expect(heroScore(REST.yaw, REST.pitch)).toBeGreaterThanOrEqual(best - 1e-9);
   });
 
   it("the rest pose has real depth (it is not the flat face-on view)", () => {
