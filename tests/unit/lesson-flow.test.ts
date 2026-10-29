@@ -163,7 +163,10 @@ describe("draft previews", () => {
     expect(previewAllowed(false, { NODE_ENV: "production" })).toBe(false);
     expect(previewAllowed(false, { NODE_ENV: "production", VERCEL_ENV: "production" })).toBe(false);
     expect(previewAllowed(true, { NODE_ENV: "production", VERCEL_ENV: "production" })).toBe(true);
-    expect(previewAllowed(false, { NODE_ENV: "production", VERCEL_ENV: "preview" })).toBe(true);
+    // Vercel preview deployments need an explicit opt-in.
+    expect(previewAllowed(false, { NODE_ENV: "production", VERCEL_ENV: "preview" })).toBe(false);
+    expect(previewAllowed(false, { NODE_ENV: "production", VERCEL_ENV: "preview", LESSON_PREVIEW: "on" })).toBe(true);
+    expect(previewAllowed(false, { NODE_ENV: "production", VERCEL_ENV: "production", LESSON_PREVIEW: "on" })).toBe(false);
     expect(previewAllowed(false, { NODE_ENV: "development" })).toBe(true);
   });
 });

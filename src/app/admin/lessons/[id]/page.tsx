@@ -178,7 +178,6 @@ export default async function LessonDetailPage({ params }: PageProps<"/admin/les
                           {!c.isCorrect && (
                             <ActionForm action={mapChoiceMisconception}>
                               <input type="hidden" name="choiceId" value={c.id} />
-                              <input type="hidden" name="lessonId" value={lesson.id} />
                               <select name="misconceptionId" defaultValue={c.misconceptionId ?? ""} aria-label={`Misconception for choice ${c.label}`} className={`${selectClass} max-w-72`}>
                                 <option value="">No misconception</option>
                                 {allMisconceptions.map((m) => (
@@ -207,7 +206,6 @@ export default async function LessonDetailPage({ params }: PageProps<"/admin/les
             {misconceptions.map((m) => (
               <ActionForm key={m.id} action={updateMisconception} className="grid gap-3 rounded-lg border p-4">
                 <input type="hidden" name="id" value={m.id} />
-                <input type="hidden" name="lessonId" value={lesson.id} />
                 <p className="text-xs text-muted-foreground">
                   {m.slug}
                   {m.authoredBy === "AI" ? ", drafted by AI" : ""}

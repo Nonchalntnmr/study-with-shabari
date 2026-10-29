@@ -10,7 +10,11 @@ export async function POST(request: Request, ctx: RouteContext<"/api/attempts/[i
   if (!isSameOrigin(request)) return forbidden();
   const { id } = await ctx.params;
 
-  const limit = await rateLimit(`sync:${await clientIpKey()}`, 1200, 600);
+  // Per attempt, so a class on one campus network can't throttle each other near a deadline;
+  // a generous per-network ceiling still stops floods across made-up attempt ids.
+  const ip = await clientIpKey();
+  const [perAttempt, perNetwork] = await Promise.all([rateLimit(`sync:${id}:${ip}`, 1200, 600), rateLimit(`sync-net:${ip}`, 20_000, 600)]);
+  const limit = !perAttempt.ok ? perAttempt : perNetwork;
   if (!limit.ok) return Response.json({ error: "rate_limited" }, { status: 429, headers: { "Retry-After": String(limit.retryAfterSec) } });
 
   let body: unknown;
