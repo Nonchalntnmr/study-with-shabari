@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Production build + server for Playwright, on a throwaway local database.
-# Resets sws_e2e, applies migrations, seeds published samples, creates the E2E admin.
+# Resets sws_e2e, applies migrations, seeds published samples, creates the E2E admin, publishes the lesson fixture.
 set -euo pipefail
 cd "$(dirname "$0")/.."
 
@@ -20,6 +20,8 @@ psql "$E2E_DB_URL" -q -c "DROP SCHEMA IF EXISTS public CASCADE; CREATE SCHEMA pu
 npx prisma migrate deploy >/dev/null
 npx tsx prisma/seed.ts --publish-samples >/dev/null
 ADMIN_PASSWORD="e2e-admin-password-123" npx tsx scripts/create-admin.ts admin@e2e.test "E2E Admin" >/dev/null
+# The seed imports lessons as unpublished AI drafts; approve the dopamine lesson here, in this throwaway database only.
+npx tsx scripts/publish-lesson-fixture.ts dopamine admin@e2e.test >/dev/null
 
 if [ "${E2E_SKIP_BUILD:-}" != "1" ]; then npx next build >/dev/null; fi
 exec npx next start --port "${E2E_PORT:-3100}"

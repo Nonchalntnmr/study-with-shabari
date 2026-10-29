@@ -16,6 +16,31 @@ export function answerKey(slug: string): string[] {
   return qs.map((q) => q.choices.find((c) => c.correct)!.label);
 }
 
+/** Correct labels for a lesson's question steps, in step order, from the shipped lesson file. */
+export function lessonKey(file = "content/lessons/dopamine.json"): string[] {
+  const l = JSON.parse(readFileSync(file, "utf8"));
+  const byId = new Map<string, Q>(l.questions.map((q: Q) => [q.id, q]));
+  return l.steps.filter((s: { question?: string }) => s.question).map((s: { question: string }) => byId.get(s.question)!.choices.find((c) => c.correct)!.label);
+}
+
+/** Answers the remaining lesson questions with the given keys and continues until the result screen. */
+export async function finishLesson(page: Page, keys: string[], confidence: "Sure" | "Unsure" | "Guessing") {
+  for (let guard = 0; guard < 30 && !page.url().includes("/result"); guard++) {
+    const check = page.getByRole("button", { name: "Check answer" });
+    if (await check.isVisible()) {
+      await choose(page, keys.shift()!);
+      await page.locator("label", { hasText: new RegExp(`^${confidence}$`) }).click();
+      await check.click();
+      await expect(page.getByTestId("reveal")).toBeVisible();
+    }
+    // Every continue link changes the URL; wait for that before looking at the next step.
+    const before = page.url();
+    await page.getByRole("link", { name: /^(Continue|Next idea|Try the retest|See your results)$/ }).last().click();
+    await expect(page).not.toHaveURL(before);
+  }
+  await expect(page).toHaveURL(/\/result$/);
+}
+
 export async function sql<T = Record<string, unknown>>(query: string, params: unknown[] = []): Promise<T[]> {
   const c = new Client({ connectionString: E2E_DB_URL });
   await c.connect();

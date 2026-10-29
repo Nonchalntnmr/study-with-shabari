@@ -57,37 +57,28 @@ async function Result({ slug, attemptId }: { slug: string; attemptId: string }) 
         <h2 id="compare-h" className="text-[1.875rem]">
           First try and retest
         </h2>
-        <div className="mt-5 overflow-x-auto">
-          <table className="w-full min-w-[32rem] border-t border-hairline text-left text-[1.0625rem]" data-testid="first-vs-retest">
-            <thead>
-              <tr className="border-b border-hairline text-sm text-quiet">
-                <th scope="col" className="py-3 pr-4 font-medium">
-                  Idea
-                </th>
-                <th scope="col" className="py-3 pr-4 font-medium">
-                  First try
-                </th>
-                <th scope="col" className="py-3 font-medium">
-                  Retest
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              {r.concepts.map((c) => (
-                <tr key={c.concept} className="border-b border-hairline align-top" data-testid="result-row" data-concept={c.concept}>
-                  <th scope="row" className="py-4 pr-4 font-medium text-specimen">
-                    {c.label}
-                    <span className="block text-sm font-normal text-quiet">{sectionShort[c.section as SectionCode] ?? c.section}</span>
-                  </th>
-                  <td className="py-4 pr-4">
+        <ul className="mt-5 border-t border-hairline" data-testid="first-vs-retest">
+          {r.concepts.map((c) => (
+            <li key={c.concept} className="border-b border-hairline py-5" data-testid="result-row" data-concept={c.concept}>
+              <p className="text-[1.0625rem] font-medium text-specimen">
+                {c.label}
+                <span className="ml-2 text-sm font-normal text-quiet">{sectionShort[c.section as SectionCode] ?? c.section}</span>
+              </p>
+              <dl className="mt-3 grid grid-cols-2 gap-4 text-[1.0625rem]">
+                <div>
+                  <dt className="text-sm text-quiet">First try</dt>
+                  <dd className="mt-1">
                     <Answer a={c.first} testId="first" />
-                  </td>
-                  <td className="py-4">{c.retest ? <Answer a={c.retest} testId="retest" /> : <span className="text-quiet">No retest: passage question</span>}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+                  </dd>
+                </div>
+                <div>
+                  <dt className="text-sm text-quiet">Retest</dt>
+                  <dd className="mt-1">{c.retest ? <Answer a={c.retest} testId="retest" /> : <span className="text-quiet">None: a passage question</span>}</dd>
+                </div>
+              </dl>
+            </li>
+          ))}
+        </ul>
       </section>
 
       <section aria-labelledby="mis-h" className="mt-14">

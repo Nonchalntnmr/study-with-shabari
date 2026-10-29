@@ -14,10 +14,26 @@
     ]
   },
   "topics": [
-    { "slug": "cp-acid-base", "name": "Acids, bases and buffers", "section": "CP" },
-    { "slug": "bb-neurotransmitters", "name": "Neurotransmitters", "section": "BB" },
-    { "slug": "ps-learning", "name": "Learning and conditioning", "section": "PS" },
-    { "slug": "ps-biological-bases", "name": "Biological bases of behavior", "section": "PS" }
+    {
+      "slug": "cp-acid-base",
+      "name": "Acids, bases and buffers",
+      "section": "CP"
+    },
+    {
+      "slug": "bb-neurotransmitters",
+      "name": "Neurotransmitters",
+      "section": "BB"
+    },
+    {
+      "slug": "ps-learning",
+      "name": "Learning and conditioning",
+      "section": "PS"
+    },
+    {
+      "slug": "ps-biological-bases",
+      "name": "Biological bases of behavior",
+      "section": "PS"
+    }
   ],
   "misconceptions": [
     {
@@ -83,10 +99,30 @@
       "section": "CP",
       "stem": "Assume the protonated amine of dopamine (–NH₃⁺) has a pKa of 9.4. In blood at pH 7.4, what is the approximate ratio of neutral amine (–NH₂) to protonated amine (–NH₃⁺)?",
       "choices": [
-        { "label": "A", "text": "100 : 1", "misconception": "amine-neutral-at-body-ph", "rationale": "This inverts the ratio. The pH is below the pKa, so the protonated form dominates, not the neutral one." },
-        { "label": "B", "text": "1 : 1", "misconception": "ph-equals-pka-always", "rationale": "Equal amounts occur only when pH equals pKa. Here the pH is two units lower." },
-        { "label": "C", "text": "1 : 100", "correct": true, "rationale": "log([–NH₂]/[–NH₃⁺]) = pH − pKa = 7.4 − 9.4 = −2, so the ratio is 10⁻², or 1 : 100." },
-        { "label": "D", "text": "1 : 2", "misconception": "ph-difference-linear", "rationale": "This treats the 2-unit pH gap as a factor of 2. Each pH unit is a factor of 10." }
+        {
+          "label": "A",
+          "text": "100 : 1",
+          "misconception": "amine-neutral-at-body-ph",
+          "rationale": "This inverts the ratio. The pH is below the pKa, so the protonated form dominates, not the neutral one."
+        },
+        {
+          "label": "B",
+          "text": "1 : 1",
+          "misconception": "ph-equals-pka-always",
+          "rationale": "Equal amounts occur only when pH equals pKa. Here the pH is two units lower."
+        },
+        {
+          "label": "C",
+          "text": "1 : 100",
+          "correct": true,
+          "rationale": "log([–NH₂]/[–NH₃⁺]) = pH − pKa = 7.4 − 9.4 = −2, so the ratio is 10⁻², or 1 : 100."
+        },
+        {
+          "label": "D",
+          "text": "1 : 2",
+          "misconception": "ph-difference-linear",
+          "rationale": "This treats the 2-unit pH gap as a factor of 2. Each pH unit is a factor of 10."
+        }
       ],
       "explanation": "Use the Henderson–Hasselbalch relationship for the conjugate acid: pH = pKa + log([B]/[BH⁺]). Rearranged, log([–NH₂]/[–NH₃⁺]) = 7.4 − 9.4 = −2, so there is one neutral amine for every 100 protonated ones. Dopamine's actual amine pKa is also well above 7.4, so in the body it carries a positive charge.",
       "topics": ["cp-acid-base"],
@@ -97,10 +133,29 @@
       "section": "CP",
       "stem": "A drug has a basic amine whose conjugate acid has a pKa of 8.4. At pH 7.4, approximately what percentage of the drug molecules are protonated?",
       "choices": [
-        { "label": "A", "text": "About 9%", "misconception": "amine-neutral-at-body-ph", "rationale": "About 9% is the neutral fraction. With the pH below the pKa, most molecules are protonated." },
-        { "label": "B", "text": "About 50%", "misconception": "ph-equals-pka-always", "rationale": "Half would be protonated only if the pH equalled the pKa, 8.4." },
-        { "label": "C", "text": "About 91%", "correct": true, "rationale": "pH − pKa = −1, so neutral : protonated = 1 : 10. Ten of every eleven molecules are protonated, about 91%." },
-        { "label": "D", "text": "About 99%", "rationale": "99% would need a 2-unit gap (a pKa of 9.4). Here the gap is 1 unit." }
+        {
+          "label": "A",
+          "text": "About 9%",
+          "misconception": "amine-neutral-at-body-ph",
+          "rationale": "About 9% is the neutral fraction. With the pH below the pKa, most molecules are protonated."
+        },
+        {
+          "label": "B",
+          "text": "About 50%",
+          "misconception": "ph-equals-pka-always",
+          "rationale": "Half would be protonated only if the pH equalled the pKa, 8.4."
+        },
+        {
+          "label": "C",
+          "text": "About 91%",
+          "correct": true,
+          "rationale": "pH − pKa = −1, so neutral : protonated = 1 : 10. Ten of every eleven molecules are protonated, about 91%."
+        },
+        {
+          "label": "D",
+          "text": "About 99%",
+          "rationale": "99% would need a 2-unit gap (a pKa of 9.4). Here the gap is 1 unit."
+        }
       ],
       "explanation": "log([B]/[BH⁺]) = 7.4 − 8.4 = −1, so [B] : [BH⁺] = 1 : 10. Out of 11 molecules, 10 are protonated: about 91%.",
       "topics": ["cp-acid-base"],
@@ -111,10 +166,28 @@
       "section": "BB",
       "stem": "Which step is rate-limiting in the synthesis of dopamine?",
       "choices": [
-        { "label": "A", "text": "Hydroxylation of tyrosine to L-DOPA by tyrosine hydroxylase", "correct": true, "rationale": "Tyrosine hydroxylase is the slowest, most tightly regulated step, and it sets the pace of dopamine synthesis." },
-        { "label": "B", "text": "Decarboxylation of L-DOPA to dopamine by aromatic L-amino acid decarboxylase", "misconception": "aadc-is-rate-limiting", "rationale": "AADC converts L-DOPA quickly. It isn't the bottleneck, which is why supplying L-DOPA raises dopamine." },
-        { "label": "C", "text": "Conversion of phenylalanine to tyrosine by phenylalanine hydroxylase", "rationale": "That step supplies tyrosine, mostly in the liver, and tyrosine also comes from the diet. It doesn't set the rate of dopamine synthesis in neurons." },
-        { "label": "D", "text": "Packaging of dopamine into vesicles by VMAT2", "rationale": "Packaging into vesicles happens after dopamine is made; it isn't a step of synthesis." }
+        {
+          "label": "A",
+          "text": "Conversion of phenylalanine to tyrosine by phenylalanine hydroxylase",
+          "rationale": "That step supplies tyrosine, mostly in the liver, and tyrosine also comes from the diet. It doesn't set the rate of dopamine synthesis in neurons."
+        },
+        {
+          "label": "B",
+          "text": "Hydroxylation of tyrosine to L-DOPA by tyrosine hydroxylase",
+          "correct": true,
+          "rationale": "Tyrosine hydroxylase is the slowest, most tightly regulated step, and it sets the pace of dopamine synthesis."
+        },
+        {
+          "label": "C",
+          "text": "Decarboxylation of L-DOPA to dopamine by aromatic L-amino acid decarboxylase",
+          "misconception": "aadc-is-rate-limiting",
+          "rationale": "AADC converts L-DOPA quickly. It isn't the bottleneck, which is why supplying L-DOPA raises dopamine."
+        },
+        {
+          "label": "D",
+          "text": "Packaging of dopamine into vesicles by VMAT2",
+          "rationale": "Packaging into vesicles happens after dopamine is made; it isn't a step of synthesis."
+        }
       ],
       "explanation": "Dopamine is made in two steps. Tyrosine hydroxylase adds a hydroxyl group to tyrosine to form L-DOPA; it is the rate-limiting and most regulated enzyme of catecholamine synthesis. Aromatic L-amino acid decarboxylase then removes the carboxyl group as CO₂, quickly.",
       "topics": ["bb-neurotransmitters"],
@@ -125,10 +198,28 @@
       "section": "BB",
       "stem": "A child has an inherited deficiency of tetrahydrobiopterin (BH₄). Which step of dopamine synthesis is most directly impaired?",
       "choices": [
-        { "label": "A", "text": "Tyrosine → L-DOPA", "correct": true, "rationale": "Tyrosine hydroxylase requires BH₄ (with Fe²⁺ and O₂), so this step, the rate-limiting one, slows." },
-        { "label": "B", "text": "L-DOPA → dopamine", "misconception": "th-aadc-cofactor-mixup", "rationale": "AADC uses pyridoxal phosphate (vitamin B₆), not BH₄." },
-        { "label": "C", "text": "Dopamine → norepinephrine", "rationale": "Dopamine β-hydroxylase uses copper and ascorbate (vitamin C), not BH₄, and acts after dopamine is made." },
-        { "label": "D", "text": "Reuptake of dopamine from the synapse", "rationale": "Reuptake by the dopamine transporter doesn't use BH₄, and it isn't part of synthesis." }
+        {
+          "label": "A",
+          "text": "L-DOPA → dopamine",
+          "misconception": "th-aadc-cofactor-mixup",
+          "rationale": "AADC uses pyridoxal phosphate (vitamin B₆), not BH₄."
+        },
+        {
+          "label": "B",
+          "text": "Dopamine → norepinephrine",
+          "rationale": "Dopamine β-hydroxylase uses copper and ascorbate (vitamin C), not BH₄, and acts after dopamine is made."
+        },
+        {
+          "label": "C",
+          "text": "Reuptake of dopamine from the synapse",
+          "rationale": "Reuptake by the dopamine transporter doesn't use BH₄, and it isn't part of synthesis."
+        },
+        {
+          "label": "D",
+          "text": "Tyrosine → L-DOPA",
+          "correct": true,
+          "rationale": "Tyrosine hydroxylase requires BH₄ (with Fe²⁺ and O₂), so this step, the rate-limiting one, slows."
+        }
       ],
       "explanation": "BH₄ is the essential cofactor of the aromatic amino acid hydroxylases, including tyrosine hydroxylase. Without it, tyrosine can't be converted to L-DOPA, so dopamine synthesis falls. BH₄ deficiency also impairs phenylalanine hydroxylase, which is why it can raise blood phenylalanine.",
       "topics": ["bb-neurotransmitters"],
@@ -139,10 +230,28 @@
       "section": "PS",
       "stem": "A monkey learns that a light reliably predicts a drop of juice one second later. After learning, when do dopamine neurons in the ventral tegmental area fire most strongly?",
       "choices": [
-        { "label": "A", "text": "When the light appears", "correct": true, "rationale": "After learning, the burst moves to the earliest reliable predictor of the reward: the cue." },
-        { "label": "B", "text": "When the expected juice arrives", "misconception": "dopamine-signals-pleasure", "rationale": "A fully predicted reward produces little extra firing. Dopamine signals the difference between the reward received and the reward expected." },
-        { "label": "C", "text": "Equally at the light and at the juice", "rationale": "The response to the predicted juice fades with learning; the burst transfers to the light." },
-        { "label": "D", "text": "The firing stops changing once learning is complete", "rationale": "The neurons still respond, but the burst has moved to the predictive cue." }
+        {
+          "label": "A",
+          "text": "When the light appears",
+          "correct": true,
+          "rationale": "After learning, the burst moves to the earliest reliable predictor of the reward: the cue."
+        },
+        {
+          "label": "B",
+          "text": "When the expected juice arrives",
+          "misconception": "dopamine-signals-pleasure",
+          "rationale": "A fully predicted reward produces little extra firing. Dopamine signals the difference between the reward received and the reward expected."
+        },
+        {
+          "label": "C",
+          "text": "Equally at the light and at the juice",
+          "rationale": "The response to the predicted juice fades with learning; the burst transfers to the light."
+        },
+        {
+          "label": "D",
+          "text": "The firing stops changing once learning is complete",
+          "rationale": "The neurons still respond, but the burst has moved to the predictive cue."
+        }
       ],
       "explanation": "In Wolfram Schultz's recordings, VTA dopamine neurons first burst when juice arrives unexpectedly. As the animal learns that the light predicts juice, the burst transfers to the light, and the fully predicted juice no longer excites the neurons. The neurons are signalling reward prediction error.",
       "topics": ["ps-learning", "ps-biological-bases"],
@@ -153,10 +262,29 @@
       "section": "PS",
       "stem": "After the same training, the light appears but the juice is withheld. What happens to the dopamine neurons at the moment the juice was expected?",
       "choices": [
-        { "label": "A", "text": "Their firing dips below baseline", "correct": true, "rationale": "An expected reward that doesn't arrive is a negative prediction error, signalled by a pause in firing." },
-        { "label": "B", "text": "They burst, because juice was expected", "misconception": "omitted-reward-burst", "rationale": "Expectation alone doesn't produce a burst at reward time. A missing reward is worse than expected, so the neurons pause." },
-        { "label": "C", "text": "Their firing doesn't change", "rationale": "The neurons do respond: they pause, which signals that the outcome was worse than predicted." },
-        { "label": "D", "text": "They burst at the light and again at the expected time", "misconception": "dopamine-signals-pleasure", "rationale": "They burst at the light, but at the expected time they pause rather than burst." }
+        {
+          "label": "A",
+          "text": "They burst, because juice was expected",
+          "misconception": "omitted-reward-burst",
+          "rationale": "Expectation alone doesn't produce a burst at reward time. A missing reward is worse than expected, so the neurons pause."
+        },
+        {
+          "label": "B",
+          "text": "Their firing dips below baseline",
+          "correct": true,
+          "rationale": "An expected reward that doesn't arrive is a negative prediction error, signalled by a pause in firing."
+        },
+        {
+          "label": "C",
+          "text": "Their firing doesn't change",
+          "rationale": "The neurons do respond: they pause, which signals that the outcome was worse than predicted."
+        },
+        {
+          "label": "D",
+          "text": "They burst at the light and again at the expected time",
+          "misconception": "dopamine-signals-pleasure",
+          "rationale": "They burst at the light, but at the expected time they pause rather than burst."
+        }
       ],
       "explanation": "Reward prediction error is the reward received minus the reward expected. When an expected reward is omitted, the error is negative, and dopamine neurons briefly pause below their baseline firing at the time the reward should have come.",
       "topics": ["ps-learning", "ps-biological-bases"],
@@ -172,10 +300,28 @@
       },
       "stem": "A patient taking L-DOPA with carbidopa gets less benefit from a dose taken with a high-protein meal. Which explanation is best supported by the passage?",
       "choices": [
-        { "label": "A", "text": "Amino acids from the meal compete with L-DOPA for the transporter that carries it into the brain.", "correct": true, "rationale": "The passage says L-DOPA enters the brain on the large neutral amino acid transporter; dietary amino acids use the same carrier." },
-        { "label": "B", "text": "Protein increases AADC activity in the brain, using up L-DOPA too quickly.", "rationale": "Nothing in the passage says protein changes AADC, and faster conversion in the brain would increase dopamine there, not reduce the benefit." },
-        { "label": "C", "text": "Carbidopa in the meal blocks AADC in the brain.", "rationale": "Carbidopa comes from the medication, not food, and the passage says it doesn't cross the blood–brain barrier." },
-        { "label": "D", "text": "Dopamine absorbed from the meal floods the brain and blocks L-DOPA.", "misconception": "dopamine-crosses-bbb", "rationale": "The passage states that dopamine does not cross the blood–brain barrier." }
+        {
+          "label": "A",
+          "text": "Protein increases AADC activity in the brain, using up L-DOPA too quickly.",
+          "rationale": "Nothing in the passage says protein changes AADC, and faster conversion in the brain would increase dopamine there, not reduce the benefit."
+        },
+        {
+          "label": "B",
+          "text": "Carbidopa in the meal blocks AADC in the brain.",
+          "rationale": "Carbidopa comes from the medication, not food, and the passage says it doesn't cross the blood–brain barrier."
+        },
+        {
+          "label": "C",
+          "text": "Dopamine absorbed from the meal floods the brain and blocks L-DOPA.",
+          "misconception": "dopamine-crosses-bbb",
+          "rationale": "The passage states that dopamine does not cross the blood–brain barrier."
+        },
+        {
+          "label": "D",
+          "text": "Amino acids from the meal compete with L-DOPA for the transporter that carries it into the brain.",
+          "correct": true,
+          "rationale": "The passage says L-DOPA enters the brain on the large neutral amino acid transporter; dietary amino acids use the same carrier."
+        }
       ],
       "explanation": "The passage says L-DOPA reaches the brain on the large neutral amino acid transporter. Dietary amino acids use the same carrier, so after a high-protein meal they compete with L-DOPA and less of the dose gets in. This is a known clinical issue, and patients are often advised to time doses around protein-rich meals.",
       "topics": ["bb-neurotransmitters"],
@@ -190,13 +336,21 @@
       "figure": "dopamine-ring",
       "body": "Dopamine is a catechol with an ethylamine side chain. The amine is a base: in water it can pick up a proton to become –NH₃⁺.\n\nWhether it does depends on the pH compared with the pKa of the protonated amine. The Henderson–Hasselbalch relationship says log([–NH₂]/[–NH₃⁺]) = pH − pKa, so every pH unit of difference is a factor of ten."
     },
-    { "kind": "TEST", "concept": "protonation", "question": "lesson-dopamine-amine-ratio" },
+    {
+      "kind": "TEST",
+      "concept": "protonation",
+      "question": "lesson-dopamine-amine-ratio"
+    },
     {
       "kind": "REMEDIATE",
       "concept": "protonation",
       "body": "One rule covers every question like this: compare the pH with the pKa, and count each unit of difference as a factor of ten."
     },
-    { "kind": "RETEST", "concept": "protonation", "question": "lesson-dopamine-drug-fraction" },
+    {
+      "kind": "RETEST",
+      "concept": "protonation",
+      "question": "lesson-dopamine-drug-fraction"
+    },
     {
       "kind": "TEACH",
       "concept": "synthesis",
@@ -204,13 +358,21 @@
       "figure": "synthesis",
       "body": "Neurons build dopamine from the amino acid tyrosine in two steps.\n\nTyrosine hydroxylase adds a second hydroxyl group to the ring, giving L-DOPA. It needs tetrahydrobiopterin (BH₄), iron and oxygen, and it is the rate-limiting step. Aromatic L-amino acid decarboxylase (AADC) then removes the carboxyl group as CO₂, using pyridoxal phosphate (vitamin B₆)."
     },
-    { "kind": "TEST", "concept": "synthesis", "question": "lesson-dopamine-rate-limiting" },
+    {
+      "kind": "TEST",
+      "concept": "synthesis",
+      "question": "lesson-dopamine-rate-limiting"
+    },
     {
       "kind": "REMEDIATE",
       "concept": "synthesis",
       "body": "Rate-limiting steps are where cells regulate a pathway. For catecholamines, that's tyrosine hydroxylase."
     },
-    { "kind": "RETEST", "concept": "synthesis", "question": "lesson-dopamine-bh4" },
+    {
+      "kind": "RETEST",
+      "concept": "synthesis",
+      "question": "lesson-dopamine-bh4"
+    },
     {
       "kind": "TEACH",
       "concept": "reward-prediction",
@@ -218,13 +380,25 @@
       "figure": "pathway",
       "body": "Dopamine neurons in the ventral tegmental area project to the nucleus accumbens, the mesolimbic pathway, and to the prefrontal cortex.\n\nTheir firing tracks reward prediction error: a burst when something is better than expected, a pause when it is worse. Once a reward is fully predicted, the burst moves to the cue that predicts it. That is a biological basis of reinforcement learning."
     },
-    { "kind": "TEST", "concept": "reward-prediction", "question": "lesson-dopamine-rpe-cue" },
+    {
+      "kind": "TEST",
+      "concept": "reward-prediction",
+      "question": "lesson-dopamine-rpe-cue"
+    },
     {
       "kind": "REMEDIATE",
       "concept": "reward-prediction",
       "body": "Better than expected: burst. As expected: little change. Worse than expected: pause."
     },
-    { "kind": "RETEST", "concept": "reward-prediction", "question": "lesson-dopamine-rpe-omission" },
-    { "kind": "TEST", "concept": "levodopa-therapy", "question": "lesson-dopamine-levodopa-protein" }
+    {
+      "kind": "RETEST",
+      "concept": "reward-prediction",
+      "question": "lesson-dopamine-rpe-omission"
+    },
+    {
+      "kind": "TEST",
+      "concept": "levodopa-therapy",
+      "question": "lesson-dopamine-levodopa-protein"
+    }
   ]
 }

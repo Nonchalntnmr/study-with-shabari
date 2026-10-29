@@ -113,7 +113,7 @@ describe("reveal and remediation", () => {
 
   it("falls back to the explanation for a wrong answer with no mapped misconception", () => {
     const synthesis = at("TEST", "synthesis");
-    const rem = remediationFor(s, at("REMEDIATE", "synthesis"), [answer(synthesis, "C")]);
+    const rem = remediationFor(s, at("REMEDIATE", "synthesis"), [answer(synthesis, "A")]);
     expect(rem?.kind).toBe("missed");
   });
 
