@@ -88,9 +88,9 @@ export default function MoleculeScene({ layout, lowPower, running, onReady }: { 
       }}
     >
       <Studio />
-      <hemisphereLight args={["#ffffff", "#cfd6d2", 0.9]} />
+      <hemisphereLight args={["#ffffff", "#dfe5ee", 0.95]} />
       <directionalLight position={[-5, 8, 7]} intensity={2.3} />
-      <directionalLight position={[6, 2, -5]} intensity={0.7} color="#E6E3F5" />
+      <directionalLight position={[6, 2, -5]} intensity={0.7} color="#E8EEFA" />
       <MoleculeModel layout={layout} />
       <Shadow />
       <Rig />

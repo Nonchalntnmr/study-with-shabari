@@ -78,7 +78,7 @@ export function QuestionForm({
           {choices.map((c) => (
             <label
               key={c.label}
-              className="flex cursor-pointer gap-4 rounded-[3px] bg-[#F6F8F7] px-4 py-3.5 ring-1 ring-hairline transition has-[:checked]:bg-white has-[:checked]:ring-2 has-[:checked]:ring-hema has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-hema"
+              className="flex cursor-pointer gap-4 rounded-[3px] bg-mist px-4 py-3.5 ring-1 ring-hairline transition has-[:checked]:bg-white has-[:checked]:ring-2 has-[:checked]:ring-hema has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-hema"
             >
               <input
                 type="radio"
@@ -142,7 +142,7 @@ export function QuestionForm({
       <button
         type="submit"
         disabled={pending}
-        className="inline-flex h-12 items-center rounded-full bg-eosin px-7 text-[1rem] font-semibold text-specimen transition-colors hover:bg-[#E46C91] disabled:opacity-60"
+        className="inline-flex h-12 items-center rounded-full bg-eosin px-7 text-[1rem] font-semibold text-white transition-colors hover:bg-eosin-ink disabled:opacity-60"
       >
         {pending ? "Checking…" : "Check answer"}
       </button>

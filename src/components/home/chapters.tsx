@@ -14,7 +14,7 @@ function Panel({ id, section, title, wide = false, children }: { id: "a" | "b" |
   return (
     <section data-chapter={id} aria-labelledby={`chapter-${id}`} className="chapter relative z-10">
       <div className="chapter-pin mx-auto w-full max-w-[1400px] px-5 sm:px-8">
-        <div className={`panel w-full rounded-[3px] bg-[#F6F8F7] p-7 sm:p-10 ${wide ? "md:w-[54%] md:max-w-[700px]" : "md:w-[44%] md:max-w-[560px]"}`}>
+        <div className={`panel w-full rounded-[3px] bg-mist p-7 sm:p-10 ${wide ? "md:w-[54%] md:max-w-[700px]" : "md:w-[44%] md:max-w-[560px]"}`}>
           <p className="text-[0.95rem] font-medium text-fixative-ink">{section}</p>
           <h2 id={`chapter-${id}`} className="mt-3 text-[clamp(2.4rem,4.4vw,3.75rem)]">
             <span className="block">{title[0]}</span>

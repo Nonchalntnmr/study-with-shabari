@@ -41,13 +41,13 @@ export function MesolimbicPathway({ className }: { className?: string }) {
         </g>
 
         {/* mesocortical: VTA forward and up to the prefrontal cortex */}
-        <path d="M370 276 C320 262 262 246 222 222 C190 204 160 186 142 172" fill="none" stroke="#1E7F7C" strokeWidth="3" strokeLinecap="round" />
+        <path d="M370 276 C320 262 262 246 222 222 C190 204 160 186 142 172" fill="none" stroke="#0E9F9A" strokeWidth="3" strokeLinecap="round" />
         {/* mesolimbic: VTA forward to the nucleus accumbens */}
-        <path d="M370 276 C330 274 270 258 222 242" fill="none" stroke="#D9577E" strokeWidth="3.5" strokeLinecap="round" />
+        <path d="M370 276 C330 274 270 258 222 242" fill="none" stroke="#6A4FD6" strokeWidth="3.5" strokeLinecap="round" />
 
-        <circle cx="370" cy="276" r="8.5" fill="#D9577E" data-vta-dot />
-        <circle cx="214" cy="240" r="9.5" fill="#EEF1EF" stroke="#D9577E" strokeWidth="3" />
-        <circle cx="138" cy="168" r="8.5" fill="#EEF1EF" stroke="#1E7F7C" strokeWidth="3" />
+        <circle cx="370" cy="276" r="8.5" fill="#6A4FD6" data-vta-dot />
+        <circle cx="214" cy="240" r="9.5" fill="#FFFFFF" stroke="#6A4FD6" strokeWidth="3" />
+        <circle cx="138" cy="168" r="8.5" fill="#FFFFFF" stroke="#0E9F9A" strokeWidth="3" />
 
         <g stroke={LEADER} strokeWidth="1">
           <line x1="136" y1="158" x2="128" y2="58" />
@@ -55,30 +55,30 @@ export function MesolimbicPathway({ className }: { className?: string }) {
           <line x1="378" y1="284" x2="452" y2="380" />
         </g>
         <g fontFamily="var(--font-schibsted), sans-serif">
-          <text x="128" y="46" textAnchor="middle" fontSize="17" fontWeight="600" fill="#151A28">
+          <text x="128" y="46" textAnchor="middle" fontSize="17" fontWeight="600" fill="#0F1B2D">
             Prefrontal cortex
           </text>
-          <text x="176" y="362" textAnchor="middle" fontSize="17" fontWeight="600" fill="#151A28">
+          <text x="176" y="362" textAnchor="middle" fontSize="17" fontWeight="600" fill="#0F1B2D">
             Nucleus accumbens
           </text>
-          <text x="176" y="382" textAnchor="middle" fontSize="14" fill="#4A5164">
+          <text x="176" y="382" textAnchor="middle" fontSize="14" fill="#4A5568">
             ventral striatum
           </text>
-          <text x="458" y="398" fontSize="17" fontWeight="600" fill="#151A28">
+          <text x="458" y="398" fontSize="17" fontWeight="600" fill="#0F1B2D">
             Ventral tegmental area
           </text>
-          <text x="458" y="418" fontSize="14" fill="#4A5164">
+          <text x="458" y="418" fontSize="14" fill="#4A5568">
             dopamine neurons, midbrain
           </text>
         </g>
       </svg>
       <figcaption className="mt-5 grid gap-2 text-[0.95rem] text-specimen/85">
         <span className="flex items-center gap-3">
-          <span aria-hidden className="h-[3px] w-7 rounded bg-eosin" />
+          <span aria-hidden className="h-[3px] w-7 rounded bg-sci-purple" />
           Mesolimbic pathway: reward, motivation, reinforcement
         </span>
         <span className="flex items-center gap-3">
-          <span aria-hidden className="h-[3px] w-7 rounded bg-fixative" />
+          <span aria-hidden className="h-[3px] w-7 rounded bg-sci-teal" />
           Mesocortical pathway
         </span>
         <span className="text-sm text-quiet">Simplified side view, front of the head at left.</span>

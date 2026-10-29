@@ -13,17 +13,23 @@
   --font-display: var(--font-newsreader);
   --font-body: var(--font-schibsted);
 
-  /* public site: H&E histology palette (docs/CREATIVE-DIRECTION.md) */
-  --color-slide: #eef1ef;
-  --color-slide-deep: #e2e7e4;
-  --color-hema: #2e2560;
-  --color-eosin: #d9577e;
-  --color-eosin-ink: #b8456a;
-  --color-specimen: #151a28;
-  --color-fixative: #1e7f7c;
-  --color-fixative-ink: #176a67;
-  --color-quiet: #4a5164;
-  --color-hairline: #cfd6d2;
+  /* Public site, Concept B (PRODUCT-DIRECTION.md, Amendment 3): white, navy and electric blue.
+     The names come from the earlier H&E palette and are kept so every public page follows the
+     remap: slide = page white, hema = navy, eosin = electric blue, specimen = ink. Purple and
+     teal are reserved for scientific visuals (atoms, pathway lines, diagrams). */
+  --color-slide: #ffffff;
+  --color-slide-deep: #f4f7fb;
+  --color-mist: #f4f7fb;
+  --color-hema: #0b1f44;
+  --color-eosin: #1f5bff;
+  --color-eosin-ink: #1747d1;
+  --color-specimen: #0f1b2d;
+  --color-fixative: #0e8f8a;
+  --color-fixative-ink: #0b6e6a;
+  --color-quiet: #4a5568;
+  --color-hairline: #e2e8f0;
+  --color-sci-purple: #6a4fd6;
+  --color-sci-teal: #0e9f9a;
 
   /* brand */
   --color-navy: var(--navy);
@@ -217,79 +223,27 @@
   animation: sws-rise 0.6s cubic-bezier(0.2, 0.7, 0.2, 1) both;
 }
 
-/* Scroll story. Pinned only from 768px up with motion allowed; otherwise chapters
-   stack as normal sections and show their static figures. Pure CSS, no scroll-jacking.
-   The stage sits in an absolute track spanning the story, so the sticky stage can
-   never travel past the story's end. Content is pointer-transparent except its
-   panels and controls, so the model underneath can be dragged. */
-.story .chapter {
-  padding-block: 2.5rem;
-}
-.story .stage-layer {
-  display: none;
-}
-@media (min-width: 768px) {
-  .story .stage-layer {
-    display: block;
-    position: absolute;
-    inset: 0;
-    z-index: 0;
-    pointer-events: none;
-  }
-  .story .stage-pin {
-    position: relative;
-    height: 100svh;
-    pointer-events: auto;
-  }
-  .story .chapter,
-  .story .hero {
-    pointer-events: none;
-  }
-  .story .chapter .panel,
-  .story .hero .hero-copy {
-    pointer-events: auto;
-  }
-}
-@media (min-width: 768px) and (prefers-reduced-motion: no-preference) {
-  .story:not([data-mode="static"]) .stage-pin {
-    position: sticky;
-    top: 0;
-  }
-  .story:not([data-mode="static"]) .chapter {
-    height: 140svh;
-    padding-block: 0;
-  }
-  .story:not([data-mode="static"]) .chapter-pin {
-    position: sticky;
-    top: 15svh;
-  }
-  .story:not([data-mode="static"]) .only-static {
-    display: none;
-  }
-}
-
-
 /* Public-page base styles live in the base layer so Tailwind utilities (text-white, font-*) always win. */
 @layer base {
   /* Public pages only. Exam, dashboard and admin keep the calmer app palette. */
   .public {
-    --background: #eef1ef;
-    --foreground: #151a28;
-    --card: #f6f8f7;
-    --card-foreground: #151a28;
-    --popover: #f6f8f7;
-    --popover-foreground: #151a28;
-    --primary: #2e2560;
+    --background: #ffffff;
+    --foreground: #0f1b2d;
+    --card: #ffffff;
+    --card-foreground: #0f1b2d;
+    --popover: #ffffff;
+    --popover-foreground: #0f1b2d;
+    --primary: #1f5bff;
     --primary-foreground: #ffffff;
-    --secondary: #e2e7e4;
-    --secondary-foreground: #2e2560;
-    --muted: #e2e7e4;
-    --muted-foreground: #4a5164;
-    --accent: #e2e7e4;
-    --accent-foreground: #2e2560;
-    --border: #cfd6d2;
-    --input: #b9c2bd;
-    --ring: #2e2560;
+    --secondary: #f4f7fb;
+    --secondary-foreground: #0b1f44;
+    --muted: #f4f7fb;
+    --muted-foreground: #4a5568;
+    --accent: #eef3ff;
+    --accent-foreground: #0b1f44;
+    --border: #e2e8f0;
+    --input: #cbd5e1;
+    --ring: #1f5bff;
     background: var(--background);
     color: var(--foreground);
     font-family: var(--font-schibsted), ui-sans-serif, system-ui, sans-serif;
@@ -297,21 +251,24 @@
     line-height: 1.55;
   }
   /* :where() keeps this at element specificity, so an explicit colour or font utility always wins. */
+  /* One family, Schibsted Grotesk: bold, tight display sizes and an even text face. */
   :where(.public) :is(h1, h2, h3) {
-    font-family: var(--font-newsreader), Georgia, serif;
-    color: #2e2560;
-    font-weight: 420;
-    letter-spacing: -0.012em;
-    line-height: 1.02;
+    font-family: var(--font-schibsted), ui-sans-serif, system-ui, sans-serif;
+    color: #0b1f44;
+    font-weight: 680;
+    letter-spacing: -0.028em;
+    line-height: 1.04;
   }
   :where(.public) h3 {
-    line-height: 1.15;
+    font-weight: 640;
+    letter-spacing: -0.016em;
+    line-height: 1.2;
   }
   .public :focus-visible {
-    outline-color: #2e2560;
+    outline-color: #1f5bff;
   }
   .public a:not([class]) {
-    color: #176a67;
+    color: #1f5bff;
   }
 
   /* Exam software embedded on public pages keeps the exam's own type. */

@@ -68,7 +68,7 @@ async function Player({ slug, attemptId, step: requested }: { slug: string; atte
   }
 
   return (
-    <div className="mx-auto max-w-3xl px-5 pb-28 pt-28 sm:px-8 sm:pt-36">
+    <div className="mx-auto max-w-3xl px-5 pb-28 pt-10 sm:px-8 sm:pt-16">
       <div className="space-y-4">
         {a.mode === "preview" && <DraftBadge />}
         <p className="text-sm text-quiet">

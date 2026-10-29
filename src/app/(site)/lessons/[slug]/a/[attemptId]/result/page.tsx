@@ -46,7 +46,7 @@ async function Result({ slug, attemptId }: { slug: string; attemptId: string }) 
   const sets = await practiceSetsFor(r.missedSections);
 
   return (
-    <div className="mx-auto max-w-3xl px-5 pb-28 pt-28 sm:px-8 sm:pt-36">
+    <div className="mx-auto max-w-3xl px-5 pb-28 pt-10 sm:px-8 sm:pt-16">
       {a.mode === "preview" && <DraftBadge />}
       <h1 className="mt-6 text-[clamp(2.5rem,7vw,4rem)]">What this lesson showed</h1>
       <p className="mt-5 max-w-[60ch] text-[1.125rem] leading-relaxed text-specimen/90">
@@ -133,7 +133,7 @@ async function Result({ slug, attemptId }: { slug: string; attemptId: string }) 
         </ul>
       </section>
 
-      <section aria-labelledby="next-h" className="mt-14 rounded-[3px] bg-[#F6F8F7] p-6 sm:p-8">
+      <section aria-labelledby="next-h" className="mt-14 rounded-[3px] bg-mist p-6 sm:p-8">
         <h2 id="next-h" className="text-[1.875rem]">
           What to do next
         </h2>

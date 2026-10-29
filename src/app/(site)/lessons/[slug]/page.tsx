@@ -38,7 +38,7 @@ async function Intro({ slug }: { slug: string }) {
   const questions = s.steps.filter(isQuestionStep).length;
 
   return (
-    <div className="mx-auto max-w-3xl px-5 pb-28 pt-32 sm:px-8 sm:pt-40">
+    <div className="mx-auto max-w-3xl px-5 pb-28 pt-14 sm:px-8 sm:pt-20">
       {lesson.mode === "preview" && <DraftBadge note />}
       <h1 className="mt-6 text-[clamp(2.75rem,8vw,4.75rem)]">{s.title}</h1>
       <p className="mt-6 max-w-[60ch] text-[1.1875rem] leading-relaxed text-specimen/90">{s.summary}</p>

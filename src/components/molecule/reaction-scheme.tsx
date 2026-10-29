@@ -7,7 +7,7 @@ import { Skeletal } from "./skeletal";
 const levodopaNewOH = roles(MOLECULES.levodopa).addedByTyrosineHydroxylase;
 
 export function ReactionScheme({ step = 3, tone = "light" }: { step?: 1 | 2 | 3; tone?: "light" | "dark" }) {
-  const ink = tone === "dark" ? "#E4E1F4" : "#2E2560";
+  const ink = tone === "dark" ? "#E4E1F4" : "#0B1F44";
   const muted = tone === "dark" ? "text-[#B9B4D6]" : "text-[#4A5164]";
   const shown = (n: number) => (step >= n ? "opacity-100" : "opacity-0");
   return (

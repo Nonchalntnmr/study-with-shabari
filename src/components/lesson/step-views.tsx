@@ -10,7 +10,7 @@ const HEADING = "step-heading";
 
 export function ContinueLink({ href, children = "Continue" }: { href: string; children?: React.ReactNode }) {
   return (
-    <Link href={href} className="inline-flex h-12 items-center rounded-full bg-eosin px-7 text-[1rem] font-semibold text-specimen transition-colors hover:bg-[#E46C91]">
+    <Link href={href} className="inline-flex h-12 items-center rounded-full bg-eosin px-7 text-[1rem] font-semibold text-white transition-colors hover:bg-eosin-ink">
       {children}
     </Link>
   );
@@ -57,7 +57,7 @@ export function QuestionHeader({ step, number, of }: { step: SnapshotStep; numbe
 export function PassageBlock({ q }: { q: SnapshotQuestion }) {
   if (!q.passage) return null;
   return (
-    <section aria-labelledby="passage-h" className="mt-8 rounded-[3px] bg-[#F6F8F7] p-5 sm:p-7">
+    <section aria-labelledby="passage-h" className="mt-8 rounded-[3px] bg-mist p-5 sm:p-7">
       <h2 id="passage-h" className="font-body text-[1.0625rem] font-semibold text-specimen">
         Passage: {q.passage.title}
       </h2>
@@ -76,7 +76,7 @@ export function AnsweredChoices({ q, chosen }: { q: SnapshotQuestion; chosen: st
     <ul aria-label="Answer choices" className="mt-8 grid gap-2.5">
       {q.choices.map((c) => {
         const mine = c.label === chosen;
-        const tone = c.isCorrect ? "bg-white ring-2 ring-fixative" : mine ? "bg-white ring-2 ring-[#A3304F]" : "bg-[#F6F8F7] ring-1 ring-hairline";
+        const tone = c.isCorrect ? "bg-white ring-2 ring-fixative" : mine ? "bg-white ring-2 ring-[#A3304F]" : "bg-mist ring-1 ring-hairline";
         return (
           <li key={c.label} className={`flex gap-4 rounded-[3px] px-4 py-3.5 ${tone}`}>
             <span aria-hidden className="grid size-7 shrink-0 place-items-center rounded-full text-sm font-semibold text-hema ring-1 ring-hema/40">
@@ -128,7 +128,7 @@ export function RevealView({ r, next, nextLabel }: { r: Reveal; next: string; ne
           <h3 className="text-[1.375rem]">Why {r.chosen.label} is wrong</h3>
           {r.chosen.rationale && <p className="max-w-[62ch] text-[1.0625rem] leading-relaxed text-specimen/90">{r.chosen.rationale}</p>}
           {r.misconception && (
-            <div className="rounded-[3px] bg-[#F6F8F7] p-5 ring-1 ring-hairline" data-testid="misconception">
+            <div className="rounded-[3px] bg-mist p-5 ring-1 ring-hairline" data-testid="misconception">
               <p className="text-sm text-quiet">The misconception behind this answer</p>
               <p className="mt-1 text-[1.125rem] font-semibold text-hema" data-testid="misconception-name">
                 {r.misconception.name}
@@ -146,7 +146,7 @@ export function RevealView({ r, next, nextLabel }: { r: Reveal; next: string; ne
       </div>
 
       {r.others.length > 0 && (
-        <details className="group rounded-[3px] bg-[#F6F8F7] px-5 py-4 ring-1 ring-hairline">
+        <details className="group rounded-[3px] bg-mist px-5 py-4 ring-1 ring-hairline">
           <summary className="cursor-pointer text-[1.0625rem] font-medium text-hema">Why the other choices are wrong</summary>
           <ul className="mt-4 space-y-3">
             {r.others.map((c) => (
@@ -186,7 +186,7 @@ export function RemediateView({ rem, next, nextLabel }: { rem: Remediation | nul
         <StepHeading kicker="Before the retest">{rem?.kind === "reinforce" && rem.unsure ? "You got it. Now make it certain." : "You had this one."}</StepHeading>
       )}
       {rule && (
-        <div className="rounded-[3px] bg-[#F6F8F7] p-5 ring-1 ring-hairline">
+        <div className="rounded-[3px] bg-mist p-5 ring-1 ring-hairline">
           <p className="text-sm text-quiet">The rule to keep</p>
           <p className="mt-1 max-w-[62ch] text-[1.125rem] leading-relaxed text-specimen">{rule}</p>
         </div>

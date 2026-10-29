@@ -7,7 +7,7 @@ export async function LessonInvite() {
   const lesson = await getFeaturedLesson();
   if (!lesson) return null;
   return (
-    <section aria-labelledby="lesson-h" className="border-y border-hairline bg-[#F6F8F7]">
+    <section aria-labelledby="lesson-h" className="border-y border-hairline bg-mist">
       <div className="mx-auto grid max-w-[1400px] gap-10 px-5 py-24 sm:px-8 sm:py-32 lg:grid-cols-[1.1fr_1fr] lg:items-end">
         <div>
           {lesson.draft && <DraftBadge />}
@@ -22,7 +22,7 @@ export async function LessonInvite() {
           </p>
           <Link
             href={`/lessons/${lesson.slug}`}
-            className="inline-flex h-12 items-center rounded-full bg-eosin px-7 text-[1rem] font-semibold text-specimen transition-colors hover:bg-[#E46C91]"
+            className="inline-flex h-12 items-center rounded-full bg-eosin px-7 text-[1rem] font-semibold text-white transition-colors hover:bg-eosin-ink"
           >
             Start the dopamine lesson
           </Link>

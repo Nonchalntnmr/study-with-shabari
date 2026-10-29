@@ -36,9 +36,9 @@ export function ScoreInstrument({ total, sections, taken }: { total: number; sec
   return (
     <figure ref={scope} aria-label={`MCAT total score ${total} out of 528, ${taken}`}>
       <div className="flex flex-wrap items-end gap-x-12 gap-y-6">
-        <p className="font-display text-[clamp(6rem,16vw,13rem)] leading-[0.85] text-hema tabular-nums">
+        <p className="text-[clamp(5rem,12vw,9.5rem)] font-bold leading-[0.85] tracking-[-0.05em] text-hema">
           <span className="relative inline-block">
-            <span aria-hidden className="absolute inset-x-[-0.04em] bottom-[0.08em] h-[0.22em] bg-mark" />
+            <span aria-hidden className="absolute inset-x-[0.02em] bottom-[-0.08em] h-[0.035em] rounded-full bg-eosin" />
             <span className="relative">{total}</span>
           </span>
         </p>
@@ -55,7 +55,7 @@ export function ScoreInstrument({ total, sections, taken }: { total: number; sec
             ))}
           </div>
           <div data-bar className="absolute bottom-0 left-0 h-[3px] origin-left bg-hema" style={{ width: `${pct(total, 472, 528)}%` }} />
-          <div className="absolute -bottom-1 h-6 w-[10px] -translate-x-1/2 rounded-sm bg-mark ring-1 ring-hema/40" style={{ left: `${pct(total, 472, 528)}%` }} />
+          <div className="absolute -bottom-1 h-6 w-[10px] -translate-x-1/2 rounded-sm bg-eosin" style={{ left: `${pct(total, 472, 528)}%` }} />
         </div>
         <div className="mt-2 flex justify-between text-sm tabular-nums text-quiet">
           <span>472</span>
@@ -63,14 +63,14 @@ export function ScoreInstrument({ total, sections, taken }: { total: number; sec
         </div>
       </div>
 
-      <ul className="mt-14 grid gap-8 sm:grid-cols-3" aria-label="Section scores">
-        {(["CP", "BB", "PS"] as const).map((code) => {
+      <ul className="mt-12 grid grid-cols-3 gap-6 sm:gap-8" aria-label="Section scores">
+        {(["BB", "PS", "CP"] as const).map((code) => {
           const v = sections[code]!;
           return (
             <li key={code}>
-              <p className="flex items-baseline justify-between">
-                <span className="text-[1.0625rem] text-specimen/85">{sectionShort[code]}</span>
-                <span className="font-display text-3xl tabular-nums text-hema">{v}</span>
+              <p className="flex flex-col gap-1">
+                <span className="text-[0.98rem] text-quiet">{sectionShort[code]}</span>
+                <span className="text-3xl font-bold leading-none tracking-[-0.02em] text-hema">{v}</span>
               </p>
               <div className="relative mt-3 h-[3px] bg-hema/15" aria-hidden>
                 <div data-bar className="absolute inset-y-0 left-0 origin-left bg-hema" style={{ width: `${pct(v, 118, 132)}%` }} />

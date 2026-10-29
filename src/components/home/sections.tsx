@@ -7,7 +7,7 @@ import { ScoreInstrument } from "./score-instrument";
 
 export function PrimaryCta({ href = "/book", children = "Book a free 15-min call" }: { href?: string; children?: React.ReactNode }) {
   return (
-    <Link href={href} className="inline-flex h-12 items-center rounded-full bg-eosin px-6 text-[1rem] font-semibold text-specimen transition-colors hover:bg-[#E46C91]">
+    <Link href={href} className="inline-flex h-12 items-center rounded-full bg-eosin px-6 text-[1rem] font-semibold text-white transition-colors hover:bg-eosin-ink">
       {children}
     </Link>
   );
@@ -49,7 +49,7 @@ export function HowIHelp() {
 
 export function TheScore() {
   return (
-    <section aria-labelledby="score-h" className="flex min-h-[90svh] items-center border-y border-hairline bg-[#F6F8F7]">
+    <section aria-labelledby="score-h" className="flex min-h-[90svh] items-center border-y border-hairline bg-mist">
       <div className="mx-auto w-full max-w-[1200px] px-5 py-24 sm:px-8">
         <h2 id="score-h" className="sr-only">
           My MCAT score
@@ -110,7 +110,7 @@ export function Founder() {
 
 export function PricingTeaser() {
   return (
-    <section aria-labelledby="pricing-h" className="border-t border-hairline bg-[#F6F8F7]">
+    <section aria-labelledby="pricing-h" className="border-t border-hairline bg-mist">
       <div className="mx-auto max-w-[1400px] px-5 py-28 sm:px-8 sm:py-36">
         <h2 id="pricing-h" className="max-w-3xl text-[clamp(2.5rem,5vw,4.5rem)]">
           Every option starts with a free call.

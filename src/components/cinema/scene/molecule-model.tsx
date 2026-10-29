@@ -9,10 +9,11 @@ import { type Chapter, chapterWeights, narrative } from "./narrative-store";
 import { ATOMS, FOV, NEW_OH_VIEW, POS, RADIUS, REST, RING_VIEW, ROCK, type Shot, bounds, fitDistance, offsetFor, shotFor } from "./poses";
 
 const dopamine = MOLECULES.dopamine;
-const COLOR: Record<string, string> = { C: "#2E2560", O: "#D9577E", N: "#1E7F7C", H: "#FBFCFC" };
+// Concept B: navy carbon; the restrained scientific purple and teal for oxygen and nitrogen.
+const COLOR: Record<string, string> = { C: "#1B2A5C", O: "#6A4FD6", N: "#0E9F9A", H: "#F7F9FC" };
 const DIM = new Color("#C8CDD3");
-const BOND = new Color("#B7BDC7");
-const BOND_STRONG = new Color("#5B5487");
+const BOND = new Color("#C3CBD8");
+const BOND_STRONG = new Color("#3E4E86");
 const Y = new Vector3(0, 1, 0);
 const X = new Vector3(1, 0, 0);
 

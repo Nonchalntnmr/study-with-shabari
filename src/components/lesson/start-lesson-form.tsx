@@ -11,7 +11,7 @@ export function StartLessonForm({ slug, label = "Start the lesson" }: { slug: st
       <button
         type="submit"
         disabled={pending}
-        className="inline-flex h-12 items-center rounded-full bg-eosin px-7 text-[1rem] font-semibold text-specimen transition-colors hover:bg-[#E46C91] disabled:opacity-60"
+        className="inline-flex h-12 items-center rounded-full bg-eosin px-7 text-[1rem] font-semibold text-white transition-colors hover:bg-eosin-ink disabled:opacity-60"
       >
         {pending ? "Starting…" : label}
       </button>

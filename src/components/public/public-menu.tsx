@@ -8,16 +8,16 @@ export function PublicMenu({ links }: { links: { href: string; label: string }[]
   const [open, setOpen] = useState(false);
   return (
     <Sheet open={open} onOpenChange={setOpen}>
-      <SheetTrigger className="rounded-full px-3 py-1.5 text-[0.9rem] text-hema ring-1 ring-hairline md:hidden" aria-label="Open menu">
+      <SheetTrigger className="rounded-full px-3.5 py-2 text-[0.9rem] font-medium text-hema ring-1 ring-hairline min-[1180px]:hidden" aria-label="Open menu">
         Menu
       </SheetTrigger>
       <SheetContent side="top" className="public border-b border-hairline bg-slide">
         <SheetHeader>
-          <SheetTitle className="font-display text-2xl font-normal text-hema">Study with Shabari</SheetTitle>
+          <SheetTitle className="text-xl font-bold text-hema">Study with Shabari</SheetTitle>
         </SheetHeader>
         <nav aria-label="Mobile" className="grid gap-1 px-4 pb-8">
           {links.map((l) => (
-            <Link key={l.href} href={l.href} onClick={() => setOpen(false)} className="font-display border-b border-hairline py-3 text-2xl text-hema">
+            <Link key={l.href} href={l.href} onClick={() => setOpen(false)} className="border-b border-hairline py-3 text-xl font-semibold tracking-[-0.01em] text-hema">
               {l.label}
             </Link>
           ))}

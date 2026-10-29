@@ -1,29 +1,39 @@
 import Link from "next/link";
 import { contactEmail, founder } from "@/lib/site";
 
+// Spec section 17: name, email and links to every section.
 const COLUMNS = [
   {
-    title: "Study",
+    title: "MCAT Prep",
     links: [
-      { href: "/practice", label: "Practice sets" },
+      { href: "/mcat", label: "MCAT tutoring" },
+      { href: "/practice", label: "Free practice test" },
       { href: "/resources", label: "Free notes" },
-      { href: "/mcat-tutoring", label: "MCAT tutoring" },
-      { href: "/admissions", label: "Admissions" },
+      { href: "/mcat#lesson", label: "Free interactive lesson" },
     ],
   },
   {
-    title: "About",
+    title: "College Admissions",
     links: [
-      { href: "/about", label: "About Shabari" },
+      { href: "/admissions", label: "Admissions consulting" },
+      { href: "/admissions#record", label: "My high school record" },
+      { href: "/admissions#help", label: "What I help with" },
+      { href: "/pricing#admissions", label: "Admissions pricing" },
+    ],
+  },
+  {
+    title: "Shabari",
+    links: [
+      { href: "/about", label: "About" },
+      { href: "/research", label: "Research & Teaching" },
       { href: "/pricing", label: "Pricing" },
-      { href: "/testimonials", label: "Testimonials" },
       { href: "/faq", label: "FAQ" },
     ],
   },
   {
     title: "Contact",
     links: [
-      { href: "/book", label: "Book a free call" },
+      { href: "/book", label: "Book a call" },
       { href: "/contact", label: "Send a message" },
       { href: "/privacy", label: "Privacy" },
       { href: "/terms", label: "Terms" },
@@ -33,23 +43,23 @@ const COLUMNS = [
 
 export function PublicFooter() {
   return (
-    <footer className="border-t border-hairline bg-slide">
-      <div className="mx-auto grid max-w-[1400px] gap-14 px-5 py-20 sm:px-8 lg:grid-cols-[1.3fr_2fr]">
+    <footer className="border-t border-hairline bg-mist">
+      <div className="mx-auto grid max-w-[1320px] gap-14 px-5 py-16 sm:px-8 lg:grid-cols-[1fr_2.4fr]">
         <div>
-          <p className="font-display text-4xl leading-tight text-hema">Study with Shabari</p>
-          <p className="mt-4 max-w-sm text-quiet">MCAT tutoring, free notes and original practice from {founder.name}.</p>
-          <a href={`mailto:${contactEmail}`} className="mt-6 inline-block text-fixative-ink underline decoration-1 underline-offset-4">
+          <p className="text-2xl font-bold tracking-[-0.02em] text-hema">Study with Shabari</p>
+          <p className="mt-3 max-w-xs text-quiet">MCAT prep and college admissions consulting with {founder.name}.</p>
+          <a href={`mailto:${contactEmail}`} className="mt-5 inline-block font-medium text-eosin underline decoration-1 underline-offset-4">
             {contactEmail}
           </a>
         </div>
-        <div className="grid grid-cols-2 gap-10 sm:grid-cols-3">
+        <div className="grid grid-cols-2 gap-10 sm:grid-cols-4">
           {COLUMNS.map((c) => (
             <nav key={c.title} aria-label={`Footer: ${c.title}`}>
               <p className="text-sm font-semibold text-hema">{c.title}</p>
               <ul className="mt-4 space-y-2.5">
                 {c.links.map((l) => (
                   <li key={l.href}>
-                    <Link href={l.href} className="text-[0.95rem] text-specimen/80 hover:text-hema">
+                    <Link href={l.href} className="text-[0.95rem] text-specimen/75 hover:text-eosin">
                       {l.label}
                     </Link>
                   </li>
@@ -60,10 +70,11 @@ export function PublicFooter() {
         </div>
       </div>
       <div className="border-t border-hairline">
-        <div className="mx-auto max-w-[1400px] space-y-2 px-5 py-7 text-sm text-quiet sm:px-8">
+        <div className="mx-auto max-w-[1320px] space-y-2 px-5 py-7 text-sm text-quiet sm:px-8">
           <p>
-            Study with Shabari is an independent tutoring service. It isn’t affiliated with or endorsed by MIT or the AAMC. MCAT is a registered
-            trademark of the Association of American Medical Colleges. Practice results are percent correct, not official scaled scores.
+            Study with Shabari is an independent tutoring and consulting service. It isn’t affiliated with or endorsed by MIT, any other
+            university, or the AAMC. MCAT is a registered trademark of the Association of American Medical Colleges. Practice results are percent
+            correct, not official scaled scores.
           </p>
           <p>© 2026 {founder.name}</p>
         </div>

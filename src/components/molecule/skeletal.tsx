@@ -21,7 +21,7 @@ type Props = {
 
 const SUB = { "2": "₂", "3": "₃" } as Record<string, string>;
 
-export function Skeletal({ molecule, highlight = [], highlightColor = "#C23F67", annotations = [], bondScale = 34, title, className, ink = "#2E2560", sideChainUp = false }: Props) {
+export function Skeletal({ molecule, highlight = [], highlightColor = "#6A4FD6", annotations = [], bondScale = 34, title, className, ink = "#0B1F44", sideChainUp = false }: Props) {
   const nb = neighbors(molecule.bonds2d, molecule.atoms2d.length);
   const atoms = sideChainUp ? rotateSideChainUp(molecule, nb) : molecule.atoms2d;
   const heavy = atoms.map((a, i) => ({ ...a, i })).filter((a) => a.el !== "H");
@@ -116,7 +116,7 @@ export function Skeletal({ molecule, highlight = [], highlightColor = "#C23F67",
         {heavy.map((a) => {
           const text = label(a.i);
           if (!text) return null;
-          const color = hl.has(a.i) ? highlightColor : a.el === "O" ? "#B8456A" : a.el === "N" ? "#176A67" : ink;
+          const color = hl.has(a.i) ? highlightColor : a.el === "O" ? "#5A40C2" : a.el === "N" ? "#0B7F7B" : ink;
           return (
             <text key={a.i} x={px(a.x)} y={py(a.y)} fill={color}>
               {text}
@@ -140,7 +140,7 @@ export function Skeletal({ molecule, highlight = [], highlightColor = "#C23F67",
             y={py(my + (oy / ol) * 0.62)}
             fontFamily="var(--font-body, sans-serif)"
             fontSize={bondScale * 0.42}
-            fill="#4A5164"
+            fill="#4A5568"
             textAnchor="middle"
             dominantBaseline="central"
             style={{ fontVariantNumeric: "tabular-nums" }}
