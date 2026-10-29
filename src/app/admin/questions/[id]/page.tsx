@@ -45,7 +45,7 @@ export default async function EditQuestionPage({ params, searchParams }: PagePro
       />
       {created && <Banner>Created as a draft.</Banner>}
       <div className="space-y-6">
-        <Section title="Publishing" description="Publishing checks for four choices, exactly one correct answer, an explanation and a published passage.">
+        <Section title="Publishing" description="Publishing checks for four choices, exactly one correct answer, a rationale for every choice, an explanation, a topic, a published passage, and a human review if AI drafted it.">
           <StatusControl id={q.id} status={q.status} action={setQuestionStatus} />
           <p className="mt-3 text-xs text-muted-foreground">
             {q._count.responses} student answer{q._count.responses === 1 ? "" : "s"} recorded.

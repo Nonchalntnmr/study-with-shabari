@@ -1,9 +1,13 @@
+import { mkdirSync } from "node:fs";
+import { homedir } from "node:os";
+import path from "node:path";
 import { expect, test, type Page } from "@playwright/test";
 import { answerKey, choose, signIn, signUp, sql, startSet, uniqueEmail, waitSaved } from "./helpers";
 
 // Failure modes of the exam runner, each with its expected behaviour:
 // a student must never silently lose an answer they made.
 
+const SHOTS = process.env.M2_SHOTS_DIR ? path.dirname(process.env.M2_SHOTS_DIR) : path.join(homedir(), "projects/study-with-shabari/.local/shots/m2");
 const SLUG = "ps-sample-set-1";
 const key = answerKey(SLUG);
 const attemptId = (page: Page) => page.url().split("/exam/")[1].split(/[/?#]/)[0];
@@ -164,6 +168,8 @@ test("session expires mid-exam: answers stay on the device, and signing in carri
   await page.getByRole("button", { name: "Next" }).click();
   await choose(page, "B");
   await expect(page.getByTestId("save-status")).toContainText("You’re signed out", { timeout: 10_000 });
+  mkdirSync(SHOTS, { recursive: true });
+  await page.screenshot({ path: path.join(SHOTS, "signed-out-mid-exam.png") });
   const backup = await page.evaluate((a) => localStorage.getItem(`sws:attempt:${a}`), id);
   expect(backup).toContain('"selectedChoiceId"');
 

@@ -1,4 +1,7 @@
 import { createHash, randomBytes } from "node:crypto";
+import { mkdirSync } from "node:fs";
+import { homedir } from "node:os";
+import path from "node:path";
 import { expect, test } from "@playwright/test";
 import { ADMIN, formAlert, signIn, signUp, sql, uniqueEmail } from "./helpers";
 
@@ -39,6 +42,10 @@ test("an AI-drafted question can't publish until an admin approves it; the versi
   await page.reload();
   await expect(page.getByTestId("version-history")).toContainText(`Reviewed by ${ADMIN.email}`);
   await expect(page.getByTestId("version-history")).toContainText("(AI-drafted)");
+  const shots = process.env.M2_SHOTS_DIR ? path.dirname(process.env.M2_SHOTS_DIR) : path.join(homedir(), "projects/study-with-shabari/.local/shots/m2");
+  mkdirSync(shots, { recursive: true });
+  await page.getByTestId("version-history").scrollIntoViewIfNeeded();
+  await page.screenshot({ path: path.join(shots, "admin-version-history.png") });
   const audit = await sql<{ action: string }>(`SELECT action FROM "AuditLog" WHERE "entityId" = $1 ORDER BY "createdAt"`, [qid]);
   expect(audit.map((a) => a.action)).toEqual(["question.approve", "question.status"]);
 });

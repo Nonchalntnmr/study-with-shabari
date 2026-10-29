@@ -123,6 +123,8 @@ test("guest practice journey: start, answer, refresh, restore, finish, accurate 
     await expect(shown(page, "retest-of")).toContainText(`${N - 2} of ${N} right`);
     await page.getByRole("link", { name: "See the original" }).click();
     await expect(shown(page, "retest-history")).toContainText("2 of 2 right");
+    await shown(page, "retest-history").scrollIntoViewIfNeeded();
+    await page.screenshot({ path: path.join(path.dirname(SHOTS), "retest-history.png") });
   });
 
   await step(page, 8, "guest reaches the booking page", async () => {
