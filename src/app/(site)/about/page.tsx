@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Image from "next/image";
-import { Band, ButtonLink, Checks, H2, Kicker, Wrap } from "@/components/b/primitives";
+import { Band, ButtonLink, H2, Kicker, Rows, TextLink, Wrap } from "@/components/b/primitives";
 import { bio, identity, mudzi, teaching } from "@/lib/founder-facts";
 
 export const metadata: Metadata = {
@@ -28,15 +28,11 @@ export default function AboutPage() {
             <h1 id="about-h" className="mt-4 text-[clamp(2.35rem,4.2vw,3.9rem)] leading-[1.04]">
               Hi, I’m Shabari.
             </h1>
-            <p className="mt-3 text-[1.0625rem] text-quiet">
-              {identity.classOf}. {identity.degree}.
-            </p>
+            <p className="mt-3 text-[1.0625rem] text-quiet">{identity.degree}.</p>
             <p className="mt-8 max-w-[62ch] text-[1.1875rem] leading-relaxed text-specimen/90">{bio}</p>
-            <div className="mt-10 flex flex-wrap gap-3">
+            <div className="mt-10 flex flex-wrap items-center gap-x-8 gap-y-4">
               <ButtonLink href="/book">Book a free 15-min call</ButtonLink>
-              <ButtonLink href="/research" variant="secondary">
-                Research & Teaching
-              </ButtonLink>
+              <TextLink href="/research">Research & Teaching</TextLink>
             </div>
           </div>
         </Wrap>
@@ -45,7 +41,7 @@ export default function AboutPage() {
         <div className="grid gap-14 lg:grid-cols-2">
           <div>
             <H2 id="about-teach-h">Teaching</H2>
-            <Checks items={teaching} className="mt-8" />
+            <Rows items={teaching} className="mt-8" />
           </div>
           <div>
             <h2 className="text-[clamp(2rem,3.4vw,3rem)]">{mudzi.name}</h2>

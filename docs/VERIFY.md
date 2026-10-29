@@ -21,10 +21,15 @@ confirmed it and when, and move it to "Resolved".
 | 11 | Honors and fellowships | Credibility strip, Research & Teaching | Eloranta Fellow, Legatum Fellow (sole undergraduate), Burchard Scholar, OME Prize, BCAP Fellow, PKG IDEAS, Pressman Award, NASA L'SPACE top 15. | Founder-stated. Confirm names and years as she wants them shown. |
 | 12 | High-school record | Admissions record grid (Concept B) | GPA, SAT, ACT, IB scores, activities, NYT letter (Sept 2022). | Founder-stated. Confirm she is comfortable publishing exact scores. |
 
+| 13 | High school record | Admissions record card and record section | Shown as "My high school record (founder-reported)" with "Shared as background on my own application. Admissions outcomes vary and nothing here is a guarantee." (Amendment 4). | Founder-reported only. We have the spec, and no transcripts, score reports or admission letters have been seen. |
+| 14 | Degree names | Hero, About, founder section | The spec says "Chemistry & Molecular Biology (Course 5-7)" and "Neuroscience (Course 9)". The site shows them as written, as "B.S. candidate, MIT Class of 2027" (Amendment 4). | MIT's catalog names Course 5-7 "Chemistry and Biology" ([catalog.mit.edu](https://catalog.mit.edu/degree-charts/chemistry-biology-course-5-7)) and Course 9 "Brain and Cognitive Sciences" ([bcs.mit.edu](https://bcs.mit.edu/academic-program/course-9-brain-and-cognitive-sciences)). Founder to confirm which wording to show. |
+| 15 | Publications, external check (2026-10-29) | Research & Teaching | "The problem may not be fragmentation: it may be accumulation" appears as a response to Morley J., "The single patient record", dated June 2026, on a third-party aggregator ([pulse.bot](https://www.pulse.bot/healthtech/news/the-problem-may-not-be-fragmentation-it-may-be-accumulation-response-to-morley-j-the-single-patient-e54a72ab-1061-4b79-9be3-cf2efcbe696e/)). The *Journal of Women's Health* FGM piece was not found in a web search. | Founder to give the DOIs or URLs so each item can link to its source. |
+
 ## Resolved
 
 | Item | Resolution |
 |---|---|
+| "Published in The BMJ" | Shown as "BMJ Rapid Responses" (Amendment 4, item 6). The publications list keeps the spec's titles under "Rapid Response, The BMJ". |
 | Majors | The spec says "Chemistry & Molecular Biology (Course 5-7) and Neuroscience (Course 9)". It replaced "Biochemistry and Computational Neuroscience" everywhere on 2026-10-29: `site.ts`, the hero, the founder section, About and the E2E journey. |
 | Sessions on Zoom | Confirmed by the spec ("1:1 live sessions on Zoom"; FAQ: "Where do sessions happen? Zoom."). |
 | MCAT score | Spec: 522, with 132 B/B, 132 P/S, 131 C/P, taken January 2026. This matches `site.ts`. |

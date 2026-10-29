@@ -11,7 +11,7 @@ test("1. homepage loads with founder facts and no errors", async ({ page }) => {
   await expect(page.getByText("Admitted to MIT, Yale, Columbia, Brown, Dartmouth, and Penn (Benjamin Franklin Scholar)")).toBeVisible();
   await expect(page.getByRole("link", { name: "Explore MCAT Prep" }).first()).toBeVisible();
   await expect(page.getByRole("link", { name: "Explore Admissions Consulting" }).first()).toBeVisible();
-  for (const c of ["Eloranta Fellow", "Legatum Fellow", "Burchard Scholar", "Published in The BMJ", "MIT TA"]) {
+  for (const c of ["Eloranta Fellow", "Legatum Fellow", "Burchard Scholar", "BMJ Rapid Responses", "MIT TA"]) {
     await expect(page.getByRole("list", { name: "Credentials" }).getByText(c, { exact: true })).toBeVisible();
   }
 

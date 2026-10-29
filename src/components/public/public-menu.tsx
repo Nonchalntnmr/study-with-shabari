@@ -13,11 +13,11 @@ export function PublicMenu({ links }: { links: { href: string; label: string }[]
       </SheetTrigger>
       <SheetContent side="top" className="public border-b border-hairline bg-slide">
         <SheetHeader>
-          <SheetTitle className="text-xl font-bold text-hema">Study with Shabari</SheetTitle>
+          <SheetTitle className="font-display text-2xl font-normal text-hema">Study with Shabari</SheetTitle>
         </SheetHeader>
         <nav aria-label="Mobile" className="grid gap-1 px-4 pb-8">
           {links.map((l) => (
-            <Link key={l.href} href={l.href} onClick={() => setOpen(false)} className="border-b border-hairline py-3 text-xl font-semibold tracking-[-0.01em] text-hema">
+            <Link key={l.href} href={l.href} onClick={() => setOpen(false)} className="border-b border-hairline py-3 font-display text-2xl text-hema">
               {l.label}
             </Link>
           ))}

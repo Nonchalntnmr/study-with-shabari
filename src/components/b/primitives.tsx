@@ -18,7 +18,7 @@ const TONE: Record<Tone, string> = {
 
 export function Band({ id, tone = "white", labelledBy, className, children }: { id?: string; tone?: Tone; labelledBy?: string; className?: string; children: React.ReactNode }) {
   return (
-    <section id={id} aria-labelledby={labelledBy} className={cn("scroll-mt-20 py-20 sm:py-28", TONE[tone], className)}>
+    <section id={id} aria-labelledby={labelledBy} className={cn("scroll-mt-20 py-24 sm:py-36", TONE[tone], className)}>
       <Wrap>{children}</Wrap>
     </section>
   );
@@ -30,7 +30,7 @@ export function Kicker({ children, className }: { children: React.ReactNode; cla
 
 export function H2({ id, children, className }: { id?: string; children: React.ReactNode; className?: string }) {
   return (
-    <h2 id={id} className={cn("max-w-3xl text-[clamp(2rem,3.4vw,3rem)]", className)}>
+    <h2 id={id} className={cn("max-w-3xl text-[clamp(2.2rem,3.8vw,3.4rem)]", className)}>
       {children}
     </h2>
   );
@@ -43,7 +43,7 @@ export function Lead({ children, className }: { children: React.ReactNode; class
 type Variant = "primary" | "secondary" | "onDark";
 const VARIANT: Record<Variant, string> = {
   primary: "bg-eosin text-white hover:bg-eosin-ink",
-  secondary: "bg-white text-hema ring-1 ring-inset ring-hema/20 hover:ring-hema/50",
+  secondary: "bg-white text-hema ring-1 ring-inset ring-hema/25 hover:ring-hema/60",
   onDark: "bg-white text-hema hover:bg-mist",
 };
 
@@ -52,6 +52,31 @@ export function ButtonLink({ href, variant = "primary", className, children }: {
     <Link href={href} className={cn("inline-flex h-12 items-center justify-center rounded-full px-6 text-[1rem] font-semibold transition-colors", VARIANT[variant], className)}>
       {children}
     </Link>
+  );
+}
+
+/** The secondary action on a screen: a text link, so each screen keeps one primary button. */
+export function TextLink({ href, className, children }: { href: string; className?: string; children: React.ReactNode }) {
+  return (
+    <Link
+      href={href}
+      className={cn("inline-flex items-center text-[1rem] font-semibold text-hema underline decoration-hema/25 decoration-2 underline-offset-[6px] transition-colors hover:decoration-eosin", className)}
+    >
+      {children}
+    </Link>
+  );
+}
+
+/** An editorial list: generous rows separated by hairlines, no icons. */
+export function Rows({ items, className, size = "md" }: { items: readonly string[]; className?: string; size?: "md" | "lg" }) {
+  return (
+    <ul className={cn("border-t border-hairline", className)}>
+      {items.map((t) => (
+        <li key={t} className={cn("border-b border-hairline text-specimen/90", size === "lg" ? "py-5 text-[1.1875rem] leading-relaxed" : "py-4 text-[1.0625rem] leading-relaxed")}>
+          {t}
+        </li>
+      ))}
+    </ul>
   );
 }
 

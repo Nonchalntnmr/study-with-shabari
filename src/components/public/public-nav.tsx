@@ -18,7 +18,7 @@ export function PublicNav({ account }: { account: React.ReactNode }) {
   return (
     <header className={`sticky top-0 z-50 bg-white/95 backdrop-blur transition-shadow duration-300 ${scrolled ? "shadow-[0_1px_0_0_#E2E8F0]" : ""}`}>
       <div className="mx-auto flex h-[4.25rem] max-w-[1320px] items-center justify-between gap-6 px-5 sm:px-8">
-        <Link href="/" className="shrink-0 text-[1.15rem] font-bold leading-none tracking-[-0.02em] text-hema" aria-label="Study with Shabari, home">
+        <Link href="/" className="shrink-0 font-display text-[1.35rem] leading-none tracking-[-0.01em] text-hema" aria-label="Study with Shabari, home">
           Study with Shabari
         </Link>
         <nav aria-label="Main" className="hidden items-center gap-6 min-[1180px]:flex">
@@ -37,7 +37,7 @@ export function PublicNav({ account }: { account: React.ReactNode }) {
           <div className="hidden text-[0.9rem] min-[1180px]:block">{account}</div>
           <Link
             href={bookCta.href}
-            className="hidden h-10 items-center rounded-full bg-eosin px-5 text-[0.9rem] font-semibold text-white transition-colors hover:bg-eosin-ink sm:inline-flex"
+            className="hidden h-10 items-center rounded-full px-5 text-[0.9rem] font-semibold text-hema ring-1 ring-inset ring-hema/25 transition-colors hover:ring-hema/60 sm:inline-flex"
           >
             {bookCta.label}
           </Link>

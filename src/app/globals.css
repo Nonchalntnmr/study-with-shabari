@@ -251,18 +251,20 @@
     line-height: 1.55;
   }
   /* :where() keeps this at element specificity, so an explicit colour or font utility always wins. */
-  /* One family, Schibsted Grotesk: bold, tight display sizes and an even text face. */
+  /* Amendment 4: editorial serif display (Newsreader, optical sizes) over a refined sans text face
+     (Schibsted Grotesk). The exam keeps Atkinson Hyperlegible. */
   :where(.public) :is(h1, h2, h3) {
-    font-family: var(--font-schibsted), ui-sans-serif, system-ui, sans-serif;
+    font-family: var(--font-newsreader), Georgia, serif;
+    font-optical-sizing: auto;
     color: #0b1f44;
-    font-weight: 680;
-    letter-spacing: -0.028em;
+    font-weight: 430;
+    letter-spacing: -0.018em;
     line-height: 1.04;
   }
   :where(.public) h3 {
-    font-weight: 640;
-    letter-spacing: -0.016em;
-    line-height: 1.2;
+    font-weight: 480;
+    letter-spacing: -0.01em;
+    line-height: 1.18;
   }
   .public :focus-visible {
     outline-color: #1f5bff;

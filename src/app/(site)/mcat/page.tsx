@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { LessonExplorer, type Reading } from "@/components/b/lesson-explorer";
 import { BookingBand } from "@/components/b/booking-band";
-import { Band, ButtonLink, Card, Checks, H2, Kicker, Lead, PaymentNote, Wrap } from "@/components/b/primitives";
+import { LessonExplorer, type Reading } from "@/components/b/lesson-explorer";
+import { Band, ButtonLink, H2, Kicker, Lead, PaymentNote, Rows, TextLink, Wrap } from "@/components/b/primitives";
 import { ScoreInstrument } from "@/components/home/score-instrument";
 import { DraftBadge } from "@/components/lesson/badges";
 import { MesolimbicPathway } from "@/components/molecule/mesolimbic-pathway";
@@ -38,11 +38,11 @@ const readings: Reading[] = [
           with six delocalised π electrons, so its six carbon–carbon bonds come out essentially the same length. At physiological pH the amine is
           protonated, so dopamine carries a positive charge.
         </p>
-        <dl className="grid grid-cols-3 gap-3 border-t border-hairline pt-5">
+        <dl className="grid grid-cols-3 gap-4 border-t border-hairline pt-6">
           {measures.map((m) => (
             <div key={m.label}>
               <dt className="text-sm text-quiet">{m.label}</dt>
-              <dd className="mt-1 text-xl font-bold text-hema">{m.angstrom.toFixed(3)} Å</dd>
+              <dd className="mt-1 font-display text-[1.6rem] leading-none text-hema">{m.angstrom.toFixed(3)} Å</dd>
             </div>
           ))}
         </dl>
@@ -93,52 +93,54 @@ export default async function McatPage() {
 
   return (
     <>
-      <section aria-labelledby="mcat-h" className="bg-white pb-20 pt-10 sm:pb-28 sm:pt-16">
-        <Wrap className="grid items-center gap-x-16 gap-y-14 lg:grid-cols-[1.05fr_0.95fr]">
+      <section aria-labelledby="mcat-h" className="bg-white pb-24 pt-12 sm:pb-32 sm:pt-20">
+        <Wrap className="grid items-center gap-x-20 gap-y-14 lg:grid-cols-[1.05fr_0.95fr]">
           <div>
             <Kicker>MCAT Prep</Kicker>
-            <h1 id="mcat-h" className="mt-4 text-[clamp(2.35rem,4.2vw,3.9rem)] leading-[1.04]">
+            <h1 id="mcat-h" className="mt-5 text-[clamp(2.6rem,4.8vw,4.4rem)] leading-[1.03]">
               {mcatTutoring.headline}
             </h1>
-            <p className="mt-6 text-[1.125rem] leading-relaxed text-quiet">{mcatScore.line}.</p>
-            <div className="mt-8 flex flex-wrap gap-3">
+            <p className="mt-7 text-[1.125rem] leading-relaxed text-quiet">{mcatScore.line}.</p>
+            <div className="mt-9 flex flex-wrap items-center gap-x-8 gap-y-4">
               <ButtonLink href="/book?service=mcat">Book a free 15-min call</ButtonLink>
-              <ButtonLink href="/practice" variant="secondary">
-                Start a free practice test
-              </ButtonLink>
+              <TextLink href="/practice">Start a free practice test</TextLink>
             </div>
           </div>
-          <div className="rounded-2xl border border-hairline bg-white p-7 sm:p-10">
+          <div className="rounded-2xl border border-hairline bg-white p-8 sm:p-11">
             <ScoreInstrument total={founder.mcat.total} sections={founder.mcat.sections} taken={founder.mcat.taken} />
           </div>
         </Wrap>
       </section>
 
       <Band tone="mist" id="tutoring" labelledBy="tutoring-h">
-        <div className="grid gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:gap-20">
+        <div className="grid gap-12 lg:grid-cols-[0.8fr_1.2fr] lg:gap-24">
           <div>
             <Kicker>MCAT tutoring</Kicker>
-            <H2 id="tutoring-h" className="mt-3">
+            <H2 id="tutoring-h" className="mt-4">
               One-on-one, built around your test date.
             </H2>
           </div>
-          <Checks items={mcatTutoring.points} />
+          <Rows items={mcatTutoring.points} size="lg" />
         </div>
       </Band>
 
       <Band id="lesson" labelledBy="lesson-h">
-        <Kicker>Free interactive lesson</Kicker>
-        <H2 id="lesson-h" className="mt-3">
-          One molecule, three sections.
-        </H2>
-        <Lead className="mt-5">
-          Dopamine is tested in all three science sections. Read it each way, then take the free lesson: a question per section, the reasoning after
-          every answer, and a retest on each idea.
-        </Lead>
-        <div className="mt-10">
+        <div className="grid gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:items-end lg:gap-24">
+          <div>
+            <Kicker>Free interactive lesson</Kicker>
+            <H2 id="lesson-h" className="mt-4">
+              One molecule, three sections.
+            </H2>
+          </div>
+          <Lead>
+            Dopamine is tested in all three science sections. Read it each way, then take the free lesson: a question per section, the reasoning after
+            every answer, and a retest on each idea.
+          </Lead>
+        </div>
+        <div className="mt-14">
           <LessonExplorer readings={readings} />
         </div>
-        <div className="mt-8 flex flex-wrap items-center gap-4">
+        <div className="mt-12 flex flex-wrap items-center gap-4">
           {lesson ? (
             <>
               <ButtonLink href={`/lessons/${lesson.slug}`}>Start the free lesson</ButtonLink>
@@ -151,69 +153,75 @@ export default async function McatPage() {
       </Band>
 
       <Band tone="mist" id="practice" labelledBy="practice-h">
-        <div className="grid items-start gap-12 lg:grid-cols-[1fr_1fr] lg:gap-16">
+        <div className="grid items-start gap-14 lg:grid-cols-[1fr_1fr] lg:gap-20">
           <div>
             <Kicker>Free practice platform</Kicker>
-            <H2 id="practice-h" className="mt-3">
+            <H2 id="practice-h" className="mt-4">
               Practice in a test-day interface.
             </H2>
-            <Lead className="mt-5">{practicePlatform}</Lead>
-            <p className="mt-6 rounded-xl border border-hairline bg-white px-5 py-4 text-[1rem] text-specimen/85">
+            <Lead className="mt-6">{practicePlatform}</Lead>
+            <p className="mt-6 text-[1rem] text-specimen/85">
               Available now: short sample sets. Full-length C/P, B/B and P/S sections are coming as Shabari adds her questions.
             </p>
             {exams.length > 0 && (
-              <ul className="mt-6 divide-y divide-hairline rounded-xl border border-hairline bg-white">
+              <ul className="mt-8 border-t border-hairline">
                 {exams.map((e) => (
-                  <li key={e.slug}>
-                    <Link href={`/practice/${e.slug}`} className="flex items-baseline justify-between gap-4 px-5 py-4 hover:bg-mist">
-                      <span className="font-semibold text-hema">{e.title}</span>
+                  <li key={e.slug} className="border-b border-hairline">
+                    <Link href={`/practice/${e.slug}`} className="group flex items-baseline justify-between gap-4 py-4">
+                      <span className="font-display text-[1.25rem] text-hema group-hover:text-eosin-ink">{e.title}</span>
                       <span className="shrink-0 text-sm text-quiet">{sectionShort[e.section as SectionCode]}</span>
                     </Link>
                   </li>
                 ))}
               </ul>
             )}
-            <div className="mt-8">
-              <ButtonLink href="/practice">Start a free practice test</ButtonLink>
-            </div>
+            <TextLink href="/practice" className="mt-8">
+              Start a free practice test
+            </TextLink>
           </div>
-          <div className="exam-surface lg:pt-14">
+          <div className="exam-surface lg:pt-16">
             <ExamPreview />
           </div>
         </div>
       </Band>
 
       <Band id="notes" labelledBy="notes-h">
-        <Kicker>Free MCAT notes</Kicker>
-        <H2 id="notes-h" className="mt-3">
-          {notes.headline}
-        </H2>
-        <div className="mt-12 grid gap-5 md:grid-cols-3">
-          {notes.cards.map((c) => {
-            const url = noteLinks.get(c.section as SectionCode);
-            return (
-              <Card key={c.section} className="flex flex-col">
-                <h3 className="text-[1.4rem]">{c.title}</h3>
-                <p className="mt-3 flex-1 text-[1.0625rem] text-quiet">{c.body}</p>
-                {url ? (
-                  <a href={url} target="_blank" rel="noopener noreferrer" className="mt-7 font-semibold text-eosin underline decoration-eosin/30 underline-offset-4">
-                    Open notes
-                  </a>
-                ) : (
-                  <p className="mt-7 font-medium text-quiet">Coming soon</p>
-                )}
-              </Card>
-            );
-          })}
+        <div className="grid gap-12 lg:grid-cols-[0.8fr_1.2fr] lg:gap-24">
+          <div>
+            <Kicker>Free MCAT notes</Kicker>
+            <H2 id="notes-h" className="mt-4">
+              {notes.headline}
+            </H2>
+          </div>
+          <ul className="border-t border-hairline">
+            {notes.cards.map((c) => {
+              const url = noteLinks.get(c.section as SectionCode);
+              return (
+                <li key={c.section} className="grid gap-2 border-b border-hairline py-6 sm:grid-cols-[1fr_auto] sm:items-baseline sm:gap-8">
+                  <div>
+                    <h3 className="text-[1.5rem]">{c.title}</h3>
+                    <p className="mt-1 text-[1.0625rem] text-quiet">{c.body}</p>
+                  </div>
+                  {url ? (
+                    <a href={url} target="_blank" rel="noopener noreferrer" className="font-semibold text-hema underline decoration-hema/25 decoration-2 underline-offset-[6px] hover:decoration-eosin">
+                      Open notes
+                    </a>
+                  ) : (
+                    <span className="text-[0.98rem] font-medium text-quiet">Coming soon</span>
+                  )}
+                </li>
+              );
+            })}
+          </ul>
         </div>
       </Band>
 
       <Band tone="mist" id="mcat-pricing" labelledBy="mcat-pricing-h">
         <Kicker>MCAT pricing</Kicker>
-        <H2 id="mcat-pricing-h" className="mt-3">
+        <H2 id="mcat-pricing-h" className="mt-4">
           Every option starts with a free call.
         </H2>
-        <div className="mt-12">
+        <div className="mt-14">
           <PlanCards />
         </div>
         <PaymentNote className="mt-8" />

@@ -36,7 +36,7 @@ export function ScoreInstrument({ total, sections, taken }: { total: number; sec
   return (
     <figure ref={scope} aria-label={`MCAT total score ${total} out of 528, ${taken}`}>
       <div className="flex flex-wrap items-end gap-x-12 gap-y-6">
-        <p className="text-[clamp(5rem,12vw,9.5rem)] font-bold leading-[0.85] tracking-[-0.05em] text-hema">
+        <p className="font-display text-[clamp(5.5rem,13vw,10rem)] leading-[0.85] tracking-[-0.03em] text-hema">
           <span className="relative inline-block">
             <span aria-hidden className="absolute inset-x-[0.02em] bottom-[-0.08em] h-[0.035em] rounded-full bg-eosin" />
             <span className="relative">{total}</span>
@@ -70,7 +70,7 @@ export function ScoreInstrument({ total, sections, taken }: { total: number; sec
             <li key={code}>
               <p className="flex flex-col gap-1">
                 <span className="text-[0.98rem] text-quiet">{sectionShort[code]}</span>
-                <span className="text-3xl font-bold leading-none tracking-[-0.02em] text-hema">{v}</span>
+                <span className="font-display text-[2rem] leading-none text-hema">{v}</span>
               </p>
               <div className="relative mt-3 h-[3px] bg-hema/15" aria-hidden>
                 <div data-bar className="absolute inset-y-0 left-0 origin-left bg-hema" style={{ width: `${pct(v, 118, 132)}%` }} />

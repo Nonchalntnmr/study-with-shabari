@@ -7,7 +7,9 @@ export const headline = "I scored a 522 on the MCAT and got into MIT and 5 Ivies
 export const identity = {
   name: "Shabari Shankar",
   classOf: "MIT Class of 2027",
-  degree: "B.S. in Chemistry & Molecular Biology (Course 5-7) and Neuroscience (Course 9)",
+  majors: "Chemistry & Molecular Biology (Course 5-7) and Neuroscience (Course 9)",
+  // Amendment 4: wherever the degree is mentioned, say "B.S. candidate, MIT Class of 2027", never "B.S. in …" alone.
+  degree: "B.S. candidate, MIT Class of 2027: Chemistry & Molecular Biology (Course 5-7) and Neuroscience (Course 9)",
   track: "premed",
 };
 
@@ -17,7 +19,8 @@ export const admittedTo = ["MIT", "Yale", "Columbia", "Brown", "Dartmouth", "Pen
 export const admittedLine = "Admitted to MIT, Yale, Columbia, Brown, Dartmouth, and Penn (Benjamin Franklin Scholar)";
 export const pennNote = "Benjamin Franklin Scholar";
 
-export const credibilityStrip = ["Eloranta Fellow", "Legatum Fellow", "Burchard Scholar", "Published in The BMJ", "MIT TA"];
+// Amendment 4: "Published in The BMJ" in the spec is shown as "BMJ Rapid Responses".
+export const credibilityStrip = ["Eloranta Fellow", "Legatum Fellow", "Burchard Scholar", "BMJ Rapid Responses", "MIT TA"];
 
 // ---------------------------------------------------------------- MCAT half
 
@@ -59,6 +62,8 @@ export const mcatPricing = [
 export const admissionsHeadline = "I got into MIT and 5 of 8 Ivies. I'll help you build the application that gets you in.";
 
 export const highSchool = {
+  title: "My high school record (founder-reported)",
+  disclaimer: "Shared as background on my own application. Admissions outcomes vary and nothing here is a guarantee.",
   stats: [
     { value: "4.00/4.00", label: "GPA" },
     { value: "1550", label: "SAT" },
@@ -150,10 +155,10 @@ export const research = [
   {
     org: "Utah Health Policy Project",
     when: "Summer 2024",
-    body: "Jeffrey L. Pressman Award (health policy research). Analyzed Utah Medicare and Medicaid; authored a policy pamphlet distributed to Utah State Senate offices.",
+    body: "Jeffrey L. Pressman Award (health policy research, Summer 2024). Analyzed Utah Medicare and Medicaid; authored a policy pamphlet distributed to Utah State Senate offices.",
   },
   { org: "NASA L'SPACE", when: null, body: "Lead author on a probiotic biomaterials proposal for long-duration spaceflight, selected as a top 15 project nationally." },
-  { org: "MIT Social and Ethical Responsibilities of Computing Scholar", when: "2023–24", body: "Medical chatbot research." },
+  { org: "MIT Social and Ethical Responsibilities of Computing", when: "2023–24", body: "Scholar (2023–24): medical chatbot research." },
 ];
 
 export const publications = [

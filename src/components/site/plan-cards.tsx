@@ -15,7 +15,7 @@ export async function PlanCards() {
           className={cn("flex flex-col rounded-2xl border border-hairline bg-white p-8", plan.featured && "border-eosin/60 ring-1 ring-eosin/50")}
         >
           <h3 className="text-[1.4rem]">{plan.name}</h3>
-          <p className="mt-4 text-[2.25rem] font-bold leading-tight tracking-[-0.03em] text-hema">{plan.priceLabel}</p>
+          <p className="mt-4 font-display text-[2.4rem] leading-tight text-hema">{plan.priceLabel}</p>
           {plan.detail && <p className="mt-1 text-sm text-muted-foreground">{plan.detail}</p>}
           <ul className="mt-6 flex-1 space-y-3 text-sm">
             {plan.features.map((f) => (

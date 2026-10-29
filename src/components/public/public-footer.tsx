@@ -46,7 +46,7 @@ export function PublicFooter() {
     <footer className="border-t border-hairline bg-mist">
       <div className="mx-auto grid max-w-[1320px] gap-14 px-5 py-16 sm:px-8 lg:grid-cols-[1fr_2.4fr]">
         <div>
-          <p className="text-2xl font-bold tracking-[-0.02em] text-hema">Study with Shabari</p>
+          <p className="font-display text-[1.9rem] leading-tight text-hema">Study with Shabari</p>
           <p className="mt-3 max-w-xs text-quiet">MCAT prep and college admissions consulting with {founder.name}.</p>
           <a href={`mailto:${contactEmail}`} className="mt-5 inline-block font-medium text-eosin underline decoration-1 underline-offset-4">
             {contactEmail}

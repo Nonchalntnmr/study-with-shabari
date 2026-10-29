@@ -1,5 +1,5 @@
-import { admittedLine, admittedTo, credibilityStrip, headline, identity, mcatScore } from "@/lib/founder-facts";
-import { ButtonLink, Wrap } from "./primitives";
+import { admittedLine, credibilityStrip, headline, identity, mcatScore } from "@/lib/founder-facts";
+import { ButtonLink, TextLink, Wrap } from "./primitives";
 import { HeroMolecule } from "./hero-molecule";
 
 const SECTION_ORDER = [
@@ -11,16 +11,16 @@ const SECTION_ORDER = [
 /** Section scores on their real 118–132 scale. */
 function ScoreBars() {
   return (
-    <ul aria-label="MCAT section scores" className="mt-6 grid gap-2.5">
+    <ul aria-label="MCAT section scores" className="mt-7 grid max-w-md gap-3">
       {SECTION_ORDER.map(({ key, label }) => {
         const v = mcatScore.sections[key];
         return (
-          <li key={key} className="grid grid-cols-[2.75rem_1fr_2.25rem] items-center gap-3 text-sm">
+          <li key={key} className="grid grid-cols-[2.75rem_1fr_2.5rem] items-center gap-4 text-sm">
             <span className="font-medium text-quiet">{label}</span>
-            <span aria-hidden className="relative h-1.5 rounded-full bg-hairline">
+            <span aria-hidden className="relative h-[3px] rounded-full bg-hairline">
               <span className="absolute inset-y-0 left-0 rounded-full bg-hema" style={{ width: `${((v - 118) / 14) * 100}%` }} />
             </span>
-            <span className="text-right font-semibold tabular-nums text-hema">{v}</span>
+            <span className="text-right font-display text-[1.25rem] leading-none text-hema">{v}</span>
           </li>
         );
       })}
@@ -28,79 +28,64 @@ function ScoreBars() {
   );
 }
 
-function SchoolTiles() {
-  return (
-    <ul aria-label="Admitted to" className="mt-6 grid grid-cols-3 gap-2">
-      {admittedTo.map((s) => (
-        <li key={s} className="rounded-lg border border-hairline bg-mist px-3 py-2 text-center text-[0.95rem] font-semibold text-hema">
-          {s}
-        </li>
-      ))}
-    </ul>
-  );
-}
-
 export function Hero() {
   return (
-    <section aria-labelledby="hero-h" className="bg-white pb-0 pt-10 sm:pt-16">
+    <section aria-labelledby="hero-h" className="bg-white pt-12 sm:pt-20">
       <Wrap>
-        <div className="grid items-center gap-x-14 gap-y-8 lg:grid-cols-[1.12fr_0.88fr]">
+        <div className="grid items-center gap-x-16 gap-y-10 lg:grid-cols-[1.15fr_0.85fr]">
           <div>
-            <p className="text-[0.98rem] font-semibold text-eosin">
+            <p className="text-[0.98rem] font-medium text-quiet">
               {identity.classOf}, {identity.track}
             </p>
-            <h1 id="hero-h" className="mt-4 text-[clamp(2.35rem,4.3vw,4rem)] leading-[1.03]">
+            <h1 id="hero-h" className="mt-5 text-[clamp(2.6rem,5vw,4.6rem)] leading-[1.02]">
               {headline}
             </h1>
-            <p className="mt-6 max-w-[38rem] text-[1.125rem] leading-relaxed text-quiet">
-              Shabari Shankar, {identity.degree}. MCAT prep and college admissions consulting, one on one.
+            <p className="mt-7 max-w-[36rem] text-[1.125rem] leading-relaxed text-quiet">
+              {identity.name}. {identity.degree}.
             </p>
-            <div className="mt-8 flex flex-wrap gap-3">
+            <div className="mt-9 flex flex-wrap items-center gap-x-8 gap-y-4">
               <ButtonLink href="/book">Book a free 15-min call</ButtonLink>
-              <ButtonLink href="/practice" variant="secondary">
-                Free practice test
-              </ButtonLink>
+              <TextLink href="/practice">Free practice test</TextLink>
             </div>
           </div>
-          <div className="mx-auto w-full max-w-[34rem] lg:max-w-none">
+          <div className="mx-auto w-full max-w-[32rem] lg:max-w-none">
             <HeroMolecule />
           </div>
         </div>
 
-        <div className="mt-12 grid gap-5 md:grid-cols-2">
-          <article aria-labelledby="panel-mcat" className="flex flex-col rounded-2xl border border-hairline bg-white p-7 sm:p-9">
-            <h2 id="panel-mcat" className="text-[1.0625rem] font-semibold text-eosin">
+        <div className="mt-20 grid border-t border-hairline md:grid-cols-2">
+          <article aria-labelledby="panel-mcat" className="flex flex-col py-10 md:pr-14">
+            <h2 id="panel-mcat" className="font-sans text-[0.98rem] font-semibold tracking-normal text-eosin">
               MCAT Prep
             </h2>
-            <p className="mt-3 text-[clamp(1.6rem,2.4vw,2.1rem)] font-bold leading-tight tracking-[-0.02em] text-hema">{mcatScore.line}</p>
+            <p className="mt-4 font-display text-[clamp(1.75rem,2.6vw,2.4rem)] leading-[1.1] text-hema">{mcatScore.line}</p>
             <ScoreBars />
-            <div className="mt-auto pt-8">
-              <ButtonLink href="/mcat">Explore MCAT Prep</ButtonLink>
+            <div className="mt-auto pt-9">
+              <TextLink href="/mcat">Explore MCAT Prep</TextLink>
             </div>
           </article>
-          <article aria-labelledby="panel-admissions" className="flex flex-col rounded-2xl border border-hairline bg-white p-7 sm:p-9">
-            <h2 id="panel-admissions" className="text-[1.0625rem] font-semibold text-eosin">
+          <article aria-labelledby="panel-admissions" className="flex flex-col border-t border-hairline py-10 md:border-l md:border-t-0 md:pl-14">
+            <h2 id="panel-admissions" className="font-sans text-[0.98rem] font-semibold tracking-normal text-eosin">
               College Admissions
             </h2>
-            <p className="mt-3 text-[clamp(1.6rem,2.4vw,2.1rem)] font-bold leading-tight tracking-[-0.02em] text-hema">{admittedLine}</p>
-            <SchoolTiles />
-            <div className="mt-auto pt-8">
-              <ButtonLink href="/admissions">Explore Admissions Consulting</ButtonLink>
+            <p className="mt-4 max-w-xl font-display text-[clamp(1.75rem,2.6vw,2.4rem)] leading-[1.12] text-hema">{admittedLine}</p>
+            <div className="mt-auto pt-9">
+              <TextLink href="/admissions">Explore Admissions Consulting</TextLink>
             </div>
           </article>
         </div>
 
-        <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-3">
+        <div className="flex flex-wrap items-center gap-x-6 gap-y-3 border-t border-hairline py-10">
           <ButtonLink href="/book">Book a free 15-min call</ButtonLink>
           <p className="text-[0.98rem] text-quiet">Fifteen minutes on Zoom, for MCAT or college admissions.</p>
         </div>
       </Wrap>
 
-      <div className="mt-16 border-y border-hairline bg-mist">
+      <div className="border-y border-hairline bg-mist">
         <Wrap>
-          <ul aria-label="Credentials" className="flex flex-wrap items-center justify-center gap-x-0 gap-y-3 py-5">
+          <ul aria-label="Credentials" className="flex flex-wrap items-center justify-center gap-y-3 py-6">
             {credibilityStrip.map((c, i) => (
-              <li key={c} className={`px-5 text-[0.98rem] font-semibold text-hema sm:px-7 ${i > 0 ? "sm:border-l sm:border-hairline" : ""}`}>
+              <li key={c} className={`px-5 font-display text-[1.15rem] text-hema sm:px-8 ${i > 0 ? "sm:border-l sm:border-hairline" : ""}`}>
                 {c}
               </li>
             ))}

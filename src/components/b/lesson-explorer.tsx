@@ -52,14 +52,14 @@ export function LessonExplorer({ readings }: { readings: Reading[] }) {
           id={`${base}-panel-${r.id}`}
           aria-labelledby={`${base}-tab-${r.id}`}
           hidden={active !== i}
-          className="mt-8 grid items-center gap-10 rounded-2xl border border-hairline bg-white p-7 sm:p-10 lg:grid-cols-[1fr_1.1fr]"
+          className="mt-10 grid items-center gap-12 border-t border-hairline pt-10 lg:grid-cols-[1fr_1.1fr] lg:gap-16"
         >
           <div>
             <p className="text-[0.95rem] font-semibold text-sci-teal">{r.section}</p>
-            <h3 className="mt-2 text-[1.75rem]">{r.title}</h3>
-            <div className="mt-5 space-y-4 text-[1.0625rem] leading-relaxed text-specimen/85">{r.body}</div>
+            <h3 className="mt-2 text-[2rem]">{r.title}</h3>
+            <div className="mt-6 space-y-5 text-[1.0625rem] leading-relaxed text-specimen/85">{r.body}</div>
           </div>
-          <div>{r.figure}</div>
+          <div className="rounded-2xl bg-mist p-6 sm:p-10">{r.figure}</div>
         </div>
       ))}
     </div>

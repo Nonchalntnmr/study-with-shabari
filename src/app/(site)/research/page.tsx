@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Band, Checks, H2, Kicker, Wrap } from "@/components/b/primitives";
+import { Band, H2, Kicker, Rows, Wrap } from "@/components/b/primitives";
 import { honors, mudzi, publications, research, teaching } from "@/lib/founder-facts";
 
 export const metadata: Metadata = {
@@ -27,7 +27,7 @@ export default function ResearchPage() {
             <li key={r.org} className="relative">
               <span aria-hidden className="absolute -left-[2.3rem] top-2 size-3 rounded-full bg-eosin ring-4 ring-white sm:-left-[3.3rem]" />
               <p className="text-[0.95rem] font-semibold tabular-nums text-quiet">{r.when ?? " "}</p>
-              <h3 className="mt-1 text-[1.4rem]">{r.org}</h3>
+              <h3 className="mt-1 text-[1.6rem]">{r.org}</h3>
               <p className="mt-2 max-w-[70ch] text-[1.0625rem] leading-relaxed text-specimen/85">{r.body}</p>
             </li>
           ))}
@@ -52,11 +52,11 @@ export default function ResearchPage() {
         <div className="grid gap-14 lg:grid-cols-2">
           <div>
             <H2 id="teach-h">Teaching</H2>
-            <Checks items={teaching} className="mt-8" />
+            <Rows items={teaching} className="mt-8" />
           </div>
           <div>
             <h2 className="text-[clamp(2rem,3.4vw,3rem)]">Honors</h2>
-            <Checks items={honors} className="mt-8" />
+            <Rows items={honors} className="mt-8" />
           </div>
         </div>
       </Band>
@@ -69,9 +69,9 @@ export default function ResearchPage() {
         <p className="mt-5 max-w-[70ch] text-[1.125rem] leading-relaxed text-specimen/85">{mudzi.body}</p>
         <dl className="mt-10 grid gap-5 sm:grid-cols-3">
           {mudzi.figures.map((f) => (
-            <div key={f.label} className="flex flex-col rounded-2xl border border-hairline bg-white p-7">
-              <dt className="text-[0.98rem] text-quiet">{f.label}</dt>
-              <dd className="order-first text-[2.5rem] font-bold leading-none tracking-[-0.04em] text-hema">{f.value}</dd>
+            <div key={f.label} className="flex flex-col border-t-2 border-hema pt-5">
+              <dt className="mt-2 text-[0.98rem] text-quiet">{f.label}</dt>
+              <dd className="order-first font-display text-[3rem] leading-none text-hema">{f.value}</dd>
             </div>
           ))}
         </dl>
