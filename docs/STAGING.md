@@ -65,6 +65,8 @@ Values are never written here. `.env.example` describes each one.
   - The migrations on this branch only add tables and columns: `question_versions`, `Attempt.questionVersionIds`,
     `retestOfId` and `Response.clientChangedAt`. They add no drops or renames.
   - Older code ignores the new columns and tables, so rolling code back needs no database change.
+  - One exception: `QuestionVersion` references `Question` with `ON DELETE RESTRICT`, so older code can't delete
+    a question that already has versions; it gets an error.
 - **Data:** Supabase point-in-time recovery, or a backup taken just before step 6. The question-versions
   migration doesn't rewrite existing rows. The pinning script only fills `questionVersionIds` on attempts
   where it is empty.

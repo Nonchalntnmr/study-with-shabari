@@ -1,3 +1,83 @@
+# Concept B v2: Amendment 4 refinements (2026-10-29)
+
+This v2 section is for CD review. The original v1 notes follow below, unchanged. Nothing has been merged into
+`main`, nothing is deployed, and nothing touched Supabase.
+
+**What's in v2.** `v2/` holds the reshoot of home, MCAT Prep and College Admissions at desktop 1440 and mobile
+390: first screen (`*-1440.png`, `*-390.png`) and full page (`*-full.png`).
+
+- **Source:** the production build (`next build` and `next start`) of `redesign/concept-b`. The final commit
+  is named in `docs/INTEGRATION-RELEASE-REPORT.md`.
+- **Data:** a freshly seeded throwaway database. The dopamine lesson and sample sets are approved there only.
+- **Console:** no errors or warnings while taking the shots.
+
+## The ten items
+
+| # | Item | Done |
+|---|---|---|
+| 1 | Editorial typography | Newsreader serif for display headlines and numerals (522, record, prices, Mudzi figures) and Schibsted Grotesk for text, with more whitespace and stronger hierarchy. The exam stays in Atkinson. |
+| 2 | De-card | Cards remain only for pricing, the 522 instrument and the record card. Checkmark lists became hairline rows. Each screen has one blue button, with secondary actions as text links; the nav's "Book a Call" is now an outline button. School names are set as type, not tiles. Her portrait runs large, in asymmetric splits on Home and Admissions. |
+| 3 | Two personalities | **MCAT** is scientific and interactive: the molecule, the three-tab explorer, the 522 instrument, data rows. **Admissions** is warm and editorial: writing prizes at pull-quote scale beside her portrait, guidance and mentoring at the centre, a generous measure. Both use the same tokens. |
+| 4 | Preserve | The explorer, lesson, learning loop, exam engine and all privacy and security work are kept. The M2 hardening was merged in (next section). |
+| 5 | Degree wording | "B.S. candidate, MIT Class of 2027: Chemistry & Molecular Biology (Course 5-7) and Neuroscience (Course 9)" on Home and About. |
+| 6 | BMJ wording | The strip says "BMJ Rapid Responses". The publications list keeps "Rapid Response, The BMJ". |
+| 7 | Verify claims | A test checks every fact on the site against `docs/FOUNDER-SPEC.md`; only the approved wording changes are allowed. The record card is labelled "My high school record (founder-reported)", with "GPA 4.00/4.00", SAT, ACT, "IB Diploma 40/45" and the no-guarantee line. `VERIFY.md` records that these are founder-reported and that no documents have been seen. |
+| 8 | Historical grading | Integration tests cover three cases. **After a submission:** editing the answer key, stem, a choice, its rationale and the explanation leaves the results, review and score unchanged; the only change is a "since revised" note. **In progress:** an attempt keeps its version. **Older attempts:** those created before versioning are pinned at deploy. |
+| 9 | Answer-key exposure | An E2E test runs as a guest and as a signed-in student. It checks raw HTML with the server-rendered data, the DOM and the autosave JSON on public pages, practice, the exam runner, the lesson's teach and question steps and the admin routes. None of them carry key fields or explanation or rationale text. Positive controls confirm the detector finds them on the results page and on the reveal. |
+| 10 | Reshoot and suite | Below. |
+
+## Merged with M2
+
+`redesign/cinematic` was merged into `redesign/concept-b` with no textual conflicts. The two branches had
+touched disjoint files. After the merge:
+
+- the results, dashboard and 404 pages were moved onto the Concept B nav and footer;
+- the lesson result screen keeps one primary action.
+
+## Suite on this build
+
+| Check | Result |
+|---|---|
+| eslint | exit 0 |
+| tsc | exit 0 |
+| vitest | 166 passed: 119 unit and 47 integration |
+| Playwright | 66 passed, 1 skipped by design, exit 0 |
+
+The Playwright run includes:
+
+- 16 accessibility tests with no violations;
+- the privacy network check (Calendly on `/book` is the only outside host, and reading pages sets no cookies);
+- both journeys (MCAT 8/8, Admissions 4/4);
+- the answer-key audit;
+- the 11-case exam-integrity matrix.
+
+## For CD review
+
+1. Serif display on white: confirm the weight (430) and the size steps.
+2. The admissions composition: the portrait beside the writing prizes, and the record placed lower on the page.
+3. The nav's "Book a Call" as an outline button, to keep one blue button per screen.
+4. The section titles I wrote (listed in v1 below). They are unchanged except "Mentoring students through MIT
+   programs."
+
+## Still blocking
+
+**Founder:**
+- the degree wording: MIT's catalog says "Chemistry and Biology" and "Brain and Cognitive Sciences" (`VERIFY.md` #14);
+- publication DOIs or URLs;
+- admissions prices;
+- the notes and Calendly links;
+- approval of the dopamine lesson and the sample sets;
+- the 90-day contact-message period.
+
+**Engineering:**
+- real-device testing (iOS Safari, Android Chrome);
+- a Supabase load test;
+- the staging environment (`docs/STAGING.md`);
+- setting `CRON_SECRET`;
+- running the migration and `scripts/pin-legacy-attempts.ts` at deploy.
+
+---
+
 # Concept B: preview notes (2026-10-29)
 
 These are for your review before anything replaces the homepage. Nothing is deployed, and `main` and the
