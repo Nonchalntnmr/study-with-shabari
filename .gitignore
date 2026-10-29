@@ -39,3 +39,22 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+/src/generated/prisma
+
+# allow the documented template
+!.env.example
+
+# local postgres cluster, uploads
+/.local
+
+# vendor agent skill docs installed by prisma init
+/.agents
+/.claude
+skills-lock.json
+
+# playwright
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/

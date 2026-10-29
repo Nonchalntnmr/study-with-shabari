@@ -1,0 +1,406 @@
+{
+  "version": 1,
+  "topics": [
+    { "slug": "cp-acid-base", "name": "Acids, bases and buffers", "section": "CP" },
+    { "slug": "cp-equilibrium-kinetics", "name": "Equilibrium and kinetics", "section": "CP" },
+    { "slug": "cp-kinematics-energy", "name": "Kinematics and energy", "section": "CP" },
+    { "slug": "cp-circuits", "name": "Circuits", "section": "CP" },
+    { "slug": "cp-intermolecular-forces", "name": "Intermolecular forces", "section": "CP" },
+    { "slug": "cp-substitution", "name": "Substitution reactions", "section": "CP" },
+    { "slug": "cp-physiology-link", "name": "Chemistry in physiology", "section": "CP" },
+
+    { "slug": "bb-enzyme-kinetics", "name": "Enzyme kinetics and inhibition", "section": "BB" },
+    { "slug": "bb-experimental-design", "name": "Interpreting experiments", "section": "BB" },
+    { "slug": "bb-metabolism", "name": "Cellular respiration", "section": "BB" },
+    { "slug": "bb-genetics", "name": "Mendelian genetics", "section": "BB" },
+    { "slug": "bb-endocrine", "name": "Endocrine system", "section": "BB" },
+    { "slug": "bb-amino-acids", "name": "Amino acids and proteins", "section": "BB" },
+
+    { "slug": "ps-research-methods", "name": "Research methods", "section": "PS" },
+    { "slug": "ps-memory", "name": "Memory", "section": "PS" },
+    { "slug": "ps-learning", "name": "Learning and conditioning", "section": "PS" },
+    { "slug": "ps-social-cognition", "name": "Social cognition", "section": "PS" },
+    { "slug": "ps-development", "name": "Development", "section": "PS" },
+    { "slug": "ps-sensation-perception", "name": "Sensation and perception", "section": "PS" }
+  ],
+  "exams": [
+    {
+      "slug": "cp-sample-set-1",
+      "title": "Chem/Phys sample set 1",
+      "description": "One buffer-chemistry passage and four discrete questions across physics, general chemistry and organic chemistry.",
+      "section": "CP",
+      "timeLimitMinutes": 13,
+      "isSample": true,
+      "items": [
+        {
+          "type": "passage",
+          "id": "cp-p-bicarbonate-buffer",
+          "title": "The bicarbonate buffer system",
+          "body": "Blood plasma is held near pH 7.4 largely by the carbonic acid–bicarbonate buffer. Dissolved carbon dioxide combines with water to form carbonic acid, a reaction catalyzed in red blood cells by the enzyme carbonic anhydrase. Carbonic acid then dissociates into a proton and bicarbonate:\n\nCO₂(aq) + H₂O(l) ⇌ H₂CO₃(aq) ⇌ H⁺(aq) + HCO₃⁻(aq)\n\nBecause carbonic acid is present at a very low concentration relative to dissolved CO₂, physiologists combine the two steps and treat dissolved CO₂ as the acid. The apparent pKa of this combined equilibrium at body temperature is 6.1. The concentration of dissolved CO₂ is proportional to its partial pressure: [CO₂] in millimolar equals 0.03 × pCO₂ in mmHg.\n\nThe system is unusually effective in the body because it is open. The lungs continuously remove CO₂, and the ventilation rate responds within minutes to changes in blood pH. The kidneys adjust plasma bicarbonate more slowly, over hours to days, by reabsorbing filtered HCO₃⁻ and secreting H⁺ into the urine.\n\nIn a typical healthy adult, arterial pCO₂ is 40 mmHg and plasma [HCO₃⁻] is 24 mM. A clinician evaluating an acid–base disturbance compares measured pH, pCO₂ and [HCO₃⁻] against these reference values to decide whether the primary problem is respiratory (a change in pCO₂) or metabolic (a change in [HCO₃⁻]).",
+          "questions": [
+            {
+              "id": "cp-q-bicarbonate-ph",
+              "stem": "Using the reference values in the passage, what is the arterial pH of a typical healthy adult? (log 2 ≈ 0.30)",
+              "choices": [
+                { "label": "A", "text": "7.10", "rationale": "This would require a [HCO₃⁻]/[CO₂] ratio of 10, since log 10 = 1." },
+                { "label": "B", "text": "7.40", "correct": true, "rationale": "[CO₂] = 0.03 × 40 = 1.2 mM, the ratio is 24/1.2 = 20, and 6.1 + log 20 = 6.1 + 1.30 = 7.40." },
+                { "label": "C", "text": "7.70", "rationale": "This would require a ratio of 40, which is what happens when pCO₂ falls to 20 mmHg." },
+                { "label": "D", "text": "8.10", "rationale": "This would require a [HCO₃⁻]/[CO₂] ratio of 100." }
+              ],
+              "explanation": "Apply the Henderson–Hasselbalch equation with dissolved CO₂ as the acid: pH = pKa + log([HCO₃⁻]/[CO₂]). First convert the partial pressure to a concentration as the passage instructs: [CO₂] = 0.03 × 40 mmHg = 1.2 mM. The ratio of base to acid is 24 mM / 1.2 mM = 20. Since log 20 = log 2 + log 10 ≈ 0.30 + 1 = 1.30, pH = 6.1 + 1.30 = 7.40, matching the passage's statement that plasma sits near 7.4.",
+              "topics": ["cp-acid-base", "cp-physiology-link"],
+              "difficulty": 2
+            },
+            {
+              "id": "cp-q-hyperventilation",
+              "stem": "During a panic attack, a patient hyperventilates and arterial pCO₂ falls to 20 mmHg before any renal compensation occurs. Plasma [HCO₃⁻] is still 24 mM. Which best describes the patient's acid–base status?",
+              "choices": [
+                { "label": "A", "text": "pH falls to about 7.1, a respiratory acidosis", "rationale": "Removing CO₂ removes acid, so pH rises rather than falls." },
+                { "label": "B", "text": "pH falls to about 7.1, a metabolic acidosis", "rationale": "Bicarbonate is unchanged, so the disturbance is not metabolic, and pH rises." },
+                { "label": "C", "text": "pH rises to about 7.7, a respiratory alkalosis", "correct": true, "rationale": "[CO₂] = 0.6 mM, the ratio is 40, and pH = 6.1 + 1.60 = 7.70. The primary change is in pCO₂, so it is respiratory." },
+                { "label": "D", "text": "pH rises to about 7.7, a metabolic alkalosis", "rationale": "The pH is right, but the cause is a change in pCO₂, which makes it respiratory." }
+              ],
+              "explanation": "With pCO₂ = 20 mmHg, [CO₂] = 0.03 × 20 = 0.6 mM. The ratio [HCO₃⁻]/[CO₂] = 24/0.6 = 40, and log 40 = log 4 + 1 ≈ 0.60 + 1 = 1.60, so pH ≈ 6.1 + 1.60 = 7.70. Hyperventilation blows off CO₂, the acid in this system, so pH rises. Because the primary change is in pCO₂ rather than bicarbonate, the passage's framework classifies it as respiratory: a respiratory alkalosis.",
+              "topics": ["cp-acid-base", "cp-physiology-link"],
+              "difficulty": 3
+            },
+            {
+              "id": "cp-q-renal-compensation",
+              "stem": "In a patient with chronic lung disease, arterial pCO₂ stays elevated at 60 mmHg for several weeks. Which response would best return blood pH toward 7.4?",
+              "choices": [
+                { "label": "A", "text": "The kidneys secrete less H⁺ and excrete more HCO₃⁻", "rationale": "Losing bicarbonate would lower the base-to-acid ratio and make the acidosis worse." },
+                { "label": "B", "text": "The kidneys secrete more H⁺ and reabsorb more HCO₃⁻", "correct": true, "rationale": "Raising plasma HCO₃⁻ restores the base-to-acid ratio toward 20, pushing pH back up." },
+                { "label": "C", "text": "The lungs permanently increase the ventilation rate", "rationale": "That is not a renal response, and the stem's lung disease is what keeps pCO₂ high." },
+                { "label": "D", "text": "Red blood cells increase carbonic anhydrase activity", "rationale": "An enzyme speeds the approach to equilibrium but does not change the equilibrium position, so pH is unaffected." }
+              ],
+              "explanation": "An elevated pCO₂ raises [CO₂] to 1.8 mM, which lowers the [HCO₃⁻]/[CO₂] ratio and therefore the pH: a respiratory acidosis. The passage says the kidneys adjust plasma bicarbonate over hours to days by reabsorbing HCO₃⁻ and secreting H⁺. Increasing both raises plasma [HCO₃⁻]. If bicarbonate rose to about 36 mM, the ratio would return to 36/1.8 = 20 and pH to about 7.4. This is metabolic compensation for a respiratory problem.",
+              "topics": ["cp-acid-base", "cp-physiology-link"],
+              "difficulty": 3
+            },
+            {
+              "id": "cp-q-carbonic-anhydrase",
+              "stem": "Carbonic anhydrase accelerates the interconversion of CO₂ and H₂CO₃. Which statement best describes its effect on this reaction?",
+              "choices": [
+                { "label": "A", "text": "It increases the equilibrium concentration of H₂CO₃", "rationale": "Catalysts do not change equilibrium concentrations." },
+                { "label": "B", "text": "It lowers the activation energy of both the forward and reverse reactions without changing K", "correct": true, "rationale": "A catalyst provides a lower-energy pathway in both directions, so equilibrium is reached faster at the same position." },
+                { "label": "C", "text": "It makes the overall reaction more exergonic", "rationale": "ΔG depends only on the initial and final states, which an enzyme does not change." },
+                { "label": "D", "text": "It shifts the equilibrium toward CO₂ to protect against acidosis", "rationale": "Catalysts cannot shift an equilibrium in either direction." }
+              ],
+              "explanation": "Enzymes are catalysts. They stabilize the transition state and lower the activation energy for the forward and reverse reactions by the same amount, so both rates increase while the equilibrium constant, ΔG°, and the equilibrium concentrations stay the same. Carbonic anhydrase lets the CO₂/H₂CO₃ interconversion keep pace with blood flow through the lungs and tissues. It does not change where that equilibrium lies.",
+              "topics": ["cp-equilibrium-kinetics"],
+              "difficulty": 2
+            }
+          ]
+        },
+        {
+          "type": "discrete",
+          "id": "cp-q-free-fall",
+          "stem": "A 2.0 kg ball is dropped from rest from a height of 5.0 m. Ignoring air resistance and taking g = 10 m/s², what is the ball's speed just before it hits the ground?",
+          "choices": [
+            { "label": "A", "text": "5.0 m/s", "rationale": "This is the ball's average speed during the fall (from 0 to 10 m/s), not its final speed." },
+            { "label": "B", "text": "7.1 m/s", "rationale": "This is √(gh), which drops the factor of 2 from ½mv² = mgh." },
+            { "label": "C", "text": "10 m/s", "correct": true, "rationale": "v = √(2gh) = √(2 × 10 × 5.0) = √100 = 10 m/s." },
+            { "label": "D", "text": "20 m/s", "rationale": "This multiplies by the 2.0 kg mass, but mass cancels when mgh = ½mv²." }
+          ],
+          "explanation": "Use conservation of energy. All of the initial gravitational potential energy becomes kinetic energy: mgh = ½mv². Mass cancels, giving v = √(2gh) = √(2 × 10 m/s² × 5.0 m) = √(100 m²/s²) = 10 m/s. The kinematics equation v² = v₀² + 2aΔy gives the same result with v₀ = 0.",
+          "topics": ["cp-kinematics-energy"],
+          "difficulty": 1
+        },
+        {
+          "type": "discrete",
+          "id": "cp-q-parallel-resistors",
+          "stem": "Two 6 Ω resistors are connected in parallel across an ideal 12 V battery. What current flows out of the battery?",
+          "choices": [
+            { "label": "A", "text": "1 A", "rationale": "This treats the resistors as if they were in series (12 Ω)." },
+            { "label": "B", "text": "2 A", "rationale": "This is the current through just one of the two branches." },
+            { "label": "C", "text": "4 A", "correct": true, "rationale": "R_eq = 3 Ω, so I = V/R = 12 V / 3 Ω = 4 A." },
+            { "label": "D", "text": "8 A", "rationale": "This would require an equivalent resistance of 1.5 Ω." }
+          ],
+          "explanation": "For resistors in parallel, 1/R_eq = 1/6 + 1/6 = 1/3, so R_eq = 3 Ω. Two equal resistors in parallel always give half of one resistor's value. Ohm's law gives the total current: I = V/R_eq = 12 V / 3 Ω = 4 A. Each branch carries 12 V / 6 Ω = 2 A, and the two branch currents add to 4 A.",
+          "topics": ["cp-circuits"],
+          "difficulty": 1
+        },
+        {
+          "type": "discrete",
+          "id": "cp-q-boiling-point",
+          "stem": "Which of the following substances has the highest normal boiling point?",
+          "choices": [
+            { "label": "A", "text": "CH₄", "rationale": "Methane is nonpolar and has only weak London dispersion forces." },
+            { "label": "B", "text": "H₂S", "rationale": "H₂S is polar, but sulfur is not electronegative enough for strong hydrogen bonding." },
+            { "label": "C", "text": "H₂O", "correct": true, "rationale": "Water forms an extensive hydrogen-bonding network, giving it by far the strongest intermolecular forces here." },
+            { "label": "D", "text": "Ne", "rationale": "Neon is a small monatomic gas with very weak dispersion forces." }
+          ],
+          "explanation": "Boiling point tracks the strength of intermolecular forces. Water's O–H bonds let it hydrogen bond, and each molecule can donate two hydrogen bonds and accept two. That is why it boils at 100 °C, even though H₂S, a heavier molecule, boils near −60 °C. Methane (about −161 °C) and neon (about −246 °C) have only weak London dispersion forces.",
+          "topics": ["cp-intermolecular-forces"],
+          "difficulty": 1
+        },
+        {
+          "type": "discrete",
+          "id": "cp-q-sn2-stereochemistry",
+          "stem": "(R)-2-bromobutane reacts with hydroxide ion in a polar aprotic solvent. Assuming the reaction proceeds by an SN2 mechanism, what is the major organic product?",
+          "choices": [
+            { "label": "A", "text": "(R)-2-butanol", "rationale": "Retention of configuration is not observed in SN2 reactions." },
+            { "label": "B", "text": "(S)-2-butanol", "correct": true, "rationale": "Backside attack inverts the stereocenter. OH takes the top priority, as Br had, so R becomes S." },
+            { "label": "C", "text": "A racemic mixture of (R)- and (S)-2-butanol", "rationale": "Racemization comes from a planar carbocation intermediate, which is the SN1 pathway." },
+            { "label": "D", "text": "2-butene", "rationale": "An alkene would be the product of elimination, not substitution." }
+          ],
+          "explanation": "In an SN2 reaction, the nucleophile attacks the carbon from the side opposite the leaving group in a single concerted step, which inverts the stereocenter (Walden inversion). In 2-bromobutane the priorities are Br > CH₂CH₃ > CH₃ > H. In 2-butanol they are OH > CH₂CH₃ > CH₃ > H. Because OH occupies the top priority just as Br did, the spatial inversion also flips the descriptor, and (R) becomes (S).",
+          "topics": ["cp-substitution"],
+          "difficulty": 3
+        }
+      ]
+    },
+    {
+      "slug": "bb-sample-set-1",
+      "title": "Bio/Biochem sample set 1",
+      "description": "One experiment-based enzyme kinetics passage and four discrete questions across metabolism, genetics, physiology and biochemistry.",
+      "section": "BB",
+      "timeLimitMinutes": 13,
+      "isSample": true,
+      "items": [
+        {
+          "type": "passage",
+          "id": "bb-p-enzyme-inhibitor",
+          "title": "Characterizing an enzyme inhibitor",
+          "body": "Researchers studying enzyme E, which converts substrate S to product P, tested whether compound Q inhibits it. In each trial they mixed a fixed amount of purified enzyme with substrate at concentrations from 0.5 mM to 20 mM, with or without 50 µM of Q, and measured the initial rate of product formation by spectrophotometry.\n\nWithout Q, the data fit the Michaelis–Menten equation with Vmax = 80 µmol/min and Km = 2 mM. With Q present, the best-fit Vmax was 79 µmol/min, which the authors judged indistinguishable from the uninhibited value, and the apparent Km rose to 6 mM.\n\nIn a second experiment, the team crystallized enzyme E with Q bound. The structure showed Q occupying the same pocket that binds S and forming hydrogen bonds with the same three active-site residues that contact the substrate.\n\nIn a third experiment, enzyme that had been preincubated with Q for one hour was passed through a desalting column, which removes small molecules, and then assayed without Q. Its activity matched that of enzyme that had never been exposed to Q.",
+          "questions": [
+            {
+              "id": "bb-q-inhibition-type",
+              "stem": "Which type of inhibition do the results in the passage best support?",
+              "choices": [
+                { "label": "A", "text": "Competitive inhibition", "correct": true, "rationale": "An unchanged Vmax, an increased apparent Km, and binding in the active site are the signature of competitive inhibition." },
+                { "label": "B", "text": "Uncompetitive inhibition", "rationale": "Uncompetitive inhibitors lower both Vmax and the apparent Km." },
+                { "label": "C", "text": "Noncompetitive inhibition", "rationale": "Pure noncompetitive inhibitors lower Vmax and leave Km unchanged." },
+                { "label": "D", "text": "Irreversible covalent inhibition", "rationale": "Activity fully recovered after desalting, so Q does not permanently modify the enzyme." }
+              ],
+              "explanation": "Three independent results point to competitive inhibition. Kinetically, Q raises the apparent Km (2 → 6 mM) without changing Vmax (80 vs. 79 µmol/min), which is what happens when an inhibitor competes with substrate for the free enzyme. Structurally, Q sits in the substrate-binding pocket and contacts the same residues. Finally, the desalting experiment shows the binding is reversible, which rules out covalent inactivation.",
+              "topics": ["bb-enzyme-kinetics", "bb-experimental-design"],
+              "difficulty": 2
+            },
+            {
+              "id": "bb-q-rate-at-km",
+              "stem": "In the absence of Q, what is the initial rate of the reaction when [S] = 2 mM?",
+              "choices": [
+                { "label": "A", "text": "20 µmol/min", "rationale": "This is one quarter of Vmax, which would occur at [S] = Km/3." },
+                { "label": "B", "text": "40 µmol/min", "correct": true, "rationale": "When [S] = Km, v = Vmax/2 = 40 µmol/min." },
+                { "label": "C", "text": "60 µmol/min", "rationale": "Three quarters of Vmax would require [S] = 3 × Km = 6 mM." },
+                { "label": "D", "text": "80 µmol/min", "rationale": "Vmax is approached only at saturating substrate, not at [S] = Km." }
+              ],
+              "explanation": "Km is defined as the substrate concentration at which the rate is half of Vmax. Without Q, Km = 2 mM, so at [S] = 2 mM the rate is Vmax/2 = 80/2 = 40 µmol/min. The Michaelis–Menten equation gives the same result: v = Vmax[S]/(Km + [S]) = 80 × 2/(2 + 2) = 40 µmol/min.",
+              "topics": ["bb-enzyme-kinetics"],
+              "difficulty": 1
+            },
+            {
+              "id": "bb-q-saturating-substrate",
+              "stem": "With 50 µM Q present, the researchers raise [S] to 200 mM. The initial rate will be closest to:",
+              "choices": [
+                { "label": "A", "text": "13 µmol/min", "rationale": "Far too low: at 200 mM, [S] is more than 30 times the apparent Km, so the rate must be close to Vmax." },
+                { "label": "B", "text": "40 µmol/min", "rationale": "This is half of Vmax, the rate at [S] = Km without Q." },
+                { "label": "C", "text": "60 µmol/min", "rationale": "This is the rate with Q at [S] = 18 mM, far below 200 mM." },
+                { "label": "D", "text": "77 µmol/min", "correct": true, "rationale": "v = 79 × 200/(6 + 200) ≈ 77 µmol/min. At high [S], substrate outcompetes Q." }
+              ],
+              "explanation": "A competitive inhibitor's effect can be overcome by adding more substrate. With Q present, the apparent Km is 6 mM and Vmax is about 79 µmol/min, so v = 79 × 200/(6 + 200) ≈ 76.7 µmol/min. At 200 mM, [S] is over 30 times the apparent Km, so nearly every enzyme molecule has substrate rather than Q in its active site, and the rate approaches Vmax.",
+              "topics": ["bb-enzyme-kinetics"],
+              "difficulty": 3
+            },
+            {
+              "id": "bb-q-desalting-conclusion",
+              "stem": "Which conclusion does the third experiment most directly support?",
+              "choices": [
+                { "label": "A", "text": "Q binds enzyme E reversibly", "correct": true, "rationale": "Removing free Q restored full activity, so Q dissociates from the enzyme." },
+                { "label": "B", "text": "Q binds an allosteric site on enzyme E", "rationale": "The crystal structure, not the desalting step, addresses where Q binds, and it shows the active site." },
+                { "label": "C", "text": "Enzyme E converts Q into product P", "rationale": "Nothing in the third experiment measures what happens to Q." },
+                { "label": "D", "text": "Q denatures enzyme E", "rationale": "Denaturation would not be undone by removing small molecules, and activity returned to normal." }
+              ],
+              "explanation": "The desalting column removes unbound small molecules. If Q were covalently attached or had permanently damaged the enzyme, activity would still be reduced after the column. Instead, activity matched never-exposed enzyme, so Q came off the enzyme once its free concentration dropped. That is the definition of reversible binding.",
+              "topics": ["bb-experimental-design", "bb-enzyme-kinetics"],
+              "difficulty": 2
+            }
+          ]
+        },
+        {
+          "type": "discrete",
+          "id": "bb-q-etc-location",
+          "stem": "In eukaryotic cells, the electron transport chain that powers ATP synthase is located in the:",
+          "choices": [
+            { "label": "A", "text": "outer mitochondrial membrane", "rationale": "The outer membrane is permeable to small molecules through porins and does not hold the electron transport complexes." },
+            { "label": "B", "text": "inner mitochondrial membrane", "correct": true, "rationale": "Complexes I–IV and ATP synthase are embedded in the inner membrane, folded into cristae." },
+            { "label": "C", "text": "mitochondrial matrix", "rationale": "The matrix is where the citric acid cycle runs, and the chain pumps protons out of it." },
+            { "label": "D", "text": "cytosol", "rationale": "Glycolysis happens in the cytosol, but oxidative phosphorylation does not." }
+          ],
+          "explanation": "Oxidative phosphorylation needs a membrane that is impermeable to protons. The electron transport complexes in the inner mitochondrial membrane pump H⁺ from the matrix into the intermembrane space, and ATP synthase, also in the inner membrane, lets protons flow back to drive ATP synthesis. The cristae folds increase the inner membrane's surface area.",
+          "topics": ["bb-metabolism"],
+          "difficulty": 1
+        },
+        {
+          "type": "discrete",
+          "id": "bb-q-heterozygote-probability",
+          "stem": "Two parents are both heterozygous (Aa) for an autosomal trait. What is the probability that any given child of theirs is heterozygous?",
+          "choices": [
+            { "label": "A", "text": "1/4", "rationale": "This is the probability of either homozygous genotype, AA or aa." },
+            { "label": "B", "text": "1/2", "correct": true, "rationale": "Aa × Aa gives AA : Aa : aa in a 1 : 2 : 1 ratio, so heterozygotes are 2 of 4." },
+            { "label": "C", "text": "2/3", "rationale": "This is the chance that a child already known not to be aa is a carrier, which is a conditional probability." },
+            { "label": "D", "text": "3/4", "rationale": "This is the probability of showing the dominant phenotype (AA or Aa)." }
+          ],
+          "explanation": "Each parent passes on A or a with probability ½. A child is heterozygous if it receives A from the mother and a from the father (¼), or a from the mother and A from the father (¼), for a total of ½. The full Punnett square gives 1 AA : 2 Aa : 1 aa. The 2/3 distractor applies only when you already know the child does not show the recessive phenotype.",
+          "topics": ["bb-genetics"],
+          "difficulty": 1
+        },
+        {
+          "type": "discrete",
+          "id": "bb-q-glucagon",
+          "stem": "During an overnight fast, which hormone acts on the liver to raise blood glucose?",
+          "choices": [
+            { "label": "A", "text": "Insulin", "rationale": "Insulin lowers blood glucose by promoting uptake and storage, and it falls during a fast." },
+            { "label": "B", "text": "Glucagon", "correct": true, "rationale": "Glucagon from pancreatic α cells stimulates hepatic glycogenolysis and gluconeogenesis." },
+            { "label": "C", "text": "Aldosterone", "rationale": "Aldosterone regulates Na⁺ and K⁺ balance in the kidney, not glucose." },
+            { "label": "D", "text": "Calcitonin", "rationale": "Calcitonin lowers blood calcium and has no major role in glucose regulation." }
+          ],
+          "explanation": "As blood glucose falls during fasting, pancreatic α cells secrete glucagon. In the liver, glucagon raises cAMP, which activates protein kinase A. That promotes glycogen breakdown (glycogenolysis) and glucose synthesis from non-carbohydrate precursors (gluconeogenesis), releasing glucose into the blood. Insulin, from β cells, has the opposite effect.",
+          "topics": ["bb-endocrine", "bb-metabolism"],
+          "difficulty": 1
+        },
+        {
+          "type": "discrete",
+          "id": "bb-q-achiral-amino-acid",
+          "stem": "Which of the following standard amino acids has no chiral center?",
+          "choices": [
+            { "label": "A", "text": "Alanine", "rationale": "Alanine's α carbon carries H, CH₃, NH₂ and COOH, four different groups." },
+            { "label": "B", "text": "Glycine", "correct": true, "rationale": "Glycine's side chain is a hydrogen, so its α carbon carries two identical H atoms." },
+            { "label": "C", "text": "Serine", "rationale": "Serine's α carbon carries a CH₂OH side chain plus three other distinct groups." },
+            { "label": "D", "text": "Cysteine", "rationale": "Cysteine's α carbon is chiral, and it is the standard L-amino acid with the R configuration." }
+          ],
+          "explanation": "A carbon is a chiral center when it is bonded to four different groups. In glycine, the side chain (R group) is a single hydrogen, so the α carbon has two hydrogens and is not a stereocenter. Every other standard amino acid has a chiral α carbon. Isoleucine and threonine also have a second stereocenter in their side chains.",
+          "topics": ["bb-amino-acids"],
+          "difficulty": 1
+        }
+      ]
+    },
+    {
+      "slug": "ps-sample-set-1",
+      "title": "Psych/Soc sample set 1",
+      "description": "One research-design passage on sleep and memory and four discrete term-application questions.",
+      "section": "PS",
+      "timeLimitMinutes": 13,
+      "isSample": true,
+      "items": [
+        {
+          "type": "passage",
+          "id": "ps-p-sleep-memory",
+          "title": "Sleep and memory consolidation",
+          "body": "A research team recruited 60 undergraduates to test whether sleep after learning improves memory. On the first evening, every participant studied a list of 40 unrelated word pairs until they could correctly recall at least 60% of them on a cued test.\n\nParticipants were then randomly assigned to one of two conditions. In the sleep condition, participants slept overnight in the laboratory while their sleep stages were recorded. In the wake condition, participants stayed awake in the laboratory under supervision, reading and watching films. The next evening, after both groups had a full night of recovery sleep, all participants completed a cued-recall test on the original word pairs. Testing after recovery sleep meant that no participant was tested while sleep deprived.\n\nParticipants in the sleep condition recalled an average of 31 pairs, compared with 25 pairs in the wake condition, a statistically significant difference. Within the sleep condition, the amount of slow-wave sleep a participant obtained was positively correlated with the number of pairs recalled (r = 0.48).\n\nThe authors concluded that sleep shortly after learning supports memory consolidation, and they proposed that slow-wave sleep plays a specific role. Critics noted that the correlation within the sleep group could reflect a third variable, such as individual differences in general memory ability.",
+          "questions": [
+            {
+              "id": "ps-q-independent-variable",
+              "stem": "What is the independent variable in the experiment?",
+              "choices": [
+                { "label": "A", "text": "Whether participants slept during the night after learning", "correct": true, "rationale": "The researchers manipulated this by randomly assigning participants to sleep or wake." },
+                { "label": "B", "text": "The number of word pairs recalled", "rationale": "Recall is the outcome being measured, so it is the dependent variable." },
+                { "label": "C", "text": "The amount of slow-wave sleep obtained", "rationale": "Slow-wave sleep was measured, not manipulated, so this part of the study is correlational." },
+                { "label": "D", "text": "The 60% learning criterion", "rationale": "The criterion was held constant across groups. It is a controlled variable." }
+              ],
+              "explanation": "The independent variable is what the experimenter deliberately manipulates. Here, participants were randomly assigned to sleep or stay awake after learning, so condition (sleep vs. wake) is the independent variable. The number of pairs recalled is the dependent variable. The amount of slow-wave sleep was only measured within one group, which makes that finding correlational rather than experimental.",
+              "topics": ["ps-research-methods"],
+              "difficulty": 1
+            },
+            {
+              "id": "ps-q-random-assignment",
+              "stem": "Randomly assigning participants to the sleep and wake conditions primarily strengthens which aspect of the study?",
+              "choices": [
+                { "label": "A", "text": "External validity: how well the results generalize to all adults", "rationale": "Generalizability depends on how participants were sampled (here, undergraduates), not on how they were assigned." },
+                { "label": "B", "text": "Internal validity: confidence that sleep caused the difference in recall", "correct": true, "rationale": "Random assignment spreads pre-existing differences evenly across conditions, supporting a causal conclusion." },
+                { "label": "C", "text": "Reliability of the recall test", "rationale": "Reliability concerns whether the measure is consistent, which assignment does not affect." },
+                { "label": "D", "text": "Statistical power", "rationale": "Power depends mainly on sample size and effect size." }
+              ],
+              "explanation": "Random assignment makes the two groups equivalent, on average, in every characteristic before the manipulation, including memory ability, motivation and sleep habits. Any later difference in recall can then be attributed to the manipulation. That is internal validity. External validity is about random sampling from the population of interest, and a sample of undergraduates limits how far these results generalize.",
+              "topics": ["ps-research-methods"],
+              "difficulty": 2
+            },
+            {
+              "id": "ps-q-delayed-test",
+              "stem": "Why did the researchers test both groups after a night of recovery sleep instead of the morning after the manipulation?",
+              "choices": [
+                { "label": "A", "text": "To rule out that the wake group recalled less because they were tired at testing rather than because consolidation was impaired", "correct": true, "rationale": "Delaying the test removes fatigue during retrieval as an alternative explanation." },
+                { "label": "B", "text": "To increase the number of participants in each condition", "rationale": "The timing of the test does not change the sample size." },
+                { "label": "C", "text": "To make both groups forget the word pairs equally", "rationale": "The goal is to compare forgetting between the groups, not to equalize it." },
+                { "label": "D", "text": "To make the study double-blind", "rationale": "Participants obviously knew whether they had slept, so the timing cannot blind them." }
+              ],
+              "explanation": "Sleep deprivation impairs attention and retrieval. If the wake group had been tested that morning, lower recall could reflect fatigue at test (a confound) rather than weaker memory consolidation. Giving everyone recovery sleep before the test means both groups retrieve under similar conditions, so the difference more cleanly reflects what happened to the memories during the night after learning.",
+              "topics": ["ps-research-methods", "ps-memory"],
+              "difficulty": 2
+            },
+            {
+              "id": "ps-q-third-variable",
+              "stem": "The critics' concern about the slow-wave sleep finding is best described as:",
+              "choices": [
+                { "label": "A", "text": "a possible confounding variable explaining the correlation", "correct": true, "rationale": "General memory ability could independently increase both slow-wave sleep and recall." },
+                { "label": "B", "text": "a lack of statistical significance", "rationale": "The passage does not dispute the correlation's significance. The critics question what causes it." },
+                { "label": "C", "text": "the Hawthorne effect", "rationale": "The Hawthorne effect is a change in behavior from being observed, which is not the critics' point." },
+                { "label": "D", "text": "reverse causation, with better recall causing more slow-wave sleep", "rationale": "Recall was measured after the night's sleep, so it could not have caused that sleep." }
+              ],
+              "explanation": "Correlation does not establish causation. The critics propose a third variable, such as individual differences in general memory ability, that might produce both more slow-wave sleep and better recall. A variable like this, related to both measures, is a confound. Reverse causation is implausible here because the recall test came after the sleep it would have to explain.",
+              "topics": ["ps-research-methods"],
+              "difficulty": 2
+            }
+          ]
+        },
+        {
+          "type": "discrete",
+          "id": "ps-q-classical-conditioning",
+          "stem": "A dog is repeatedly given food immediately after hearing a tone. Eventually the tone alone makes the dog salivate. In this example, the tone is the:",
+          "choices": [
+            { "label": "A", "text": "unconditioned stimulus", "rationale": "The food is the unconditioned stimulus, since it produces salivation without learning." },
+            { "label": "B", "text": "conditioned stimulus", "correct": true, "rationale": "The tone started out neutral and came to trigger salivation only through pairing with food." },
+            { "label": "C", "text": "unconditioned response", "rationale": "Responses are behaviors. Salivating to food is the unconditioned response." },
+            { "label": "D", "text": "conditioned response", "rationale": "Salivating to the tone is the conditioned response. The tone itself is a stimulus." }
+          ],
+          "explanation": "In classical conditioning, an unconditioned stimulus (food) naturally produces an unconditioned response (salivation). A neutral stimulus (the tone) paired repeatedly with the unconditioned stimulus becomes a conditioned stimulus that produces a conditioned response (salivation to the tone) by itself.",
+          "topics": ["ps-learning"],
+          "difficulty": 1
+        },
+        {
+          "type": "discrete",
+          "id": "ps-q-attribution",
+          "stem": "Seeing a stranger trip on the sidewalk, Maya concludes that the stranger is clumsy and never considers that the pavement is uneven. This best illustrates:",
+          "choices": [
+            { "label": "A", "text": "the fundamental attribution error", "correct": true, "rationale": "Maya overweights a disposition (clumsiness) and underweights the situation (uneven pavement) in explaining someone else's behavior." },
+            { "label": "B", "text": "the self-serving bias", "rationale": "The self-serving bias concerns explanations of one's own successes and failures." },
+            { "label": "C", "text": "the just-world hypothesis", "rationale": "The just-world hypothesis is the belief that people get what they deserve, which is not involved here." },
+            { "label": "D", "text": "confirmation bias", "rationale": "Nothing suggests Maya is seeking evidence for a belief she already held." }
+          ],
+          "explanation": "The fundamental attribution error is the tendency to explain other people's behavior by their internal traits while underestimating situational factors. Maya attributes the stumble to the stranger's clumsiness (dispositional) and ignores the uneven pavement (situational). The self-serving bias, by contrast, involves taking credit for your own successes and blaming circumstances for your own failures.",
+          "topics": ["ps-social-cognition"],
+          "difficulty": 1
+        },
+        {
+          "type": "discrete",
+          "id": "ps-q-erikson-adolescence",
+          "stem": "According to Erik Erikson's theory of psychosocial development, the central conflict of adolescence is:",
+          "choices": [
+            { "label": "A", "text": "trust vs. mistrust", "rationale": "This is the infancy stage, from birth to about 18 months." },
+            { "label": "B", "text": "identity vs. role confusion", "correct": true, "rationale": "Adolescents work to form a coherent sense of who they are and what roles they will take on." },
+            { "label": "C", "text": "intimacy vs. isolation", "rationale": "This is the young adulthood stage, which follows adolescence." },
+            { "label": "D", "text": "industry vs. inferiority", "rationale": "This is the school-age stage, from about 6 to 12 years." }
+          ],
+          "explanation": "Erikson described eight psychosocial stages, each with a characteristic conflict. In adolescence (about ages 12–18), the task is identity vs. role confusion: exploring values, beliefs and goals to form a stable identity. Successful resolution produces fidelity, while failure leaves confusion about one's role in life. The stages before and after are industry vs. inferiority (school age) and intimacy vs. isolation (young adulthood).",
+          "topics": ["ps-development"],
+          "difficulty": 1
+        },
+        {
+          "type": "discrete",
+          "id": "ps-q-webers-law",
+          "stem": "A person can just barely detect the difference between a 100 g weight and a 102 g weight. According to Weber's law, what is the smallest increase they could detect starting from a 500 g weight?",
+          "choices": [
+            { "label": "A", "text": "2 g", "rationale": "The just-noticeable difference is not a fixed amount. It scales with the starting weight." },
+            { "label": "B", "text": "5 g", "rationale": "This uses a Weber fraction of 1%, but the data give 2/100 = 2%." },
+            { "label": "C", "text": "10 g", "correct": true, "rationale": "The Weber fraction is 2/100 = 0.02, and 0.02 × 500 g = 10 g." },
+            { "label": "D", "text": "50 g", "rationale": "This uses a Weber fraction of 10%." }
+          ],
+          "explanation": "Weber's law states that the just-noticeable difference (JND) is a constant proportion of the original stimulus intensity: ΔI/I = k. From the first comparison, k = 2 g / 100 g = 0.02. For a 500 g weight, the JND is 0.02 × 500 g = 10 g, so the person would need roughly a 510 g weight to notice a difference.",
+          "topics": ["ps-sensation-perception"],
+          "difficulty": 2
+        }
+      ]
+    }
+  ]
+}

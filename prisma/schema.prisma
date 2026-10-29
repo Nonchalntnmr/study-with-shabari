@@ -1,0 +1,421 @@
+// Study with Shabari — application schema.
+// Every table in `public` gets row-level security enabled by migration
+// `*_enable_rls` so Supabase's auto-generated Data API cannot read it.
+// The app connects as the table owner through Prisma, which bypasses RLS.
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum Role {
+  STUDENT
+  ADMIN
+}
+
+enum Section {
+  CP // Chemical and Physical Foundations of Biological Systems
+  BB // Biological and Biochemical Foundations of Living Systems
+  PS // Psychological, Social, and Biological Foundations of Behavior
+  CARS // Critical Analysis and Reasoning Skills (future expansion)
+}
+
+enum ContentStatus {
+  DRAFT
+  REVIEW
+  PUBLISHED
+  ARCHIVED
+}
+
+// ---------------------------------------------------------------- identity
+
+model User {
+  id           String    @id @default(cuid())
+  email        String    @unique // always stored lowercased
+  name         String?
+  passwordHash String
+  role         Role      @default(STUDENT)
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  lastLoginAt  DateTime?
+  // Optional, set by the student; drives the study plan's weekly pacing.
+  targetTestDate DateTime? @db.Date
+
+  sessions       Session[]
+  passwordResets PasswordResetToken[]
+  attempts       Attempt[]
+  savedResources SavedResource[]
+  assets         Asset[]
+}
+
+model Session {
+  id         String   @id @default(cuid())
+  tokenHash  String   @unique // sha256 of the cookie value; the raw token is never stored
+  userId     String
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt  DateTime @default(now())
+  expiresAt  DateTime
+  lastSeenAt DateTime @default(now())
+  userAgent  String?
+
+  @@index([userId])
+  @@index([expiresAt])
+}
+
+model PasswordResetToken {
+  id        String    @id @default(cuid())
+  tokenHash String    @unique
+  userId    String
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime  @default(now())
+  expiresAt DateTime
+  usedAt    DateTime?
+
+  @@index([userId])
+}
+
+// ---------------------------------------------------------------- content
+
+model Topic {
+  id        String          @id @default(cuid())
+  slug      String          @unique
+  name      String
+  section   Section
+  questions QuestionTopic[]
+}
+
+model Asset {
+  id          String   @id @default(cuid())
+  storageKey  String   @unique
+  provider    String // "supabase" | "local"
+  contentType String
+  byteSize    Int
+  alt         String
+  createdById String?
+  createdBy   User?    @relation(fields: [createdById], references: [id], onDelete: SetNull)
+  createdAt   DateTime @default(now())
+
+  passageFigures PassageFigure[]
+  questions      Question[]
+}
+
+model Passage {
+  id         String        @id @default(cuid())
+  externalId String?       @unique // stable id from content imports
+  section    Section
+  title      String
+  // Paragraphs separated by a blank line. Plain text; highlight offsets index into it.
+  body       String
+  source     String? // citation for adapted material
+  status     ContentStatus @default(DRAFT)
+  createdAt  DateTime      @default(now())
+  updatedAt  DateTime      @updatedAt
+
+  figures   PassageFigure[]
+  questions Question[]
+}
+
+model PassageFigure {
+  id        String  @id @default(cuid())
+  passageId String
+  passage   Passage @relation(fields: [passageId], references: [id], onDelete: Cascade)
+  assetId   String
+  asset     Asset   @relation(fields: [assetId], references: [id], onDelete: Restrict)
+  caption   String?
+  position  Int     @default(0)
+
+  @@index([passageId])
+}
+
+model Question {
+  id          String        @id @default(cuid())
+  externalId  String?       @unique
+  section     Section
+  passageId   String?
+  passage     Passage?      @relation(fields: [passageId], references: [id], onDelete: SetNull)
+  stem        String
+  explanation String
+  difficulty  Int? // 1 (easier) – 5 (harder), author's estimate
+  figureId    String?
+  figure      Asset?        @relation(fields: [figureId], references: [id], onDelete: SetNull)
+  status      ContentStatus @default(DRAFT)
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+
+  choices   Choice[]
+  topics    QuestionTopic[]
+  examItems ExamItem[]
+  responses Response[]
+
+  @@index([passageId])
+  @@index([section, status])
+}
+
+model Choice {
+  id          String     @id @default(cuid())
+  questionId  String
+  question    Question   @relation(fields: [questionId], references: [id], onDelete: Cascade)
+  label       String // "A" – "D"
+  text        String
+  isCorrect   Boolean    @default(false)
+  rationale   String? // why this option is right or wrong
+  responses   Response[]
+
+  @@unique([questionId, label])
+}
+
+model QuestionTopic {
+  questionId String
+  question   Question @relation(fields: [questionId], references: [id], onDelete: Cascade)
+  topicId    String
+  topic      Topic    @relation(fields: [topicId], references: [id], onDelete: Cascade)
+
+  @@id([questionId, topicId])
+  @@index([topicId])
+}
+
+model Exam {
+  id           String        @id @default(cuid())
+  slug         String        @unique
+  title        String
+  description  String
+  section      Section
+  timeLimitSec Int // used when a student chooses timed mode
+  isSample     Boolean       @default(false)
+  status       ContentStatus @default(DRAFT)
+  publishedAt  DateTime?
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+
+  items     ExamItem[]
+  attempts  Attempt[]
+  resources Resource[]
+}
+
+model ExamItem {
+  id         String   @id @default(cuid())
+  examId     String
+  exam       Exam     @relation(fields: [examId], references: [id], onDelete: Cascade)
+  questionId String
+  question   Question @relation(fields: [questionId], references: [id], onDelete: Restrict)
+  position   Int
+
+  @@unique([examId, questionId])
+  @@unique([examId, position])
+}
+
+// ---------------------------------------------------------------- practice
+
+enum AttemptMode {
+  TIMED
+  UNTIMED
+}
+
+enum AttemptStatus {
+  IN_PROGRESS
+  SUBMITTED
+}
+
+model Attempt {
+  id            String        @id @default(cuid())
+  examId        String
+  exam          Exam          @relation(fields: [examId], references: [id], onDelete: Restrict)
+  userId        String?
+  user          User?         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  guestKeyHash  String? // sha256 of the guest cookie for no-login practice
+  mode          AttemptMode
+  status        AttemptStatus @default(IN_PROGRESS)
+  // Question ids frozen at start so later exam edits never change an attempt in flight.
+  questionOrder String[]
+  startedAt     DateTime      @default(now())
+  deadlineAt    DateTime? // server-authoritative; null when untimed
+  submittedAt   DateTime?
+  autoSubmitted Boolean       @default(false)
+  lastPosition  Int           @default(0)
+  correctCount  Int?
+  totalCount    Int?
+
+  responses  Response[]
+  highlights PassageHighlight[]
+
+  @@index([userId, startedAt])
+  @@index([guestKeyHash])
+  @@index([examId])
+}
+
+model Response {
+  id                  String    @id @default(cuid())
+  attemptId           String
+  attempt             Attempt   @relation(fields: [attemptId], references: [id], onDelete: Cascade)
+  questionId          String
+  question            Question  @relation(fields: [questionId], references: [id], onDelete: Restrict)
+  selectedChoiceId    String?
+  selectedChoice      Choice?   @relation(fields: [selectedChoiceId], references: [id], onDelete: SetNull)
+  eliminatedChoiceIds String[]
+  flagged             Boolean   @default(false)
+  timeSpentMs         Int       @default(0)
+  isCorrect           Boolean? // written once, at scoring
+  updatedAt           DateTime  @updatedAt
+
+  @@unique([attemptId, questionId])
+  @@index([questionId])
+}
+
+model PassageHighlight {
+  id        String  @id @default(cuid())
+  attemptId String
+  attempt   Attempt @relation(fields: [attemptId], references: [id], onDelete: Cascade)
+  passageId String
+  // [{ p: paragraphIndex, s: startOffset, e: endOffset }]
+  ranges    Json
+
+  @@unique([attemptId, passageId])
+}
+
+// ---------------------------------------------------------------- site content
+
+enum ResourceKind {
+  NOTES
+  PRACTICE_SET
+  GUIDE
+}
+
+model Resource {
+  id          String        @id @default(cuid())
+  slug        String        @unique
+  title       String
+  description String
+  kind        ResourceKind
+  section     Section?
+  url         String? // external doc link; null renders as "coming soon"
+  examId      String? // an in-app practice set
+  exam        Exam?         @relation(fields: [examId], references: [id], onDelete: SetNull)
+  position    Int           @default(0)
+  status      ContentStatus @default(DRAFT)
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+
+  savedBy SavedResource[]
+}
+
+model SavedResource {
+  userId     String
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  resourceId String
+  resource   Resource @relation(fields: [resourceId], references: [id], onDelete: Cascade)
+  createdAt  DateTime @default(now())
+
+  @@id([userId, resourceId])
+}
+
+model PricingPlan {
+  id          String        @id @default(cuid())
+  slug        String        @unique
+  name        String
+  priceLabel  String // "Free", "$2,000", "Let’s talk"
+  detail      String? // "15 minutes"
+  features    String[]
+  note        String? // e.g. "Package contents confirmed on your consult call"
+  ctaLabel    String
+  ctaHref     String
+  featured    Boolean       @default(false)
+  position    Int           @default(0)
+  status      ContentStatus @default(DRAFT)
+  updatedAt   DateTime      @updatedAt
+}
+
+model Testimonial {
+  id               String        @id @default(cuid())
+  authorName       String
+  authorDetail     String? // "Scored 515, now at ..."; only what the student approved
+  quote            String
+  consentConfirmed Boolean       @default(false) // must be true to publish
+  status           ContentStatus @default(DRAFT)
+  position         Int           @default(0)
+  createdAt        DateTime      @default(now())
+  updatedAt        DateTime      @updatedAt
+}
+
+// ---------------------------------------------------------------- inbound + outbound
+
+enum InquiryKind {
+  CONSULTATION
+  TUTORING
+  ADMISSIONS
+  RESOURCES
+  SUPPORT
+  OTHER
+}
+
+enum InquiryStatus {
+  NEW
+  IN_PROGRESS
+  RESOLVED
+  SPAM
+}
+
+model Inquiry {
+  id        String        @id @default(cuid())
+  name      String
+  email     String
+  kind      InquiryKind
+  testDate  String?
+  message   String
+  status    InquiryStatus @default(NEW)
+  adminNote String?
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
+
+  emails EmailMessage[]
+
+  @@index([status, createdAt])
+}
+
+enum EmailStatus {
+  SENT
+  FAILED
+  NOT_CONFIGURED // stored, not sent: no verified transport yet
+}
+
+model EmailMessage {
+  id                String      @id @default(cuid())
+  template          String
+  to                String
+  subject           String
+  status            EmailStatus
+  error             String?
+  providerMessageId String?
+  inquiryId         String?
+  inquiry           Inquiry?    @relation(fields: [inquiryId], references: [id], onDelete: SetNull)
+  createdAt         DateTime    @default(now())
+
+  @@index([createdAt])
+}
+
+model AuditLog {
+  id         String   @id @default(cuid())
+  actorId    String? // kept as a plain id so deleting a user keeps the log
+  actorEmail String?
+  action     String // "question.publish", "user.delete", ...
+  entityType String
+  entityId   String?
+  metadata   Json?
+  createdAt  DateTime @default(now())
+
+  @@index([createdAt])
+  @@index([entityType, entityId])
+}
+
+model RateLimitBucket {
+  key         String
+  windowStart DateTime
+  count       Int      @default(0)
+  expiresAt   DateTime
+
+  @@id([key, windowStart])
+  @@index([expiresAt])
+}

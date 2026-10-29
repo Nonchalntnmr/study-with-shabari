@@ -1,26 +1,178 @@
 @import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+/* The site is light-only by design; shadcn's dark: variants never activate. */
+@custom-variant dark (&:is(.dark *));
 
 @theme inline {
+  --font-sans: var(--font-geist);
+  --font-heading: var(--font-geist);
+  --font-reading: var(--font-atkinson);
+  --font-mono: var(--font-geist-mono);
+
+  /* brand */
+  --color-navy: var(--navy);
+  --color-navy-700: var(--navy-700);
+  --color-blue: var(--blue);
+  --color-blue-700: var(--blue-700);
+  --color-sky: var(--sky);
+  --color-ink: var(--ink);
+  --color-mark: var(--mark);
+  --color-success: var(--success);
+  --color-success-soft: var(--success-soft);
+  --color-danger: var(--danger);
+  --color-danger-soft: var(--danger-soft);
+  --color-warning-soft: var(--warning-soft);
+
+  /* shadcn tokens */
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+:root {
+  color-scheme: light;
+
+  --navy: #10254b;
+  --navy-700: #1b3566;
+  --blue: #2563eb;
+  --blue-700: #1d4ed8;
+  --sky: #eff6ff;
+  --ink: #111827;
+  --mark: #f3e15a; /* the highlighter from the original site */
+  --success: #15803d;
+  --success-soft: #ecfdf3;
+  --danger: #b91c1c;
+  --danger-soft: #fef2f2;
+  --warning-soft: #fffbeb;
+
+  --background: #f8fafc;
+  --foreground: var(--ink);
+  --card: #ffffff;
+  --card-foreground: var(--ink);
+  --popover: #ffffff;
+  --popover-foreground: var(--ink);
+  --primary: var(--navy);
+  --primary-foreground: #ffffff;
+  --secondary: var(--sky);
+  --secondary-foreground: var(--navy);
+  --muted: #f1f5f9;
+  --muted-foreground: #475569;
+  --accent: var(--sky);
+  --accent-foreground: var(--navy);
+  --destructive: var(--danger);
+  --border: #e2e8f0;
+  --input: #cbd5e1;
+  --ring: var(--blue);
+  --chart-1: #2563eb;
+  --chart-2: #10254b;
+  --chart-3: #60a5fa;
+  --chart-4: #94a3b8;
+  --chart-5: #f3e15a;
+  --radius: 0.625rem;
+  --sidebar: #ffffff;
+  --sidebar-foreground: var(--ink);
+  --sidebar-primary: var(--navy);
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: var(--sky);
+  --sidebar-accent-foreground: var(--navy);
+  --sidebar-border: #e2e8f0;
+  --sidebar-ring: var(--blue);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  html {
+    @apply font-sans;
+    scroll-behavior: smooth;
+  }
+  body {
+    @apply bg-background text-foreground antialiased;
+  }
+  h1,
+  h2,
+  h3,
+  h4 {
+    @apply font-heading tracking-tight text-navy;
+    text-wrap: balance;
+  }
+  p {
+    text-wrap: pretty;
+  }
+  a {
+    @apply underline-offset-4;
+  }
+  :focus-visible {
+    @apply outline-2 outline-offset-2 outline-blue;
+  }
+  button:not(:disabled),
+  [role="button"]:not(:disabled) {
+    cursor: pointer;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      transition-duration: 0.01ms !important;
+    }
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@layer components {
+  /* Highlighter underline used for emphasis in headings, echoing the exam's highlight tool. */
+  .hl {
+    background: linear-gradient(transparent 58%, var(--mark) 58%);
+    padding: 0 0.08em;
+  }
+  /* Passage highlights inside the exam. */
+  mark.exam-hl {
+    background: var(--mark);
+    color: inherit;
+    border-radius: 2px;
+  }
+  .prose-site p + p {
+    margin-top: 1rem;
+  }
 }
