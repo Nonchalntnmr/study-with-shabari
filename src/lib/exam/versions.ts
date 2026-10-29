@@ -184,6 +184,29 @@ export async function attemptContent(db: Db, attempt: { questionOrder: string[];
   });
 }
 
+/**
+ * Pins attempts created before versioning existed to the content as it stands
+ * now, so later edits can't change their results or review either. Idempotent:
+ * only attempts with no pinned versions are touched. Run once at deploy
+ * (scripts/pin-legacy-attempts.ts); the daily job runs it again as a safety net.
+ */
+export async function pinLegacyAttempts(db: PrismaClient): Promise<{ pinned: number; skipped: number }> {
+  const legacy = await db.attempt.findMany({ where: { questionVersionIds: { isEmpty: true }, NOT: { questionOrder: { isEmpty: true } } }, select: { id: true, questionOrder: true } });
+  let pinned = 0;
+  let skipped = 0;
+  for (const a of legacy) {
+    try {
+      const ids = await pinVersionsWithRetry(db, a.questionOrder);
+      const done = await db.attempt.updateMany({ where: { id: a.id, questionVersionIds: { isEmpty: true } }, data: { questionVersionIds: ids } });
+      pinned += done.count;
+    } catch {
+      // A question in the attempt no longer exists; it keeps reading live content for the rest.
+      skipped++;
+    }
+  }
+  return { pinned, skipped };
+}
+
 // ------------------------------------------------------------------ history
 
 /** Student-visible fields that differ between two versions, for the admin history. */

@@ -175,7 +175,7 @@ test("journey: admissions visitor: home → admissions → credentials → prici
 
   await step(page, "A2", "sees the credentials: schools and high school record", "admissions-credentials", async () => {
     const tiles = page.getByRole("list", { name: "Admitted to" });
-    for (const s of ["MIT", "Yale", "Columbia", "Brown", "Dartmouth", "Penn"]) await expect(tiles.getByText(s, { exact: true })).toBeVisible();
+    for (const s of ["MIT", "Yale", "Columbia", "Brown", "Dartmouth", "Penn"]) await expect(tiles.getByRole("listitem").filter({ hasText: new RegExp(`^${s}`) })).toBeVisible();
     await expect(tiles.getByText("Benjamin Franklin Scholar")).toBeVisible();
     for (const v of ["4.00/4.00", "1550", "35", "40/45"]) await expect(page.getByText(v, { exact: true }).first()).toBeVisible();
     await page.locator("#record").scrollIntoViewIfNeeded();
