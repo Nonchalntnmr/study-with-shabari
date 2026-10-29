@@ -1,8 +1,8 @@
 "use client";
 
-import { useActionState } from "react";
-import { initialInquiryState, submitInquiry } from "@/lib/inquiries/actions";
-import { INQUIRY_KINDS, KIND_LABELS } from "@/lib/inquiries/schema";
+import { useActionState, useEffect, useState } from "react";
+import { submitInquiry } from "@/lib/inquiries/actions";
+import { INQUIRY_KINDS, KIND_LABELS, initialInquiryState } from "@/lib/inquiries/schema";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -16,8 +16,13 @@ function FieldError({ id, message }: { id: string; message?: string }) {
   ) : null;
 }
 
-export function ContactForm({ defaultKind }: { defaultKind?: string }) {
+export function ContactForm() {
   const [state, action, pending] = useActionState(submitInquiry, initialInquiryState);
+  const [kind, setKind] = useState<string>("CONSULTATION");
+  useEffect(() => {
+    const topic = new URLSearchParams(window.location.search).get("topic")?.toUpperCase();
+    if (topic && (INQUIRY_KINDS as readonly string[]).includes(topic)) setKind(topic);
+  }, []);
 
   if (state.status === "ok") {
     return (
@@ -29,7 +34,6 @@ export function ContactForm({ defaultKind }: { defaultKind?: string }) {
   }
 
   const errors = state.status === "error" ? (state.errors ?? {}) : {};
-  const kind = INQUIRY_KINDS.find((k) => k === defaultKind) ?? "CONSULTATION";
 
   return (
     <form action={action} className="space-y-5" noValidate>
@@ -53,7 +57,7 @@ export function ContactForm({ defaultKind }: { defaultKind?: string }) {
 
       <div>
         <Label htmlFor="kind">What’s this about?</Label>
-        <select id="kind" name="kind" defaultValue={kind} className="mt-1.5 h-9 w-full rounded-lg border border-input bg-background px-2.5 text-sm outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50">
+        <select id="kind" name="kind" value={kind} onChange={(e) => setKind(e.target.value)} className="mt-1.5 h-9 w-full rounded-lg border border-input bg-background px-2.5 text-sm outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50">
           {INQUIRY_KINDS.map((k) => (
             <option key={k} value={k}>
               {KIND_LABELS[k]}

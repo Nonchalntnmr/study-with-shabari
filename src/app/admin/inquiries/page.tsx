@@ -7,6 +7,9 @@ import { ActionForm } from "../_components/action-form";
 import { Empty, PageHeader, StatusBadge, formatDate, selectClass } from "../_components/ui";
 import Link from "next/link";
 
+
+// Signed-in content is read fresh per request, so this segment opts out of instant-navigation validation.
+export const instant = false;
 const STATUSES = ["NEW", "IN_PROGRESS", "RESOLVED", "SPAM"] as const;
 type Status = (typeof STATUSES)[number];
 

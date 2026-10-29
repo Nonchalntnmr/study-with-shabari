@@ -7,15 +7,10 @@ import { hmac } from "@/lib/security/hash";
 import { contactEmail, siteUrl } from "@/lib/site";
 import { sendEmail } from "@/lib/email/transport";
 import { adminNotification, inquiryAcknowledgement } from "@/lib/email/templates";
-import { fieldErrors, inquirySchema, type FieldErrors } from "./schema";
+import { fieldErrors, inquirySchema, type InquiryResult } from "./schema";
 
-export type InquiryResult =
-  | { status: "idle" }
-  | { status: "ok"; message: string }
-  | { status: "error"; message: string; errors?: FieldErrors };
+export type { InquiryResult } from "./schema";
 
-const IDLE: InquiryResult = { status: "idle" };
-export const initialInquiryState = IDLE;
 
 export async function submitInquiry(_prev: InquiryResult, formData: FormData): Promise<InquiryResult> {
   const parsed = inquirySchema.safeParse(Object.fromEntries(formData));

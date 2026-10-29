@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { Suspense } from "react";
 import { Container, PageIntro } from "@/components/site/section";
 import { contactEmail } from "@/lib/site";
 import { ContactForm } from "./contact-form";
@@ -10,7 +9,7 @@ export const metadata: Metadata = {
   alternates: { canonical: "/contact" },
 };
 
-export default function ContactPage({ searchParams }: PageProps<"/contact">) {
+export default function ContactPage() {
   return (
     <>
       <PageIntro eyebrow="Contact" title="Get in touch.">
@@ -23,12 +22,7 @@ export default function ContactPage({ searchParams }: PageProps<"/contact">) {
       <section className="py-14">
         <Container className="max-w-2xl">
           <div className="rounded-2xl border bg-white p-6 sm:p-8">
-            {/* The preselected topic comes from the URL, so only the form waits for it. */}
-            <Suspense fallback={<ContactForm />}>
-              {searchParams.then(({ topic }) => (
-                <ContactForm defaultKind={typeof topic === "string" ? topic.toUpperCase() : undefined} />
-              ))}
-            </Suspense>
+            <ContactForm />
           </div>
           <p className="mt-4 text-xs text-muted-foreground">
             Your message is stored so I can reply to it. See the{" "}

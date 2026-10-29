@@ -31,21 +31,21 @@ describe("attempt lifecycle", () => {
 
   it("guests can start published exams; unpublished ones are hidden except to admins", async () => {
     const { exam } = await examWithAnswers();
-    const { id } = await startAttempt({ examId: exam.id, mode: "TIMED" }, { userId: null, guestKeyHash: "g1" });
+    const { id } = await startAttempt({ examSlug: exam.slug, mode: "TIMED" }, { userId: null, guestKeyHash: "g1" });
     const attempt = await db.attempt.findUniqueOrThrow({ where: { id } });
     expect(attempt.questionOrder).toHaveLength(8);
     expect(attempt.deadlineAt!.getTime() - attempt.startedAt.getTime()).toBe(13 * 60_000);
 
     await db.exam.update({ where: { id: exam.id }, data: { status: "DRAFT" } });
-    await expect(startAttempt({ examId: exam.id, mode: "UNTIMED" }, { userId: null, guestKeyHash: "g1" })).rejects.toThrow("not_found");
+    await expect(startAttempt({ examSlug: exam.slug, mode: "UNTIMED" }, { userId: null, guestKeyHash: "g1" })).rejects.toThrow("not_found");
     const admin = await db.user.create({ data: { email: "admin@example.com", passwordHash: "x", role: "ADMIN" } });
-    const preview = await startAttempt({ examId: exam.id, mode: "UNTIMED" }, { userId: admin.id, guestKeyHash: null }, true);
+    const preview = await startAttempt({ examSlug: exam.slug, mode: "UNTIMED" }, { userId: admin.id, guestKeyHash: null }, true);
     expect((await db.attempt.findUniqueOrThrow({ where: { id: preview.id } })).userId).toBe(admin.id);
   });
 
   it("the runner payload never contains answers or explanations", async () => {
     const { exam } = await examWithAnswers();
-    const { id } = await startAttempt({ examId: exam.id, mode: "UNTIMED" }, { userId: null, guestKeyHash: "g1" });
+    const { id } = await startAttempt({ examSlug: exam.slug, mode: "UNTIMED" }, { userId: null, guestKeyHash: "g1" });
     const loaded = await loadRunnerState(id, guest("g1"));
     expect(loaded.kind).toBe("ok");
     const json = JSON.stringify(loaded);
@@ -59,7 +59,7 @@ describe("attempt lifecycle", () => {
 
   it("only the owner can load, save or submit", async () => {
     const { exam, questions, correct } = await examWithAnswers();
-    const { id } = await startAttempt({ examId: exam.id, mode: "UNTIMED" }, { userId: null, guestKeyHash: "owner" });
+    const { id } = await startAttempt({ examSlug: exam.slug, mode: "UNTIMED" }, { userId: null, guestKeyHash: "owner" });
     expect((await loadRunnerState(id, guest("intruder"))).kind).toBe("not_found");
     expect((await loadRunnerState(id, { userId: null, guestKeyHash: null, isAdmin: false })).kind).toBe("not_found");
     await expect(syncAttempt(id, guest("intruder"), { responses: [answer(questions[0].id, correct(0))], highlights: [] })).rejects.toThrow("not_found");
@@ -69,7 +69,7 @@ describe("attempt lifecycle", () => {
 
   it("autosave persists answers, eliminations, flags and highlights, and survives a reload", async () => {
     const { exam, questions, correct, wrong } = await examWithAnswers();
-    const { id } = await startAttempt({ examId: exam.id, mode: "UNTIMED" }, { userId: null, guestKeyHash: "g1" });
+    const { id } = await startAttempt({ examSlug: exam.slug, mode: "UNTIMED" }, { userId: null, guestKeyHash: "g1" });
     const passageId = questions[0].passageId!;
     const res = await syncAttempt(id, guest("g1"), {
       responses: [answer(questions[0].id, correct(0), { eliminatedChoiceIds: [wrong(0), wrong(0)], flagged: true, timeSpentMs: 4000 })],
@@ -92,7 +92,7 @@ describe("attempt lifecycle", () => {
   it("rejects choices from another question and questions outside the attempt", async () => {
     const { exam, questions, correct } = await examWithAnswers();
     const other = await examWithAnswers("bb-sample-set-1");
-    const { id } = await startAttempt({ examId: exam.id, mode: "UNTIMED" }, { userId: null, guestKeyHash: "g1" });
+    const { id } = await startAttempt({ examSlug: exam.slug, mode: "UNTIMED" }, { userId: null, guestKeyHash: "g1" });
     await expect(syncAttempt(id, guest("g1"), { responses: [answer(questions[0].id, correct(1))], highlights: [] })).rejects.toThrow("Unknown choice");
     await expect(syncAttempt(id, guest("g1"), { responses: [answer(other.questions[0].id, other.correct(0))], highlights: [] })).rejects.toThrow("not part of this attempt");
     await expect(syncAttempt(id, guest("g1"), { responses: [], highlights: [{ passageId: other.questions[0].passageId!, ranges: [] }] })).rejects.toThrow("not part of this attempt");
@@ -100,7 +100,7 @@ describe("attempt lifecycle", () => {
 
   it("scores on submit, is idempotent, and refuses writes afterwards", async () => {
     const { exam, questions, correct, wrong } = await examWithAnswers();
-    const { id } = await startAttempt({ examId: exam.id, mode: "UNTIMED" }, { userId: null, guestKeyHash: "g1" });
+    const { id } = await startAttempt({ examSlug: exam.slug, mode: "UNTIMED" }, { userId: null, guestKeyHash: "g1" });
     await syncAttempt(id, guest("g1"), {
       responses: [answer(questions[0].id, correct(0)), answer(questions[1].id, correct(1)), answer(questions[2].id, wrong(2))],
       highlights: [],
@@ -121,7 +121,7 @@ describe("attempt lifecycle", () => {
 
   it("results include explanations, the student's picks and an accurate topic breakdown", async () => {
     const { exam, questions, correct, wrong } = await examWithAnswers();
-    const { id } = await startAttempt({ examId: exam.id, mode: "UNTIMED" }, { userId: null, guestKeyHash: "g1" });
+    const { id } = await startAttempt({ examSlug: exam.slug, mode: "UNTIMED" }, { userId: null, guestKeyHash: "g1" });
     // Questions 1-3 are acid-base; answer two right and one wrong.
     await syncAttempt(id, guest("g1"), {
       responses: [answer(questions[0].id, correct(0)), answer(questions[1].id, correct(1)), answer(questions[2].id, wrong(2))],
@@ -143,7 +143,7 @@ describe("attempt lifecycle", () => {
 
   it("a timed attempt past its deadline is auto-submitted and scored at the deadline", async () => {
     const { exam, questions, correct } = await examWithAnswers();
-    const { id } = await startAttempt({ examId: exam.id, mode: "TIMED" }, { userId: null, guestKeyHash: "g1" });
+    const { id } = await startAttempt({ examSlug: exam.slug, mode: "TIMED" }, { userId: null, guestKeyHash: "g1" });
     await syncAttempt(id, guest("g1"), { responses: [answer(questions[0].id, correct(0))], highlights: [] });
 
     const deadline = new Date(Date.now() - 60_000);
@@ -158,7 +158,7 @@ describe("attempt lifecycle", () => {
 
   it("an expired attempt is closed when the student comes back to it", async () => {
     const { exam } = await examWithAnswers();
-    const { id } = await startAttempt({ examId: exam.id, mode: "TIMED" }, { userId: null, guestKeyHash: "g1" });
+    const { id } = await startAttempt({ examSlug: exam.slug, mode: "TIMED" }, { userId: null, guestKeyHash: "g1" });
     await db.attempt.update({ where: { id }, data: { deadlineAt: new Date(Date.now() - 1000) } });
     expect((await loadRunnerState(id, guest("g1"))).kind).toBe("submitted");
     expect((await db.attempt.findUniqueOrThrow({ where: { id } })).autoSubmitted).toBe(true);
@@ -166,7 +166,7 @@ describe("attempt lifecycle", () => {
 
   it("concurrent submits score exactly once", async () => {
     const { exam, questions, correct } = await examWithAnswers();
-    const { id } = await startAttempt({ examId: exam.id, mode: "UNTIMED" }, { userId: null, guestKeyHash: "g1" });
+    const { id } = await startAttempt({ examSlug: exam.slug, mode: "UNTIMED" }, { userId: null, guestKeyHash: "g1" });
     await syncAttempt(id, guest("g1"), { responses: [answer(questions[0].id, correct(0))], highlights: [] });
     await Promise.all([submitAttempt(id, guest("g1")), submitAttempt(id, guest("g1")), submitAttempt(id, guest("g1"))]);
     expect(await db.response.count({ where: { attemptId: id } })).toBe(8);

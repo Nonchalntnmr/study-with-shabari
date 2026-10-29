@@ -37,3 +37,11 @@ export function fieldErrors(error: z.ZodError): FieldErrors {
   }
   return out;
 }
+
+export type InquiryResult =
+  | { status: "idle" }
+  | { status: "ok"; message: string }
+  | { status: "error"; message: string; errors?: FieldErrors };
+
+// Lives here, not in actions.ts: a "use server" module may only export async functions.
+export const initialInquiryState: InquiryResult = { status: "idle" };

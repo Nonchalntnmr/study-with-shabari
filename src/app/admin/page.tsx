@@ -4,6 +4,9 @@ import { getDailyActivity, getPlatformMetrics } from "@/lib/analytics/admin";
 import { pct } from "@/lib/analytics/compute";
 import { PageHeader, Stat } from "./_components/ui";
 
+
+// Signed-in content is read fresh per request, so this segment opts out of instant-navigation validation.
+export const instant = false;
 export default async function AdminOverview() {
   // Layouts don't re-run on client navigation, so every page checks for itself.
   await requireAdmin();

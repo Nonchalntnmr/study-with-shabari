@@ -7,6 +7,9 @@ import { sectionNames, type SectionCode } from "@/lib/site";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
+
+// Signed-in content is read fresh per request, so this segment opts out of instant-navigation validation.
+export const instant = false;
 export const metadata: Metadata = { title: "Your progress", robots: { index: false } };
 
 const sectionLabel = (code: string) => sectionNames[code as SectionCode] ?? code;

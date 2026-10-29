@@ -42,7 +42,7 @@ export async function startAttempt(
   isAdmin = false,
 ) {
   const exam = await db.exam.findUnique({
-    where: { id: input.examId },
+    where: { slug: input.examSlug },
     include: { items: { orderBy: { position: "asc" }, select: { questionId: true } } },
   });
   // Admins may start unpublished exams to preview them.

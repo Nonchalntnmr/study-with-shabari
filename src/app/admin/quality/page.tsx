@@ -4,6 +4,9 @@ import { pct } from "@/lib/analytics/compute";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Empty, PageHeader, StatusBadge } from "../_components/ui";
 
+
+// Signed-in content is read fresh per request, so this segment opts out of instant-navigation validation.
+export const instant = false;
 export default async function QualityPage() {
   // Layouts don't re-run on client navigation, so every page checks for itself.
   await requireAdmin();

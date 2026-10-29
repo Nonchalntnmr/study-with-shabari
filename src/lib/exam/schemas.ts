@@ -28,6 +28,6 @@ export type HighlightInput = z.infer<typeof highlightInput>;
 export type SyncPayload = z.infer<typeof syncPayload>;
 
 export const startInput = z.object({
-  examId: id,
+  examSlug: z.string().min(1).max(100),
   mode: z.enum(["TIMED", "UNTIMED"]),
 });

@@ -7,6 +7,9 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { ActionForm } from "../_components/action-form";
 import { Empty, PageHeader, formatDate, selectClass } from "../_components/ui";
 
+
+// Signed-in content is read fresh per request, so this segment opts out of instant-navigation validation.
+export const instant = false;
 export default async function UsersPage({ searchParams }: { searchParams: Promise<{ q?: string }> }) {
   const me = await requireAdmin();
   const q = ((await searchParams).q ?? "").trim().slice(0, 100).toLowerCase();

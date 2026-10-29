@@ -12,7 +12,7 @@ const P = 1;
 const KEYLEN = 64;
 const MAXMEM = 96 * 1024 * 1024;
 
-export const PASSWORD_MIN_LENGTH = 10;
+export { PASSWORD_MIN_LENGTH } from "./password-rules";
 
 /** Format: scrypt$N$r$p$saltB64$hashB64 so parameters can be raised later. */
 export async function hashPassword(password: string): Promise<string> {

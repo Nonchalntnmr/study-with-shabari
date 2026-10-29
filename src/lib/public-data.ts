@@ -55,7 +55,6 @@ export async function getPublishedExams() {
     where: { status: "PUBLISHED" },
     orderBy: [{ section: "asc" }, { title: "asc" }],
     select: {
-      id: true,
       slug: true,
       title: true,
       description: true,

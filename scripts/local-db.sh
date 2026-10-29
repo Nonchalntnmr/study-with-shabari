@@ -14,11 +14,11 @@ case "${1:-status}" in
       printf "port = %s\nlisten_addresses = '127.0.0.1'\nunix_socket_directories = ''\n" "$PORT" >> "$DATA/postgresql.conf"
     fi
     "$PGBIN/pg_ctl" -D "$DATA" -l .local/pg.log -w status >/dev/null 2>&1 || "$PGBIN/pg_ctl" -D "$DATA" -l .local/pg.log -w start
-    for db in sws_dev sws_test; do
+    for db in sws_dev sws_test sws_e2e; do
       "$PGBIN/psql" -h 127.0.0.1 -p "$PORT" -U shabari -d postgres -tAc "select 1 from pg_database where datname='$db'" | grep -q 1 \
         || "$PGBIN/psql" -h 127.0.0.1 -p "$PORT" -U shabari -d postgres -c "create database $db" >/dev/null
     done
-    echo "postgres on 127.0.0.1:$PORT (sws_dev, sws_test)";;
+    echo "postgres on 127.0.0.1:$PORT (sws_dev, sws_test, sws_e2e)";;
   stop) "$PGBIN/pg_ctl" -D "$DATA" -w stop;;
   status) "$PGBIN/pg_ctl" -D "$DATA" status;;
   *) echo "usage: $0 start|stop|status" >&2; exit 2;;

@@ -14,6 +14,9 @@ import { Button } from "@/components/ui/button";
 import { ActionForm } from "../_components/action-form";
 import { Empty, PageHeader, StatusBadge, formatDate, selectClass } from "../_components/ui";
 
+
+// Signed-in content is read fresh per request, so this segment opts out of instant-navigation validation.
+export const instant = false;
 const TABS = ["exams", "questions", "passages", "resources", "testimonials"] as const;
 type Tab = (typeof TABS)[number];
 const STATUSES = ["DRAFT", "REVIEW", "PUBLISHED", "ARCHIVED"] as const;
