@@ -105,8 +105,8 @@ describe("attempt lifecycle", () => {
       responses: [answer(questions[0].id, correct(0)), answer(questions[1].id, correct(1)), answer(questions[2].id, wrong(2))],
       highlights: [],
     });
-    expect(await submitAttempt(id, guest("g1"))).toEqual({ autoSubmitted: false });
-    expect(await submitAttempt(id, guest("g1"))).toEqual({ autoSubmitted: false });
+    expect(await submitAttempt(id, guest("g1"))).toEqual({ status: "submitted", autoSubmitted: false });
+    expect(await submitAttempt(id, guest("g1"))).toEqual({ status: "submitted", autoSubmitted: false });
 
     const attempt = await db.attempt.findUniqueOrThrow({ where: { id }, include: { responses: true } });
     expect(attempt).toMatchObject({ status: "SUBMITTED", correctCount: 2, totalCount: 8 });
@@ -159,7 +159,12 @@ describe("attempt lifecycle", () => {
   it("an expired attempt is closed when the student comes back to it", async () => {
     const { exam } = await examWithAnswers();
     const { id } = await startAttempt({ examSlug: exam.slug, mode: "TIMED" }, { userId: null, guestKeyHash: "g1" });
+    // Just past the deadline the page opens only to hand over unsaved answers, then submits.
     await db.attempt.update({ where: { id }, data: { deadlineAt: new Date(Date.now() - 1000) } });
+    const soon = await loadRunnerState(id, guest("g1"));
+    expect(soon.kind === "ok" && soon.state.deliverOnly).toBe(true);
+    // Past the late-delivery window it closes on load.
+    await db.attempt.update({ where: { id }, data: { deadlineAt: new Date(Date.now() - 16 * 60_000) } });
     expect((await loadRunnerState(id, guest("g1"))).kind).toBe("submitted");
     expect((await db.attempt.findUniqueOrThrow({ where: { id } })).autoSubmitted).toBe(true);
   });

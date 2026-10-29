@@ -2,7 +2,7 @@
 
 import { ChevronLeft, ChevronRight, CloudOff, Flag, Highlighter, LayoutGrid, ListChecks, Loader2, Check, Eraser } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -15,34 +15,40 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { emptyBackup, isEmptyBackup, mergeBackup, parseBackup, pruneBackup, restorable, type Backup, type HighlightEntry } from "@/lib/exam/backup";
 import { normalizeRanges, subtractRange, type HighlightRange } from "@/lib/exam/passage";
-import type { RunnerResponse, RunnerState, SyncResult } from "@/lib/exam/types";
+import type { RunnerResponse, RunnerState, SubmitResult, SyncResult } from "@/lib/exam/types";
 import { cn } from "@/lib/utils";
 import { ChoiceList } from "./choice-list";
 import { ExamClock } from "./exam-clock";
 import { PassagePane, selectionToRanges } from "./passage-pane";
 
-const EMPTY: RunnerResponse = { selectedChoiceId: null, eliminatedChoiceIds: [], flagged: false, timeSpentMs: 0 };
-type SaveStatus = "saved" | "saving" | "offline" | "error";
-type Backup = { responses: Record<string, RunnerResponse>; highlights: Record<string, HighlightRange[]> };
+const EMPTY: RunnerResponse = { selectedChoiceId: null, eliminatedChoiceIds: [], flagged: false, timeSpentMs: 0, changedAt: 0 };
+type SaveStatus = "saved" | "saving" | "offline" | "error" | "signed_out" | "lost";
 
 const backupKey = (id: string) => `sws:attempt:${id}`;
-function readBackup(id: string): Backup | null {
+function loadBackup(id: string): Backup {
   try {
-    const raw = localStorage.getItem(backupKey(id));
-    return raw ? (JSON.parse(raw) as Backup) : null;
+    return parseBackup(localStorage.getItem(backupKey(id)));
   } catch {
-    return null;
+    return emptyBackup();
   }
 }
-function writeBackup(id: string, b: Backup | null) {
+function storeBackup(id: string, b: Backup) {
   try {
-    if (b && (Object.keys(b.responses).length || Object.keys(b.highlights).length)) localStorage.setItem(backupKey(id), JSON.stringify(b));
-    else localStorage.removeItem(backupKey(id));
+    if (isEmptyBackup(b)) localStorage.removeItem(backupKey(id));
+    else localStorage.setItem(backupKey(id), JSON.stringify(b));
   } catch {
     // Storage can be unavailable (private mode); the server copy is the source of truth anyway.
   }
 }
+/** Read-modify-write on the shared key, so another tab's entries are never overwritten. */
+const updateBackup = (id: string, fn: (b: Backup) => Backup) => storeBackup(id, fn(loadBackup(id)));
+
+type TabMessage =
+  | { t: "response"; id: string; r: RunnerResponse }
+  | { t: "highlights"; id: string; h: HighlightEntry }
+  | { t: "submitted" };
 
 export function ExamRunner({ initial }: { initial: RunnerState }) {
   const router = useRouter();
@@ -56,98 +62,128 @@ export function ExamRunner({ initial }: { initial: RunnerState }) {
   const [confirmOpen, setConfirmOpen] = useState(false);
   const [reviewFilter, setReviewFilter] = useState<"all" | "incomplete" | "flagged">("all");
   const [status, setStatus] = useState<SaveStatus>("saved");
-  const [submitting, setSubmitting] = useState(false);
+  const [submitting, setSubmitting] = useState(initial.deliverOnly);
   const [hasSelection, setHasSelection] = useState(false);
+  const [deadlineAt, setDeadlineAt] = useState(initial.deadlineAt);
+  const [clockArm, setClockArm] = useState(0);
 
   const q = questions[index];
   const passage = q?.passageId ? passages[q.passageId] : null;
   const response = responses[q?.id] ?? EMPTY;
 
-  // Clock skew between this device and the server, measured once at load.
-  const serverOffsetMs = useMemo(() => Date.parse(initial.serverNow) - Date.now(), [initial.serverNow]);
+  // ---------------------------------------------------------------- server clock
+  // Server time = the server's clock at the last sync plus monotonic time since. The
+  // device clock is never read, so changing it (or waking from sleep) can't move the timer.
+  const anchor = useRef<{ serverNow: number; perfAt: number } | null>(null);
+  const serverTime = useCallback(() => {
+    anchor.current ??= { serverNow: Date.parse(initial.serverNow), perfAt: performance.now() };
+    return anchor.current.serverNow + (performance.now() - anchor.current.perfAt);
+  }, [initial.serverNow]);
+  const reanchor = (serverNowIso: string, sentAt: number) => {
+    const now = performance.now();
+    anchor.current = { serverNow: Date.parse(serverNowIso) + (now - sentAt) / 2, perfAt: now };
+  };
 
   // ---------------------------------------------------------------- autosave
   const stateRef = useRef({ responses, highlights, index });
   stateRef.current = { responses, highlights, index };
-  const dirtyR = useRef(new Set<string>());
-  const dirtyH = useRef(new Set<string>());
+  // Latest unsaved copy of each changed answer and highlight set.
+  const unsaved = useRef(new Map<string, RunnerResponse>());
+  const unsavedH = useRef(new Map<string, HighlightEntry>());
+  const timeDirty = useRef(new Set<string>());
   const dirtyPos = useRef(false);
   const timeRef = useRef<Record<string, number>>(Object.fromEntries(Object.entries(initial.responses).map(([k, v]) => [k, v.timeSpentMs])));
   const inFlight = useRef<Promise<void> | null>(null);
   const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const retryDelay = useRef(1000);
   const closed = useRef(false);
+  const pendingSubmit = useRef<null | "manual" | "timeout">(null);
+  const channel = useRef<BroadcastChannel | null>(null);
   const passageRef = useRef<HTMLDivElement>(null);
 
   const goToResults = useCallback(() => {
     if (closed.current) return;
     closed.current = true;
-    writeBackup(attemptId, null);
+    storeBackup(attemptId, emptyBackup());
     router.replace(`/exam/${attemptId}/results`);
   }, [attemptId, router]);
 
-  const snapshotBackup = useCallback(() => {
+  /** Everything not yet confirmed by the server. Kept dirty until a save succeeds. */
+  const buildPayload = (withPosition: boolean) => {
     const s = stateRef.current;
-    writeBackup(attemptId, {
-      responses: Object.fromEntries([...dirtyR.current].map((id) => [id, { ...(s.responses[id] ?? EMPTY), timeSpentMs: timeRef.current[id] ?? 0 }])),
-      highlights: Object.fromEntries([...dirtyH.current].map((id) => [id, s.highlights[id] ?? []])),
+    const ids = new Set([...unsaved.current.keys(), ...timeDirty.current]);
+    const sent = { responses: {} as Record<string, number>, highlights: {} as Record<string, number> };
+    const responsesOut = [...ids].map((id) => {
+      const r = unsaved.current.get(id) ?? s.responses[id] ?? EMPTY;
+      sent.responses[id] = r.changedAt;
+      return {
+        questionId: id,
+        selectedChoiceId: r.selectedChoiceId,
+        eliminatedChoiceIds: r.eliminatedChoiceIds,
+        flagged: r.flagged,
+        timeSpentMs: Math.round(timeRef.current[id] ?? r.timeSpentMs ?? 0),
+        ...(r.changedAt ? { changedAt: Math.round(r.changedAt) } : {}),
+      };
     });
-  }, [attemptId]);
+    const highlightsOut = [...unsavedH.current.entries()].map(([id, h]) => {
+      sent.highlights[id] = h.changedAt;
+      return { passageId: id, ranges: h.ranges };
+    });
+    return { body: { responses: responsesOut, highlights: highlightsOut, ...(withPosition ? { lastPosition: s.index } : {}) }, sent, empty: !responsesOut.length && !highlightsOut.length && !withPosition };
+  };
+
+  /** After the server confirms: forget what it now has (newer local changes stay pending). */
+  const confirmSaved = (sent: { responses: Record<string, number>; highlights: Record<string, number> }) => {
+    for (const [id, at] of Object.entries(sent.responses)) {
+      if ((unsaved.current.get(id)?.changedAt ?? -1) <= at) unsaved.current.delete(id);
+      timeDirty.current.delete(id);
+    }
+    for (const [id, at] of Object.entries(sent.highlights)) if ((unsavedH.current.get(id)?.changedAt ?? -1) <= at) unsavedH.current.delete(id);
+    updateBackup(attemptId, (b) => pruneBackup(b, sent));
+  };
+
+  const failStatus = (code: number): SaveStatus | null => (code === 401 ? "signed_out" : code === 404 ? "lost" : code === 400 ? "error" : null);
 
   const flush = useCallback(
-    async (opts: { keepalive?: boolean } = {}): Promise<void> => {
+    async (opts: { keepalive?: boolean; ping?: boolean } = {}): Promise<void> => {
       if (closed.current) return;
       if (inFlight.current) {
         await inFlight.current;
-        if (dirtyR.current.size || dirtyH.current.size || dirtyPos.current) return flush(opts);
+        if (unsaved.current.size || unsavedH.current.size || timeDirty.current.size || dirtyPos.current) return flushRef.current(opts);
         return;
       }
-      const rIds = [...dirtyR.current];
-      const hIds = [...dirtyH.current];
-      const pos = dirtyPos.current;
-      if (!rIds.length && !hIds.length && !pos) return;
-      dirtyR.current.clear();
-      dirtyH.current.clear();
+      const withPosition = dirtyPos.current;
+      const { body, sent, empty } = buildPayload(withPosition);
+      // A ping (no changes) still re-anchors the clock and learns about expiry.
+      if (empty && !opts.ping) return;
       dirtyPos.current = false;
 
-      const s = stateRef.current;
-      const body = JSON.stringify({
-        responses: rIds.map((id) => ({ questionId: id, ...(s.responses[id] ?? EMPTY), timeSpentMs: Math.round(timeRef.current[id] ?? 0) })),
-        highlights: hIds.map((id) => ({ passageId: id, ranges: s.highlights[id] ?? [] })),
-        ...(pos ? { lastPosition: s.index } : {}),
-      });
-      const requeue = () => {
-        rIds.forEach((id) => dirtyR.current.add(id));
-        hIds.forEach((id) => dirtyH.current.add(id));
-        if (pos) dirtyPos.current = true;
-      };
-
-      setStatus("saving");
+      if (!empty) setStatus("saving");
+      const sentAt = performance.now();
       inFlight.current = (async () => {
         try {
           const res = await fetch(`/api/attempts/${attemptId}/sync`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body,
+            body: JSON.stringify(body),
             keepalive: opts.keepalive,
           });
           if (res.ok) {
             const json = (await res.json()) as SyncResult;
             if (!json.ok) return goToResults();
+            reanchor(json.serverNow, sentAt);
+            if (json.deadlineAt !== deadlineAtRef.current) setDeadlineAt(json.deadlineAt);
             retryDelay.current = 1000;
-            setStatus(dirtyR.current.size || dirtyH.current.size ? "saving" : "saved");
-            snapshotBackup();
-          } else if (res.status === 400 || res.status === 404) {
-            setStatus("error"); // not retryable: the server refused this data
-          } else {
-            requeue();
-            setStatus("offline");
-            schedule(retryDelay.current);
-            retryDelay.current = Math.min(retryDelay.current * 2, 30_000);
+            confirmSaved(sent);
+            setStatus(unsaved.current.size || unsavedH.current.size ? "saving" : "saved");
+            return;
           }
+          if (withPosition) dirtyPos.current = true;
+          const fatal = failStatus(res.status);
+          if (fatal) return setStatus(fatal); // kept on the device; nothing is dropped
+          throw new Error(String(res.status)); // 429, 5xx: retry
         } catch {
-          requeue();
-          snapshotBackup();
+          if (withPosition) dirtyPos.current = true;
           setStatus("offline");
           schedule(retryDelay.current);
           retryDelay.current = Math.min(retryDelay.current * 2, 30_000);
@@ -157,8 +193,11 @@ export function ExamRunner({ initial }: { initial: RunnerState }) {
       })();
       await inFlight.current;
     },
-    [attemptId, goToResults, snapshotBackup],
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [attemptId, goToResults],
   );
+  const deadlineAtRef = useRef(deadlineAt);
+  deadlineAtRef.current = deadlineAt;
 
   const flushRef = useRef(flush);
   flushRef.current = flush;
@@ -167,41 +206,79 @@ export function ExamRunner({ initial }: { initial: RunnerState }) {
     timer.current = setTimeout(() => void flushRef.current(), ms);
   }
 
-  const markResponse = (id: string) => {
-    dirtyR.current.add(id);
+  /** Record a change: on screen, in the unsaved set, on the device, and in other tabs. */
+  const recordResponse = (id: string, r: RunnerResponse) => {
+    unsaved.current.set(id, r);
+    updateBackup(attemptId, (b) => mergeBackup(b, { responses: { [id]: { ...r, timeSpentMs: timeRef.current[id] ?? r.timeSpentMs } } }));
+    channel.current?.postMessage({ t: "response", id, r } satisfies TabMessage);
     setStatus("saving");
-    snapshotBackup();
     schedule();
   };
 
-  // Restore anything that never reached the server (crash, offline, closed tab).
+  // Restore anything that never reached the server (crash, offline, closed tab), unless the server has something newer.
   useEffect(() => {
-    const b = readBackup(attemptId);
-    if (!b) return;
-    if (Object.keys(b.responses).length) {
+    const b = loadBackup(attemptId);
+    const back = restorable(b, initial.responses);
+    if (Object.keys(back).length) {
       // localStorage only exists after hydration, so restoring unsynced answers has to happen here.
       // eslint-disable-next-line react-hooks/set-state-in-effect
-      setResponses((r) => ({ ...r, ...b.responses }));
-      for (const [id, v] of Object.entries(b.responses)) {
+      setResponses((r) => ({ ...r, ...back }));
+      for (const [id, v] of Object.entries(back)) {
         timeRef.current[id] = Math.max(timeRef.current[id] ?? 0, v.timeSpentMs);
-        dirtyR.current.add(id);
+        unsaved.current.set(id, v);
       }
     }
     if (Object.keys(b.highlights).length) {
-      setHighlights((h) => ({ ...h, ...b.highlights }));
-      Object.keys(b.highlights).forEach((id) => dirtyH.current.add(id));
+      setHighlights((h) => ({ ...h, ...Object.fromEntries(Object.entries(b.highlights).map(([id, e]) => [id, e.ranges])) }));
+      for (const [id, e] of Object.entries(b.highlights)) unsavedH.current.set(id, e);
     }
-    schedule(200);
+    // Stale backup entries (the server has newer answers) are dropped.
+    updateBackup(attemptId, (cur) => ({ ...cur, responses: Object.fromEntries(Object.entries(cur.responses).filter(([id]) => id in back)) }));
+    if (initial.deliverOnly) void submitRef.current("timeout");
+    else void flushRef.current({ ping: true });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [attemptId]);
 
-  // Save when the tab is hidden or closed; keepalive lets the request outlive the page.
+  // Other tabs of this attempt: show their newer changes here; follow them to results.
+  useEffect(() => {
+    if (typeof BroadcastChannel === "undefined") return;
+    const ch = new BroadcastChannel(`sws:attempt:${attemptId}`);
+    channel.current = ch;
+    ch.onmessage = (e: MessageEvent<TabMessage>) => {
+      const m = e.data;
+      if (m.t === "submitted") return goToResults();
+      if (m.t === "response") {
+        setResponses((r) => ((r[m.id]?.changedAt ?? 0) < m.r.changedAt ? { ...r, [m.id]: m.r } : r));
+        const mine = unsaved.current.get(m.id);
+        if (mine && mine.changedAt <= m.r.changedAt) unsaved.current.delete(m.id); // that tab saves it
+      }
+      if (m.t === "highlights") {
+        setHighlights((h) => ({ ...h, [m.id]: m.h.ranges }));
+        const mine = unsavedH.current.get(m.id);
+        if (mine && mine.changedAt <= m.h.changedAt) unsavedH.current.delete(m.id);
+      }
+    };
+    return () => {
+      ch.close();
+      channel.current = null;
+    };
+  }, [attemptId, goToResults]);
+
+  // Save when the tab is hidden or closed (keepalive lets the request outlive the page);
+  // re-check the clock with the server when it comes back (sleep, tab switch); retry when online.
   useEffect(() => {
     const onHide = () => void flushRef.current({ keepalive: true });
-    const onVisibility = () => document.visibilityState === "hidden" && onHide();
+    const onVisibility = () => (document.visibilityState === "hidden" ? onHide() : void flushRef.current({ ping: true }));
+    const onOnline = () => {
+      if (pendingSubmit.current) void submitRef.current(pendingSubmit.current);
+      else void flushRef.current({ ping: true });
+    };
     window.addEventListener("pagehide", onHide);
+    window.addEventListener("online", onOnline);
     document.addEventListener("visibilitychange", onVisibility);
     return () => {
       window.removeEventListener("pagehide", onHide);
+      window.removeEventListener("online", onOnline);
       document.removeEventListener("visibilitychange", onVisibility);
     };
   }, []);
@@ -209,7 +286,7 @@ export function ExamRunner({ initial }: { initial: RunnerState }) {
   // Time on the visible question, accumulated in a ref and saved every ~15s.
   useEffect(() => {
     if (view !== "question" || !q) return;
-    const dirty = dirtyR.current;
+    const dirty = timeDirty.current;
     let last = performance.now();
     let sinceSave = 0;
     const t = setInterval(() => {
@@ -221,7 +298,7 @@ export function ExamRunner({ initial }: { initial: RunnerState }) {
       sinceSave += delta;
       if (sinceSave >= 15_000) {
         sinceSave = 0;
-        dirtyR.current.add(q.id);
+        timeDirty.current.add(q.id);
         schedule();
       }
     }, 1000);
@@ -234,8 +311,9 @@ export function ExamRunner({ initial }: { initial: RunnerState }) {
 
   // ---------------------------------------------------------------- actions
   const update = (patch: Partial<RunnerResponse>) => {
-    setResponses((r) => ({ ...r, [q.id]: { ...(r[q.id] ?? EMPTY), ...patch } }));
-    markResponse(q.id);
+    const next = { ...(stateRef.current.responses[q.id] ?? EMPTY), ...patch, changedAt: serverTime() };
+    setResponses((r) => ({ ...r, [q.id]: next }));
+    recordResponse(q.id, next);
   };
   const select = (choiceId: string) =>
     update({ selectedChoiceId: choiceId, eliminatedChoiceIds: response.eliminatedChoiceIds.filter((c) => c !== choiceId) });
@@ -262,15 +340,15 @@ export function ExamRunner({ initial }: { initial: RunnerState }) {
     const picked = selectionToRanges(passageRef.current);
     if (!picked.length) return;
     const lengths = passage.paragraphs.map((p) => p.length);
-    setHighlights((h) => {
-      const current = h[passage.id] ?? [];
-      const nextRanges = mode === "add" ? normalizeRanges([...current, ...picked], lengths) : picked.reduce(subtractRange, current);
-      return { ...h, [passage.id]: nextRanges };
-    });
+    const current = stateRef.current.highlights[passage.id] ?? [];
+    const nextRanges = mode === "add" ? normalizeRanges([...current, ...picked], lengths) : picked.reduce(subtractRange, current);
+    const entry: HighlightEntry = { ranges: nextRanges, changedAt: serverTime() };
+    setHighlights((h) => ({ ...h, [passage.id]: nextRanges }));
     window.getSelection()?.removeAllRanges();
     setHasSelection(false);
-    dirtyH.current.add(passage.id);
-    snapshotBackup();
+    unsavedH.current.set(passage.id, entry);
+    updateBackup(attemptId, (b) => mergeBackup(b, { highlights: { [passage.id]: entry } }));
+    channel.current?.postMessage({ t: "highlights", id: passage.id, h: entry } satisfies TabMessage);
     schedule();
   };
 
@@ -283,20 +361,66 @@ export function ExamRunner({ initial }: { initial: RunnerState }) {
     return () => document.removeEventListener("selectionchange", onSel);
   }, []);
 
-  const submit = useCallback(async () => {
-    if (closed.current) return;
-    setSubmitting(true);
-    if (q) dirtyR.current.add(q.id);
-    await flushRef.current();
-    try {
-      const res = await fetch(`/api/attempts/${attemptId}/submit`, { method: "POST" });
-      if (res.ok || res.status === 404) return goToResults();
-      throw new Error(String(res.status));
-    } catch {
-      setSubmitting(false);
-      setStatus("offline");
-    }
-  }, [attemptId, goToResults, q]);
+  /**
+   * Submit carries every unsaved change, and the server applies them and scores in
+   * one transaction. The device copy is cleared only once the server confirms.
+   * A "timeout" submit is the clock running out here; the server checks its own
+   * deadline and may answer that there's time left (a wrong or sleeping clock).
+   */
+  const submit = useCallback(
+    async (reason: "manual" | "timeout" = "manual") => {
+      if (closed.current) return;
+      setSubmitting(true);
+      pendingSubmit.current = reason;
+      if (timer.current) clearTimeout(timer.current);
+      if (inFlight.current) await inFlight.current.catch(() => {});
+      const s = stateRef.current;
+      const current = questions[s.index];
+      if (current) timeDirty.current.add(current.id);
+      const { body, sent } = buildPayload(true);
+      const sentAt = performance.now();
+      try {
+        const res = await fetch(`/api/attempts/${attemptId}/submit`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ reason, payload: body }),
+        });
+        if (res.ok) {
+          const json = (await res.json()) as SubmitResult;
+          pendingSubmit.current = null;
+          if (json.status === "submitted") {
+            confirmSaved(sent);
+            channel.current?.postMessage({ t: "submitted" } satisfies TabMessage);
+            return goToResults();
+          }
+          // Not over yet on the server's clock: correct ours and keep going.
+          reanchor(json.serverNow, sentAt);
+          setDeadlineAt(json.deadlineAt);
+          setClockArm((n) => n + 1);
+          setSubmitting(false);
+          return;
+        }
+        const fatal = failStatus(res.status);
+        if (fatal) {
+          pendingSubmit.current = null;
+          setStatus(fatal);
+          setSubmitting(false);
+          return;
+        }
+        throw new Error(String(res.status));
+      } catch {
+        // Offline or the server failed: nothing is lost. A timeout submit retries by itself.
+        setStatus("offline");
+        setSubmitting(reason === "timeout");
+        if (reason === "timeout") setTimeout(() => pendingSubmit.current && void submitRef.current("timeout"), retryDelay.current);
+        retryDelay.current = Math.min(retryDelay.current * 2, 30_000);
+      }
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [attemptId, goToResults, questions],
+  );
+  const submitRef = useRef(submit);
+  submitRef.current = submit;
 
   // MCAT-style shortcuts. e.code, because Alt+letter produces symbols on macOS.
   useEffect(() => {
@@ -330,12 +454,15 @@ export function ExamRunner({ initial }: { initial: RunnerState }) {
       {/* top bar */}
       <header className="flex items-center justify-between gap-3 bg-navy px-4 py-2.5 text-sm text-white">
         <div className="min-w-0">
-          <p className="truncate font-medium">{initial.exam.title}</p>
+          <p className="truncate font-medium">
+            {initial.exam.title}
+            {initial.isRetest && " (retest of your misses)"}
+          </p>
           <p className="text-xs text-white/70">
             {view === "review" ? "Review" : `Question ${index + 1} of ${questions.length}`} · {initial.mode === "TIMED" ? "Timed" : "Untimed"}
           </p>
         </div>
-        <ExamClock deadlineAt={initial.deadlineAt} startedAt={initial.startedAt} serverOffsetMs={serverOffsetMs} onExpire={submit} />
+        <ExamClock key={clockArm} deadlineAt={deadlineAt} startedAt={initial.startedAt} serverTime={serverTime} onExpire={() => void submit("timeout")} />
       </header>
 
       {/* toolbar */}
@@ -375,16 +502,29 @@ export function ExamRunner({ initial }: { initial: RunnerState }) {
           )}
           {status === "offline" && (
             <>
-              <CloudOff className="size-3.5" /> Offline, retrying. Your answers are kept on this device.
+              <CloudOff className="size-3.5" /> {submitting ? "Offline. Your submission will go through when you’re back online." : "Offline, retrying. Your answers are kept on this device."}
             </>
           )}
-          {status === "error" && <span className="text-danger">Couldn’t save. Reload the page.</span>}
+          {status === "error" && <span className="text-danger">Couldn’t save one change. Reload the page; your answers are kept on this device.</span>}
+          {status === "signed_out" && (
+            <span className="text-danger">
+              You’re signed out, so answers are being kept on this device.{" "}
+              <a href={`/login?next=${encodeURIComponent(`/exam/${attemptId}`)}`} className="font-medium underline">
+                Sign in to keep saving
+              </a>
+            </span>
+          )}
+          {status === "lost" && <span className="text-danger">This browser can’t save to this set any more. Your answers are kept on this device.</span>}
         </span>
       </div>
 
       {/* body */}
       <main className="min-h-0 flex-1">
-        {view === "review" ? (
+        {initial.deliverOnly ? (
+          <p className="px-6 py-10 text-center text-sm text-muted-foreground" role="status">
+            Time’s up. Saving the answers you made before the deadline, then showing your results…
+          </p>
+        ) : view === "review" ? (
           <ReviewScreen
             questions={questions}
             responses={responses}
@@ -520,7 +660,7 @@ export function ExamRunner({ initial }: { initial: RunnerState }) {
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel>Keep working</AlertDialogCancel>
-            <AlertDialogAction onClick={() => void submit()}>Submit</AlertDialogAction>
+            <AlertDialogAction onClick={() => void submit("manual")}>Submit</AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>

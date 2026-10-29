@@ -4,6 +4,13 @@
 
 export const WRITE_GRACE_MS = 5_000;
 
+/**
+ * Answers made before the deadline but stuck offline can still be delivered for
+ * this long after it. Only changes stamped before the deadline count, so no
+ * answer can be made in extra time; the attempt is scored as of the deadline.
+ */
+export const LATE_DELIVERY_MS = 15 * 60_000;
+
 export type TimedAttempt = {
   mode: "TIMED" | "UNTIMED";
   startedAt: Date;
@@ -24,6 +31,11 @@ export function acceptsWrites(attempt: TimedAttempt, now: number): boolean {
   return attempt.deadlineAt === null || now <= attempt.deadlineAt.getTime() + WRITE_GRACE_MS;
 }
 
+/** Past the deadline but still inside the late-delivery window. */
+export function inLateDelivery(attempt: TimedAttempt, now: number): boolean {
+  return attempt.deadlineAt !== null && now > attempt.deadlineAt.getTime() && now <= attempt.deadlineAt.getTime() + LATE_DELIVERY_MS;
+}
+
 export function remainingMs(attempt: TimedAttempt, now: number): number | null {
   return attempt.deadlineAt === null ? null : Math.max(0, attempt.deadlineAt.getTime() - now);
 }
@@ -36,6 +48,26 @@ export function clampTimeSpent(reported: number, previous: number, startedAt: Da
   const elapsed = Math.max(0, now - startedAt.getTime());
   const value = Math.min(Math.max(0, Math.floor(reported)), elapsed);
   return Math.max(previous, value);
+}
+
+/**
+ * When a change happened, for newest-wins ordering. The browser reports its
+ * estimate on the server's clock; it can't predate the attempt or postdate its
+ * arrival, so a wrong device clock can't make a change outrank later ones.
+ * Older clients send nothing: the arrival time stands in.
+ */
+export function resolveChangedAt(reported: number | undefined, startedAt: number, now: number): number {
+  if (reported === undefined || !Number.isFinite(reported)) return now;
+  return Math.min(Math.max(Math.floor(reported), startedAt), now);
+}
+
+/**
+ * Remaining time from a monotonic anchor: the server's clock at the last sync
+ * plus time measured by performance.now() since then. A change to the device
+ * clock (manual, NTP, sleep) can't move it; only a fresh server time can.
+ */
+export function remainingFromAnchor(deadlineAt: number, anchor: { serverNow: number; perfAt: number }, perfNow: number): number {
+  return deadlineAt - (anchor.serverNow + (perfNow - anchor.perfAt));
 }
 
 export function formatClock(ms: number): string {

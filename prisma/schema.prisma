@@ -40,14 +40,14 @@ enum Authorship {
 // ---------------------------------------------------------------- identity
 
 model User {
-  id           String    @id @default(cuid())
-  email        String    @unique // always stored lowercased
-  name         String?
-  passwordHash String
-  role         Role      @default(STUDENT)
-  createdAt    DateTime  @default(now())
-  updatedAt    DateTime  @updatedAt
-  lastLoginAt  DateTime?
+  id             String    @id @default(cuid())
+  email          String    @unique // always stored lowercased
+  name           String?
+  passwordHash   String
+  role           Role      @default(STUDENT)
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+  lastLoginAt    DateTime?
   // Optional, set by the student; drives the study plan's weekly pacing.
   targetTestDate DateTime? @db.Date
 
@@ -88,11 +88,11 @@ model PasswordResetToken {
 // ---------------------------------------------------------------- content
 
 model Topic {
-  id        String          @id @default(cuid())
-  slug      String          @unique
-  name      String
-  section   Section
-  questions QuestionTopic[]
+  id             String          @id @default(cuid())
+  slug           String          @unique
+  name           String
+  section        Section
+  questions      QuestionTopic[]
   misconceptions Misconception[]
 }
 
@@ -140,48 +140,72 @@ model PassageFigure {
 }
 
 model Question {
-  id          String        @id @default(cuid())
-  externalId  String?       @unique
-  section     Section
-  passageId   String?
-  passage     Passage?      @relation(fields: [passageId], references: [id], onDelete: SetNull)
-  stem        String
-  explanation String
-  difficulty  Int? // 1 (easier) – 5 (harder), author's estimate
-  figureId    String?
-  figure      Asset?        @relation(fields: [figureId], references: [id], onDelete: SetNull)
-  status      ContentStatus @default(DRAFT)
-  authoredBy  Authorship    @default(HUMAN)
+  id           String        @id @default(cuid())
+  externalId   String?       @unique
+  section      Section
+  passageId    String?
+  passage      Passage?      @relation(fields: [passageId], references: [id], onDelete: SetNull)
+  stem         String
+  explanation  String
+  difficulty   Int? // 1 (easier) – 5 (harder), author's estimate
+  figureId     String?
+  figure       Asset?        @relation(fields: [figureId], references: [id], onDelete: SetNull)
+  status       ContentStatus @default(DRAFT)
+  authoredBy   Authorship    @default(HUMAN)
   /// Set when an admin approves the question's content (required to publish AI-authored questions).
   reviewedById String?
   reviewedAt   DateTime?
-  createdAt   DateTime      @default(now())
-  updatedAt   DateTime      @updatedAt
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
 
   choices     Choice[]
   topics      QuestionTopic[]
   examItems   ExamItem[]
   responses   Response[]
   lessonSteps LessonStep[]
+  versions    QuestionVersion[]
 
   @@index([passageId])
   @@index([section, status])
 }
 
 model Choice {
-  id          String     @id @default(cuid())
-  questionId  String
-  question    Question   @relation(fields: [questionId], references: [id], onDelete: Cascade)
-  label       String // "A" – "D"
-  text        String
-  isCorrect   Boolean    @default(false)
-  rationale   String? // why this option is right or wrong
+  id              String         @id @default(cuid())
+  questionId      String
+  question        Question       @relation(fields: [questionId], references: [id], onDelete: Cascade)
+  label           String // "A" – "D"
+  text            String
+  isCorrect       Boolean        @default(false)
+  rationale       String? // why this option is right or wrong
   /// The misconception this wrong choice reveals, if any.
   misconceptionId String?
   misconception   Misconception? @relation(fields: [misconceptionId], references: [id], onDelete: SetNull)
-  responses   Response[]
+  responses       Response[]
 
   @@unique([questionId, label])
+}
+
+/// Immutable copy of a question as students saw it: stem, passage, choices (with the
+/// answer key and rationales), explanation and topics. Attempts are pinned to versions,
+/// so editing a published question never changes an attempt in progress or a past result.
+model QuestionVersion {
+  id           String     @id @default(cuid())
+  questionId   String
+  question     Question   @relation(fields: [questionId], references: [id], onDelete: Restrict)
+  version      Int
+  /// sha256 of the canonical snapshot: identical content reuses one version.
+  contentHash  String
+  snapshot     Json
+  authoredBy   Authorship @default(HUMAN)
+  /// The admin who approved this content (publish or an edit while published).
+  reviewedById String?
+  reviewedAt   DateTime?
+  /// The admin whose action created this version; null when first captured at an attempt start.
+  createdById  String?
+  createdAt    DateTime   @default(now())
+
+  @@unique([questionId, version])
+  @@unique([questionId, contentHash])
 }
 
 model QuestionTopic {
@@ -237,23 +261,29 @@ enum AttemptStatus {
 }
 
 model Attempt {
-  id            String        @id @default(cuid())
-  examId        String
-  exam          Exam          @relation(fields: [examId], references: [id], onDelete: Restrict)
-  userId        String?
-  user          User?         @relation(fields: [userId], references: [id], onDelete: Cascade)
-  guestKeyHash  String? // sha256 of the guest cookie for no-login practice
-  mode          AttemptMode
-  status        AttemptStatus @default(IN_PROGRESS)
+  id                 String        @id @default(cuid())
+  examId             String
+  exam               Exam          @relation(fields: [examId], references: [id], onDelete: Restrict)
+  userId             String?
+  user               User?         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  guestKeyHash       String? // sha256 of the guest cookie for no-login practice
+  mode               AttemptMode
+  status             AttemptStatus @default(IN_PROGRESS)
   // Question ids frozen at start so later exam edits never change an attempt in flight.
-  questionOrder String[]
-  startedAt     DateTime      @default(now())
-  deadlineAt    DateTime? // server-authoritative; null when untimed
-  submittedAt   DateTime?
-  autoSubmitted Boolean       @default(false)
-  lastPosition  Int           @default(0)
-  correctCount  Int?
-  totalCount    Int?
+  questionOrder      String[]
+  /// QuestionVersion ids parallel to questionOrder, pinned at start. Empty for attempts started before versioning.
+  questionVersionIds String[]      @default([])
+  /// Set when this attempt retests the missed questions of an earlier one.
+  retestOfId         String?
+  retestOf           Attempt?      @relation("Retests", fields: [retestOfId], references: [id], onDelete: SetNull)
+  retests            Attempt[]     @relation("Retests")
+  startedAt          DateTime      @default(now())
+  deadlineAt         DateTime? // server-authoritative; null when untimed
+  submittedAt        DateTime?
+  autoSubmitted      Boolean       @default(false)
+  lastPosition       Int           @default(0)
+  correctCount       Int?
+  totalCount         Int?
 
   responses  Response[]
   highlights PassageHighlight[]
@@ -275,6 +305,9 @@ model Response {
   flagged             Boolean   @default(false)
   timeSpentMs         Int       @default(0)
   isCorrect           Boolean? // written once, at scoring
+  /// When the student made this change, on the server's clock as the browser estimates it.
+  /// Newest change wins, so a stale tab or an old offline backup can't overwrite a later answer.
+  clientChangedAt     DateTime?
   updatedAt           DateTime  @updatedAt
 
   @@unique([attemptId, questionId])
@@ -329,19 +362,19 @@ model SavedResource {
 }
 
 model PricingPlan {
-  id          String        @id @default(cuid())
-  slug        String        @unique
-  name        String
-  priceLabel  String // "Free", "$2,000", "Let’s talk"
-  detail      String? // "15 minutes"
-  features    String[]
-  note        String? // e.g. "Package contents confirmed on your consult call"
-  ctaLabel    String
-  ctaHref     String
-  featured    Boolean       @default(false)
-  position    Int           @default(0)
-  status      ContentStatus @default(DRAFT)
-  updatedAt   DateTime      @updatedAt
+  id         String        @id @default(cuid())
+  slug       String        @unique
+  name       String
+  priceLabel String // "Free", "$2,000", "Let’s talk"
+  detail     String? // "15 minutes"
+  features   String[]
+  note       String? // e.g. "Package contents confirmed on your consult call"
+  ctaLabel   String
+  ctaHref    String
+  featured   Boolean       @default(false)
+  position   Int           @default(0)
+  status     ContentStatus @default(DRAFT)
+  updatedAt  DateTime      @updatedAt
 }
 
 model Testimonial {
@@ -470,22 +503,22 @@ model Misconception {
 }
 
 model Lesson {
-  id          String        @id @default(cuid())
-  slug        String        @unique
-  title       String
-  section     Section?
-  summary     String
-  objectives  String[]
-  status      ContentStatus @default(DRAFT)
-  authoredBy  Authorship    @default(HUMAN)
+  id                 String         @id @default(cuid())
+  slug               String         @unique
+  title              String
+  section            Section?
+  summary            String
+  objectives         String[]
+  status             ContentStatus  @default(DRAFT)
+  authoredBy         Authorship     @default(HUMAN)
   /// The snapshot students see. Null until a version is approved.
-  publishedVersionId String?   @unique
+  publishedVersionId String?        @unique
   publishedVersion   LessonVersion? @relation("PublishedVersion", fields: [publishedVersionId], references: [id], onDelete: SetNull)
-  createdAt   DateTime      @default(now())
-  updatedAt   DateTime      @updatedAt
+  createdAt          DateTime       @default(now())
+  updatedAt          DateTime       @updatedAt
 
-  steps    LessonStep[]
-  versions LessonVersion[] @relation("LessonVersions")
+  steps           LessonStep[]
+  versions        LessonVersion[] @relation("LessonVersions")
   previewAttempts LessonAttempt[] @relation("PreviewAttempts")
 }
 
@@ -534,9 +567,9 @@ model LessonAttempt {
   previewLessonId String?
   previewLesson   Lesson?        @relation("PreviewAttempts", fields: [previewLessonId], references: [id], onDelete: Cascade)
   userId          String?
-  user            User?         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user            User?          @relation(fields: [userId], references: [id], onDelete: Cascade)
   guestKeyHash    String?
-  startedAt       DateTime      @default(now())
+  startedAt       DateTime       @default(now())
   completedAt     DateTime?
 
   answers LessonAnswer[]

@@ -1,11 +1,14 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { setQuestionStatus } from "@/lib/admin/actions";
+import { Button } from "@/components/ui/button";
+import { approveQuestion, setQuestionStatus } from "@/lib/admin/actions";
+import { changedFields, type VersionSnapshot } from "@/lib/exam/versions";
 import { requireAdmin } from "@/lib/auth/dal";
 import { db } from "@/lib/db";
 import { Banner, Section } from "../../_components/fields";
+import { ActionForm } from "../../_components/action-form";
 import { StatusControl } from "../../_components/status-control";
-import { PageHeader } from "../../_components/ui";
+import { PageHeader, formatDate } from "../../_components/ui";
 import { QuestionEditor } from "../question-editor";
 
 // Admin content is read fresh per request, so this segment opts out of instant-navigation validation.
@@ -26,6 +29,12 @@ export default async function EditQuestionPage({ params, searchParams }: PagePro
     },
   });
   if (!q) notFound();
+  const versions = await db.questionVersion.findMany({ where: { questionId: id }, orderBy: { version: "desc" } });
+  const people = new Map(
+    (await db.user.findMany({ where: { id: { in: versions.flatMap((v) => [v.createdById, v.reviewedById].filter((x): x is string => Boolean(x))) } }, select: { id: true, email: true } })).map((u) => [u.id, u.email]),
+  );
+  // How many attempts each version is pinned to: those results always show that version.
+  const pinned = await Promise.all(versions.map((v) => db.attempt.count({ where: { questionVersionIds: { has: v.id } } })));
 
   return (
     <>
@@ -55,6 +64,48 @@ export default async function EditQuestionPage({ params, searchParams }: PagePro
               </>
             )}
           </p>
+        </Section>
+        {q.authoredBy === "AI" && (
+          <Section title="Human review" description="This question was drafted by AI. It can't be published until an admin has checked the question, the answer key and every rationale.">
+            {q.reviewedById ? (
+              <p className="text-sm text-success">Approved {formatDate(q.reviewedAt)}.</p>
+            ) : (
+              <ActionForm action={approveQuestion} className="grid gap-3">
+                <input type="hidden" name="id" value={q.id} />
+                <label className="flex items-start gap-2 text-sm">
+                  <input type="checkbox" name="attest" className="mt-0.5" />
+                  <span>I have checked the science, the correct answer and the rationale for every choice.</span>
+                </label>
+                <div>
+                  <Button type="submit" size="sm">Approve</Button>
+                </div>
+              </ActionForm>
+            )}
+          </Section>
+        )}
+        <Section
+          title="Version history"
+          description="Each attempt is pinned to the version current when it started, so edits never change a result a student already has. Versions are created when the question is published, edited while published, or first served."
+        >
+          {versions.length === 0 ? (
+            <p className="text-sm text-muted-foreground">No versions yet: one is recorded when the question is published or first served to a student.</p>
+          ) : (
+            <ol className="space-y-3 text-sm" data-testid="version-history">
+              {versions.map((v, i) => (
+                <li key={v.id} className="rounded-lg border p-3">
+                  <p>
+                    <span className="font-semibold">Version {v.version}</span>, {formatDate(v.createdAt)}
+                    {v.createdById ? `, by ${people.get(v.createdById) ?? "a deleted account"}` : ", captured when first served"}
+                    {v.reviewedById ? `. Reviewed by ${people.get(v.reviewedById) ?? "a deleted account"}` : ". Not reviewed"}
+                    {v.authoredBy === "AI" ? " (AI-drafted)" : ""}. {pinned[i]} attempt{pinned[i] === 1 ? "" : "s"}.
+                  </p>
+                  <p className="mt-1 text-xs text-muted-foreground">
+                    {changedFields((versions[i + 1]?.snapshot as unknown as VersionSnapshot | undefined) ?? null, v.snapshot as unknown as VersionSnapshot).join(", ")}
+                  </p>
+                </li>
+              ))}
+            </ol>
+          )}
         </Section>
         <QuestionEditor
           question={{

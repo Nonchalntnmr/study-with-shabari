@@ -1,6 +1,6 @@
 // Publishing and role rules, kept pure so they can be tested without a database.
 
-export type ChoiceForCheck = { label: string; text: string; isCorrect: boolean; misconceptionId?: string | null };
+export type ChoiceForCheck = { label: string; text: string; isCorrect: boolean; misconceptionId?: string | null; rationale?: string | null };
 export type QuestionForCheck = {
   stem: string;
   explanation: string;
@@ -9,6 +9,8 @@ export type QuestionForCheck = {
   /** Omitted for legacy callers: treated as human-written. */
   authoredBy?: "HUMAN" | "AI";
   reviewedById?: string | null;
+  /** Omitted by callers that check topics elsewhere. */
+  topicCount?: number;
 };
 
 const LABELS = ["A", "B", "C", "D"];
@@ -25,6 +27,10 @@ export function questionPublishProblems(q: QuestionForCheck): string[] {
 
   const correct = q.choices.filter((c) => c.isCorrect).length;
   if (correct !== 1) problems.push(correct === 0 ? "Mark one choice as correct." : "Only one choice can be correct.");
+
+  // Every choice explains itself: why the answer is right and why each distractor is wrong.
+  if (q.choices.some((c) => c.rationale !== undefined && !c.rationale?.trim())) problems.push("Write a rationale for every choice, including why each wrong answer is wrong.");
+  if (q.topicCount !== undefined && q.topicCount === 0) problems.push("Tag at least one topic.");
 
   const texts = q.choices.map((c) => c.text.trim().toLowerCase());
   if (new Set(texts).size !== texts.length) problems.push("Two choices have identical text.");

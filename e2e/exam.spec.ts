@@ -71,7 +71,7 @@ test("3-9. guest takes a timed set: answer, strike, flag, highlight, timer, relo
   await expect(page.getByTestId("result-item")).toHaveCount(8);
   await expect(page.getByText("Explanation").first()).toBeVisible();
   await expect(page.getByText(/Henderson–Hasselbalch/).first()).toBeVisible();
-  await page.getByRole("button", { name: "Missed" }).click();
+  await page.getByRole("button", { name: "Missed", exact: true }).click();
   await expect(page.getByTestId("result-item")).toHaveCount(4);
 
   // The server agrees with the page.

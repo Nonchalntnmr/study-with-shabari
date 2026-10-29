@@ -22,6 +22,8 @@ export default function ExamPage({ params }: PageProps<"/exam/[attemptId]">) {
 async function Runner({ attemptId }: { attemptId: string }) {
   const result = await loadRunnerState(attemptId, await getViewer());
   if (result.kind === "not_found") notFound();
+  // An account's attempt opened while signed out: sign in, then come straight back.
+  if (result.kind === "signed_out") redirect(`/login?next=${encodeURIComponent(`/exam/${attemptId}`)}`);
   if (result.kind === "submitted") redirect(`/exam/${attemptId}/results`);
   return <ExamRunner initial={result.state} />;
 }

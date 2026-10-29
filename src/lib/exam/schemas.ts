@@ -8,6 +8,8 @@ export const responseInput = z.object({
   eliminatedChoiceIds: z.array(id).max(10),
   flagged: z.boolean(),
   timeSpentMs: z.number().int().min(0).max(24 * 3600 * 1000),
+  /** When the change was made, as the browser estimates the server's clock (ms since epoch). */
+  changedAt: z.number().int().positive().optional(),
 });
 
 export const highlightInput = z.object({
@@ -21,6 +23,12 @@ export const syncPayload = z.object({
   responses: z.array(responseInput).max(200).default([]),
   highlights: z.array(highlightInput).max(50).default([]),
   lastPosition: z.number().int().min(0).max(1000).optional(),
+});
+
+export const submitInput = z.object({
+  reason: z.enum(["manual", "timeout"]).default("manual"),
+  /** The browser's last unsaved changes, applied in the same transaction as the submit. */
+  payload: syncPayload.optional(),
 });
 
 export type ResponseInput = z.infer<typeof responseInput>;
