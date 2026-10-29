@@ -59,7 +59,7 @@ export const sectionShort = {
 export type SectionCode = keyof typeof sectionNames;
 
 export const mainNav = [
-  { href: "/mcat-tutoring", label: "MCAT tutoring" },
+  { href: "/mcat", label: "MCAT Prep" },
   { href: "/admissions", label: "Admissions" },
   { href: "/practice", label: "Practice" },
   { href: "/resources", label: "Free notes" },

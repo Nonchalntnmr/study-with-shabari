@@ -3,7 +3,7 @@ import { CtaBand } from "@/components/site/cta-band";
 import { Container, PageIntro } from "@/components/site/section";
 import { faqs } from "@/lib/faq";
 
-export const metadata: Metadata = { title: "FAQ", description: "Answers about tutoring, practice sets, payment and accounts.", alternates: { canonical: "/faq" } };
+export const metadata: Metadata = { title: "FAQ", description: "Answers about MCAT prep, college admissions, sessions, payment and the free practice platform.", alternates: { canonical: "/faq" } };
 
 export default function FaqPage() {
   const jsonLd = {
@@ -17,14 +17,14 @@ export default function FaqPage() {
       <PageIntro eyebrow="FAQ" title="Questions" />
       <section className="py-16">
         <Container className="max-w-3xl">
-          <div className="divide-y border-y">
+          <div className="divide-y divide-hairline border-y border-hairline">
             {faqs.map((f) => (
               <details key={f.q} className="group py-5">
-                <summary className="flex cursor-pointer list-none items-center justify-between gap-4 text-lg font-medium text-navy">
+                <summary className="flex cursor-pointer list-none items-center justify-between gap-4 text-lg font-semibold text-hema">
                   {f.q}
                   <span aria-hidden className="text-xl text-muted-foreground transition group-open:rotate-45">+</span>
                 </summary>
-                <p className="mt-3 text-muted-foreground">{f.a}</p>
+                <p className="mt-3 text-[1.0625rem] text-specimen/85">{f.a}</p>
               </details>
             ))}
           </div>

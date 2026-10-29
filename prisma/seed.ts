@@ -27,53 +27,42 @@ async function main() {
     console.log(`lesson ${json.lesson.slug}:`, await importLesson(db, json));
   }
 
-  // Pricing exactly as provided in the brief. Package contents await founder confirmation.
+  // MCAT pricing as written in docs/FOUNDER-SPEC.md (section 4). Admissions prices are blank in the
+  // spec and live in src/lib/founder-facts.ts until the founder supplies them.
   const plans = [
     {
       slug: "consult",
-      name: "Free consultation",
-      priceLabel: "$0",
-      detail: "15 minutes on Zoom",
-      features: [
-        "Talk through your timeline, scores and weak spots",
-        "Leave with a next step, whether or not we work together",
-      ],
+      name: "Free 15-minute consult call",
+      priceLabel: "Free",
+      detail: "On Zoom",
+      features: ["Talk through your timeline, scores and weak spots", "Leave with a next step, whether or not we work together"],
       note: null,
       ctaLabel: "Book a free call",
-      ctaHref: "/book",
+      ctaHref: "/book?service=mcat",
       featured: false,
       position: 0,
     },
     {
       slug: "full-mcat-package",
-      name: "Full MCAT package",
+      name: "Full MCAT Package",
       priceLabel: "$2,000",
       detail: null,
-      features: [
-        "10 live 1:1 sessions",
-        "2 original full-length practice exams",
-        "2,000 original practice questions with explanations",
-        "A study plan built around your test date",
-      ],
-      note: "Package details are confirmed on your free consultation.",
+      features: ["10 live 1:1 sessions", "2 original full-length exams", "2,000 original practice questions with explanations", "Personalized study plan"],
+      note: null,
       ctaLabel: "Start with a free call",
-      ctaHref: "/book",
+      ctaHref: "/book?service=mcat",
       featured: true,
       position: 1,
     },
     {
       slug: "custom-plan",
-      name: "Custom plan",
-      priceLabel: "Let’s talk",
-      detail: "Pricing after consultation",
-      features: [
-        "Just one section, or just a few sessions",
-        "Targeted question sets for your weak areas",
-        "College application help, too",
-      ],
+      name: "Custom MCAT plan",
+      priceLabel: "Priced on the consult call",
+      detail: null,
+      features: ["Fewer sessions or a single-section focus"],
       note: null,
       ctaLabel: "Ask on a call",
-      ctaHref: "/book",
+      ctaHref: "/book?service=mcat",
       featured: false,
       position: 2,
     },

@@ -19,7 +19,7 @@ export default async function PracticePage() {
   const sections = (["CP", "BB", "PS", "CARS"] as SectionCode[]).filter((s) => exams.some((e) => e.section === s));
   return (
     <>
-      <PageIntro eyebrow="Practice" title={<>Practice like it’s <span className="hl">test day</span>.</>}>
+      <PageIntro eyebrow="Practice" title="Practice like it’s test day.">
         Original passage-style questions I wrote, with full explanations. Start anywhere. No account needed.
       </PageIntro>
       <section className="py-14">

@@ -1,46 +1,41 @@
 import type { Metadata } from "next";
-import Link from "next/link";
-import { CalendlyEmbed } from "@/components/site/calendly-embed";
-import { Container, PageIntro } from "@/components/site/section";
-import { Button } from "@/components/ui/button";
+import { Suspense } from "react";
+import { BookingToggle } from "@/components/b/booking-toggle";
+import { Kicker, PaymentNote, Wrap } from "@/components/b/primitives";
 import { safeCalendlyUrl } from "@/lib/calendly";
 import { contactEmail } from "@/lib/site";
 
 export const metadata: Metadata = {
-  title: "Book a free 15-minute consultation",
-  description: "Pick a time for a free 15-minute Zoom call about your MCAT plan.",
+  title: "Book a free 15-minute call",
+  description: "Pick a time for a free 15-minute Zoom call about MCAT prep or college admissions.",
   alternates: { canonical: "/book" },
 };
 
-const calendlyUrl = safeCalendlyUrl(process.env.NEXT_PUBLIC_CALENDLY_URL);
+// Two slots per the founder spec. NEXT_PUBLIC_CALENDLY_URL is the earlier single link and still serves MCAT.
+const urls = {
+  mcat: safeCalendlyUrl(process.env.NEXT_PUBLIC_CALENDLY_URL_MCAT || process.env.NEXT_PUBLIC_CALENDLY_URL),
+  admissions: safeCalendlyUrl(process.env.NEXT_PUBLIC_CALENDLY_URL_ADMISSIONS),
+};
 
 export default function BookPage() {
   return (
     <>
-      <PageIntro eyebrow="Free consultation" title="Book a free 15-minute call.">
-        We’ll talk through your timeline, scores and weak spots. You leave with a next step, whether or not we work together.
-      </PageIntro>
+      <section aria-labelledby="book-h" className="border-b border-hairline bg-mist pb-14 pt-10 sm:pb-16 sm:pt-16">
+        <Wrap>
+          <Kicker>Free consultation</Kicker>
+          <h1 id="book-h" className="mt-4 text-[clamp(2.35rem,4.2vw,3.9rem)] leading-[1.04]">
+            Book a free 15-minute call.
+          </h1>
+          <p className="mt-5 max-w-2xl text-[1.125rem] text-quiet">On Zoom. Choose MCAT or College Admissions, then pick a time. Parents are welcome to join.</p>
+          <PaymentNote className="mt-2" />
+        </Wrap>
+      </section>
       <section className="py-14">
-        <Container className="max-w-4xl">
-          {calendlyUrl ? (
-            <CalendlyEmbed url={calendlyUrl} />
-          ) : (
-            <div className="rounded-2xl border bg-white p-8 text-center">
-              <h2 className="text-xl font-semibold">Online scheduling is coming soon.</h2>
-              <p className="mx-auto mt-2 max-w-md text-muted-foreground">
-                In the meantime, send a few times that work for you and I’ll confirm one by email.
-              </p>
-              <div className="mt-6 flex flex-wrap justify-center gap-3">
-                <Button asChild className="h-11 px-5">
-                  <Link href="/contact?topic=consultation">Request a time</Link>
-                </Button>
-                <Button asChild variant="outline" className="h-11 px-5">
-                  <a href={`mailto:${contactEmail}?subject=${encodeURIComponent("MCAT tutoring consult")}`}>Email {contactEmail}</a>
-                </Button>
-              </div>
-            </div>
-          )}
-        </Container>
+        <Wrap className="max-w-5xl">
+          <Suspense fallback={null}>
+            <BookingToggle urls={urls} contactEmail={contactEmail} />
+          </Suspense>
+        </Wrap>
       </section>
     </>
   );
