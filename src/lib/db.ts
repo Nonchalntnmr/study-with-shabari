@@ -1,6 +1,7 @@
 import "server-only";
 import { PrismaPg } from "@prisma/adapter-pg";
 import { PrismaClient } from "@/generated/prisma/client";
+import { poolConfig } from "./db-config";
 
 // One client per server process, created on first use so that importing this
 // module (during a build, or from a test of unrelated code) never needs a database.
@@ -10,7 +11,7 @@ function client(): PrismaClient {
   if (globalForPrisma.prisma) return globalForPrisma.prisma;
   const connectionString = process.env.DATABASE_URL;
   if (!connectionString) throw new Error("DATABASE_URL is not set");
-  const adapter = new PrismaPg({ connectionString, max: Number(process.env.DATABASE_POOL_MAX ?? 5) });
+  const adapter = new PrismaPg({ ...poolConfig(connectionString), max: Number(process.env.DATABASE_POOL_MAX ?? 5) });
   // Cached in production too: one pool per serverless instance.
   globalForPrisma.prisma = new PrismaClient({ adapter });
   return globalForPrisma.prisma;

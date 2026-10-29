@@ -1,5 +1,7 @@
 # Deploying Study with Shabari
 
+> **Status, 2026-10-29:** Supabase project `oxihkuivrwnwlrsolwzx` (us-east-1) has all 3 migrations applied, RLS verified (24/24 tables; `anon` and `authenticated` get *permission denied*), the sample bank imported as **REVIEW** (3 exams, 24 questions), and one admin (revuri.n@northeastern.edu). Pricing plans and note resources are **not** seeded yet (`npx prisma db seed` adds them). No Vercel project exists and DNS is unchanged.
+
 Production runs on **Vercel**, with the database and image storage on **Supabase** and the domains and DNS on **IONOS**. Nothing below has been done yet: no Vercel project, Supabase project, or DNS change exists. Steps marked **(founder)** need account access, and anything that costs money or changes live DNS needs approval first.
 
 Estimated cost: Vercel Hobby and Supabase Free tiers cover launch traffic. One caveat: Vercel's Hobby plan is for non-commercial use, and this is a paid tutoring business, so plan on **Vercel Pro (paid)**. That needs approval. The IONOS mailbox for `hello@` is also a paid add-on (see [IONOS.md](./IONOS.md)).
@@ -22,7 +24,8 @@ Estimated cost: Vercel Hobby and Supabase Free tiers cover launch traffic. One c
 | Variable | Value |
 |---|---|
 | `DATABASE_URL` | Supabase transaction pooler URL |
-| `DIRECT_URL` | Supabase direct/session URL |
+| `DIRECT_URL` | Supabase session pooler URL |
+| `DATABASE_SSL_CA` | contents of the CA certificate from Supabase → Database → SSL configuration. **Required**: node-postgres verifies certificates under `sslmode=require`, and Supabase's CA isn't in Node's trust store, so without it every query fails with "self-signed certificate in certificate chain" (seen 2026-10-29) |
 | `AUTH_SECRET` | `openssl rand -base64 48` |
 | `NEXT_PUBLIC_SITE_URL` | `https://studywithshabari.com` |
 | `NEXT_PUBLIC_CONTACT_EMAIL` | `jshankar@mit.edu` until `hello@` is verified |
