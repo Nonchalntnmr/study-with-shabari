@@ -124,7 +124,9 @@ Audit and fix, with evidence:
 
 ---
 
-## Amendment 2 (founder, 09:07): implement docs/FOUNDER-SPEC.md in full, now
+## Amendment 2 — WITHDRAWN (never sent to the session). Superseded by Amendment 3 below. Kept only for history.
+
+~~Amendment 2 (founder, 09:07): implement docs/FOUNDER-SPEC.md in full, now~~
 
 The founder said "fix all rn". This supersedes the visual direction in CREATIVE-DIRECTION.md and the
 "no scope expansion" rule in Amendment 1. **`docs/FOUNDER-SPEC.md` is now the source of truth for every fact
@@ -160,3 +162,62 @@ and for the site structure.** Copy facts exactly as written; do not embellish or
 ### Guardrails that still apply
 No logos or trademarks of MIT, Ivies, AAMC, Kaplan or Princeton Review. School names as plain text tiles only.
 Keep "Not affiliated with MIT/AAMC" disclaimers. No testimonials or outcomes beyond the spec. No deploys, DNS or spending.
+
+
+---
+
+## Amendment 3 (founder, 09:21): FINAL DESIGN DECISION — Concept B, Scientific Interactive
+
+Concept B combines the immersive scientific visualisation with the clean, sophisticated language of Concept A
+(white, navy and electric blue). Not more animation and not less: a site that builds trust, demonstrates teaching
+quality and converts visitors into students.
+
+### Preserve everything already done
+- Do **not** discard the cinematic redesign, the dopamine model, the lesson and learning loop, the 522 visualisation,
+  the journey tests, privacy fixes, security, the exam engine, explanations, autosave, admin publishing workflow or analytics.
+- Keep every branch and commit. Commit the current work on `redesign/cinematic` first, then do Concept B on a **new branch**
+  `redesign/concept-b` created from it. Never rewrite history, never force-push, never delete branches or worktrees.
+- `main` and the current homepage are untouched until the founder approves the previews.
+
+### Sources of truth
+- `docs/FOUNDER-SPEC.md` is the source of truth for **facts and business requirements** (credentials, academic history,
+  research, services, pricing, FAQ, booking, payment). It is **not** the final authority on visual design.
+- Copy facts as written. Do not invent or embellish. Keep a list in `docs/VERIFY.md` of anything that still needs
+  verification. Known items: "a senior at MIT" vs Class of 2027 timing, admissions prices (blank), notes URLs,
+  Calendly URLs, the "Zoom" detail (now confirmed by the spec), publication titles/dates exactly as listed.
+- Factual correction now, in a small separate commit: majors are "Chemistry & Molecular Biology (Course 5-7) and
+  Neuroscience (Course 9)", not "Biochemistry and Computational Neuroscience". Fix everywhere.
+
+### Concept B visual identity
+- Premium **white, navy and electric blue**, with **restrained purple/teal scientific accents** (only inside scientific
+  visuals: atoms, pathway lines, diagrams). No neon, no gradient washes, no glow.
+- Excellent typography and premium editorial layouts. Pick a refined pairing that suits white/navy/blue (the serif may
+  stay for display if it reads premium on white; justify the choice in the preview notes).
+- **Hero:** keep the interactive 3D molecule (refined lighting for white), refined type, strong CTAs. Hero copy and
+  structure from the spec: headline, two equal panels (MCAT / College Admissions) with their buttons,
+  "Book a free 15-min call", credibility strip.
+- **Motion:** sophisticated and purposeful, never excessive. Remove heavy scroll choreography that distracts from
+  services; the pinned three-chapter story moves into the MCAT section as the interactive dopamine lesson.
+
+### Two equal services
+- **MCAT journey:** tutoring (spec section 1), the dopamine lesson with interactive questions and explanations,
+  free practice platform (complete exam engine), free notes, MCAT pricing, MCAT booking.
+- **Admissions journey:** its own equally premium, fully developed landing (spec sections 5–10): school-name tiles
+  (plain text, no logos), headline, high-school record, what I help with, why trust me with essays, mentoring,
+  admissions pricing ("Priced on your consult call" until prices are given), admissions booking.
+- Shared: Research & Teaching (timeline), Mudzi, About (her bio, real photo), booking with an MCAT / College Admissions
+  toggle and two Calendly slots, FAQ (all 7), payment note under both pricing sections, footer.
+- **Founder:** verified credentials, authentic research, strong personal storytelling, all from the spec.
+- **Mobile:** fast, beautiful, accessible, conversion-focused. Book and practice visible on the first screen.
+
+### Checkpoint before replacing the homepage
+Build Concept B on `redesign/concept-b`. Before merging it anywhere, save previews to
+`~/projects/study-with-shabari/.local/shots/concept-b/` from the production build:
+`home-1440.png`, `home-390.png`, `mcat-1440.png`, `mcat-390.png`, `admissions-1440.png`, `admissions-390.png`
+(full-page and first-screen versions), plus `PREVIEW-NOTES.md` listing what is **preserved, removed and redesigned**.
+Then stop for the founder's review of the visuals. Safe engineering, tests, factual fixes and M2 (exam reliability
+audit) can continue in parallel.
+
+### Still in force
+AI-written content stays unpublished until Shabari approves it. No invented testimonials, outcomes or endorsements.
+No logos of MIT, Ivies, AAMC or prep companies. Keep disclaimers. No public deploy, DNS or spending without confirmation.
