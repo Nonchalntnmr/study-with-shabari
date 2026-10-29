@@ -2,6 +2,7 @@
 
 import { CheckCircle2 } from "lucide-react";
 import { useEffect, useState } from "react";
+import { useHost } from "@/lib/use-client-value";
 
 const CALENDLY_ORIGIN = "https://calendly.com";
 
@@ -12,15 +13,11 @@ const CALENDLY_ORIGIN = "https://calendly.com";
  */
 export function CalendlyEmbed({ url }: { url: string }) {
   const [scheduled, setScheduled] = useState(false);
-  const [src, setSrc] = useState<string | null>(null);
+  const host = useHost();
+  // Calendly only posts events to the parent when told which domain embeds it.
+  const src = host ? withEmbedParams(url, host) : null;
 
   useEffect(() => {
-    // Calendly only posts events to the parent when told which domain embeds it.
-    const u = new URL(url);
-    u.searchParams.set("embed_domain", window.location.host);
-    u.searchParams.set("embed_type", "Inline");
-    setSrc(u.toString());
-
     function onMessage(e: MessageEvent) {
       if (e.origin !== CALENDLY_ORIGIN) return;
       const data = e.data as { event?: string } | null;
@@ -50,4 +47,11 @@ export function CalendlyEmbed({ url }: { url: string }) {
       </div>
     </div>
   );
+}
+
+function withEmbedParams(url: string, host: string): string {
+  const u = new URL(url);
+  u.searchParams.set("embed_domain", host);
+  u.searchParams.set("embed_type", "Inline");
+  return u.toString();
 }

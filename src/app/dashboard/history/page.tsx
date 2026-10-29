@@ -12,13 +12,7 @@ export const metadata: Metadata = { title: "Practice history", robots: { index: 
 
 export default async function HistoryPage() {
   const user = await requireUser("/dashboard/history");
-  const attempts = await db.attempt.findMany({
-    where: { userId: user.id },
-    orderBy: { startedAt: "desc" },
-    take: 200,
-    select: { id: true, status: true, mode: true, startedAt: true, submittedAt: true, deadlineAt: true, autoSubmitted: true, correctCount: true, totalCount: true, exam: { select: { title: true } } },
-  });
-  const now = Date.now();
+  const attempts = await loadHistory(user.id);
   return (
     <div className="mx-auto w-full max-w-4xl px-4 py-10">
       <h1 className="text-3xl font-semibold tracking-[-0.02em]">Practice history</h1>
@@ -46,7 +40,7 @@ export default async function HistoryPage() {
             <tbody className="divide-y">
               {attempts.map((a) => {
                 const done = a.status === "SUBMITTED";
-                const expired = !done && a.deadlineAt !== null && a.deadlineAt.getTime() < now;
+                const expired = !done && a.expired;
                 return (
                   <tr key={a.id}>
                     <td className="px-4 py-3 font-medium">{a.exam.title}</td>
@@ -71,4 +65,15 @@ export default async function HistoryPage() {
       )}
     </div>
   );
+}
+
+async function loadHistory(userId: string) {
+  const rows = await db.attempt.findMany({
+    where: { userId },
+    orderBy: { startedAt: "desc" },
+    take: 200,
+    select: { id: true, status: true, mode: true, startedAt: true, submittedAt: true, deadlineAt: true, autoSubmitted: true, correctCount: true, totalCount: true, exam: { select: { title: true } } },
+  });
+  const now = Date.now();
+  return rows.map((a) => ({ ...a, expired: a.deadlineAt !== null && a.deadlineAt.getTime() < now }));
 }

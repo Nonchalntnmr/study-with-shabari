@@ -1,7 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { useActionState, useEffect, useState } from "react";
+import { useActionState } from "react";
+import { useSearchParam } from "@/lib/use-client-value";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -10,9 +11,8 @@ import { PASSWORD_MIN_LENGTH } from "@/lib/auth/password-rules";
 
 export function AuthForm({ mode }: { mode: "login" | "signup" }) {
   const [state, action, pending] = useActionState<AuthState, FormData>(mode === "login" ? signIn : signUp, null);
-  // Read after hydration instead of from the server, so the page stays static and the form is never replaced mid-typing.
-  const [next, setNext] = useState<string | undefined>();
-  useEffect(() => setNext(new URLSearchParams(window.location.search).get("next") ?? undefined), []);
+  // Read in the browser so the page stays static and the form is never replaced mid-typing.
+  const next = useSearchParam("next") ?? undefined;
   const qs = next ? `?next=${encodeURIComponent(next)}` : "";
   return (
     <form action={action} className="space-y-5">

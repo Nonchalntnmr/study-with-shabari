@@ -4,13 +4,12 @@ import { getInProgressAttempts } from "@/lib/practice/in-progress";
 export async function ResumeList({ examSlug, heading = "Pick up where you left off" }: { examSlug?: string; heading?: string }) {
   const attempts = await getInProgressAttempts(examSlug);
   if (attempts.length === 0) return null;
-  const now = Date.now();
   return (
     <div className="rounded-2xl border border-blue/30 bg-sky p-5">
       <h2 className="text-base font-semibold">{heading}</h2>
       <ul className="mt-3 space-y-2">
         {attempts.map((a) => {
-          const expired = a.deadlineAt !== null && a.deadlineAt.getTime() < now;
+          const { expired } = a;
           return (
             <li key={a.id} className="flex flex-wrap items-center justify-between gap-3 rounded-xl bg-white px-4 py-3 text-sm">
               <span>

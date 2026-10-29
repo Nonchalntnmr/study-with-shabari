@@ -157,8 +157,6 @@ export function ExamRunner({ initial }: { initial: RunnerState }) {
       })();
       await inFlight.current;
     },
-    // schedule is stable (declared below via ref); eslint can't see that.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     [attemptId, goToResults, snapshotBackup],
   );
 
@@ -181,6 +179,8 @@ export function ExamRunner({ initial }: { initial: RunnerState }) {
     const b = readBackup(attemptId);
     if (!b) return;
     if (Object.keys(b.responses).length) {
+      // localStorage only exists after hydration, so restoring unsynced answers has to happen here.
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setResponses((r) => ({ ...r, ...b.responses }));
       for (const [id, v] of Object.entries(b.responses)) {
         timeRef.current[id] = Math.max(timeRef.current[id] ?? 0, v.timeSpentMs);
@@ -192,7 +192,6 @@ export function ExamRunner({ initial }: { initial: RunnerState }) {
       Object.keys(b.highlights).forEach((id) => dirtyH.current.add(id));
     }
     schedule(200);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [attemptId]);
 
   // Save when the tab is hidden or closed; keepalive lets the request outlive the page.
@@ -210,6 +209,7 @@ export function ExamRunner({ initial }: { initial: RunnerState }) {
   // Time on the visible question, accumulated in a ref and saved every ~15s.
   useEffect(() => {
     if (view !== "question" || !q) return;
+    const dirty = dirtyR.current;
     let last = performance.now();
     let sinceSave = 0;
     const t = setInterval(() => {
@@ -227,7 +227,7 @@ export function ExamRunner({ initial }: { initial: RunnerState }) {
     }, 1000);
     return () => {
       clearInterval(t);
-      dirtyR.current.add(q.id);
+      dirty.add(q.id);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [q?.id, view]);

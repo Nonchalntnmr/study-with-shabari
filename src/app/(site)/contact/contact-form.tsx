@@ -1,6 +1,7 @@
 "use client";
 
-import { useActionState, useEffect, useState } from "react";
+import { useActionState, useState } from "react";
+import { useSearchParam } from "@/lib/use-client-value";
 import { submitInquiry } from "@/lib/inquiries/actions";
 import { INQUIRY_KINDS, KIND_LABELS, initialInquiryState } from "@/lib/inquiries/schema";
 import { Button } from "@/components/ui/button";
@@ -18,11 +19,9 @@ function FieldError({ id, message }: { id: string; message?: string }) {
 
 export function ContactForm() {
   const [state, action, pending] = useActionState(submitInquiry, initialInquiryState);
-  const [kind, setKind] = useState<string>("CONSULTATION");
-  useEffect(() => {
-    const topic = new URLSearchParams(window.location.search).get("topic")?.toUpperCase();
-    if (topic && (INQUIRY_KINDS as readonly string[]).includes(topic)) setKind(topic);
-  }, []);
+  const topic = useSearchParam("topic")?.toUpperCase();
+  const [chosen, setKind] = useState<string | null>(null);
+  const kind = chosen ?? (topic && (INQUIRY_KINDS as readonly string[]).includes(topic) ? topic : "CONSULTATION");
 
   if (state.status === "ok") {
     return (

@@ -6,7 +6,7 @@ import { getViewer } from "@/lib/exam/service";
 export async function getInProgressAttempts(examSlug?: string) {
   const v = await getViewer();
   if (!v.userId && !v.guestKeyHash) return [];
-  return db.attempt.findMany({
+  const rows = await db.attempt.findMany({
     where: {
       status: "IN_PROGRESS",
       ...(examSlug ? { exam: { slug: examSlug } } : {}),
@@ -16,4 +16,6 @@ export async function getInProgressAttempts(examSlug?: string) {
     take: 10,
     select: { id: true, mode: true, startedAt: true, deadlineAt: true, exam: { select: { title: true, slug: true } } },
   });
+  const now = Date.now();
+  return rows.map((a) => ({ ...a, expired: a.deadlineAt !== null && a.deadlineAt.getTime() < now }));
 }
