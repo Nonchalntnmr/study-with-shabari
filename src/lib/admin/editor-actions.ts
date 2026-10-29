@@ -81,7 +81,7 @@ export async function saveQuestion(_prev: ActionResult | null, formData: FormDat
   const existing = d.id
     ? await db.question.findUnique({
         where: { id: d.id },
-        select: { status: true, figureId: true, section: true, passageId: true, choices: { where: { isCorrect: true }, select: { label: true } }, _count: { select: { examItems: true } } },
+        select: { status: true, figureId: true, section: true, passageId: true, authoredBy: true, reviewedById: true, choices: { where: { isCorrect: true }, select: { label: true } }, _count: { select: { examItems: true } } },
       })
     : null;
   if (d.id && !existing) return fail("Question not found.");
@@ -104,7 +104,7 @@ export async function saveQuestion(_prev: ActionResult | null, formData: FormDat
   if (wrongSection.length) return fail(`Topic “${wrongSection[0].name}” belongs to another section.`);
 
   if (existing?.status === "PUBLISHED") {
-    const problems = questionPublishProblems({ stem: d.stem, explanation: d.explanation, choices });
+    const problems = questionPublishProblems({ stem: d.stem, explanation: d.explanation, choices, authoredBy: existing.authoredBy, reviewedById: existing.reviewedById });
     if (topics.length === 0) problems.push("Tag at least one topic.");
     if (problems.length) return fail(`This question is published, so it must stay complete: ${problems.join(" ")}`);
   }

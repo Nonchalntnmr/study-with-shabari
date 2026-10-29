@@ -64,7 +64,7 @@ export async function setQuestionStatus(_prev: ActionResult | null, formData: Fo
   if ("error" in p) return p.error;
   const q = await db.question.findUnique({
     where: { id: p.data.id },
-    select: { stem: true, explanation: true, status: true, passage: { select: { status: true } }, choices: { select: { label: true, text: true, isCorrect: true } } },
+    select: { stem: true, explanation: true, status: true, authoredBy: true, reviewedById: true, passage: { select: { status: true } }, choices: { select: { label: true, text: true, isCorrect: true } } },
   });
   if (!q) return fail("Question not found.");
   if (p.data.status === "PUBLISHED") {

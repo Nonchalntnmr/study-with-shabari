@@ -1,4 +1,4 @@
-// Seeds founder-provided pricing, resource placeholders and the sample bank.
+// Seeds founder-provided pricing, resource placeholders, the sample bank and the lessons.
 //   npx prisma db seed                      → sample sets land in REVIEW for Shabari to approve
 //   npx prisma db seed -- --publish-samples → sample sets are PUBLISHED (dev/test)
 // Never creates users. Use `npm run admin:create` for the admin account.
@@ -9,6 +9,7 @@ import path from "node:path";
 import { PrismaPg } from "@prisma/adapter-pg";
 import { PrismaClient } from "../src/generated/prisma/client";
 import { importBank } from "../src/lib/content/import";
+import { importLesson } from "../src/lib/lessons/import";
 
 const db = new PrismaClient({ adapter: new PrismaPg({ connectionString: process.env.DATABASE_URL! }) });
 const publishSamples = process.argv.includes("--publish-samples");
@@ -17,6 +18,14 @@ async function main() {
   const bank = JSON.parse(readFileSync(path.join(process.cwd(), "content/samples/sample-bank.json"), "utf8"));
   const summary = await importBank(db, bank, publishSamples ? "PUBLISHED" : "REVIEW");
   console.log("sample bank:", summary);
+
+  // Lessons arrive as unpublished drafts (REVIEW) and only an admin's approval publishes them.
+  // Existing lessons are left alone so edits made in /admin/lessons survive a re-seed.
+  for (const file of ["dopamine.json"]) {
+    const json = JSON.parse(readFileSync(path.join(process.cwd(), "content/lessons", file), "utf8"));
+    if (await db.lesson.findUnique({ where: { slug: json.lesson.slug } })) continue;
+    console.log(`lesson ${json.lesson.slug}:`, await importLesson(db, json));
+  }
 
   // Pricing exactly as provided in the brief. Package contents await founder confirmation.
   const plans = [

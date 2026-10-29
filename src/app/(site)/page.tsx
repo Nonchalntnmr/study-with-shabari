@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { StoryScroll } from "@/components/cinema/story-scroll";
 import { Chapters } from "@/components/home/chapters";
+import { LessonInvite } from "@/components/home/lesson-invite";
 import { PracticeSection } from "@/components/home/practice-section";
 import { FinalCta, Founder, HowIHelp, PricingTeaser, PrimaryCta, SecondaryCta, TheScore } from "@/components/home/sections";
 import { DesktopStage, MobileStage } from "@/components/home/stage-slots";
@@ -40,6 +41,7 @@ export default function HomePage() {
         </section>
         <Chapters />
       </StoryScroll>
+      <LessonInvite />
       <HowIHelp />
       <TheScore />
       <PracticeSection />

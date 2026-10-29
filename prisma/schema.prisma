@@ -31,6 +31,12 @@ enum ContentStatus {
   ARCHIVED
 }
 
+/// Who wrote a piece of content. AI-authored content needs a recorded human approval to publish.
+enum Authorship {
+  HUMAN
+  AI
+}
+
 // ---------------------------------------------------------------- identity
 
 model User {
@@ -50,6 +56,7 @@ model User {
   attempts       Attempt[]
   savedResources SavedResource[]
   assets         Asset[]
+  lessonAttempts LessonAttempt[]
 }
 
 model Session {
@@ -86,6 +93,7 @@ model Topic {
   name      String
   section   Section
   questions QuestionTopic[]
+  misconceptions Misconception[]
 }
 
 model Asset {
@@ -143,13 +151,18 @@ model Question {
   figureId    String?
   figure      Asset?        @relation(fields: [figureId], references: [id], onDelete: SetNull)
   status      ContentStatus @default(DRAFT)
+  authoredBy  Authorship    @default(HUMAN)
+  /// Set when an admin approves the question's content (required to publish AI-authored questions).
+  reviewedById String?
+  reviewedAt   DateTime?
   createdAt   DateTime      @default(now())
   updatedAt   DateTime      @updatedAt
 
-  choices   Choice[]
-  topics    QuestionTopic[]
-  examItems ExamItem[]
-  responses Response[]
+  choices     Choice[]
+  topics      QuestionTopic[]
+  examItems   ExamItem[]
+  responses   Response[]
+  lessonSteps LessonStep[]
 
   @@index([passageId])
   @@index([section, status])
@@ -163,6 +176,9 @@ model Choice {
   text        String
   isCorrect   Boolean    @default(false)
   rationale   String? // why this option is right or wrong
+  /// The misconception this wrong choice reveals, if any.
+  misconceptionId String?
+  misconception   Misconception? @relation(fields: [misconceptionId], references: [id], onDelete: SetNull)
   responses   Response[]
 
   @@unique([questionId, label])
@@ -418,4 +434,139 @@ model RateLimitBucket {
 
   @@id([key, windowStart])
   @@index([expiresAt])
+}
+
+// ---------------------------------------------------------------- lessons (learning loop)
+// Teach → Test → Explain → Diagnose → Reinforce → Retest. Students only ever see an
+// approved, immutable LessonVersion snapshot; drafts are edited freely and audited.
+
+enum LessonStepKind {
+  TEACH
+  TEST
+  REMEDIATE
+  RETEST
+}
+
+enum Confidence {
+  SURE
+  UNSURE
+  GUESSING
+}
+
+model Misconception {
+  id          String     @id @default(cuid())
+  slug        String     @unique
+  name        String // "Treats the amine as neutral at physiological pH"
+  description String
+  remediation String // targeted re-teaching shown after the misconception is hit
+  topicId     String?
+  topic       Topic?     @relation(fields: [topicId], references: [id], onDelete: SetNull)
+  authoredBy  Authorship @default(HUMAN)
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+
+  choices Choice[]
+  steps   LessonStep[]
+}
+
+model Lesson {
+  id          String        @id @default(cuid())
+  slug        String        @unique
+  title       String
+  section     Section?
+  summary     String
+  objectives  String[]
+  status      ContentStatus @default(DRAFT)
+  authoredBy  Authorship    @default(HUMAN)
+  /// The snapshot students see. Null until a version is approved.
+  publishedVersionId String?   @unique
+  publishedVersion   LessonVersion? @relation("PublishedVersion", fields: [publishedVersionId], references: [id], onDelete: SetNull)
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+
+  steps    LessonStep[]
+  versions LessonVersion[] @relation("LessonVersions")
+  previewAttempts LessonAttempt[] @relation("PreviewAttempts")
+}
+
+model LessonStep {
+  id              String         @id @default(cuid())
+  lessonId        String
+  lesson          Lesson         @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+  position        Int
+  kind            LessonStepKind
+  /// Links a TEST, its REMEDIATE and its RETEST: the retest checks the same concept.
+  concept         String
+  title           String?
+  body            String? // TEACH text, or REMEDIATE text shown when the test was answered correctly
+  figure          String? // a named figure the UI knows how to draw, e.g. "dopamine-ring"
+  questionId      String?
+  question        Question?      @relation(fields: [questionId], references: [id], onDelete: Restrict)
+  misconceptionId String?
+  misconception   Misconception? @relation(fields: [misconceptionId], references: [id], onDelete: SetNull)
+
+  @@unique([lessonId, position])
+  @@index([questionId])
+}
+
+model LessonVersion {
+  id           String   @id @default(cuid())
+  lessonId     String
+  lesson       Lesson   @relation("LessonVersions", fields: [lessonId], references: [id], onDelete: Cascade)
+  version      Int
+  /// Immutable copy of the lesson, its steps, questions, choices and misconceptions.
+  snapshot     Json
+  approvedById String
+  approvedAt   DateTime
+  createdAt    DateTime @default(now())
+
+  publishedFor Lesson?         @relation("PublishedVersion")
+  attempts     LessonAttempt[]
+
+  @@unique([lessonId, version])
+}
+
+model LessonAttempt {
+  id              String         @id @default(cuid())
+  /// The approved snapshot taken. Null only for previews of an unapproved draft (never in production).
+  lessonVersionId String?
+  lessonVersion   LessonVersion? @relation(fields: [lessonVersionId], references: [id], onDelete: Restrict)
+  previewLessonId String?
+  previewLesson   Lesson?        @relation("PreviewAttempts", fields: [previewLessonId], references: [id], onDelete: Cascade)
+  userId          String?
+  user            User?         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  guestKeyHash    String?
+  startedAt       DateTime      @default(now())
+  completedAt     DateTime?
+
+  answers LessonAnswer[]
+
+  @@index([userId])
+  @@index([guestKeyHash])
+}
+
+model LessonAnswer {
+  id              String        @id @default(cuid())
+  attemptId       String
+  attempt         LessonAttempt @relation(fields: [attemptId], references: [id], onDelete: Cascade)
+  stepPosition    Int
+  questionId      String
+  choiceLabel     String
+  /// Rated before the answer is revealed.
+  confidence      Confidence
+  isCorrect       Boolean
+  misconceptionId String?
+  timeMs          Int           @default(0)
+  createdAt       DateTime      @default(now())
+
+  @@unique([attemptId, stepPosition])
+}
+
+/// First-party, cookieless funnel: one row per day per event, counts only.
+model FunnelDaily {
+  day   DateTime @db.Date
+  event String
+  count Int      @default(0)
+
+  @@id([day, event])
 }

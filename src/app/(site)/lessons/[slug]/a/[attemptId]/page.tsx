@@ -1,0 +1,91 @@
+import type { Metadata } from "next";
+import Link from "next/link";
+import { notFound, redirect } from "next/navigation";
+import { Suspense } from "react";
+import { DraftBadge } from "@/components/lesson/badges";
+import { LessonProgress } from "@/components/lesson/progress-bar";
+import { QuestionForm } from "@/components/lesson/question-form";
+import { AnsweredChoices, PassageBlock, QuestionHeader, RemediateView, RevealView, Stem, TeachView } from "@/components/lesson/step-views";
+import { getViewer } from "@/lib/exam/service";
+import { isQuestionStep, progress, remediationFor, resolveStep, reveal } from "@/lib/lessons/flow";
+import { loadLessonAttempt } from "@/lib/lessons/service";
+
+// A student's own attempt, read fresh per request.
+export const instant = false;
+export const metadata: Metadata = { title: "Lesson in progress", robots: { index: false, follow: false } };
+
+export default function LessonPlayerPage({ params, searchParams }: PageProps<"/lessons/[slug]/a/[attemptId]">) {
+  return (
+    <Suspense fallback={<p className="mx-auto max-w-3xl px-5 py-24 text-quiet">Loading your lesson…</p>}>
+      {Promise.all([params, searchParams]).then(([{ slug, attemptId }, sp]) => (
+        <Player slug={slug} attemptId={attemptId} step={typeof sp.step === "string" ? Number(sp.step) : null} />
+      ))}
+    </Suspense>
+  );
+}
+
+async function Player({ slug, attemptId, step: requested }: { slug: string; attemptId: string; step: number | null }) {
+  const a = await loadLessonAttempt(attemptId, await getViewer());
+  if (!a || a.snapshot.slug !== slug) notFound();
+  const s = a.snapshot;
+  const base = `/lessons/${slug}/a/${attemptId}`;
+
+  const position = resolveStep(s, a.answered, requested);
+  if (position >= s.steps.length) redirect(`${base}/result`);
+  if (requested !== null && requested !== position) redirect(`${base}?step=${position}`);
+
+  const step = s.steps[position];
+  const next = position + 1 >= s.steps.length ? `${base}/result` : `${base}?step=${position + 1}`;
+  const questionSteps = s.steps.filter(isQuestionStep);
+  const nextStep = s.steps[position + 1];
+  const nextLabel = !nextStep ? "See your results" : nextStep.kind === "RETEST" ? "Try the retest" : nextStep.kind === "TEACH" ? "Next idea" : "Continue";
+
+  let body: React.ReactNode;
+  if (step.kind === "TEACH") {
+    body = <TeachView step={step} next={next} />;
+  } else if (step.kind === "REMEDIATE") {
+    body = <RemediateView rem={remediationFor(s, step, a.answers)} next={next} nextLabel={nextLabel} />;
+  } else {
+    const q = step.question!;
+    const answer = a.answers.find((x) => x.stepPosition === position);
+    const number = questionSteps.findIndex((x) => x.position === position) + 1;
+    const r = answer ? reveal(s, q, answer) : null;
+    body = (
+      <article>
+        <QuestionHeader step={step} number={number} of={questionSteps.length} />
+        <PassageBlock q={q} />
+        <Stem q={q} />
+        {answer && r ? (
+          <>
+            <AnsweredChoices q={q} chosen={answer.choiceLabel} />
+            <RevealView r={r} next={next} nextLabel={nextLabel} />
+          </>
+        ) : (
+          <QuestionForm slug={slug} attemptId={attemptId} position={position} choices={q.choices.map((c) => ({ label: c.label, text: c.text }))} />
+        )}
+      </article>
+    );
+  }
+
+  return (
+    <div className="mx-auto max-w-3xl px-5 pb-28 pt-28 sm:px-8 sm:pt-36">
+      <div className="space-y-4">
+        {a.mode === "preview" && <DraftBadge />}
+        <p className="text-sm text-quiet">
+          <Link href={`/lessons/${slug}`} className="underline-offset-4 hover:underline">
+            {s.title}
+          </Link>
+        </p>
+        <LessonProgress p={progress(s, position, a.answered)} />
+      </div>
+      <div className="mt-10">{body}</div>
+      {position > 0 && (
+        <p className="mt-12">
+          <Link href={`${base}?step=${position - 1}`} className="text-[0.98rem] text-fixative-ink underline-offset-4 hover:underline">
+            Back to the previous step
+          </Link>
+        </p>
+      )}
+    </div>
+  );
+}
