@@ -1,6 +1,6 @@
 # Study with Shabari: deployment readiness report
 
-As of 2026-10-29. Repository: `~/projects/study-with-shabari` (local git, 15 commits, not pushed anywhere).
+As of 2026-10-29. Repository: `~/projects/study-with-shabari` (local git, 15 commits including this report, not pushed anywhere).
 
 **Bottom line:** the platform is built and tested locally against production builds, and the Supabase database is provisioned. **Nothing is publicly live.** studywithshabari.com still serves the IONOS parking page. Going live needs a Vercel project, one certificate file, and your approval for the DNS cutover (see "Founder actions").
 
