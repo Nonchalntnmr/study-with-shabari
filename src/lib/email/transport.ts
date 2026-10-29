@@ -24,6 +24,11 @@ function transportConfig() {
   return { host: SMTP_HOST, port: Number(SMTP_PORT ?? 587), user: SMTP_USER, pass: SMTP_PASSWORD, from: MAIL_FROM };
 }
 
+/** True only when a verified sender and SMTP credentials are configured. */
+export function mailConfigured(): boolean {
+  return transportConfig() !== null;
+}
+
 /** Never throws: an email problem must not break the action that triggered it. */
 export async function sendEmail(msg: Outgoing): Promise<"SENT" | "FAILED" | "NOT_CONFIGURED"> {
   const subject = headerSafe(msg.subject);

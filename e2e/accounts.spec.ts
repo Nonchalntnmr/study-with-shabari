@@ -67,3 +67,27 @@ test("sign-in rejects a wrong password without revealing whether the account exi
     await expect(formAlert(page)).toHaveText("That email and password don’t match.");
   }
 });
+
+test("password change works; email reset is honestly unavailable without a verified sender", async ({ page }) => {
+  const email = uniqueEmail("changer");
+  await signUp(page, email);
+  await page.goto("/dashboard/account");
+  await page.getByLabel("Current password").fill("student-password-1");
+  await page.getByLabel("New password").fill("student-password-2");
+  await page.getByRole("button", { name: "Change password" }).click();
+  await expect(page.getByText("Password changed. Other devices were signed out.")).toBeVisible();
+
+  await page.context().clearCookies();
+  await page.goto("/login");
+  await page.getByLabel("Email").fill(email);
+  await page.getByLabel("Password").fill("student-password-2");
+  await page.getByRole("button", { name: "Sign in" }).click();
+  await expect(page).toHaveURL(/\/dashboard/);
+
+  await page.context().clearCookies();
+  await page.goto("/forgot-password");
+  await page.getByLabel("Email on your account").fill(email);
+  await page.getByRole("button", { name: "Send reset link" }).click();
+  await expect(formAlert(page)).toContainText("isn’t switched on yet");
+  expect(await sql(`SELECT 1 FROM "PasswordResetToken" t JOIN "User" u ON u.id = t."userId" WHERE u.email = $1`, [email])).toHaveLength(0);
+});

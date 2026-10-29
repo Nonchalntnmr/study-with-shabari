@@ -44,6 +44,11 @@ export function AuthForm({ mode }: { mode: "login" | "signup" }) {
           aria-describedby={mode === "signup" ? "pw-hint" : undefined}
           className="h-10"
         />
+        {mode === "login" && (
+          <Link href="/forgot-password" className="text-xs text-muted-foreground hover:text-navy">
+            Forgot your password?
+          </Link>
+        )}
         {mode === "signup" && (
           <p id="pw-hint" className="text-xs text-muted-foreground">
             At least {PASSWORD_MIN_LENGTH} characters. A short phrase works well.

@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { DeleteAccountForm, ProfileForm } from "@/components/dashboard/account-forms";
+import { ChangePasswordForm, DeleteAccountForm, ProfileForm } from "@/components/dashboard/account-forms";
 import { Button } from "@/components/ui/button";
 import { signOut } from "@/lib/auth/actions";
 import { requireUser } from "@/lib/auth/dal";
@@ -24,6 +24,10 @@ export default async function AccountPage() {
       <section className="rounded-2xl border bg-white p-6">
         <h2 className="mb-4 text-lg font-semibold">Profile</h2>
         <ProfileForm name={row.name ?? ""} testDate={row.targetTestDate?.toISOString().slice(0, 10) ?? ""} />
+      </section>
+      <section className="rounded-2xl border bg-white p-6">
+        <h2 className="mb-4 text-lg font-semibold">Password</h2>
+        <ChangePasswordForm />
       </section>
       <section className="rounded-2xl border bg-white p-6">
         <h2 className="text-lg font-semibold">Your data</h2>

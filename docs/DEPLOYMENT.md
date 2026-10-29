@@ -9,7 +9,8 @@ Estimated cost: Vercel Hobby and Supabase Free tiers cover launch traffic. One c
 1. Create a project in **US East (N. Virginia)**, which matches the Vercel region `iad1` in `vercel.json`.
 2. Project Settings → Database → Connection string:
    - **Transaction pooler** (port 6543) → `DATABASE_URL`
-   - **Direct** or **Session pooler** (port 5432) → `DIRECT_URL` (used only by migrations)
+   - **Session pooler** (port 5432) → `DIRECT_URL` (used only by migrations)
+   - Don't use the "Direct connection" host (`db.<ref>.supabase.co`). It resolves to IPv6 only, and neither Vercel nor most home networks can reach it. That was confirmed for this project on 2026-10-29: the direct host has only an AAAA record, and `aws-0-us-east-1.pooler.supabase.com` works over IPv4.
 3. Storage → New bucket `diagrams`, **public** (question diagrams are shown to everyone taking a set). Copy the project URL and the `service_role` key. Treat the key as a password: it belongs only in Vercel's server environment, never in a `NEXT_PUBLIC_` variable.
 4. Nothing else in Supabase needs configuring. The app doesn't use Supabase Auth or the Data API. Migration `enable_rls` turns on row-level security for every table, so the auto-generated API exposes nothing even if its keys leak.
 

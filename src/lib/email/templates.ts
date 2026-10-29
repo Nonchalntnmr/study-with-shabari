@@ -49,3 +49,17 @@ export function adminNotification(i: InquiryForEmail, adminUrl: string): { subje
       .join("\n"),
   };
 }
+
+export function passwordResetEmail(link: string): { subject: string; text: string } {
+  return {
+    subject: "Reset your Study with Shabari password",
+    text: [
+      "Someone asked to reset the password for this email address on studywithshabari.com.",
+      "",
+      "To choose a new password, open this link within the next hour:",
+      link,
+      "",
+      "If that wasn't you, ignore this email. Your password won't change.",
+    ].join("\n"),
+  };
+}

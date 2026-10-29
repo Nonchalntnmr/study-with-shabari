@@ -12,7 +12,12 @@ import { GUEST_COOKIE, SESSION_COOKIE } from "./cookies";
 import { requireUser } from "./dal";
 import { safeNextPath } from "./next-path";
 import { PASSWORD_MIN_LENGTH, getDummyHash, hashPassword, verifyPassword } from "./password";
+import { consumeResetToken, createResetToken } from "./password-reset";
 import { claimGuestAttempts, createSession, destroySession, getGuestKeyHash } from "./session";
+import { mailConfigured, sendEmail } from "@/lib/email/transport";
+import { passwordResetEmail } from "@/lib/email/templates";
+import { contactEmail, siteUrl } from "@/lib/site";
+import { sha256 } from "@/lib/security/hash";
 
 export type AuthState = { error?: string; fields?: { email?: string; name?: string } } | null;
 
@@ -121,4 +126,51 @@ export async function clearGuestHistory(): Promise<void> {
   if (guestKeyHash) await db.attempt.deleteMany({ where: { guestKeyHash, userId: null } });
   (await cookies()).delete(GUEST_COOKIE);
   redirect("/practice?cleared=1");
+}
+
+export async function changePassword(_prev: AccountState, formData: FormData): Promise<AccountState> {
+  const user = await requireUser("/dashboard/account");
+  const parsed = z.object({ current: z.string().max(200), next: password }).safeParse({ current: formData.get("current"), next: formData.get("next") });
+  if (!parsed.success) return { error: parsed.error.issues[0]?.message ?? "Check the form." };
+  const row = await db.user.findUniqueOrThrow({ where: { id: user.id }, select: { passwordHash: true } });
+  if (!(await verifyPassword(parsed.data.current, row.passwordHash))) return { error: "Your current password isn’t right." };
+  const token = (await cookies()).get(SESSION_COOKIE)?.value;
+  await db.user.update({ where: { id: user.id }, data: { passwordHash: await hashPassword(parsed.data.next) } });
+  // Keep this browser signed in; sign out every other device.
+  await db.session.deleteMany({ where: { userId: user.id, ...(token ? { NOT: { tokenHash: sha256(token) } } : {}) } });
+  await audit({ id: user.id, email: user.email }, "user.password_change", "User", user.id);
+  return { ok: "Password changed. Other devices were signed out." };
+}
+
+export type ResetState = { ok?: string; error?: string; unavailable?: boolean } | null;
+
+/** Always answers the same way whether or not the account exists. */
+export async function requestPasswordReset(_prev: ResetState, formData: FormData): Promise<ResetState> {
+  if (!mailConfigured()) {
+    return { unavailable: true, error: `Password reset by email isn’t switched on yet. Email ${contactEmail} from the address on your account and Shabari will help.` };
+  }
+  const parsed = z.object({ email }).safeParse({ email: formData.get("email") });
+  if (!parsed.success) return { error: "Enter a valid email address." };
+  const [byIp, byEmail] = await Promise.all([
+    rateLimit(`reset-ip:${await clientIpKey()}`, 10, 3600),
+    rateLimit(`reset-email:${hmac(parsed.data.email)}`, 3, 3600),
+  ]);
+  const done: ResetState = { ok: "If an account uses that email, a reset link is on its way. It works for one hour." };
+  if (!byIp.ok || !byEmail.ok) return done;
+  const user = await db.user.findUnique({ where: { email: parsed.data.email }, select: { id: true } });
+  if (user) {
+    const token = await createResetToken(user.id);
+    await sendEmail({ template: "password-reset", to: parsed.data.email, ...passwordResetEmail(`${siteUrl}/reset-password?token=${token}`) });
+  }
+  return done;
+}
+
+export async function resetPassword(_prev: ResetState, formData: FormData): Promise<ResetState> {
+  const parsed = z.object({ token: z.string().min(20).max(200), next: password }).safeParse({ token: formData.get("token"), next: formData.get("next") });
+  if (!parsed.success) return { error: parsed.error.issues[0]?.message ?? "Check the form." };
+  const userId = await consumeResetToken(parsed.data.token, parsed.data.next);
+  if (!userId) return { error: "This reset link is invalid or has expired. Request a new one." };
+  await audit(null, "user.password_reset", "User", userId);
+  await createSession(userId);
+  redirect("/dashboard");
 }
