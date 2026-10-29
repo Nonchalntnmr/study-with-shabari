@@ -25,10 +25,18 @@ function parse<T extends z.ZodType>(schema: T, formData: FormData): { data: z.in
 }
 
 /** Any edit reopens review: the draft now differs from what was approved. */
-async function markForReview(lessonId: string) {
-  await db.lesson.updateMany({ where: { id: lessonId, status: "PUBLISHED" }, data: { status: "REVIEW" } });
-  revalidatePath(`/admin/lessons/${lessonId}`);
+async function markForReview(lessonIds: string[]) {
+  if (lessonIds.length === 0) return;
+  await db.lesson.updateMany({ where: { id: { in: lessonIds }, status: "PUBLISHED" }, data: { status: "REVIEW" } });
+  for (const id of lessonIds) revalidatePath(`/admin/lessons/${id}`);
   revalidatePath("/admin/lessons");
+}
+
+/** Lessons whose steps use a question with this choice or misconception: found in the database, not taken from the form. */
+async function lessonsUsing(where: { choiceId: string } | { misconceptionId: string }): Promise<string[]> {
+  const choiceFilter = "choiceId" in where ? { id: where.choiceId } : { misconceptionId: where.misconceptionId };
+  const rows = await db.lesson.findMany({ where: { steps: { some: { question: { choices: { some: choiceFilter } } } } }, select: { id: true } });
+  return rows.map((r) => r.id);
 }
 
 export async function updateLessonMeta(_prev: ActionResult | null, formData: FormData): Promise<ActionResult> {
@@ -41,7 +49,7 @@ export async function updateLessonMeta(_prev: ActionResult | null, formData: For
   if (!before) return fail("Lesson not found.");
   await db.lesson.update({ where: { id: p.data.id }, data: { title: p.data.title, summary: p.data.summary, objectives } });
   await audit(admin, "lesson.update", "Lesson", p.data.id, { before, after: { title: p.data.title, summary: p.data.summary, objectives } });
-  await markForReview(p.data.id);
+  await markForReview([p.data.id]);
   return ok("Saved to the draft. Approve again to publish the change.");
 }
 
@@ -55,7 +63,7 @@ export async function updateLessonStep(_prev: ActionResult | null, formData: For
   const title = p.data.title === undefined ? step.title : p.data.title || null;
   await db.lessonStep.update({ where: { id: p.data.id }, data: { title, body: p.data.body } });
   await audit(admin, "lesson.step.update", "LessonStep", p.data.id, { lessonId: step.lessonId, before: { title: step.title, body: step.body }, after: { title, body: p.data.body } });
-  await markForReview(step.lessonId);
+  await markForReview([step.lessonId]);
   return ok("Saved to the draft.");
 }
 
@@ -64,7 +72,6 @@ export async function updateMisconception(_prev: ActionResult | null, formData: 
   const p = parse(
     z.object({
       id,
-      lessonId: id,
       name: text(200).min(3, "Name the misconception."),
       description: text(2000).min(10, "Describe the misconception."),
       remediation: text(4000).min(10, "Write the remediation a student sees."),
@@ -76,14 +83,15 @@ export async function updateMisconception(_prev: ActionResult | null, formData: 
   if (!before) return fail("Misconception not found.");
   const after = { name: p.data.name, description: p.data.description, remediation: p.data.remediation };
   await db.misconception.update({ where: { id: p.data.id }, data: after });
-  await audit(admin, "misconception.update", "Misconception", p.data.id, { lessonId: p.data.lessonId, before, after });
-  await markForReview(p.data.lessonId);
+  const lessons = await lessonsUsing({ misconceptionId: p.data.id });
+  await audit(admin, "misconception.update", "Misconception", p.data.id, { lessons, before, after });
+  await markForReview(lessons);
   return ok("Saved to the draft.");
 }
 
 export async function mapChoiceMisconception(_prev: ActionResult | null, formData: FormData): Promise<ActionResult> {
   const admin = await requireAdmin();
-  const p = parse(z.object({ choiceId: id, lessonId: id, misconceptionId: z.string().max(64) }), formData);
+  const p = parse(z.object({ choiceId: id, misconceptionId: z.string().max(64) }), formData);
   if ("error" in p) return p.error;
   const choice = await db.choice.findUnique({ where: { id: p.data.choiceId }, select: { isCorrect: true, misconceptionId: true } });
   if (!choice) return fail("Choice not found.");
@@ -91,8 +99,9 @@ export async function mapChoiceMisconception(_prev: ActionResult | null, formDat
   if (choice.isCorrect && misconceptionId) return fail("The correct choice can't reveal a misconception.");
   if (misconceptionId && !(await db.misconception.findUnique({ where: { id: misconceptionId }, select: { id: true } }))) return fail("Misconception not found.");
   await db.choice.update({ where: { id: p.data.choiceId }, data: { misconceptionId } });
-  await audit(admin, "choice.misconception", "Choice", p.data.choiceId, { lessonId: p.data.lessonId, before: choice.misconceptionId, after: misconceptionId });
-  await markForReview(p.data.lessonId);
+  const lessons = await lessonsUsing({ choiceId: p.data.choiceId });
+  await audit(admin, "choice.misconception", "Choice", p.data.choiceId, { lessons, before: choice.misconceptionId, after: misconceptionId });
+  await markForReview(lessons);
   return ok("Mapping saved to the draft.");
 }
 

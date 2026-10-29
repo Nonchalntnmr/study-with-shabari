@@ -122,7 +122,7 @@ export function forCheck(s: LessonSnapshot): LessonForCheck {
             passageId: st.question.passage?.id ?? null,
             authoredBy: st.question.authoredBy,
             reviewedById: st.question.reviewedById,
-            choices: st.question.choices.map((c) => ({ label: c.label, text: c.text, isCorrect: c.isCorrect, misconceptionId: c.misconception })),
+            choices: st.question.choices.map((c) => ({ label: c.label, text: c.text, isCorrect: c.isCorrect, misconceptionId: c.misconception, rationale: c.rationale })),
           }
         : null,
     })),

@@ -53,7 +53,16 @@ export async function sql<T = Record<string, unknown>>(query: string, params: un
 
 export const uniqueEmail = (tag: string) => `${tag}-${Date.now()}-${Math.random().toString(36).slice(2, 7)}@e2e.test`;
 
+/**
+ * Every E2E request comes from one address, so the per-IP sign-up and sign-in limits
+ * would trip on a long run. Reset just those buckets, in the throwaway database only.
+ */
+async function resetAuthLimits() {
+  await sql(`DELETE FROM "RateLimitBucket" WHERE key LIKE 'signup:%' OR key LIKE 'login-ip:%' OR key LIKE 'login-email:%'`);
+}
+
 export async function signIn(page: Page, email: string, password: string, next?: string) {
+  await resetAuthLimits();
   await page.goto(next ? `/login?next=${encodeURIComponent(next)}` : "/login");
   await page.getByLabel("Email").fill(email);
   await page.getByLabel("Password").fill(password);
@@ -65,6 +74,7 @@ export async function signIn(page: Page, email: string, password: string, next?:
 export const formAlert = (page: Page) => page.locator("form [role=alert], [role=alert]:not(#__next-route-announcer__)").first();
 
 export async function signUp(page: Page, email: string, password = "student-password-1") {
+  await resetAuthLimits();
   await page.goto("/signup");
   await page.getByLabel("Name (optional)").fill("Test Student");
   await page.getByLabel("Email").fill(email);

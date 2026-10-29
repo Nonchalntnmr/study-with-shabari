@@ -1,11 +1,12 @@
-// Unapproved lessons are visible only where they can't be mistaken for the real
-// site: local development, Vercel preview deployments, and to signed-in admins.
-// A production build (including `next start` for E2E) hides them.
+// Unapproved lessons are visible only to signed-in admins, in local development,
+// and on a deployment that opts in with LESSON_PREVIEW=on. Vercel preview builds
+// don't get it automatically: they may share the production database and be
+// public, so drafts would be readable at a branch URL. Production never shows them.
 
 export function previewAllowed(isAdmin: boolean, env: Record<string, string | undefined> = process.env): boolean {
   if (isAdmin) return true;
   if (env.VERCEL_ENV === "production") return false;
-  return env.VERCEL_ENV === "preview" || env.NODE_ENV === "development";
+  return env.LESSON_PREVIEW === "on" || env.NODE_ENV === "development";
 }
 
 export const DRAFT_BADGE = "Draft — pending Shabari’s review";

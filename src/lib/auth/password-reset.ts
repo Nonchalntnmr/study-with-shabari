@@ -20,6 +20,9 @@ export async function createResetToken(userId: string): Promise<string> {
  * account out everywhere. Returns the user id, or null for any invalid token.
  */
 export async function consumeResetToken(token: string, newPassword: string): Promise<string | null> {
+  // Check the token before the (deliberately expensive) password hash, so junk tokens cost nothing.
+  const found = await db.passwordResetToken.findUnique({ where: { tokenHash: sha256(token) }, select: { usedAt: true, expiresAt: true } });
+  if (!found || found.usedAt || found.expiresAt.getTime() <= Date.now()) return null;
   const passwordHash = await hashPassword(newPassword);
   return db.$transaction(async (tx) => {
     const row = await tx.passwordResetToken.findUnique({ where: { tokenHash: sha256(token) } });

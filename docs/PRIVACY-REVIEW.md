@@ -66,9 +66,10 @@ Attempt ids aren't personal. They do let anyone with Vercel log access group one
 retention window. That's an accepted, disclosed residual: it's Vercel's operational log, not ours.
 
 **Fixed:** the password-reset email linked to `/reset-password?token=…`. Every request passes through `proxy.ts`,
-so Vercel would log a live token for up to an hour (its expiry). New links use `/reset-password#token=…`.
-Browsers never send the fragment to the server (`useHashParam`, `src/lib/use-client-value.ts`). The form still
-reads `?token=` for links sent before the change.
+so Vercel would have logged a live token for up to an hour (its expiry). Links now use `/reset-password#token=…`;
+browsers never send the fragment to the server. In M2 the page also reads the token once into memory and then
+removes it from the address bar and history (`history.replaceState`). The chat widget stays off reset pages, and
+the legacy `?token=` fallback is gone, since no reset email was ever sent. E2E: `e2e/m2-workflows.spec.ts`.
 
 ## 2. IP addresses
 
@@ -156,14 +157,28 @@ The daily purge is `purgeExpired()` in `src/lib/privacy/retention.ts`, run by th
 | Rate-limit buckets | End of window (≤ 1 h) | Opportunistic plus daily purge |
 | Guest practice and lesson history | 180 days after it starts, when the guest cookie expires | **New:** daily purge |
 | Guest-cleared history | Immediately | "Clear guest practice and lesson history" now deletes lesson attempts too |
-| Contact messages and their email records | Until an admin deletes them | **New:** admin "Delete" on `/admin/inquiries`. The audit entry records only the inquiry kind. E2E covers it in `e2e/contact.spec.ts`. |
+| Contact messages and their email records | Until an admin deletes them, for now. **Provisional policy (M2), pending the owner's approval:** resolved and spam messages 90 days after their last change. | Admin "Delete" on `/admin/inquiries`; the audit entry records only the inquiry kind (E2E `e2e/contact.spec.ts`). `purgeInquiries` implements the provisional policy, `INQUIRY_RETENTION_DAYS` (default 90) and **report-only until `INQUIRY_PURGE=on`**: the daily job returns how many messages it would delete, and deletes nothing. Open messages (new or in progress) are never deleted; ones past the period are counted. |
+| Abandoned timed attempts | Scored and closed once past the deadline and the 15-minute late-delivery window | **New (M2):** `closeExpiredAttempts` in the daily job. |
 | Audit log | Indefinitely (append-only) | Holds actor ids and admin emails. Self-deletion logs the deleted account's opaque id and role only. |
 
 **The purge in production.** `vercel.json` schedules `/api/cron/retention` daily at 09:00 UTC. The route answers
-`401` unless the request carries `Authorization: Bearer $CRON_SECRET`, which Vercel Cron sends once
-`CRON_SECRET` is set in the project's environment variables. It is **not set yet**, because no deploy or Vercel
-config changes were made. Until it is, the purge doesn't run in production. It can also be run by hand through
-`purgeExpired`.
+`401` unless the request carries `Authorization: Bearer $CRON_SECRET`, compared in constant time. It is **not set
+yet**, because no deploy or Vercel config changes were made. Until it is, the purge doesn't run in production.
+
+**`CRON_SECRET` setup** (owner or engineer, at deploy; no value is stored in the repo):
+
+1. Generate a long random value on your own machine, for example `openssl rand -base64 48`. Don't paste it into
+   chat, tickets or commits.
+2. Vercel → Project → Settings → Environment Variables. Add `CRON_SECRET` for **Production** only. Vercel Cron
+   then sends it as `Authorization: Bearer …` automatically.
+3. Redeploy, so the function picks it up.
+4. Check: Vercel → Project → Cron Jobs → `/api/cron/retention` → "Run". The response lists the counts:
+   - `sessions`, `resetTokens`, `rateLimitBuckets`, `guestAttempts`, `guestLessonAttempts`
+   - `closedAttempts`
+   - `inquiries.eligible`, `inquiries.deleted`
+   `inquiries.deleted` stays 0 while `INQUIRY_PURGE` is unset.
+5. Only after the owner approves the contact-message period: set `INQUIRY_RETENTION_DAYS` (if not 90) and
+   `INQUIRY_PURGE=on`. Then update the privacy page's "How long it's kept" to state the period.
 
 ## 6. The privacy page
 
@@ -181,8 +196,9 @@ config changes were made. Until it is, the purge doesn't run in production. It c
 
 **Needs founder:**
 
-1. Choose a retention period for contact messages, for example 12 months after they're resolved. Engineering
-   can then add it to `purgeExpired`. Until then, messages are kept until deleted, as the policy says.
+1. Approve or change the **provisional 90-day** contact-message period. It's implemented and runs report-only
+   until `INQUIRY_PURGE=on`, so existing messages are never deleted silently. The privacy page stays accurate
+   ("kept while they're useful") until the policy is switched on and the page updated.
 2. Before switching on the IONOS chat, confirm what IONOS stores from conversations. The policy already defers to
    IONOS's terms.
 

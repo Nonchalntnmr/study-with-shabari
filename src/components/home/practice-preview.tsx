@@ -20,7 +20,7 @@ export type PreviewQuestion = {
 
 /** A real question from the sample bank, in the real exam components. Nothing is saved. */
 export function PracticePreview({ passage, question }: { passage: RunnerPassage; question: PreviewQuestion }) {
-  const [response, setResponse] = useState<RunnerResponse>({ selectedChoiceId: null, eliminatedChoiceIds: [], flagged: false, timeSpentMs: 0 });
+  const [response, setResponse] = useState<RunnerResponse>({ selectedChoiceId: null, eliminatedChoiceIds: [], flagged: false, timeSpentMs: 0, changedAt: 0 });
   const [submitted, setSubmitted] = useState(false);
   const [highlights, setHighlights] = useState<HighlightRange[]>([]);
   const passageRef = useRef<HTMLDivElement>(null);
@@ -96,7 +96,7 @@ export function PracticePreview({ passage, question }: { passage: RunnerPassage;
                   className="text-navy/80 underline underline-offset-4"
                   onClick={() => {
                     setSubmitted(false);
-                    setResponse({ selectedChoiceId: null, eliminatedChoiceIds: [], flagged: false, timeSpentMs: 0 });
+                    setResponse({ selectedChoiceId: null, eliminatedChoiceIds: [], flagged: false, timeSpentMs: 0, changedAt: 0 });
                   }}
                 >
                   Try again

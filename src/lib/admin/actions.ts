@@ -6,7 +6,9 @@ import { z } from "zod";
 import { db } from "@/lib/db";
 import { requireAdmin } from "@/lib/auth/dal";
 import { audit } from "@/lib/security/audit";
+import { pinVersionsWithRetry } from "@/lib/exam/versions";
 import {
+  approvalProblem,
   examPublishProblems,
   questionPublishProblems,
   roleChangeProblem,
@@ -73,17 +75,47 @@ export async function deleteInquiry(_prev: ActionResult | null, formData: FormDa
 
 // -------------------------------------------------------------------- content
 
+/** Pins the question's current content as a version attributed to this admin; returns its number. */
+async function recordVersion(questionId: string, adminId: string): Promise<number> {
+  const [versionId] = await pinVersionsWithRetry(db, [questionId], { createdById: adminId, reviewedById: adminId });
+  return (await db.questionVersion.findUniqueOrThrow({ where: { id: versionId }, select: { version: true } })).version;
+}
+
+/** The human review an AI-drafted question needs before it can publish. */
+export async function approveQuestion(_prev: ActionResult | null, formData: FormData): Promise<ActionResult> {
+  const admin = await requireAdmin();
+  const p = parse(z.object({ id, attest: z.literal("on") }), Object.fromEntries(formData));
+  if ("error" in p) return fail("Tick the box to confirm you've checked the question, every answer and every rationale.");
+  const q = await db.question.findUnique({ where: { id: p.data.id }, select: { authoredBy: true, reviewedById: true } });
+  if (!q) return fail("Question not found.");
+  const denied = approvalProblem({ approverRole: admin.role, authoredBy: q.authoredBy, attestedReview: true });
+  if (denied) return fail(denied);
+  await db.question.update({ where: { id: p.data.id }, data: { reviewedById: admin.id, reviewedAt: new Date() } });
+  await audit(admin, "question.approve", "Question", p.data.id, { authoredBy: q.authoredBy });
+  revalidatePath(`/admin/questions/${p.data.id}`);
+  return ok("Approved. It can be published now.");
+}
+
 export async function setQuestionStatus(_prev: ActionResult | null, formData: FormData): Promise<ActionResult> {
   const admin = await requireAdmin();
   const p = parse(z.object({ id, status: contentStatus }), Object.fromEntries(formData));
   if ("error" in p) return p.error;
   const q = await db.question.findUnique({
     where: { id: p.data.id },
-    select: { stem: true, explanation: true, status: true, authoredBy: true, reviewedById: true, passage: { select: { status: true } }, choices: { select: { label: true, text: true, isCorrect: true } } },
+    select: {
+      stem: true,
+      explanation: true,
+      status: true,
+      authoredBy: true,
+      reviewedById: true,
+      passage: { select: { status: true } },
+      choices: { select: { label: true, text: true, isCorrect: true, rationale: true } },
+      _count: { select: { topics: true } },
+    },
   });
   if (!q) return fail("Question not found.");
   if (p.data.status === "PUBLISHED") {
-    const problems = questionPublishProblems(q);
+    const problems = questionPublishProblems({ ...q, topicCount: q._count.topics });
     if (q.passage && q.passage.status !== "PUBLISHED") problems.push("Publish its passage first.");
     if (problems.length > 0) return fail(problems.join(" "));
   } else {
@@ -95,7 +127,9 @@ export async function setQuestionStatus(_prev: ActionResult | null, formData: Fo
     if (live.length > 0) return fail(`Unpublish ${live.map((e) => `“${e.title}”`).join(", ")} first; it still uses this question.`);
   }
   await db.question.update({ where: { id: p.data.id }, data: { status: p.data.status } });
-  await audit(admin, "question.status", "Question", p.data.id, { from: q.status, to: p.data.status });
+  // Publishing is an approval: freeze this content as a version attributed to the admin.
+  const version = p.data.status === "PUBLISHED" ? await recordVersion(p.data.id, admin.id) : null;
+  await audit(admin, "question.status", "Question", p.data.id, { from: q.status, to: p.data.status, ...(version ? { version } : {}) });
   revalidatePath("/admin/content");
   return ok(`Question set to ${p.data.status.toLowerCase()}.`);
 }

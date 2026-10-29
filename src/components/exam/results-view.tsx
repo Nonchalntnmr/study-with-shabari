@@ -111,10 +111,21 @@ export function ResultsQuestions({ results }: { results: AttemptResults }) {
                 <p className="mb-1 font-semibold text-navy">Explanation</p>
                 <p className="whitespace-pre-line">{item.explanation}</p>
               </div>
+              {item.misconception && (
+                <p className="mt-3 rounded-xl border bg-white px-4 py-3 text-sm" data-testid="result-misconception">
+                  <span className="text-muted-foreground">The misconception behind {picked?.label}: </span>
+                  <span className="font-medium">{item.misconception}</span>
+                </p>
+              )}
               <p className="mt-3 text-xs text-muted-foreground">
                 {item.topics.map((t) => t.name).join(" · ")}
                 {!item.isCorrect && picked ? ` · You chose ${picked.label}` : ""}
               </p>
+              {item.revised && (
+                <p className="mt-1 text-xs text-muted-foreground" data-testid="result-revised">
+                  This question has been revised since you answered it. You’re seeing it as you answered it, and your result is unchanged.
+                </p>
+              )}
             </article>
           </div>
         );

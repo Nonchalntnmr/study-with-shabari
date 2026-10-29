@@ -11,6 +11,7 @@ import { audit } from "@/lib/security/audit";
 import { UploadError, storeImage } from "@/lib/storage";
 import type { ActionResult } from "./actions";
 import { contiguityProblem, ctaHrefProblem, httpsUrlProblem, insertPosition, moveItem, parseFeatures, slugProblem } from "./editor-rules";
+import { pinVersionsWithRetry } from "@/lib/exam/versions";
 import { questionPublishProblems } from "./rules";
 
 // Every export is a public POST endpoint: each re-checks admin, validates, audits.
@@ -154,7 +155,11 @@ export async function saveQuestion(_prev: ActionResult | null, formData: FormDat
     // A changed answer key is legitimate (fixing a mistake) but must be traceable.
     ...(previousKey && previousKey !== d.correct ? { answerKeyChanged: { from: previousKey, to: d.correct } } : {}),
   });
-  if (existing?.status === "PUBLISHED") updateTag(PUBLIC_TAGS.exams);
+  if (existing?.status === "PUBLISHED") {
+    // An edit to live content is a new approved version; attempts already started keep theirs.
+    await pinVersionsWithRetry(db, [questionId], { createdById: admin.id, reviewedById: admin.id });
+    updateTag(PUBLIC_TAGS.exams);
+  }
   revalidatePath("/admin/content");
   if (!d.id) redirect(`/admin/questions/${questionId}?created=1`);
   revalidatePath(`/admin/questions/${questionId}`);
