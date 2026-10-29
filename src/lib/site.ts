@@ -16,6 +16,8 @@ export const founder = {
   name: "Shabari Shankar",
   shortName: "Shabari",
   school: "MIT",
+  // Original page wording. Confirm with Shabari: it may be out of date by fall 2026.
+  standing: "a senior at MIT",
   majors: "Biochemistry and Computational Neuroscience",
   goal: "medical school, with plastic surgery as the goal",
   mcat: {

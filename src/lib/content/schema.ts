@@ -20,7 +20,7 @@ export const questionSchema = z
   .object({
     id: key,
     stem: z.string().trim().min(1),
-    choices: z.array(choiceSchema).min(2).max(4),
+    choices: z.array(choiceSchema).length(4),
     explanation: z.string().trim().min(1),
     topics: z.array(key).min(1),
     difficulty: z.number().int().min(1).max(5).optional(),
