@@ -18,7 +18,8 @@
     "db:local": "bash scripts/local-db.sh",
     "admin:create": "tsx scripts/create-admin.ts",
     "content:import": "tsx scripts/import-content.ts",
-    "postinstall": "prisma generate"
+    "postinstall": "prisma generate",
+    "vercel-build": "prisma generate && prisma migrate deploy && next build"
   },
   "dependencies": {
     "@prisma/adapter-pg": "^7.10.1",
