@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Atkinson_Hyperlegible_Next, Geist, Geist_Mono } from "next/font/google";
+import { Atkinson_Hyperlegible_Next, Geist, Geist_Mono, Newsreader, Schibsted_Grotesk } from "next/font/google";
 import { Suspense } from "react";
 import { ChatWidget } from "@/components/site/chat-widget";
 import { Toaster } from "@/components/ui/sonner";
@@ -11,6 +11,9 @@ const geist = Geist({ variable: "--font-geist", subsets: ["latin"] });
 const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"] });
 // Exam passages and questions use a typeface designed for reading accuracy.
 const atkinson = Atkinson_Hyperlegible_Next({ variable: "--font-atkinson", subsets: ["latin"] });
+// Public pages: an editorial display serif with optical sizing, and a grotesk for UI and body.
+const newsreader = Newsreader({ variable: "--font-newsreader", subsets: ["latin"], axes: ["opsz"], style: ["normal", "italic"] });
+const schibsted = Schibsted_Grotesk({ variable: "--font-schibsted", subsets: ["latin"] });
 
 // Only the production deployment may be indexed; previews and local builds stay out of search.
 const indexable = (process.env.VERCEL_ENV ?? process.env.SITE_ENV) === "production";
@@ -28,13 +31,13 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#10254b",
+  themeColor: "#EEF1EF",
   colorScheme: "light",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="en" className={`${geist.variable} ${geistMono.variable} ${atkinson.variable} h-full`}>
+    <html lang="en" className={`${geist.variable} ${geistMono.variable} ${atkinson.variable} ${newsreader.variable} ${schibsted.variable} h-full`}>
       <body className="flex min-h-full flex-col">
         <a
           href="#main"

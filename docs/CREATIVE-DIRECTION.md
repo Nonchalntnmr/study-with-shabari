@@ -118,3 +118,22 @@ What we take from it, as principles only (no assets, layout or wording copied):
   (700×875, 4:5, in the main checkout; copy it into the worktree). Use it large in the founder section with
   `next/image`, real alt text ("Shabari Shankar"), no filters that change her skin tone, no duotone. A subtle
   scroll parallax (≤ 40px) is the only motion on it. Do not use it in the hero.
+
+## Review 1 (CD, 2026-10-29 07:58) — screenshots in .local/shots/redesign/
+
+Verdict: right direction, big step up. Hero, chapter A copy, the 522 instrument and the founder section
+are close. Revise the following before anything else, then re-shoot the same set plus `practice-1440.png`,
+`help-1440.png`, `full-1440.png`, `full-390.png`.
+
+1. **Next dev overlay shows "1–2 Issues".** Find and fix them; zero console errors/warnings on the homepage.
+2. **Hero H1 wrap.** "MCAT" sits alone on line 1. Set the measure so it reads "MCAT tutoring / from a 522 scorer." (two lines at 1440).
+3. **Hero eyebrow.** Delete "MCAT 522 · January 2026": 522 already appears in the H1 and the intro (three times on one screen).
+4. **Contact shadow is a purple glow blob.** Make it a neutral, tight contact shadow (ink at ≤ 12% opacity, smaller radius) or remove it.
+5. **Atom occlusion.** In the hero rest pose a hydrogen sits directly on top of a side-chain carbon (centre of frame), and on mobile the amine N is cropped at the right edge. Choose a rest rotation where no H covers a heavy atom and the whole molecule fits with margin at 1440, 1024 and 390.
+6. **Story panels.** The rounded, bordered cards read as SaaS cards. Use a flat solid panel (no border, radius ≤ 4px) or no panel with a wide clear column. The model must never sit behind the panel: in chapters A and B an oxygen is hidden behind the panel edge, and in B the amine end is cropped by the viewport. Reframe the camera per chapter so the molecule clears the text column.
+7. **Chapter B copy.** The caption repeats the paragraph. Keep the paragraph, reduce the caption to the source line only. Keep the heading on two lines like A and C for rhythm.
+8. **Chapter C brain.** Accurate labels, but the drawing is crude (uneven strokes, sketchy cerebellum and brainstem). Redraw as a clean schematic sagittal view: one stroke weight for the outline, a lighter one for internal landmarks, corpus callosum arc, a clear brainstem. Place the nucleus accumbens anterior and ventral (below the front of the striatum, roughly level with the anterior commissure), the VTA in the ventral midbrain, and the mesocortical line ending in the prefrontal cortex. Keep the "simplified" caption.
+9. **522 screen.** Pull the explanatory sentence in so it aligns with the right edge of the big numeral block (not floating at the far right). Otherwise keep it exactly as is.
+10. **Founder.** List section scores in the same order everywhere: Chem/Phys 131, Bio/Biochem 132, Psych/Soc 132.
+11. **Mobile hero.** No CTA is visible on the first screen. On < 768px order it: H1, intro, both CTAs, then the molecule (about 45vh).
+12. **Reduced motion.** Confirm in writing that there is no scroll-scrub, no pinning and no auto-rotation with `prefers-reduced-motion: reduce`, and that the chapters stack as normal sections.

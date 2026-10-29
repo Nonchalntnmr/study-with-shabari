@@ -5,27 +5,29 @@ test("1. homepage loads with founder facts and no errors", async ({ page }) => {
   page.on("pageerror", (e) => errors.push(e.message));
   await page.goto("/");
   await expect(page).toHaveTitle(/Study with Shabari/);
-  await expect(page.getByRole("heading", { level: 1 })).toContainText("MCAT tutoring from someone who just took it");
-  await expect(page.getByRole("figure", { name: /MCAT score: 522/ })).toBeVisible();
-  await expect(page.getByText("$2,000")).toBeVisible();
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText("MCAT tutoring from a 522 scorer.");
+  await expect(page.getByRole("figure", { name: /MCAT total score 522 out of 528/ })).toBeAttached();
+  await expect(page.getByText("$2,000")).toBeAttached();
+  // The three readings of the molecule, with values measured from the PubChem conformer.
+  for (const h of ["a chemist.", "a biochemist.", "a psychologist."]) await expect(page.getByRole("heading", { name: new RegExp(`Read it as ${h}`) })).toBeAttached();
+  await expect(page.getByText("1.395 Å").first()).toBeAttached();
   expect(errors).toEqual([]);
 });
 
 test("2. main navigation reaches every section", async ({ page }) => {
   await page.goto("/");
-  const nav = page.getByRole("navigation", { name: "Main" });
-  for (const [link, heading] of [
-    ["MCAT tutoring", /science sections/],
-    ["Admissions", /application/],
-    ["Practice", /test day/],
-    ["Free notes", /study notes/],
-    ["Pricing", /Simple pricing/],
-    ["About", /Hi, I’m Shabari/],
+  for (const [navName, link, heading] of [
+    ["Main", "Tutoring", /science sections/],
+    ["Main", "Practice", /test day/],
+    ["Main", "Notes", /study notes/],
+    ["More", "Pricing", /Simple pricing/],
+    ["More", "About", /Hi, I’m Shabari/],
+    ["More", "Book a call", /Book a free 15-minute call/],
   ] as const) {
-    await nav.getByRole("link", { name: link, exact: true }).click();
+    await page.getByRole("navigation", { name: navName }).getByRole("link", { name: link, exact: true }).click();
     await expect(page.getByRole("heading", { level: 1 })).toContainText(heading);
   }
-  for (const path of ["/faq", "/testimonials", "/contact", "/book", "/privacy", "/terms"]) {
+  for (const path of ["/admissions", "/faq", "/testimonials", "/contact", "/privacy", "/terms"]) {
     const res = await page.goto(path);
     expect(res?.status(), path).toBe(200);
   }

@@ -13,7 +13,7 @@ export function ScoreReport() {
   return (
     <figure
       aria-label={`${founder.shortName}'s MCAT score: ${total} out of ${TOTAL_MAX}`}
-      className="animate-rise rounded-2xl border bg-white p-6 shadow-[0_1px_2px_rgba(16,37,75,0.04),0_12px_32px_-12px_rgba(16,37,75,0.18)] sm:p-7"
+      className="rounded-2xl border bg-white p-6 shadow-[0_1px_2px_rgba(16,37,75,0.04),0_12px_32px_-12px_rgba(16,37,75,0.18)] sm:p-7"
     >
       <figcaption className="text-sm font-medium text-muted-foreground">My MCAT score · {taken}</figcaption>
       <div className="mt-2 flex items-baseline gap-2">

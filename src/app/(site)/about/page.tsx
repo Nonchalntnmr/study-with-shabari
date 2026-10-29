@@ -30,7 +30,7 @@ export default function AboutPage() {
               and surgical AI. I like explaining hard things simply.
             </p>
             <ul className="grid gap-3 pt-4 sm:grid-cols-2">
-              {[`${founder.mcat.total} MCAT (132 B/B, 132 P/S)`, `${founder.school} ${founder.majors.replace(" and ", " + ")}`, ...founder.experience].map((f) => (
+              {[`${founder.mcat.total} MCAT (Chem/Phys ${founder.mcat.sections.CP}, Bio/Biochem ${founder.mcat.sections.BB}, Psych/Soc ${founder.mcat.sections.PS})`, `${founder.school} ${founder.majors.replace(" and ", " + ")}`, ...founder.experience].map((f) => (
                 <li key={f} className="border-l-[3px] border-mark pl-3 text-base">
                   {f}
                 </li>
