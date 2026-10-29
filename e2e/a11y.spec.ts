@@ -5,7 +5,7 @@ import { answerKey, startSet, submitFromReview, answerAll, choose, finishLesson,
 // WCAG 2.1 A/AA checks with axe-core on the pages students use most.
 const scan = (page: import("@playwright/test").Page) => new AxeBuilder({ page }).withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa"]).analyze();
 
-for (const path of ["/", "/lessons/dopamine", "/practice", "/practice/cp-sample-set-1", "/pricing", "/contact", "/book", "/login", "/signup", "/about", "/faq"]) {
+for (const path of ["/", "/mcat", "/admissions", "/research", "/lessons/dopamine", "/practice", "/practice/cp-sample-set-1", "/pricing", "/contact", "/book", "/login", "/signup", "/about", "/faq"]) {
   test(`a11y: ${path}`, async ({ page }) => {
     await page.route("https://calendly.com/**", (r) => r.fulfill({ contentType: "text/html", body: "<title>Calendly</title><main>stub</main>" }));
     await page.goto(path);

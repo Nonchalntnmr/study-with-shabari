@@ -10,10 +10,10 @@ import { choose, finishLesson, lessonKey } from "./helpers";
 // Runs on the production build against the throwaway E2E database, where
 // scripts/e2e-server.sh has approved the dopamine lesson's AI drafts.
 
-const SHOTS = process.env.JOURNEY_SHOTS_DIR ?? path.join(homedir(), "projects/study-with-shabari/.local/shots/journey");
-const results: { step: number; name: string; status: "passed" | "failed"; ms: number; error?: string }[] = [];
+const SHOTS = process.env.JOURNEY_SHOTS_DIR ?? path.join(homedir(), "projects/study-with-shabari/.local/shots/concept-b/journey");
+const results: { step: number | string; name: string; status: "passed" | "failed"; ms: number; error?: string }[] = [];
 
-async function step(page: Page, n: number, name: string, shot: string, fn: () => Promise<void>) {
+async function step(page: Page, n: number | string, name: string, shot: string, fn: () => Promise<void>) {
   const t0 = Date.now();
   await test.step(`${n}. ${name}`, async () => {
     try {
@@ -66,8 +66,10 @@ test("journey: homepage → credentials → lesson → miss, diagnose, retest �
 
   await step(page, 1, "opens the homepage", "home", async () => {
     await page.goto("/");
-    await expect(page.getByRole("heading", { level: 1 })).toHaveText(/MCAT tutoring\s*from a 522 scorer\./);
+    await expect(page.getByRole("heading", { level: 1 })).toHaveText("I scored a 522 on the MCAT and got into MIT and 5 Ivies. Now I teach both.");
+    // Book and practice are both on the first screen of a phone.
     await expect(page.getByRole("link", { name: "Book a free 15-min call" }).first()).toBeInViewport();
+    await expect(page.getByRole("link", { name: "Free practice test" }).first()).toBeInViewport();
   });
 
   await step(page, 2, "credentials (522, MIT, majors) are in the first two screens", "credentials", async () => {
@@ -77,10 +79,12 @@ test("journey: homepage → credentials → lesson → miss, diagnose, retest �
     }
   });
 
-  await step(page, 3, "starts the dopamine lesson from the homepage", "lesson-teach", async () => {
-    const invite = page.getByRole("link", { name: "Start the dopamine lesson" });
-    await invite.scrollIntoViewIfNeeded();
-    await invite.click();
+  await step(page, 3, "goes to MCAT Prep and starts the dopamine lesson", "lesson-teach", async () => {
+    await page.getByRole("link", { name: "Explore MCAT Prep" }).first().click();
+    await expect(page).toHaveURL(/\/mcat$/);
+    const start = page.getByRole("link", { name: "Start the free lesson" });
+    await start.scrollIntoViewIfNeeded();
+    await start.click();
     await expect(page.getByRole("heading", { level: 1, name: "Dopamine, read three ways" })).toBeVisible();
     // Published, approved content: no draft badge, an honest AI note, nothing attributed to Shabari.
     await expect(page.getByTestId("draft-badge")).toHaveCount(0);
@@ -144,6 +148,56 @@ test("journey: homepage → credentials → lesson → miss, diagnose, retest �
     await expect(frame).toHaveAttribute("src", /^https:\/\/calendly\.com\/e2e-shabari\/15min\?/);
     await expect(page.frameLocator('iframe[title^="Schedule a free consultation"]').getByRole("heading", { name: "Calendly (stub)" })).toBeVisible();
     // Frame the embed below the page heading for the evidence shot.
+    await page.evaluate(() => {
+      const f = document.querySelector('iframe[title^="Schedule a free consultation"]')!;
+      window.scrollTo(0, f.getBoundingClientRect().top + scrollY - 260);
+    });
+  });
+
+  expect(errors, "no uncaught page errors").toEqual([]);
+});
+
+test("journey: admissions visitor: home → admissions → credentials → pricing → booking", async ({ page }) => {
+  test.setTimeout(120_000);
+  const errors: string[] = [];
+  page.on("pageerror", (e) => errors.push(e.message));
+  await page.route("https://calendly.com/**", (r) => r.fulfill({ contentType: "text/html", body: "<title>Calendly</title><main><h1>Calendly (stub)</h1><p>Admissions</p></main>" }));
+
+  await step(page, "A1", "opens the homepage and chooses College Admissions", "admissions-home", async () => {
+    await page.goto("/");
+    const explore = page.getByRole("link", { name: "Explore Admissions Consulting" }).first();
+    await explore.scrollIntoViewIfNeeded();
+    await explore.click();
+    await expect(page).toHaveURL(/\/admissions$/);
+    await expect(page.getByRole("heading", { level: 1 })).toHaveText("I got into MIT and 5 of 8 Ivies. I'll help you build the application that gets you in.");
+    await expect(page.getByRole("link", { name: "Book a free 15-min call" }).first()).toBeInViewport();
+  });
+
+  await step(page, "A2", "sees the credentials: schools and high school record", "admissions-credentials", async () => {
+    const tiles = page.getByRole("list", { name: "Admitted to" });
+    for (const s of ["MIT", "Yale", "Columbia", "Brown", "Dartmouth", "Penn"]) await expect(tiles.getByText(s, { exact: true })).toBeVisible();
+    await expect(tiles.getByText("Benjamin Franklin Scholar")).toBeVisible();
+    for (const v of ["4.00/4.00", "1550", "35", "40/45"]) await expect(page.getByText(v, { exact: true }).first()).toBeVisible();
+    await page.locator("#record").scrollIntoViewIfNeeded();
+    await expect(page.getByRole("figure", { name: /IB Diploma/ })).toBeVisible();
+  });
+
+  await step(page, "A3", "reads admissions pricing (blank prices are honest)", "admissions-pricing", async () => {
+    const pricing = page.locator("#admissions-pricing");
+    await pricing.scrollIntoViewIfNeeded();
+    await expect(pricing.getByText("Priced on your consult call")).toHaveCount(3);
+    await expect(pricing.getByText("Payment via Zelle. Details are sent after your consult call.", { exact: false })).toBeVisible();
+  });
+
+  await step(page, "A4", "books with the College Admissions toggle selected", "admissions-booking", async () => {
+    await page.getByRole("link", { name: "Book a free 15-min call" }).last().click();
+    await expect(page).toHaveURL(/\/book\?service=admissions$/);
+    await expect(page.getByRole("tab", { name: "College Admissions" })).toHaveAttribute("aria-selected", "true");
+    const frame = page.locator('iframe[title^="Schedule a free consultation"]');
+    await expect(frame).toHaveAttribute("src", /^https:\/\/calendly\.com\/e2e-shabari\/admissions-15min\?/);
+    await page.getByRole("tab", { name: "MCAT" }).click();
+    await expect(frame).toHaveAttribute("src", /^https:\/\/calendly\.com\/e2e-shabari\/15min\?/);
+    await page.getByRole("tab", { name: "College Admissions" }).click();
     await page.evaluate(() => {
       const f = document.querySelector('iframe[title^="Schedule a free consultation"]')!;
       window.scrollTo(0, f.getBoundingClientRect().top + scrollY - 260);

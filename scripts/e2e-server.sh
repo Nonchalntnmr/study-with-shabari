@@ -10,6 +10,7 @@ case "$E2E_DB_URL" in *e2e*) ;; *) echo "refusing: E2E database URL must contain
 export DATABASE_URL="$E2E_DB_URL" DIRECT_URL="$E2E_DB_URL"
 export NEXT_PUBLIC_SITE_URL="http://localhost:${E2E_PORT:-3100}"
 export NEXT_PUBLIC_CALENDLY_URL="https://calendly.com/e2e-shabari/15min"
+export NEXT_PUBLIC_CALENDLY_URL_ADMISSIONS="https://calendly.com/e2e-shabari/admissions-15min"
 export NEXT_PUBLIC_CONTACT_EMAIL="jshankar@mit.edu"
 export ADMIN_NOTIFY_EMAIL="jshankar@mit.edu"
 export MAIL_SENDER_VERIFIED="false"
