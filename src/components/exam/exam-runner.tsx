@@ -413,6 +413,8 @@ export function ExamRunner({ initial }: { initial: RunnerState }) {
             {passage && (
               <section
                 aria-label="Passage"
+                // Focusable so keyboard users can scroll a long passage.
+                tabIndex={0}
                 className={cn("h-full overflow-y-auto border-r px-6 py-6 md:block md:px-10", mobilePane === "passage" ? "block" : "hidden")}
               >
                 <PassagePane ref={passageRef} passage={passage} highlights={highlights[passage.id] ?? []} />
@@ -420,6 +422,7 @@ export function ExamRunner({ initial }: { initial: RunnerState }) {
             )}
             <section
               aria-label={`Question ${q.number}`}
+              tabIndex={0}
               className={cn("h-full overflow-y-auto px-6 py-6 md:block md:px-10", passage && mobilePane !== "question" ? "hidden" : "block")}
             >
               <div className="mx-auto max-w-2xl">

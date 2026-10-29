@@ -9,7 +9,8 @@ import { sniffImageType } from "@/lib/image-type";
 // Diagrams for passages and questions. Supabase Storage in production; a local
 // folder in development. SVG is refused: it can carry script.
 
-export const MAX_UPLOAD_BYTES = 5 * 1024 * 1024;
+// Vercel rejects request bodies over 4.5 MB, so the limit stays below that with room for form overhead.
+export const MAX_UPLOAD_BYTES = 4 * 1024 * 1024;
 const LOCAL_DIR = path.join(process.cwd(), ".local", "uploads");
 
 function supabaseConfig() {
@@ -40,7 +41,7 @@ export async function storeImage(file: File, alt: string, createdById: string) {
   const status = storageConfigured();
   if (!status.ok) throw new UploadError(status.reason);
   if (file.size === 0) throw new UploadError("The file is empty.");
-  if (file.size > MAX_UPLOAD_BYTES) throw new UploadError("Images must be 5 MB or smaller.");
+  if (file.size > MAX_UPLOAD_BYTES) throw new UploadError("Images must be 4 MB or smaller.");
 
   const bytes = new Uint8Array(await file.arrayBuffer());
   const kind = sniffImageType(bytes);

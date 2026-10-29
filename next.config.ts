@@ -51,6 +51,11 @@ const nextConfig: NextConfig = {
       },
     },
   },
+  experimental: {
+    // Diagram uploads (4 MB max) and JSON imports (2 MB) go through Server Actions, whose default limit is 1 MB.
+    // Vercel caps function request bodies at 4.5 MB, so this can't usefully go higher.
+    serverActions: { bodySizeLimit: "4.5mb" },
+  },
   async headers() {
     return [{ source: "/:path*", headers: securityHeaders }];
   },

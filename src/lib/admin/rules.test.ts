@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { examPublishProblems, questionPublishProblems, roleChangeProblem, testimonialPublishProblems } from "./rules";
+import { contiguityProblem, ctaHrefProblem, httpsUrlProblem, insertPosition, moveItem, parseFeatures, slugProblem } from "./editor-rules";
 
 const good = {
   stem: "Which organelle produces most cellular ATP?",
@@ -65,5 +66,41 @@ describe("roleChangeProblem", () => {
   it("allows promoting and ordinary demotion", () => {
     expect(roleChangeProblem({ actorId: "a", targetId: "b", targetRole: "STUDENT", newRole: "ADMIN", adminCount: 1 })).toBeNull();
     expect(roleChangeProblem({ actorId: "a", targetId: "b", targetRole: "ADMIN", newRole: "STUDENT", adminCount: 2 })).toBeNull();
+  });
+});
+
+describe("editor rules", () => {
+  it("validates slugs", () => {
+    expect(slugProblem("cp-set-2")).toBeNull();
+    expect(slugProblem("CP Set")).not.toBeNull();
+    expect(slugProblem("-x")).not.toBeNull();
+  });
+
+  it("accepts only https links, and site paths for buttons", () => {
+    expect(httpsUrlProblem("https://docs.google.com/document/d/1")).toBeNull();
+    expect(httpsUrlProblem("http://example.com")).not.toBeNull();
+    expect(httpsUrlProblem("javascript:alert(1)")).not.toBeNull();
+    expect(ctaHrefProblem("/book")).toBeNull();
+    expect(ctaHrefProblem("https://calendly.com/x")).toBeNull();
+    expect(ctaHrefProblem("//evil.example")).not.toBeNull();
+    expect(ctaHrefProblem("javascript:alert(1)")).not.toBeNull();
+  });
+
+  it("parses one feature per line", () => {
+    expect(parseFeatures("  10 sessions\r\n\n2 exams  \n")).toEqual(["10 sessions", "2 exams"]);
+  });
+
+  it("keeps passage questions together", () => {
+    const q = (questionId: string, passageId: string | null) => ({ questionId, passageId });
+    expect(contiguityProblem([q("1", "p"), q("2", "p"), q("3", null), q("4", "r")])).toBeNull();
+    expect(contiguityProblem([q("1", "p"), q("2", null), q("3", "p")])).not.toBeNull();
+    expect(insertPosition([q("1", "p"), q("2", "p"), q("3", null)], "p")).toBe(2);
+    expect(insertPosition([q("1", "p")], null)).toBe(1);
+    expect(insertPosition([q("1", "p")], "other")).toBe(1);
+  });
+
+  it("moves items within bounds only", () => {
+    expect(moveItem(["a", "b", "c"], 1, "up")).toEqual(["b", "a", "c"]);
+    expect(moveItem(["a", "b", "c"], 2, "down")).toEqual(["a", "b", "c"]);
   });
 });

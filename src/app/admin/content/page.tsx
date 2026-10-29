@@ -21,6 +21,13 @@ const TABS = ["exams", "questions", "passages", "resources", "testimonials"] as 
 type Tab = (typeof TABS)[number];
 const STATUSES = ["DRAFT", "REVIEW", "PUBLISHED", "ARCHIVED"] as const;
 const PAGE_SIZE = 40;
+const NEW_LINKS: Record<Tab, { href: string; label: string }> = {
+  exams: { href: "/admin/exams/new", label: "New exam" },
+  questions: { href: "/admin/questions/new", label: "New question" },
+  passages: { href: "/admin/passages/new", label: "New passage" },
+  resources: { href: "/admin/resources", label: "New resource" },
+  testimonials: { href: "/admin/testimonials", label: "New testimonial" },
+};
 
 type StatusAction = (prev: ActionResult | null, formData: FormData) => Promise<ActionResult>;
 
@@ -39,11 +46,17 @@ function StatusForm({ id, status, action }: { id: string; status: string; action
   );
 }
 
-function Row({ title, meta, status, children }: { title: string; meta: string; status: string; children: React.ReactNode }) {
+function Row({ title, meta, status, href, children }: { title: string; meta: string; status: string; href?: string; children: React.ReactNode }) {
   return (
     <li className="flex flex-wrap items-center justify-between gap-3 rounded-xl border bg-card p-3">
       <div className="min-w-0 flex-1">
-        <p className="truncate text-sm font-medium">{title}</p>
+        {href ? (
+          <Link href={href} className="block truncate text-sm font-medium text-blue hover:underline">
+            {title}
+          </Link>
+        ) : (
+          <p className="truncate text-sm font-medium">{title}</p>
+        )}
         <p className="text-xs text-muted-foreground">{meta}</p>
       </div>
       <StatusBadge status={status} />
@@ -74,7 +87,7 @@ export default async function ContentPage({ searchParams }: { searchParams: Prom
     body = rows.length === 0 ? <Empty>No exams.</Empty> : (
       <ul className="space-y-2">
         {rows.map((e) => (
-          <Row key={e.id} title={e.title} meta={`${e.section} · ${e._count.items} questions · ${e._count.attempts} attempts${e.isSample ? " · sample" : ""}`} status={e.status}>
+          <Row key={e.id} href={`/admin/exams/${e.id}`} title={e.title} meta={`${e.section} · ${e._count.items} questions · ${e._count.attempts} attempts${e.isSample ? " · sample" : ""}`} status={e.status}>
             <StatusForm id={e.id} status={e.status} action={setExamStatus} />
           </Row>
         ))}
@@ -89,7 +102,7 @@ export default async function ContentPage({ searchParams }: { searchParams: Prom
     body = rows.length === 0 ? <Empty>No questions.</Empty> : (
       <ul className="space-y-2">
         {rows.map((q) => (
-          <Row key={q.id} title={q.stem.length > 110 ? `${q.stem.slice(0, 110)}…` : q.stem} meta={`${q.section}${q.difficulty ? ` · difficulty ${q.difficulty}` : ""}${q.externalId ? ` · ${q.externalId}` : ""}`} status={q.status}>
+          <Row key={q.id} href={`/admin/questions/${q.id}`} title={q.stem.length > 110 ? `${q.stem.slice(0, 110)}…` : q.stem} meta={`${q.section}${q.difficulty ? ` · difficulty ${q.difficulty}` : ""}${q.externalId ? ` · ${q.externalId}` : ""}`} status={q.status}>
             <StatusForm id={q.id} status={q.status} action={setQuestionStatus} />
           </Row>
         ))}
@@ -104,7 +117,7 @@ export default async function ContentPage({ searchParams }: { searchParams: Prom
     body = rows.length === 0 ? <Empty>No passages.</Empty> : (
       <ul className="space-y-2">
         {rows.map((p) => (
-          <Row key={p.id} title={p.title} meta={`${p.section} · ${p._count.questions} questions`} status={p.status}>
+          <Row key={p.id} href={`/admin/passages/${p.id}`} title={p.title} meta={`${p.section} · ${p._count.questions} questions`} status={p.status}>
             <StatusForm id={p.id} status={p.status} action={setPassageStatus} />
           </Row>
         ))}
@@ -119,7 +132,7 @@ export default async function ContentPage({ searchParams }: { searchParams: Prom
     body = rows.length === 0 ? <Empty>No resources.</Empty> : (
       <ul className="space-y-2">
         {rows.map((r) => (
-          <Row key={r.id} title={r.title} meta={`${r.kind.toLowerCase().replace("_", " ")}${r.section ? ` · ${r.section}` : ""}${r.url || r.examId ? "" : " · no link yet (shows as coming soon)"}`} status={r.status}>
+          <Row key={r.id} href="/admin/resources" title={r.title} meta={`${r.kind.toLowerCase().replace("_", " ")}${r.section ? ` · ${r.section}` : ""}${r.url || r.examId ? "" : " · no link yet (shows as coming soon)"}`} status={r.status}>
             <StatusForm id={r.id} status={r.status} action={setResourceStatus} />
           </Row>
         ))}
@@ -167,7 +180,15 @@ export default async function ContentPage({ searchParams }: { searchParams: Prom
 
   return (
     <>
-      <PageHeader title="Content" description="Publishing is checked: a question needs exactly one correct answer and an explanation, an exam needs published questions, and a testimonial needs recorded consent." />
+      <PageHeader
+        title="Content"
+        description="Publishing is checked: a question needs exactly one correct answer and an explanation, an exam needs published questions, and a testimonial needs recorded consent."
+        actions={
+          <Button asChild size="sm">
+            <Link href={NEW_LINKS[tab].href}>{NEW_LINKS[tab].label}</Link>
+          </Button>
+        }
+      />
       <nav aria-label="Content type" className="mb-3 flex flex-wrap gap-2">
         {TABS.map((t) => (
           <Link key={t} href={link({ tab: t, status: undefined, page: "1" })} className={`rounded-full border px-3 py-1 text-sm capitalize ${tab === t ? "bg-navy text-white" : "hover:bg-muted"}`}>
