@@ -121,3 +121,42 @@ Audit and fix, with evidence:
   be shared; no per-visitor timelines.
 - **Data lifecycle:** guest-key data retention, inquiry retention, account export/delete still working,
   and an accurate privacy page.
+
+---
+
+## Amendment 2 (founder, 09:07): implement docs/FOUNDER-SPEC.md in full, now
+
+The founder said "fix all rn". This supersedes the visual direction in CREATIVE-DIRECTION.md and the
+"no scope expansion" rule in Amendment 1. **`docs/FOUNDER-SPEC.md` is now the source of truth for every fact
+and for the site structure.** Copy facts exactly as written; do not embellish or add any claim it doesn't contain.
+
+### Order
+1. **Facts first (small, do immediately):** update `src/lib/site.ts`. Majors are
+   "Chemistry & Molecular Biology (Course 5-7) and Neuroscience (Course 9)", MIT Class of 2027, senior, premed.
+   Replace "Biochemistry and Computational Neuroscience" everywhere (hero, founder, about, metadata, OG image, tests).
+   Move all credentials, research, publications, teaching, honors, high-school record, Mudzi and the bio into typed
+   data in `src/lib/founder-facts.ts` with a comment pointing to FOUNDER-SPEC.md.
+2. **Visual system per the spec:** white backgrounds, deep navy primary, bright blue buttons and links,
+   light blue-grey section backgrounds and borders; modern sans-serif with bold headlines (drop Newsreader on
+   public pages); sharp grid; **one** smooth hero animation only; no gradients, no neon. Remove the pinned
+   scroll story. The 3D molecule stays only if it is that one hero animation (subtle, in the MCAT panel), otherwise remove it.
+   Exam UI unchanged.
+3. **Structure per the spec:** nav exactly as listed; home hero (headline, two equal panels with buttons,
+   "Book a free 15-min call", credibility strip); MCAT half (sections 1–4); Admissions half (sections 5–10) with
+   **equal visual weight and depth**; shared sections 11–17 (Research & Teaching as a timeline page, Mudzi,
+   payment note under both pricing sections, About with her bio, booking with an MCAT / College Admissions toggle
+   and two Calendly slots, FAQ with all 7 answers, footer).
+4. **The dopamine lesson and learning loop (Amendment 1) stay**, presented on the MCAT half as the free
+   interactive lesson ("Try a free lesson"), not as decoration. Same AI-content approval rules.
+5. **Practice platform:** keep the engine. Full-length C/P, B/B, P/S sections need Shabari's own questions:
+   build the full-length exam structure (section timing, question counts and the navigator at full length) and the
+   import path, and show "coming soon" for full-lengths until her content is imported. Do not generate a
+   full-length bank and present it as hers.
+6. **Blanks:** admissions prices are unknown, so show "Priced on your consult call" until the founder gives them.
+   Notes Google Doc URLs and the two Calendly URLs: env/admin-configurable, and "coming soon" when unset.
+7. Then the mobile journey test (Amendment 1), adapted to the new structure, plus a second journey for an
+   admissions visitor: home → admissions half → credentials → admissions pricing → booking with the Admissions toggle.
+
+### Guardrails that still apply
+No logos or trademarks of MIT, Ivies, AAMC, Kaplan or Princeton Review. School names as plain text tiles only.
+Keep "Not affiliated with MIT/AAMC" disclaimers. No testimonials or outcomes beyond the spec. No deploys, DNS or spending.
