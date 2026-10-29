@@ -14,7 +14,7 @@ export NEXT_PUBLIC_CONTACT_EMAIL="jshankar@mit.edu"
 export ADMIN_NOTIFY_EMAIL="jshankar@mit.edu"
 export MAIL_SENDER_VERIFIED="false"
 export AUTH_SECRET="${AUTH_SECRET:-e2e-only-secret-e2e-only-secret-e2e-only}"
-export NEXT_DIST_DIR=".next-e2e"
+export NEXT_DIST_DIR="${NEXT_DIST_DIR:-.next-e2e}"
 
 psql "$E2E_DB_URL" -q -c "DROP SCHEMA IF EXISTS public CASCADE; CREATE SCHEMA public;"
 npx prisma migrate deploy >/dev/null
