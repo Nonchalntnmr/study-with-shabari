@@ -55,7 +55,7 @@ export function LessonExplorer({ readings }: { readings: Reading[] }) {
           className="mt-10 grid items-center gap-12 border-t border-hairline pt-10 lg:grid-cols-[1fr_1.1fr] lg:gap-16"
         >
           <div>
-            <p className="text-[0.95rem] font-semibold text-sci-teal">{r.section}</p>
+            <p className="text-[0.95rem] font-semibold text-fixative-ink">{r.section}</p>
             <h3 className="mt-2 text-[2rem]">{r.title}</h3>
             <div className="mt-6 space-y-5 text-[1.0625rem] leading-relaxed text-specimen/85">{r.body}</div>
           </div>

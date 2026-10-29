@@ -143,7 +143,9 @@ test("journey: homepage → credentials → lesson → miss, diagnose, retest �
 
   await step(page, 8, "opens booking and sees the Calendly embed (stubbed)", "booking", async () => {
     await page.getByRole("link", { name: "Book a free 15-min call" }).first().click();
-    await expect(page).toHaveURL(/\/book$/);
+    // The lesson is MCAT, so booking opens on the MCAT tab.
+    await expect(page).toHaveURL(/\/book\?service=mcat$/);
+    await expect(page.getByRole("tab", { name: "MCAT" })).toHaveAttribute("aria-selected", "true");
     const frame = page.locator('iframe[title^="Schedule a free consultation"]');
     await expect(frame).toHaveAttribute("src", /^https:\/\/calendly\.com\/e2e-shabari\/15min\?/);
     await expect(page.frameLocator('iframe[title^="Schedule a free consultation"]').getByRole("heading", { name: "Calendly (stub)" })).toBeVisible();

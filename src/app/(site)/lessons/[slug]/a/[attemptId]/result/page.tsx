@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import { Suspense } from "react";
-import { PrimaryCta, SecondaryCta } from "@/components/home/sections";
+import { ButtonLink, TextLink } from "@/components/b/primitives";
 import { AiNote, DraftBadge } from "@/components/lesson/badges";
 import { getViewer } from "@/lib/exam/service";
 import { CONFIDENCE_LABEL, lessonResult, type AnswerSummary } from "@/lib/lessons/flow";
@@ -153,9 +153,9 @@ async function Result({ slug, attemptId }: { slug: string; attemptId: string }) 
         ) : (
           <p className="mt-4 text-[1.0625rem] text-specimen/90">A full practice set is the next step: more questions, in a test-day interface.</p>
         )}
-        <div className="mt-7 flex flex-wrap gap-3">
-          <SecondaryCta>Try a full free practice set</SecondaryCta>
-          <PrimaryCta />
+        <div className="mt-7 flex flex-wrap items-center gap-x-8 gap-y-4">
+          <ButtonLink href="/book?service=mcat">Book a free 15-min call</ButtonLink>
+          <TextLink href="/practice">Try a full free practice set</TextLink>
         </div>
       </section>
 
