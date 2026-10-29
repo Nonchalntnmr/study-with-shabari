@@ -24,7 +24,7 @@ export default function BookPage() {
         <Wrap>
           <Kicker>Free consultation</Kicker>
           <h1 id="book-h" className="mt-4 text-[clamp(2.35rem,4.2vw,3.9rem)] leading-[1.04]">
-            Book a free 15-minute call.
+            Book a free <span className="whitespace-nowrap">15-minute</span> call.
           </h1>
           <p className="mt-5 max-w-2xl text-[1.125rem] text-quiet">On Zoom. Choose MCAT or College Admissions, then pick a time. Parents are welcome to join.</p>
           <PaymentNote className="mt-2" />

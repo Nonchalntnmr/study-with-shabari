@@ -8,7 +8,7 @@ import { bookCta, nav } from "@/lib/founder-facts";
 import { PublicMenu } from "./public-menu";
 
 /** White bar with the spec's navigation. A hairline appears once the page scrolls. */
-export function PublicNav({ account }: { account: React.ReactNode }) {
+export function PublicNav({ account, className = "" }: { account: React.ReactNode; className?: string }) {
   const { scrollY } = useScroll();
   const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
@@ -16,7 +16,7 @@ export function PublicNav({ account }: { account: React.ReactNode }) {
   const current = (href: string) => pathname === href || pathname.startsWith(`${href}/`);
 
   return (
-    <header className={`sticky top-0 z-50 bg-white/95 backdrop-blur transition-shadow duration-300 ${scrolled ? "shadow-[0_1px_0_0_#E2E8F0]" : ""}`}>
+    <header className={`sticky top-0 z-50 bg-white/95 backdrop-blur transition-shadow duration-300 ${scrolled ? "shadow-[0_1px_0_0_#E2E8F0]" : ""} ${className}`}>
       <div className="mx-auto flex h-[4.25rem] max-w-[1320px] items-center justify-between gap-6 px-5 sm:px-8">
         <Link href="/" className="shrink-0 font-display text-[1.35rem] leading-none tracking-[-0.01em] text-hema" aria-label="Study with Shabari, home">
           Study with Shabari

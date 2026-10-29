@@ -8,7 +8,7 @@ export function BookingBand({ service }: { service: "mcat" | "admissions" }) {
       <Wrap className="flex flex-col items-start gap-8 lg:flex-row lg:items-end lg:justify-between">
         <div>
           <h2 id={`book-${service}-h`} className="max-w-2xl text-[clamp(2rem,3.4vw,3rem)] text-white">
-            Book a free 15-minute call.
+            Book a free <span className="whitespace-nowrap">15-minute</span> call.
           </h2>
           <p className="mt-4 text-[1.125rem] text-white/80">Talk through your plan for {label}, on Zoom.</p>
         </div>

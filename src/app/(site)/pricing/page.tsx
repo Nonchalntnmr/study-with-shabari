@@ -16,7 +16,7 @@ export default function PricingPage() {
         <Wrap>
           <Kicker>Pricing</Kicker>
           <h1 id="pricing-h" className="mt-4 text-[clamp(2.35rem,4.2vw,3.9rem)] leading-[1.04]">
-            Every option starts with a free 15-minute call.
+            Every option starts with a free <span className="whitespace-nowrap">15-minute</span> call.
           </h1>
         </Wrap>
       </section>

@@ -129,7 +129,7 @@ function Closing() {
       <Wrap className="flex flex-col items-start gap-8 lg:flex-row lg:items-end lg:justify-between">
         <div>
           <h2 id="closing-h" className="max-w-2xl text-[clamp(2rem,3.4vw,3rem)] text-white">
-            Start with a free 15-minute call.
+            Start with a free <span className="whitespace-nowrap">15-minute</span> call.
           </h2>
           <p className="mt-4 text-[1.125rem] text-white/80">For MCAT prep or college admissions.</p>
           <PaymentNote className="mt-2 text-white/70" />

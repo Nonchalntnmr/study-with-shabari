@@ -19,7 +19,7 @@
     "admin:create": "tsx scripts/create-admin.ts",
     "content:import": "tsx scripts/import-content.ts",
     "postinstall": "prisma generate",
-    "vercel-build": "prisma generate && prisma migrate deploy && next build"
+    "vercel-build": "bash scripts/vercel-build.sh"
   },
   "dependencies": {
     "@prisma/adapter-pg": "^7.10.1",
