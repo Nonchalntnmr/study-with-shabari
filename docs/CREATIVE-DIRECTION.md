@@ -101,3 +101,20 @@ Save screenshots to `.local/shots/redesign/` (inside the project, not /tmp) so c
 `full-1440.png` (full page), `hero-390.png` and `full-390.png` (iPhone 14), `reduced-motion-1440.png`.
 Then run lint, tsc, vitest, Playwright (incl. axe) and paste the summary lines. Commit when green.
 Do not deploy, change DNS or spend money.
+
+## v1.1 — after reviewing the founder's reference (screen recording, 2026-10-29 07:30)
+
+The reference is an Instagram reel ("The era of boring websites is over") of a real-estate site ("Eastline").
+What we take from it, as principles only (no assets, layout or wording copied):
+
+- **The camera move is the story.** Scrolling drives a continuous, smooth camera move through a space.
+  Ours is the camera moving into the dopamine model. Scrub must be damped and never jitter.
+- **Light and airy, full-bleed.** The reference is bright, photographic and edge-to-edge. **Change from v1:**
+  the hero and story are on the light Slide field (`#EEF1EF`), not a dark field. The molecule is lit like a
+  studio object on a pale backdrop (soft key light, contact shadow). Hematoxylin `#2E2560` carries the type.
+- **Quiet chrome.** Minimal, centred wordmark and a thin nav that recedes on scroll. Huge whitespace. One
+  idea per screen.
+- **Photography gets space.** The founder portrait is now supplied: `public/images/shabari-portrait.jpg`
+  (700×875, 4:5, in the main checkout; copy it into the worktree). Use it large in the founder section with
+  `next/image`, real alt text ("Shabari Shankar"), no filters that change her skin tone, no duotone. A subtle
+  scroll parallax (≤ 40px) is the only motion on it. Do not use it in the hero.
