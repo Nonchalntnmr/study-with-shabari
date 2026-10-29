@@ -25,7 +25,8 @@ export const founder = {
   school: "MIT",
   // Original page wording. Confirm with Shabari: it may be out of date by fall 2026.
   standing: "a senior at MIT",
-  majors: "Biochemistry and Computational Neuroscience",
+  // As written in docs/FOUNDER-SPEC.md (MIT Class of 2027).
+  majors: "Chemistry & Molecular Biology (Course 5-7) and Neuroscience (Course 9)",
   goal: "medical school, with plastic surgery as the goal",
   mcat: {
     taken: "January 2026",

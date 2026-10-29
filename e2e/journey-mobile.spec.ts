@@ -72,7 +72,7 @@ test("journey: homepage → credentials → lesson → miss, diagnose, retest �
 
   await step(page, 2, "credentials (522, MIT, majors) are in the first two screens", "credentials", async () => {
     const screens = 2 * page.viewportSize()!.height;
-    for (const text of ["522", "MIT", "biochemistry and computational neuroscience"]) {
+    for (const text of ["522", "MIT", "Chemistry & Molecular Biology (Course 5-7) and Neuroscience (Course 9)"]) {
       expect(await firstTop(page, text), `"${text}" within the first two screens`).toBeLessThan(screens);
     }
   });

@@ -5,6 +5,7 @@ import { LessonInvite } from "@/components/home/lesson-invite";
 import { PracticeSection } from "@/components/home/practice-section";
 import { FinalCta, Founder, HowIHelp, PricingTeaser, PrimaryCta, SecondaryCta, TheScore } from "@/components/home/sections";
 import { DesktopStage, MobileStage } from "@/components/home/stage-slots";
+import { founder } from "@/lib/site";
 
 export const metadata: Metadata = { alternates: { canonical: "/" } };
 
@@ -26,7 +27,7 @@ export default function HomePage() {
                 <span className="block md:whitespace-nowrap">from a 522 scorer.</span>
               </h1>
               <p className="mt-8 max-w-[34rem] text-[1.1875rem] leading-relaxed text-specimen/90">
-                I’m Shabari, an MIT student in biochemistry and computational neuroscience. I scored 522 on the MCAT in January 2026. My notes and
+                I’m Shabari, an MIT student in {founder.majors}. I scored 522 on the MCAT in January 2026. My notes and
                 practice sets are free, and I tutor the three science sections.
               </p>
               <div className="mt-10 flex flex-wrap gap-3">
