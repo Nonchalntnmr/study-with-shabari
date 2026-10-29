@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { requestPasswordReset, resetPassword, type ResetState } from "@/lib/auth/actions";
 import { PASSWORD_MIN_LENGTH } from "@/lib/auth/password-rules";
-import { useSearchParam } from "@/lib/use-client-value";
+import { useHashParam, useSearchParam } from "@/lib/use-client-value";
 
 export function ForgotPasswordForm() {
   const [state, action, pending] = useActionState<ResetState, FormData>(requestPasswordReset, null);
@@ -27,7 +27,11 @@ export function ForgotPasswordForm() {
 }
 
 export function ResetPasswordForm() {
-  const token = useSearchParam("token");
+  // New links carry the token in the fragment so it never appears in server or hosting logs;
+  // `?token=` still works for links sent before that change.
+  const fromHash = useHashParam("token");
+  const fromQuery = useSearchParam("token");
+  const token = fromHash ?? fromQuery;
   const [state, action, pending] = useActionState<ResetState, FormData>(resetPassword, null);
   return (
     <form action={action} className="space-y-5">

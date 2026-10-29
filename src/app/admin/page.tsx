@@ -2,6 +2,8 @@ import { requireAdmin } from "@/lib/auth/dal";
 import Link from "next/link";
 import { getDailyActivity, getPlatformMetrics } from "@/lib/analytics/admin";
 import { pct } from "@/lib/analytics/compute";
+import { db } from "@/lib/db";
+import { FUNNEL_EVENTS, SUPPRESS_BELOW, funnelDay, suppressSmall } from "@/lib/funnel/events";
 import { PageHeader, Stat } from "./_components/ui";
 
 
@@ -60,6 +62,58 @@ export default async function AdminOverview() {
           <span>{activity.at(-1)?.day}</span>
         </div>
       </section>
+      <Funnel />
     </>
+  );
+}
+
+/** Cookieless daily counts. Small numbers are hidden so a single visitor can't be picked out of a screenshot. */
+async function Funnel() {
+  const since = new Date(funnelDay(new Date()).getTime() - 13 * 86_400_000);
+  const rows = suppressSmall(await db.funnelDaily.findMany({ where: { day: { gte: since } }, orderBy: [{ day: "desc" }, { event: "asc" }] }));
+  const days = [...new Set(rows.map((r) => r.day.toISOString().slice(0, 10)))];
+  const events = FUNNEL_EVENTS.filter((e) => rows.some((r) => r.event === e));
+  return (
+    <section aria-labelledby="funnel" className="mt-8">
+      <h2 id="funnel" className="mb-1 text-sm font-semibold">
+        Funnel, last 14 days
+      </h2>
+      <p className="mb-3 text-xs text-muted-foreground">
+        Aggregate daily counts only: no cookies, user ids or IP addresses. Days with fewer than {SUPPRESS_BELOW} of an event show “&lt;{SUPPRESS_BELOW}”.
+      </p>
+      {days.length === 0 ? (
+        <p className="rounded-xl border border-dashed p-6 text-center text-sm text-muted-foreground">No events counted yet.</p>
+      ) : (
+        <div className="overflow-x-auto rounded-xl border bg-card">
+          <table className="w-full text-sm">
+            <thead className="text-xs text-muted-foreground">
+              <tr>
+                <th className="px-3 py-2 text-left font-medium">Day (UTC)</th>
+                {events.map((e) => (
+                  <th key={e} className="px-3 py-2 text-right font-medium">
+                    {e.replace(/_/g, " ")}
+                  </th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {days.map((d) => (
+                <tr key={d} className="border-t">
+                  <td className="px-3 py-2">{d}</td>
+                  {events.map((e) => {
+                    const r = rows.find((x) => x.event === e && x.day.toISOString().startsWith(d));
+                    return (
+                      <td key={e} className="px-3 py-2 text-right tabular-nums">
+                        {!r ? "0" : r.count === null ? `<${SUPPRESS_BELOW}` : r.count}
+                      </td>
+                    );
+                  })}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
+    </section>
   );
 }

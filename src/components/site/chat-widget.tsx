@@ -9,10 +9,12 @@ import { usePathname } from "next/navigation";
 // Kept off the exam, so it can't distract or help mid-test, and off admin and account pages.
 const AGENT_ID = process.env.NEXT_PUBLIC_IONOS_CHAT_AGENT_ID;
 const HIDDEN_PREFIXES = ["/exam", "/admin", "/dashboard", "/login", "/signup", "/account"];
+// A lesson in progress is a focused answering surface, like the exam: no third-party widget on it.
+const LESSON_ATTEMPT = /^\/lessons\/[^/]+\/a\//;
 
 export function ChatWidget() {
   const pathname = usePathname();
-  if (!AGENT_ID || HIDDEN_PREFIXES.some((p) => pathname.startsWith(p))) return null;
+  if (!AGENT_ID || HIDDEN_PREFIXES.some((p) => pathname.startsWith(p)) || LESSON_ATTEMPT.test(pathname)) return null;
   return (
     <Script
       id="ionos-ai-chat"

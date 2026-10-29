@@ -1,5 +1,5 @@
 import "server-only";
-import { cookies, headers } from "next/headers";
+import { cookies } from "next/headers";
 import { cache } from "react";
 import { db } from "@/lib/db";
 import { randomToken, sha256 } from "@/lib/security/hash";
@@ -34,12 +34,11 @@ export const getCurrentUser = cache(async (): Promise<CurrentUser | null> => {
 /** Route handlers and server actions only: these may set cookies. */
 export async function createSession(userId: string): Promise<void> {
   const token = randomToken();
-  const userAgent = (await headers()).get("user-agent")?.slice(0, 300) ?? null;
+  // No user agent is recorded: nothing reads it, so it isn't collected.
   await db.session.create({
     data: {
       tokenHash: sha256(token),
       userId,
-      userAgent,
       expiresAt: new Date(Date.now() + SESSION_TTL_DAYS * 86_400_000),
     },
   });

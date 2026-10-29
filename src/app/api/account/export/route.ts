@@ -28,6 +28,15 @@ export async function GET() {
           responses: { select: { questionId: true, selectedChoiceId: true, flagged: true, timeSpentMs: true, isCorrect: true } },
         },
       },
+      lessonAttempts: {
+        select: {
+          id: true,
+          startedAt: true,
+          completedAt: true,
+          lessonVersion: { select: { version: true, lesson: { select: { title: true } } } },
+          answers: { select: { stepPosition: true, questionId: true, choiceLabel: true, confidence: true, isCorrect: true, misconceptionId: true, timeMs: true, createdAt: true } },
+        },
+      },
     },
   });
   return new Response(JSON.stringify({ exportedAt: new Date().toISOString(), ...data }, null, 2), {

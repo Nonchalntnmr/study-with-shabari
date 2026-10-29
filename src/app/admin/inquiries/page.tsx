@@ -1,6 +1,6 @@
 import { requireAdmin } from "@/lib/auth/dal";
 import { db } from "@/lib/db";
-import { setInquiryStatus, saveInquiryNote } from "@/lib/admin/actions";
+import { deleteInquiry, setInquiryStatus, saveInquiryNote } from "@/lib/admin/actions";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { ActionForm } from "../_components/action-form";
@@ -89,6 +89,13 @@ export default async function InquiriesPage({ searchParams }: { searchParams: Pr
                   <Button type="submit" size="sm" variant="outline">Save note</Button>
                 </ActionForm>
               </div>
+              <ActionForm action={deleteInquiry} className="mt-3 text-xs text-muted-foreground">
+                <input type="hidden" name="id" value={q.id} />
+                <label className="flex items-center gap-1.5">
+                  <input type="checkbox" name="confirm" /> Delete this message and its email records permanently (for example, on the sender’s request)
+                </label>
+                <Button type="submit" size="sm" variant="ghost" className="text-danger">Delete</Button>
+              </ActionForm>
             </li>
           ))}
         </ul>

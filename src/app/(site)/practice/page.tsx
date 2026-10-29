@@ -62,7 +62,7 @@ export default async function PracticePage() {
             <p className="max-w-3xl">{AAMC_DISCLAIMER}</p>
             <form action={clearGuestHistory}>
               <button type="submit" className="underline underline-offset-2 hover:text-navy">
-                Clear guest practice history on this browser
+                Clear guest practice and lesson history on this browser
               </button>
             </form>
           </div>

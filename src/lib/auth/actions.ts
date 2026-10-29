@@ -120,10 +120,13 @@ export async function deleteAccount(_prev: AccountState, formData: FormData): Pr
   redirect("/?account=deleted");
 }
 
-/** Lets a guest wipe the practice history stored against this browser. */
+/** Lets a guest wipe the practice and lesson history stored against this browser. */
 export async function clearGuestHistory(): Promise<void> {
   const guestKeyHash = await getGuestKeyHash();
-  if (guestKeyHash) await db.attempt.deleteMany({ where: { guestKeyHash, userId: null } });
+  if (guestKeyHash) {
+    await db.attempt.deleteMany({ where: { guestKeyHash, userId: null } });
+    await db.lessonAttempt.deleteMany({ where: { guestKeyHash, userId: null } });
+  }
   (await cookies()).delete(GUEST_COOKIE);
   redirect("/practice?cleared=1");
 }
@@ -160,7 +163,7 @@ export async function requestPasswordReset(_prev: ResetState, formData: FormData
   const user = await db.user.findUnique({ where: { email: parsed.data.email }, select: { id: true } });
   if (user) {
     const token = await createResetToken(user.id);
-    await sendEmail({ template: "password-reset", to: parsed.data.email, ...passwordResetEmail(`${siteUrl}/reset-password?token=${token}`) });
+    await sendEmail({ template: "password-reset", to: parsed.data.email, ...passwordResetEmail(`${siteUrl}/reset-password#token=${token}`) });
   }
   return done;
 }

@@ -56,6 +56,21 @@ export async function saveInquiryNote(_prev: ActionResult | null, formData: Form
   return ok("Note saved.");
 }
 
+/** Erases a contact message on request, with the automatic-email records that hold the sender's address. */
+export async function deleteInquiry(_prev: ActionResult | null, formData: FormData): Promise<ActionResult> {
+  const admin = await requireAdmin();
+  const p = parse(z.object({ id, confirm: z.literal("on") }), Object.fromEntries(formData));
+  if ("error" in p) return fail("Tick the box to confirm the deletion.");
+  const existing = await db.inquiry.findUnique({ where: { id: p.data.id }, select: { kind: true } });
+  if (!existing) return fail("Inquiry not found.");
+  await db.$transaction([db.emailMessage.deleteMany({ where: { inquiryId: p.data.id } }), db.inquiry.delete({ where: { id: p.data.id } })]);
+  // No name, email or message in the log: the point is that they're gone.
+  await audit(admin, "inquiry.delete", "Inquiry", p.data.id, { kind: existing.kind });
+  revalidatePath("/admin/inquiries");
+  revalidatePath("/admin");
+  return ok("Deleted.");
+}
+
 // -------------------------------------------------------------------- content
 
 export async function setQuestionStatus(_prev: ActionResult | null, formData: FormData): Promise<ActionResult> {
