@@ -19,6 +19,8 @@ export type StoryStore = {
   flags: Record<string, boolean>;
   /** Layout the scene is framed for. */
   wide: boolean;
+  /** Scene phase at each beat, when a story skips some of the scene's beats (default: 0, 1, 2…). */
+  phases: number[] | null;
 };
 
 export function createStore(beats: number): StoryStore {
@@ -30,7 +32,12 @@ export function createStore(beats: number): StoryStore {
     held: { yaw: 0, pitch: 0 },
     flags: {},
     wide: true,
+    phases: null,
   };
+}
+
+export function setPhases(s: StoryStore, phases: number[] | null) {
+  s.phases = phases;
 }
 
 export function setLayout(s: StoryStore, marks: number[], wide: boolean) {

@@ -29,6 +29,58 @@ function ScoreBars() {
   );
 }
 
+/** The two halves (MCAT, admissions) and the booking row: the hero's lower part, also used on the home page below the cinematic acts. */
+export function HeroPanels({ className = "" }: { className?: string }) {
+  return (
+    <Wrap className={className}>
+      <div className="grid border-t border-hairline md:grid-cols-2">
+        <article aria-labelledby="panel-mcat" className="flex flex-col py-10 md:pr-14">
+          <h2 id="panel-mcat" className="font-sans text-[0.98rem] font-semibold tracking-normal text-eosin">
+            MCAT Prep
+          </h2>
+          <p className="mt-4 font-display text-[clamp(1.75rem,2.6vw,2.4rem)] leading-[1.1] text-hema">{mcatScore.line}</p>
+          <ScoreBars />
+          <div className="mt-auto pt-9">
+            <TextLink href="/mcat">Explore MCAT Prep</TextLink>
+          </div>
+        </article>
+        <article aria-labelledby="panel-admissions" className="flex flex-col border-t border-hairline py-10 md:border-l md:border-t-0 md:pl-14">
+          <h2 id="panel-admissions" className="font-sans text-[0.98rem] font-semibold tracking-normal text-eosin">
+            College Admissions
+          </h2>
+          <p className="mt-4 max-w-xl font-display text-[clamp(1.75rem,2.6vw,2.4rem)] leading-[1.12] text-hema">{admittedLine}</p>
+          <div className="mt-auto pt-9">
+            <TextLink href="/admissions">Explore Admissions Consulting</TextLink>
+          </div>
+        </article>
+      </div>
+
+      <div className="flex flex-wrap items-center gap-x-6 gap-y-3 border-t border-hairline py-10">
+        <ButtonLink href="/book">Book a free consult call</ButtonLink>
+        <p className="text-[0.98rem] text-quiet">A free consult call{consultPlatform ? ` on ${consultPlatform}` : ""}, for MCAT or college admissions.</p>
+      </div>
+    </Wrap>
+  );
+}
+
+/** The credibility strip (founder-facts credibilityStrip). */
+export function CredibilityStrip() {
+  return (
+    <div className="border-y border-hairline bg-mist">
+      <Wrap>
+        <ul aria-label="Credentials" className="flex flex-wrap items-center justify-center gap-y-3 py-6">
+          {credibilityStrip.map((c, i) => (
+            <li key={c} className={`px-5 font-display text-[1.15rem] text-hema sm:px-8 ${i > 0 ? "sm:border-l sm:border-hairline" : ""}`}>
+              {c}
+            </li>
+          ))}
+        </ul>
+      </Wrap>
+    </div>
+  );
+}
+
+/** The previous home hero (copy, 3D model, panels, strip). The home page now uses the cinematic acts. */
 export function Hero() {
   return (
     <section aria-labelledby="hero-h" className="bg-white pt-8 sm:pt-20">
@@ -52,46 +104,9 @@ export function Hero() {
             </TextLink>
           </div>
         </div>
-
-        <div className="mt-20 grid border-t border-hairline md:grid-cols-2">
-          <article aria-labelledby="panel-mcat" className="flex flex-col py-10 md:pr-14">
-            <h2 id="panel-mcat" className="font-sans text-[0.98rem] font-semibold tracking-normal text-eosin">
-              MCAT Prep
-            </h2>
-            <p className="mt-4 font-display text-[clamp(1.75rem,2.6vw,2.4rem)] leading-[1.1] text-hema">{mcatScore.line}</p>
-            <ScoreBars />
-            <div className="mt-auto pt-9">
-              <TextLink href="/mcat">Explore MCAT Prep</TextLink>
-            </div>
-          </article>
-          <article aria-labelledby="panel-admissions" className="flex flex-col border-t border-hairline py-10 md:border-l md:border-t-0 md:pl-14">
-            <h2 id="panel-admissions" className="font-sans text-[0.98rem] font-semibold tracking-normal text-eosin">
-              College Admissions
-            </h2>
-            <p className="mt-4 max-w-xl font-display text-[clamp(1.75rem,2.6vw,2.4rem)] leading-[1.12] text-hema">{admittedLine}</p>
-            <div className="mt-auto pt-9">
-              <TextLink href="/admissions">Explore Admissions Consulting</TextLink>
-            </div>
-          </article>
-        </div>
-
-        <div className="flex flex-wrap items-center gap-x-6 gap-y-3 border-t border-hairline py-10">
-          <ButtonLink href="/book">Book a free consult call</ButtonLink>
-          <p className="text-[0.98rem] text-quiet">A free consult call{consultPlatform ? ` on ${consultPlatform}` : ""}, for MCAT or college admissions.</p>
-        </div>
       </Wrap>
-
-      <div className="border-y border-hairline bg-mist">
-        <Wrap>
-          <ul aria-label="Credentials" className="flex flex-wrap items-center justify-center gap-y-3 py-6">
-            {credibilityStrip.map((c, i) => (
-              <li key={c} className={`px-5 font-display text-[1.15rem] text-hema sm:px-8 ${i > 0 ? "sm:border-l sm:border-hairline" : ""}`}>
-                {c}
-              </li>
-            ))}
-          </ul>
-        </Wrap>
-      </div>
+      <HeroPanels className="mt-20" />
+      <CredibilityStrip />
     </section>
   );
 }

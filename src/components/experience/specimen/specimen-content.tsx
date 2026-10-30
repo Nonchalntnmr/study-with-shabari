@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { Skeletal } from "@/components/molecule/skeletal";
-import { AMINE_PKA, DOPAMINE, PHYSIOLOGICAL_PH, fractionProtonated, subscriptFormula } from "@/lib/experience/structure";
+import { DOPAMINE, subscriptFormula } from "@/lib/experience/structure";
 import { MOLECULES } from "@/lib/molecules/analyze";
 import { BookLink, SecondaryLink } from "../chrome";
 import { Panel, type StepContent } from "../scroll-story";
@@ -13,7 +13,6 @@ import { ExplodedFigure, ExplodedLegend } from "./exploded-figure";
 
 const dopamine = MOLECULES.dopamine;
 export const LESSON_TITLE = "Dopamine: One Molecule, Every MCAT Section";
-const pct = (fractionProtonated(PHYSIOLOGICAL_PH, AMINE_PKA) * 100).toFixed(1);
 
 export function SpecimenLabel() {
   const rows: [string, string][] = [
@@ -68,12 +67,13 @@ export function specimenStills(): React.ReactNode[] {
 }
 
 /** The six beats. `heroLevel` is 1 on the Specimen page and 2 where it opens a longer page. */
-export function specimenSteps({ heroLevel = 1 as 1 | 2, heroExtra }: { heroLevel?: 1 | 2; heroExtra?: React.ReactNode } = {}): StepContent[] {
+export function specimenSteps({ heroLevel = 1 as 1 | 2, heroExtra, leadHero = false }: { heroLevel?: 1 | 2; heroExtra?: React.ReactNode; leadHero?: boolean } = {}): StepContent[] {
   return [
     {
       id: "hero",
       nav: "the specimen",
-      panel: (
+      // On the home page the hero copy is the story's lead (it lies over this beat), so the beat has no panel.
+      panel: leadHero ? null : (
         <Panel kicker="Specimen · PubChem CID 681" title="Dopamine" level={heroLevel}>
           <p>{LESSON_TITLE}. A free lesson written by Shabari.</p>
           <SpecimenLabel />
@@ -114,12 +114,9 @@ export function specimenSteps({ heroLevel = 1 as 1 | 2, heroExtra }: { heroLevel
       id: "proton",
       nav: "the charge at pH 7.4",
       panel: (
-        <Panel kicker="At pH 7.4" title="A proton on the amine">
+        <Panel kicker="Charge" title="Protonated at physiological pH">
           <p>
             Its amine (pKa ≈ 10) is protonated at physiological pH, so it carries a +1 charge and can’t cross the blood–brain barrier.
-          </p>
-          <p className="text-[0.95rem] text-[color:var(--exp-quiet)]">
-            At pH {PHYSIOLOGICAL_PH} with pKa {AMINE_PKA}, about {pct}% of the amine is protonated: 1 / (1 + 10<sup>pH − pKa</sup>).
           </p>
         </Panel>
       ),
@@ -131,9 +128,6 @@ export function specimenSteps({ heroLevel = 1 as 1 | 2, heroExtra }: { heroLevel
       panel: (
         <Panel kicker="Stereochemistry" title="Achiral">
           <p>Dopamine itself is achiral.</p>
-          <p className="text-[0.95rem] text-[color:var(--exp-quiet)]">
-            A stereocenter needs a carbon with four different groups. Both side-chain carbons are CH₂, and the ring carbons have only three neighbours, so there is none.
-          </p>
         </Panel>
       ),
       figure: <ExplodedFigure achiral title="Dopamine taken apart, its two CH₂ carbons highlighted" className="w-full" />,
@@ -143,7 +137,7 @@ export function specimenSteps({ heroLevel = 1 as 1 | 2, heroExtra }: { heroLevel
       nav: "the whole molecule",
       panel: (
         <Panel kicker="Put back together" title="One molecule, every MCAT section">
-          <p>The rest of the lesson follows this molecule through:</p>
+          <p>In the free lesson:</p>
           <ul className="grid gap-1 text-[0.98rem]">
             {["How it’s made (catecholamine synthesis)", "How it’s cleared", "Receptors", "The four pathways", "Clinical connections", "Psych/Soc connection: reward prediction error"].map((t) => (
               <li key={t} className="border-b border-[color:var(--exp-rule)] pb-1">

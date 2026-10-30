@@ -191,7 +191,7 @@ function Synapse({ store, onPhase }: { store: StoryStore; onPhase: (phase: numbe
     const w = world.current;
     if (!w || !particles.current || !stored.current || !camp.current || !ions.current || !vesicles.current || !gprot.current || !heroRef.current || !pulse.current) return;
     const blocked = !!store.flags.datBlocked;
-    const target = phaseOf(advance(store, dt, 4), store.marks);
+    const target = phaseOf(advance(store, dt, 4), store.marks, store.phases);
     phaseRef.current = damp(phaseRef.current, target, 6, dt);
     const phase = phaseRef.current;
     const t = s.clock.elapsedTime;
@@ -401,7 +401,6 @@ const FOCUS_X = [-1.2, -3.2, -1.8, 0, 1.4, -0.6, -0.8];
 
 export const SYNAPSE_LABELS = [
   { key: "pre", text: "Presynaptic terminal", at: [-5.6, -4.6], show: (p: number) => band(p, 0.7, 3.2) },
-  { key: "ves", text: "Vesicles of dopamine", at: [-5.0, 4.2], show: (p: number) => band(p, 0.8, 2.2) },
   { key: "cleft", text: "Synaptic cleft", at: [0, 5.3], show: (p: number) => band(p, 2.4, 3.8) },
   { key: "post", text: "Postsynaptic neuron", at: [5.0, 0], show: (p: number) => band(p, 2.6, 4.6) },
   { key: "d1", text: "D1 · Gs · cAMP ↑", at: [3.6, 2.4], show: (p: number) => band(p, 3.4, 4.7), tone: "d1" },

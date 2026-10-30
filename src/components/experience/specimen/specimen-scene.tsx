@@ -212,9 +212,9 @@ function useFraming(store: StoryStore) {
       const aspect = size.width / Math.max(1, size.height);
       const wide = store.wide;
       // Desktop: right of the caption column. Phone: the upper part of the screen, above the caption.
-      const u = wide ? lerp(0.66, 0.64, closeness) : 0.5;
+      const u = wide ? lerp(0.68, 0.64, closeness) : 0.5;
       const v = 0.5;
-      const fillW = wide ? lerp(0.46, 0.6, closeness) : lerp(0.66, 0.76, closeness);
+      const fillW = wide ? lerp(0.42, 0.6, closeness) : lerp(0.66, 0.76, closeness);
       const fillH = wide ? lerp(0.6, 0.76, closeness) : lerp(0.6, 0.7, closeness);
       const tn = Math.tan((camera.fov * Math.PI) / 360);
       const z = Math.max((w * 1.12) / (fillW * 2 * tn * aspect), (h * 1.12) / (fillH * 2 * tn));

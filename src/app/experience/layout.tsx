@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { ExperienceHeader } from "@/components/experience/chrome";
 import { PROTOTYPE_NOTE, experienceAllowed, gateExperience } from "@/lib/experience/gate";
-import "./experience.css";
+import "@/components/experience/experience.css";
 
 // "The Beauty of Intelligence" prototypes. Prerendered; on the production deployment the gate
 // bakes a 404 into the build (src/lib/experience/gate.ts). `instant = false`: this segment is

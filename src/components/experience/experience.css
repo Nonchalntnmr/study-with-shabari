@@ -154,3 +154,44 @@
   border: 1px solid #e8dfcc;
   box-shadow: 0 1px 0 rgb(120 96 60 / 0.08), 0 24px 50px -32px rgb(80 60 30 / 0.45);
 }
+
+/* The home page: the cinematic acts sit under the site's own sticky bar (4.25rem). */
+.exp-home {
+  --exp-header: 4.25rem;
+}
+
+/* A story's lead (the home hero copy): on desktop it lies over the first beat, left of the
+   molecule; on a phone it comes first, above the stage, so the CTAs are on the first screen. */
+.exp-lead {
+  position: relative;
+  z-index: 15;
+}
+@media (min-width: 768px) {
+  .exp-lead {
+    position: absolute;
+    inset: 0 0 auto 0;
+    min-height: calc(100svh - var(--exp-header));
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    pointer-events: none;
+  }
+  .exp-lead > * {
+    pointer-events: auto;
+  }
+}
+/* The first beat is the lead's: no panel of its own. */
+.exp-step[data-empty="true"] {
+  min-height: calc(100svh - var(--exp-header));
+}
+@media (max-width: 767px) {
+  .exp-step[data-empty="true"] {
+    min-height: 34svh;
+    padding: 0;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .exp-step[data-empty="true"] {
+    min-height: 0;
+  }
+}

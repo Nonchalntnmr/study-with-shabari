@@ -128,15 +128,9 @@ export function SynapseFigure({ beat, datBlocked = false, title, className, uid 
       {beat === 2 && (
         <g fontFamily="var(--font-schibsted), sans-serif">
           <path d={`M${sx(-7.8)},${sy(5.6)} Q${sx(-3)},${sy(5.4)} ${sx(-1.8)},${sy(3.4)}`} fill="none" stroke="#0E9F9A" strokeWidth="3" strokeDasharray="2 7" strokeLinecap="round" />
-          <text x={sx(-6.2)} y={sy(6.05)} fontSize="14" fill="#0B6E6A" fontWeight="600">
-            action potential
-          </text>
           {[-0.6, 0.1, 0.9, 1.6].map((y, i) => (
             <circle key={i} cx={sx(-1.8 - (i % 2) * 0.3)} cy={sy(GEOMETRY.pore.y + y)} r="4.5" fill="#7FD3CF" stroke="#0E9F9A" />
           ))}
-          <text x={sx(-2.4)} y={sy(GEOMETRY.pore.y + 2.4)} fontSize="14" fill="#0B6E6A" fontWeight="600" textAnchor="end">
-            Ca²⁺
-          </text>
         </g>
       )}
 

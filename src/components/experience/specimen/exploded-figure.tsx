@@ -12,11 +12,14 @@ const O_INK = "#5A40C2";
 const N_INK = "#0B7F7B";
 const S = 44; // px per bond
 
+// Her lesson's words: "a catechol ring (benzene with two adjacent –OH groups) attached to an
+// ethylamine side chain … Its amine (pKa ≈ 10) is protonated at physiological pH". "Added by
+// tyrosine hydroxylase" is the live site's existing model label.
 export const GROUP_LEGEND: Record<GroupId, { n: number; title: string; body: string }> = {
-  ring: { n: 1, title: "Benzene ring", body: "C₆, aromatic: the catechol’s core" },
-  oh3: { n: 2, title: "3-OH", body: "the hydroxyl added by tyrosine hydroxylase" },
-  oh4: { n: 3, title: "4-OH", body: "the hydroxyl already on tyrosine" },
-  chain: { n: 4, title: "Ethylamine side chain", body: "–CH₂–CH₂–NH₂, protonated to –NH₃⁺ at pH 7.4 (pKa ≈ 10)" },
+  ring: { n: 1, title: "Benzene ring", body: "the catechol ring" },
+  oh3: { n: 2, title: "–OH", body: "added by tyrosine hydroxylase" },
+  oh4: { n: 3, title: "–OH", body: "the second of two adjacent –OH groups" },
+  chain: { n: 4, title: "Ethylamine side chain", body: "its amine (pKa ≈ 10) is protonated at physiological pH" },
 };
 
 export function ExplodedFigure({ assembled = false, protonated = true, achiral = false, title, className }: { assembled?: boolean; protonated?: boolean; achiral?: boolean; title: string; className?: string }) {

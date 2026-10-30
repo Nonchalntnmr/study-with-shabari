@@ -37,12 +37,15 @@ test("experience: an unknown prototype answers a real 404", async ({ request }) 
   expect((await request.get("/experience/does-not-exist")).status()).toBe(404);
 });
 
-test("experience: the Instrument shows the 522 only, never section scores or 'verified'", async ({ request }) => {
+test("experience: the 522 reveal states the 522 and her three section scores plainly, and nothing else", async ({ request }) => {
+  // Founder decision 2026-10-30 07:24: 522 and 131 C/P, 132 B/B, 132 P/S, stated plainly. CARS is never
+  // derived or shown; no percentile, no "verified", no "as reported" hedge.
   for (const path of ["/experience/instrument", "/experience/slice"]) {
     // Every word in the server HTML, markup stripped (SVG coordinates and class names aside).
     const text = (await (await request.get(path)).text()).replace(/<script[\s\S]*?<\/script>|<style[\s\S]*?<\/style>/g, " ").replace(/<[^>]+>/g, " ");
-    expect(text).toContain("522");
-    for (const s of [/\b13[12]\b/, /B\/B 13/, /verified/i]) expect(text, `${path}: ${s}`).not.toMatch(s);
+    expect(text).toContain("MCAT 522");
+    for (const s of ["131", "132", "C/P", "B/B", "P/S"]) expect(text, `${path}: ${s}`).toContain(s);
+    for (const s of [/\bCARS\b/, /\b12[0-9]\b/, /percentile/i, /verified/i, /as reported/i, /Shabari reports/i]) expect(text, `${path}: ${s}`).not.toMatch(s);
   }
 });
 

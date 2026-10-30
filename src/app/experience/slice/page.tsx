@@ -4,8 +4,7 @@ import { ScoreBand } from "@/components/experience/slice/score-band";
 import { Understanding } from "@/components/experience/slice/understanding";
 import { specimenSteps, specimenStills } from "@/components/experience/specimen/specimen-content";
 import { SpecimenStory } from "@/components/experience/specimen/specimen-story";
-import { SynapseFigure } from "@/components/experience/synapse/synapse-figure";
-import { DAT_NOTE, synapseBlockedStills, synapseSteps, synapseStills } from "@/components/experience/synapse/synapse-content";
+import { DAT_NOTE, synapseSet } from "@/components/experience/synapse/synapse-content";
 import { SynapseStory } from "@/components/experience/synapse/synapse-story";
 import { gateExperience } from "@/lib/experience/gate";
 import { paymentNote } from "@/lib/founder-facts";
@@ -26,16 +25,18 @@ export default function SlicePage() {
   const qs = publicQuestions();
   const primary = qs.find((q) => q.id === "q6")!;
   const related = qs.find((q) => q.id === "q2")!;
+  const synapse = synapseSet({ beats: ["made", "receptors", "cleared"], heroLevel: 2, priority: false });
   return (
     <>
       <SpecimenStory steps={specimenSteps()} stills={specimenStills()} label="The specimen" />
       <SynapseStory
         lazy
         label="At the synapse"
-        steps={synapseSteps({ heroLevel: 2, title: "Between two neurons" })}
-        stills={synapseStills(false, false)}
-        blockedStills={synapseBlockedStills()}
-        blockedFigure={<SynapseFigure beat={5} datBlocked uid="i" title="With DAT blocked, dopamine stays in the cleft and on its receptors" className="w-full" />}
+        steps={synapse.steps}
+        phases={synapse.phases}
+        stills={synapse.stills}
+        blockedStills={synapse.blockedStills}
+        blockedFigure={synapse.blockedFigure}
         datNote={DAT_NOTE}
       />
       <ScoreBand />

@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
-import { DAT_NOTE, synapseBlockedStills, synapseSteps, synapseStills } from "@/components/experience/synapse/synapse-content";
-import { SynapseFigure } from "@/components/experience/synapse/synapse-figure";
+import { DAT_NOTE, synapseSet } from "@/components/experience/synapse/synapse-content";
 import { SynapseStory } from "@/components/experience/synapse/synapse-story";
 import { gateExperience } from "@/lib/experience/gate";
 
@@ -9,13 +8,6 @@ export const metadata: Metadata = { title: "Synapse", description: "Prototype: d
 
 export default function SynapsePage() {
   gateExperience();
-  return (
-    <SynapseStory
-      steps={synapseSteps()}
-      stills={synapseStills()}
-      blockedStills={synapseBlockedStills()}
-      blockedFigure={<SynapseFigure beat={5} datBlocked uid="i" title="With DAT blocked, dopamine stays in the cleft and on its receptors" className="w-full" />}
-      datNote={DAT_NOTE}
-    />
-  );
+  const set = synapseSet();
+  return <SynapseStory steps={set.steps} phases={set.phases} stills={set.stills} blockedStills={set.blockedStills} blockedFigure={set.blockedFigure} datNote={DAT_NOTE} />;
 }

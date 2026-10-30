@@ -14,7 +14,7 @@ import { type StoryStore, setLayout, setProgress } from "./story-store";
 const ActiveBeat = createContext(0);
 export const useActiveBeat = () => useContext(ActiveBeat);
 
-export type StepContent = { id: string; nav: string; panel: React.ReactNode; figure?: React.ReactNode };
+export type StepContent = { id: string; nav: string; panel: React.ReactNode | null; figure?: React.ReactNode };
 
 export function ScrollStory({
   store,
@@ -23,6 +23,7 @@ export function ScrollStory({
   stage,
   panelSide = "left",
   className = "",
+  lead,
 }: {
   store: StoryStore;
   label: string;
@@ -30,6 +31,8 @@ export function ScrollStory({
   stage: React.ReactNode;
   panelSide?: "left" | "right";
   className?: string;
+  /** Content for the first beat that sits outside the step list (see .exp-lead). */
+  lead?: React.ReactNode;
 }) {
   const root = useRef<HTMLElement>(null);
   const [active, setActive] = useState(0);
@@ -86,12 +89,13 @@ export function ScrollStory({
     const y = step.getBoundingClientRect().top + window.scrollY + step.offsetHeight / 2 - focus;
     window.scrollTo({ top: Math.max(0, y), behavior: reduce ? "auto" : "smooth" });
     // Move focus with the view, so keyboard users continue reading from the beat they chose.
-    step.querySelector<HTMLElement>("[data-step-heading]")?.focus({ preventScroll: true });
+    (step.querySelector<HTMLElement>("[data-step-heading]") ?? (i === 0 ? root.current?.querySelector<HTMLElement>(".exp-lead [data-step-heading]") : null))?.focus({ preventScroll: true });
   };
 
   return (
     <ActiveBeat value={active}>
       <section ref={root} aria-label={label} className={`relative ${className}`} data-story>
+        {lead && <div className="exp-lead">{lead}</div>}
         <div className="exp-story-stage overflow-hidden" aria-hidden>
           {stage}
         </div>
@@ -120,10 +124,11 @@ export function ScrollStory({
               key={s.id}
               data-step={i}
               data-beat={s.id}
+              data-empty={s.panel ? undefined : "true"}
               className={`exp-step flex flex-col px-4 py-10 sm:px-8 md:justify-center ${panelSide === "right" ? "md:items-end" : "md:items-start"}`}
             >
               <div className="mx-auto w-full max-w-[1440px]">
-                <div className={`pointer-events-auto w-full md:max-w-[27rem] ${panelSide === "right" ? "md:ml-auto" : ""}`}>{s.panel}</div>
+                {s.panel && <div className={`pointer-events-auto w-full md:max-w-[27rem] ${panelSide === "right" ? "md:ml-auto" : ""}`}>{s.panel}</div>}
                 {s.figure && <div className="exp-inline-figure mt-8 w-full max-w-2xl">{s.figure}</div>}
               </div>
             </li>

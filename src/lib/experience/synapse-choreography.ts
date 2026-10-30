@@ -39,9 +39,13 @@ export const GEOMETRY = {
 export const RELEASED = 12;
 export const STORED_PER_VESICLE = 7;
 
-/** Continuous position in the sequence: 0 at the first beat … 6 at the last. */
-export function phaseOf(p: number, marks: readonly number[]): number {
-  return beatWeights(p, marks).reduce((s, w, i) => s + w * i, 0);
+/**
+ * Continuous position in the sequence: 0 at the first beat … 6 at the last. A story that shows
+ * only some beats passes the phase of each (for example [0, 4, 5]): the scene still plays
+ * everything between them as the visitor scrolls.
+ */
+export function phaseOf(p: number, marks: readonly number[], phases?: readonly number[] | null): number {
+  return beatWeights(p, marks).reduce((s, w, i) => s + w * (phases?.[i] ?? i), 0);
 }
 
 export type ParticlePlan = { slot: P2; cleft: P2; site: number | null; dat: number; inside: P2 };

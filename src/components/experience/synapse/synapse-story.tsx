@@ -5,7 +5,7 @@ import { useState } from "react";
 import { GlStage, TurnControls } from "../gl-stage";
 import { ScrollStory, type StepContent } from "../scroll-story";
 import { Stills } from "../stills";
-import { createStore, setFlag } from "../story-store";
+import { createStore, setFlag, setPhases } from "../story-store";
 
 const SynapseScene = dynamic(() => import("./synapse-scene"), { ssr: false });
 
@@ -21,6 +21,7 @@ export function SynapseStory({
   datNote,
   label = "Dopamine at a synapse",
   lazy = false,
+  phases,
 }: {
   steps: StepContent[];
   stills: React.ReactNode[];
@@ -31,10 +32,16 @@ export function SynapseStory({
   datNote: string;
   label?: string;
   lazy?: boolean;
+  /** Scene phase at each beat (see synapseSet). */
+  phases: number[];
 }) {
-  const [store] = useState(() => createStore(steps.length));
+  const [store] = useState(() => {
+    const s = createStore(steps.length);
+    setPhases(s, phases);
+    return s;
+  });
   const [blocked, setBlocked] = useState(false);
-  const reuptake = steps.findIndex((s) => s.id === "reuptake");
+  const reuptake = steps.findIndex((s) => s.id === "cleared");
 
   const toggle = (
     <div className="mt-5 rounded-xl border border-[color:var(--exp-rule)] bg-white/80 p-4">

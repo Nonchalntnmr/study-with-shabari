@@ -4,10 +4,10 @@ import { chromium, expect, test } from "@playwright/test";
 // the stills (posters and SVG figures), every beat's text, and both CTAs.
 
 const STORIES = [
-  { path: "/experience/specimen", beats: ["A catecholamine", "Four parts, one molecule", "A proton on the amine", "Achiral", "One molecule, every MCAT section"], second: "/dopamine" },
-  { path: "/experience/synapse", beats: ["Packed into vesicles", "A vesicle opens", "Crossing the cleft", "D1 against D2", "How it’s cleared"], second: "/dopamine" },
-  { path: "/experience/instrument", beats: ["522, on the scale", "Clear, simple, built around you", "One-on-one", "Start with a free consult call."], second: "/mcat" },
-  { path: "/experience/slice", beats: ["A proton on the amine", "D1 against D2", "Check your understanding", "Start with a free consult call."], second: "/dopamine" },
+  { path: "/experience/specimen", beats: ["A catecholamine", "Four parts, one molecule", "Protonated at physiological pH", "Achiral", "One molecule, every MCAT section"], second: "/dopamine" },
+  { path: "/experience/synapse", beats: ["How it’s made (catecholamine synthesis)", "Receptors", "How it’s cleared"], second: "/dopamine" },
+  { path: "/experience/instrument", beats: ["Section scores", "Clear, simple, built around you", "One-on-one", "Start with a free consult call."], second: "/mcat" },
+  { path: "/experience/slice", beats: ["Protonated at physiological pH", "Receptors", "Check your understanding", "Start with a free consult call."], second: "/dopamine" },
 ];
 
 test("WebGL off: no canvas, the stills and the whole story, both CTAs", async ({ baseURL }) => {
@@ -37,12 +37,12 @@ test("WebGL off: blocking DAT changes the reuptake still", async ({ baseURL }) =
   const b = await chromium.launch({ args: ["--disable-webgl", "--disable-3d-apis"] });
   const page = await (await b.newContext({ baseURL })).newPage();
   await page.goto("/experience/synapse");
-  await page.getByRole("button", { name: "Go to reuptake" }).click();
-  const still = page.locator('[data-still="5"] svg');
+  await page.getByRole("button", { name: "Go to how it’s cleared" }).click();
+  const still = page.locator('[data-still="3"] svg');
   const before = await still.innerHTML();
   await page.getByRole("switch", { name: "Block DAT" }).check({ force: true });
   await expect(page.getByRole("status").filter({ hasText: "Cocaine blocks DAT" })).toBeVisible();
-  expect(await page.locator('[data-still="5"] svg').innerHTML()).not.toBe(before);
+  expect(await page.locator('[data-still="3"] svg').innerHTML()).not.toBe(before);
   await b.close();
 });
 
