@@ -24,7 +24,7 @@ Preview and Production share the one Supabase project, so:
 |---|---|---|---|
 | `DATABASE_URL` 🔒 | ✓ | ✓ | The **transaction pooler**: `postgresql://postgres.oxihkuivrwnwlrsolwzx:<password>@aws-0-us-east-1.pooler.supabase.com:6543/postgres?pgbouncer=true`. The password is the rotated one, from Supabase → Database → Settings. |
 | `DIRECT_URL` 🔒 | ✓ | ✓ | The **session pooler**, same host on port `5432` with no `pgbouncer` parameter. Prisma's migration tooling uses it. The direct `db.*.supabase.co` host is IPv6-only, so don't use it. |
-| `DATABASE_SSL_CA` 🔒 | ✓ | ✓ | The PEM certificate from Supabase → Database → Settings → SSL configuration, pasted whole. `\n` escapes also work. The app verifies the server against it (`src/lib/db-config.ts`) and ignores `sslmode` in the URLs. |
+| `DATABASE_SSL_CA` | ✓ | ✓ | **Set (2026-10-30).** Supabase's public root, "Supabase Root 2021 CA" (`prod-ca-2021.crt`, valid to 2031-04-26, SHA-256 `80:70:25:AD:…:72:E6:CA:FA`), stored on one line with `\n` escapes. It isn't a secret. It matches the root the pooler serves on 5432 and 6543. The app verifies the server against it (`src/lib/db-config.ts`, `rejectUnauthorized: true`) and ignores `sslmode` in the URLs. A wrong CA is refused. |
 | `DATABASE_POOL_MAX` | optional | optional | Connections per function instance (default 5). Leave it unset unless the pooler reports exhaustion. |
 
 ## Auth and jobs
