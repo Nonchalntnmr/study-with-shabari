@@ -9,6 +9,7 @@ import path from "node:path";
 import { PrismaPg } from "@prisma/adapter-pg";
 import { PrismaClient } from "../src/generated/prisma/client";
 import { poolConfig } from "../src/lib/db-config";
+import { mcatPlanRows } from "../src/lib/pricing-plans";
 import { importBank } from "../src/lib/content/import";
 import { importLesson } from "../src/lib/lessons/import";
 
@@ -28,46 +29,8 @@ async function main() {
     console.log(`lesson ${json.lesson.slug}:`, await importLesson(db, json));
   }
 
-  // MCAT pricing as written in docs/FOUNDER-SPEC.md (section 4). Admissions prices are blank in the
-  // spec and live in src/lib/founder-facts.ts until the founder supplies them.
-  const plans = [
-    {
-      slug: "consult",
-      name: "Free 15-minute consult call",
-      priceLabel: "Free",
-      detail: null, // Calendly's consult event has no meeting location yet (src/lib/site.ts consultPlatform)
-      features: ["Talk through your timeline, scores and weak spots", "Leave with a next step, whether or not we work together"],
-      note: null,
-      ctaLabel: "Book a free call",
-      ctaHref: "/book?service=mcat",
-      featured: false,
-      position: 0,
-    },
-    {
-      slug: "full-mcat-package",
-      name: "Full MCAT Package",
-      priceLabel: "$2,000",
-      detail: null,
-      features: ["10 live 1:1 sessions", "2 original full-length exams", "2,000 original practice questions with explanations", "Personalized study plan"],
-      note: null,
-      ctaLabel: "Start with a free call",
-      ctaHref: "/book?service=mcat",
-      featured: true,
-      position: 1,
-    },
-    {
-      slug: "custom-plan",
-      name: "Custom MCAT plan",
-      priceLabel: "Priced on the consult call",
-      detail: null,
-      features: ["Fewer sessions or a single-section focus"],
-      note: null,
-      ctaLabel: "Ask on a call",
-      ctaHref: "/book?service=mcat",
-      featured: false,
-      position: 2,
-    },
-  ];
+  // MCAT pricing from the founder's 2026-10-30 packages (src/lib/pricing-plans.ts).
+  const plans = mcatPlanRows;
   for (const plan of plans) {
     await db.pricingPlan.upsert({
       where: { slug: plan.slug },

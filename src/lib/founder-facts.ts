@@ -80,10 +80,10 @@ export const mcatPricing = [
     slug: "full-mcat-package",
     name: "Full MCAT Package",
     price: "$2,000",
-    items: ["10 live 1:1 sessions", "2 full-length exams", "2,000 practice questions with explanations", "personalized study plan"],
+    items: ["10 live 1:1 sessions", "2 full-length exams", "2,000 practice questions with explanations", "Personalized study plan"],
   },
-  { slug: "intensive", name: "Intensive", price: "$3,500", items: ["20 live 1:1 sessions", "all practice materials", "weekly check-ins", "full-length review sessions"] },
-  { slug: "group-sessions", name: "Group sessions", price: "$40 per person per session", items: ["up to 6"] },
+  { slug: "intensive", name: "Intensive", price: "$3,500", items: ["20 live 1:1 sessions", "All practice materials", "Weekly check-ins", "Full-length review sessions"] },
+  { slug: "group-sessions", name: "Group sessions", price: "$40 per person per session", items: ["Up to 6"] },
 ];
 
 // ---------------------------------------------------------------- Admissions half
