@@ -115,7 +115,7 @@ export default function AdmissionsPage() {
                 {admissionsHeadline}
               </h1>
               <div className="mt-10 flex flex-wrap items-center gap-x-8 gap-y-4">
-                <ButtonLink href="/book?service=admissions">Book a free 15-min call</ButtonLink>
+                <ButtonLink href="/book?service=admissions">Book a free consult call</ButtonLink>
                 <TextLink href="#help">What I help with</TextLink>
               </div>
             </div>

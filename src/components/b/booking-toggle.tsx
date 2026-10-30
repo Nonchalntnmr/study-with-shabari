@@ -23,7 +23,7 @@ export function BookingToggle({ urls, contactEmail }: { urls: Record<Service, st
     if (requested === "admissions" || requested === "mcat") setService(requested);
   }, [requested]);
   const url = urls[service];
-  // While both services share one Calendly profile, say which event is the free call.
+  // Both tabs open the same Calendly event for now; each booking is tagged with its service (utm_campaign).
   const shared = urls.mcat !== null && urls.mcat === urls.admissions;
 
   return (
@@ -46,10 +46,7 @@ export function BookingToggle({ urls, contactEmail }: { urls: Record<Service, st
         {url ? (
           <>
             {shared && (
-              <p className="mb-4 text-[1rem] text-quiet">
-                For the free 15-minute {LABEL[service] === "MCAT" ? "MCAT" : "college admissions"} call, choose “initial consult”. Your booking is marked
-                as {LABEL[service] === "MCAT" ? "an MCAT" : "a College Admissions"} call.
-              </p>
+              <p className="mb-4 text-[1rem] text-quiet">Your booking is marked as {LABEL[service] === "MCAT" ? "an MCAT" : "a College Admissions"} call.</p>
             )}
             <CalendlyEmbed key={service} url={url} campaign={service} />
           </>

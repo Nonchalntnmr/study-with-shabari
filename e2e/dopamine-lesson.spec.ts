@@ -31,7 +31,7 @@ test("dopamine lesson: every section, no explanation before an answer, then the 
   await q2.getByRole("button", { name: /cannot cross the blood–brain barrier/ }).click();
   await expect(q2.getByRole("status")).toContainText("Correct.");
 
-  await expect(page.getByRole("link", { name: "Book a free 15-min call" }).last()).toHaveAttribute("href", "/book?service=mcat");
+  await expect(page.getByRole("link", { name: "Book a free consult call" }).last()).toHaveAttribute("href", "/book?service=mcat");
 });
 
 test("dopamine lesson: linked from the home hero's 3D model, the MCAT page and the footer", async ({ page }) => {

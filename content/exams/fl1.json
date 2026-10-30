@@ -585,6 +585,7 @@
       "section": "CP",
       "timeLimitMinutes": 95,
       "isSample": false,
+      "underReview": true,
       "items": [
         {
           "type": "passage",
@@ -2520,6 +2521,7 @@
       "section": "BB",
       "timeLimitMinutes": 95,
       "isSample": false,
+      "underReview": true,
       "items": [
         {
           "type": "passage",
@@ -4455,6 +4457,7 @@
       "section": "PS",
       "timeLimitMinutes": 95,
       "isSample": false,
+      "underReview": true,
       "items": [
         {
           "type": "passage",

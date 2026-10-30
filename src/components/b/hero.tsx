@@ -41,7 +41,7 @@ export function Hero() {
             </h1>
             <p className="mt-5 max-w-[36rem] text-[1.125rem] leading-relaxed text-quiet sm:mt-7">{heroSubline}</p>
             <div className="mt-7 flex flex-wrap items-center gap-x-8 gap-y-4 sm:mt-9">
-              <ButtonLink href="/book">Book a free 15-min call</ButtonLink>
+              <ButtonLink href="/book">Book a free consult call</ButtonLink>
               <TextLink href="/mcat">Explore MCAT tutoring</TextLink>
             </div>
           </div>
@@ -76,8 +76,8 @@ export function Hero() {
         </div>
 
         <div className="flex flex-wrap items-center gap-x-6 gap-y-3 border-t border-hairline py-10">
-          <ButtonLink href="/book">Book a free 15-min call</ButtonLink>
-          <p className="text-[0.98rem] text-quiet">Fifteen minutes{consultPlatform ? ` on ${consultPlatform}` : ""}, for MCAT or college admissions.</p>
+          <ButtonLink href="/book">Book a free consult call</ButtonLink>
+          <p className="text-[0.98rem] text-quiet">A free consult call{consultPlatform ? ` on ${consultPlatform}` : ""}, for MCAT or college admissions.</p>
         </div>
       </Wrap>
 

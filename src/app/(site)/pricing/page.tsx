@@ -5,7 +5,7 @@ import { admissionsPricing } from "@/lib/founder-facts";
 
 export const metadata: Metadata = {
   title: "Pricing",
-  description: "MCAT: a free 15-minute consult, the $2,000 Full MCAT Package, or a custom plan. College admissions: a free consult, then packages priced on the call.",
+  description: "MCAT: a free consult call, single sessions, a 5-session pack, Section Focus, the $2,000 Full MCAT Package, Intensive and group sessions. College admissions: a free consult, then packages priced on the call.",
   alternates: { canonical: "/pricing" },
 };
 
@@ -16,7 +16,7 @@ export default function PricingPage() {
         <Wrap>
           <Kicker>Pricing</Kicker>
           <h1 id="pricing-h" className="mt-4 text-[clamp(2.35rem,4.2vw,3.9rem)] leading-[1.04]">
-            Every option starts with a free <span className="whitespace-nowrap">15-minute</span> call.
+            Every option starts with a free consult call.
           </h1>
         </Wrap>
       </section>
@@ -48,7 +48,7 @@ export default function PricingPage() {
         </div>
         <PaymentNote className="mt-8" />
         <div className="mt-10">
-          <ButtonLink href="/book">Book a free 15-min call</ButtonLink>
+          <ButtonLink href="/book">Book a free consult call</ButtonLink>
         </div>
       </Band>
     </>

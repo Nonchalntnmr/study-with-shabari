@@ -72,7 +72,7 @@ export const notes = {
 
 /** The 2026-10-30 MCAT packages. scripts/sync-mcat-pricing.ts writes these to the pricing table. */
 export const mcatPricing = [
-  { slug: "consult", name: "Free 15-minute consult call", price: "Free", items: [] as string[] },
+  { slug: "consult", name: "Free consult call", price: "Free", items: [] as string[] },
   { slug: "single-session", name: "Single 1:1 session", price: "$100/hour", items: [] as string[] },
   { slug: "five-session-pack", name: "5-session pack", price: "$450", items: [] as string[] },
   { slug: "section-focus", name: "Section Focus", price: "$600", items: ["5 sessions on one section (C/P, B/B, or P/S)", "500 practice questions for that section"] },
@@ -153,7 +153,7 @@ export const mentoring = [
 
 /** The spec leaves these prices blank; they show as "Priced on your consult call" until the founder supplies them. */
 export const admissionsPricing = [
-  { name: "Free 15-minute consult call", price: "Free" as string, includes: null as string | null },
+  { name: "Free consult call", price: "Free" as string, includes: null as string | null },
   { name: "Essay package", price: null, includes: null },
   { name: "Full application package", price: null, includes: "essays, activities list, school list, interview prep" },
   { name: "Hourly sessions", price: null, includes: null },

@@ -110,6 +110,8 @@ export function convertFullLength(name: string, questions: SourceQuestion[]): { 
         section,
         timeLimitMinutes: 95,
         isSample: false,
+        // Every question still says reviewed:false until Shabari's pass; the set is labelled until then.
+        underReview: rows.some((r) => !r.source.reviewed),
         items,
       };
     })

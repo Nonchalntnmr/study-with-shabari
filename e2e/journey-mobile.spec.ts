@@ -82,7 +82,7 @@ test("journey: homepage → credentials → free dopamine lesson → wrong, then
     await page.goto("/");
     await expect(page.getByRole("heading", { level: 1 })).toHaveText("MCAT tutoring and college admissions help, from someone who recently went through both.");
     // Book and practice are both on the first screen of a phone.
-    await expect(page.getByRole("link", { name: "Book a free 15-min call" }).first()).toBeInViewport();
+    await expect(page.getByRole("link", { name: "Book a free consult call" }).first()).toBeInViewport();
     await expect(page.getByRole("link", { name: "Explore MCAT tutoring" }).first()).toBeInViewport();
   });
 
@@ -120,8 +120,8 @@ test("journey: homepage → credentials → free dopamine lesson → wrong, then
   });
 
   await step(page, 6, "opens booking from the lesson and sees the Calendly embed (stubbed)", "booking", async () => {
-    // "Want to go deeper? Book a free 15-minute call." at the end of the lesson.
-    await page.getByRole("link", { name: "Book a free 15-min call" }).last().click();
+    // "Want to go deeper? Book a free consult call." at the end of the lesson.
+    await page.getByRole("link", { name: "Book a free consult call" }).last().click();
     // The lesson is MCAT, so booking opens on the MCAT tab.
     await expect(page).toHaveURL(/\/book\?service=mcat$/);
     await expect(page.getByRole("tab", { name: "MCAT" })).toHaveAttribute("aria-selected", "true");
@@ -147,7 +147,7 @@ test("journey: admissions visitor: home → admissions → credentials → prici
     await explore.click();
     await expect(page).toHaveURL(/\/admissions$/);
     await expect(page.getByRole("heading", { level: 1 })).toHaveText("College admissions help, from someone who went through it recently.");
-    await expect(page.getByRole("link", { name: "Book a free 15-min call" }).first()).toBeInViewport();
+    await expect(page.getByRole("link", { name: "Book a free consult call" }).first()).toBeInViewport();
   });
 
   await step(page, "A2", "sees the credentials: schools and high school record", "admissions-credentials", async () => {
@@ -167,7 +167,7 @@ test("journey: admissions visitor: home → admissions → credentials → prici
   });
 
   await step(page, "A4", "books with the College Admissions toggle selected", "admissions-booking", async () => {
-    await page.getByRole("link", { name: "Book a free 15-min call" }).last().click();
+    await page.getByRole("link", { name: "Book a free consult call" }).last().click();
     await expect(page).toHaveURL(/\/book\?service=admissions$/);
     await expect(page.getByRole("tab", { name: "College Admissions" })).toHaveAttribute("aria-selected", "true");
     await expectBooking(page, "admissions-15min");

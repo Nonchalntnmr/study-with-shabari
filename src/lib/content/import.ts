@@ -104,6 +104,7 @@ export async function importBank(db: PrismaClient, input: unknown, status: Conte
           section: exam.section,
           timeLimitSec: exam.timeLimitMinutes * 60,
           isSample: exam.isSample,
+          underReview: exam.underReview,
           status,
           publishedAt: status === "PUBLISHED" ? new Date() : null,
         };

@@ -229,6 +229,9 @@ model Exam {
   section      Section
   timeLimitSec Int // used when a student chooses timed mode
   isSample     Boolean       @default(false)
+  // Published before Shabari's review (founder decision, 2026-10-30): the practice pages label the set
+  // "being reviewed by Shabari" with a link to report an error. Cleared once she has reviewed it.
+  underReview  Boolean       @default(false)
   status       ContentStatus @default(DRAFT)
   publishedAt  DateTime?
   createdAt    DateTime      @default(now())

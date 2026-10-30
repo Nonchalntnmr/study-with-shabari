@@ -127,8 +127,8 @@ export default function DopamineLessonPage() {
 
       <Band tone="mist" labelledBy="deeper-h">
         <div className="flex flex-col items-start gap-6 sm:flex-row sm:items-center sm:justify-between">
-          <H2 id="deeper-h">Want to go deeper? Book a free 15-minute call.</H2>
-          <ButtonLink href="/book?service=mcat">Book a free 15-min call</ButtonLink>
+          <H2 id="deeper-h">Want to go deeper? Book a free consult call.</H2>
+          <ButtonLink href="/book?service=mcat">Book a free consult call</ButtonLink>
         </div>
       </Band>
     </>

@@ -255,3 +255,11 @@ fl1.json (Full-Length 1, 177 questions; the free practice test), samples.json (9
 FL3 and a 2,000-question bank in the same format. Only questions with "reviewed": true are shown in production;
 figure_description renders as a caption under the passage. The question bank for paying students unlocks with an
 access code sent after Zelle payment.
+
+### Founder decisions, 2026-10-30 05:13 (relayed by Nishanth)
+- **Publish FL1 now** as practice content, before Shabari's review, labelled honestly on the practice page and the test
+  intro: "Practice set, being reviewed by Shabari." with a link to report an error. Never describe these questions as
+  written or verified by Shabari. Keep reviewed:false in the data.
+- **Booking:** both tabs open her existing "initial consult" Calendly event. Say "Free consult call" (and "Book a free
+  consult call") instead of "15-min" until she confirms the length or creates dedicated 15-minute events.
+- The $2,000 Full MCAT Package stays as listed. The database password rotation is deferred.

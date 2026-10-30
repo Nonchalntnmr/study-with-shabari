@@ -44,14 +44,14 @@ test("2. main navigation reaches every section", async ({ page }) => {
     ["Free Practice Test", /test day/],
     ["Free Notes", /My complete MCAT notes/],
     ["Research & Teaching", /Immunology, computational genomics/],
-    ["Pricing", /Every option starts with a free 15-minute call/],
+    ["Pricing", /Every option starts with a free consult call/],
     ["About", /Hi, I’m Shabari/],
   ] as const) {
     await page.getByRole("navigation", { name: "Main" }).getByRole("link", { name: link, exact: true }).click();
     await expect(page.getByRole("heading", { level: 1 })).toContainText(heading);
   }
   await page.getByRole("link", { name: "Book a Call", exact: true }).click();
-  await expect(page.getByRole("heading", { level: 1 })).toContainText("Book a free 15-minute call");
+  await expect(page.getByRole("heading", { level: 1 })).toContainText("Book a free consult call");
   // The old tutoring URL lands on the MCAT half.
   await page.goto("/mcat-tutoring");
   await expect(page).toHaveURL(/\/mcat$/);

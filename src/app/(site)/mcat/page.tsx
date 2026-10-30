@@ -110,7 +110,7 @@ export default async function McatPage() {
             </h1>
             <p className="mt-7 text-[1.125rem] leading-relaxed text-quiet">{mcatScore.line}.</p>
             <div className="mt-9 flex flex-wrap items-center gap-x-8 gap-y-4">
-              <ButtonLink href="/book?service=mcat">Book a free 15-min call</ButtonLink>
+              <ButtonLink href="/book?service=mcat">Book a free consult call</ButtonLink>
               <TextLink href={second.href}>{second.label}</TextLink>
             </div>
           </div>
@@ -167,8 +167,10 @@ export default async function McatPage() {
               choices, timer, flag-for-review, question navigator, and a results screen with score and an explanation for every question.
             </Lead>
             <p className="mt-6 text-[1rem] text-specimen/85">
-              {exams.length > 0
-                ? "Available now: short sample sets. Full-length C/P, B/B and P/S sections are coming as Shabari adds her questions."
+              {exams.some((e) => e.underReview)
+                ? "Available now: a full-length practice test (C/P, B/B and P/S), being reviewed by Shabari."
+                : exams.length > 0
+                ? "Available now: short sample sets. Full-length C/P, B/B and P/S sections are coming."
                 : "Practice sets are coming soon: the first short sample sets open here once Shabari has reviewed them, then full-length C/P, B/B and P/S sections as she adds her questions."}
             </p>
             {exams.length > 0 && (

@@ -67,6 +67,7 @@ export async function getPublishedExams() {
       section: true,
       timeLimitSec: true,
       isSample: true,
+      underReview: true,
       items: { select: { question: { select: { passageId: true } } } },
     },
   });

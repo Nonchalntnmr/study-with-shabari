@@ -31,7 +31,7 @@ export default function AboutPage() {
             <p className="mt-3 text-[1.0625rem] text-quiet">{identity.degree}.</p>
             <p className="mt-8 max-w-[62ch] text-[1.1875rem] leading-relaxed text-specimen/90">{bio}</p>
             <div className="mt-10 flex flex-wrap items-center gap-x-8 gap-y-4">
-              <ButtonLink href="/book">Book a free 15-min call</ButtonLink>
+              <ButtonLink href="/book">Book a free consult call</ButtonLink>
               <TextLink href="/research">Research & Teaching</TextLink>
             </div>
           </div>

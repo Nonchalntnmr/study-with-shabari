@@ -55,6 +55,8 @@ export const examSchema = z.object({
   section: sectionEnum,
   timeLimitMinutes: z.number().int().min(1).max(600),
   isSample: z.boolean().default(false),
+  /** Published before Shabari has reviewed it; the practice pages say so. */
+  underReview: z.boolean().default(false),
   items: z.array(z.union([passageItemSchema, discreteItemSchema])).min(1),
 });
 
