@@ -219,3 +219,34 @@ Every new sentence written for `/explore/brain` is logged verbatim below:
 - "Shown as the whole postcentral gyrus and the back of the paracentral lobule, because the atlas labels gyri, not cortical areas."
 - "The atlas doesn't outline the VTA. The markers show its approximate place, just inside each substantia nigra."
 - "Shown on the left hemisphere, where language is usually based."
+
+
+## Stage 4: organ systems (/explore/anatomy)
+
+Every new sentence written for `/explore/anatomy` is logged verbatim below:
+
+### Page heading and lead (`src/app/(site)/explore/anatomy/page.tsx`)
+
+- "Explore the organ systems, from heart and lungs to nephron and gut."
+- "Turn the 3D reference organs or pick a system to review gas exchange, acid-base balance, digestion, hormone regulation, and renal filtration for the MCAT."
+
+### Organ notes (`note` in `src/lib/explore/anatomy-regions.ts`)
+
+- "The heart pumps deoxygenated blood from the right ventricle to the lungs and oxygenated blood from the left ventricle to the body."
+- "Pacemaker cells in the sinoatrial (SA) node set the heart rate, conducted through the AV node, bundle of His and Purkinje fibers."
+- "Gas exchange occurs across thin alveolar membranes by passive diffusion: oxygen enters pulmonary capillaries while carbon dioxide leaves."
+- "The lungs also buffer blood pH through the bicarbonate buffer system by adjusting ventilation rate."
+- "The spleen sits in the upper left abdomen; its red pulp filters aged red blood cells and recycles iron."
+- "Its white pulp houses B cells and T cells that mount adaptive immune responses against blood-borne pathogens."
+- "The liver maintains blood glucose through glycogenesis, glycogenolysis and gluconeogenesis, and converts toxic ammonia into urea."
+- "It synthesizes bile salts for fat emulsification as well as plasma proteins such as albumin and clotting factors."
+- "The exocrine pancreas secretes bicarbonate to neutralize stomach acid and digestive enzymes (amylase, lipase, trypsinogen and chymotrypsinogen) into the duodenum."
+- "Endocrine islets of Langerhans release insulin from beta cells to lower blood glucose and glucagon from alpha cells to raise it."
+- "The duodenum completes chemical digestion using pancreatic enzymes and bile, and releases secretin and cholecystokinin (CCK)."
+- "The jejunum and ileum absorb sugars, amino acids, fatty acids (into lacteals as chylomicrons) and vitamin B12 across villi and microvilli."
+- "The large intestine absorbs remaining water and electrolytes (sodium and chloride) to concentrate indigestible material into feces."
+- "Commensal gut bacteria ferment fiber and synthesize vitamin K and biotin."
+- "Each kidney filters blood plasma at the glomerulus, reabsorbs water, glucose, amino acids and ions along the nephron, and secretes wastes and H+ or HCO3- to regulate blood pH."
+- "Aldosterone increases Na+ reabsorption and K+ secretion in the distal nephron, while antidiuretic hormone (ADH) inserts aquaporin-2 channels in the collecting duct."
+- "The urinary bladder stores urine received from the ureters; its wall is lined by transitional epithelium (urothelium) surrounded by detrusor smooth muscle."
+- "Micturition pairs parasympathetic detrusor contraction and internal urethral sphincter relaxation with voluntary somatic relaxation of the external urethral sphincter."

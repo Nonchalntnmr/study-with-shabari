@@ -1,0 +1,30 @@
+Title: HuBMAP Human Reference Atlas 3D Reference Organs (Male Torso Organ Systems)
+Creators: Kristen Browne and Heidi Schlehlein (HuBMAP CCF)
+License: Creative Commons Attribution 4.0 International (CC BY 4.0) — https://creativecommons.org/licenses/by/4.0/
+
+Source Organs & SHA-256 Checksums:
+- 3D Reference Organ for Heart, Male (v1.3): https://cdn.humanatlas.io/digital-objects/ref-organ/heart-male/v1.3/assets/3d-vh-m-heart.glb
+  SHA-256: 689df039c8bc264ea06a44cd926762976f0666c0ff2dc532d046409b185e6b0c
+- 3D Reference Organ for Lung, Male (v1.4): https://cdn.humanatlas.io/digital-objects/ref-organ/lung-male/v1.4/assets/3d-vh-m-lung.glb
+  SHA-256: bba95516fa993ac45c3b1c53f32b58d97232ffd78ae56397e5a2589c6ce4903d
+- 3D Reference Organ for Spleen, Male (v1.3): https://cdn.humanatlas.io/digital-objects/ref-organ/spleen-male/v1.3/assets/3d-vh-m-spleen.glb
+  SHA-256: 826012b9dc6b69064b76c3aabbce32a2baa32d1f97fde3e88a015f399c9040b8
+- 3D Reference Organ for Liver, Male (v1.2): https://cdn.humanatlas.io/digital-objects/ref-organ/liver-male/v1.2/assets/3d-vh-m-liver.glb
+  SHA-256: 8e4c38293cfdb6b4f47ef2930c7f4af9e37b9144d1cf26d07c8f12c5045eb404
+- 3D Reference Organ for Pancreas, Male (v1.3): https://cdn.humanatlas.io/digital-objects/ref-organ/pancreas-male/v1.3/assets/3d-vh-m-pancreas.glb
+  SHA-256: a89d7acbc9448ca1e6c09f7f6d6a18b2bd8a2e94cd4a0b51709915a8b7bea84e
+- 3D Reference Organ for Small Intestine, Male (v1.2): https://cdn.humanatlas.io/digital-objects/ref-organ/small-intestine-male/v1.2/assets/3d-vh-m-small-intestine.glb
+  SHA-256: 5d51b9b102e762f9b64fd1e7d9fbd1f1a23ed9cfdb536a9e756cca3206fbc5bb
+- 3D Reference Organ for Large Intestine, Male (v1.3): https://cdn.humanatlas.io/digital-objects/ref-organ/large-intestine-male/v1.3/assets/3d-sbu-m-large-intestine.glb
+  SHA-256: 908a5c38bf14574a673f2d2619502281f7f9e47c46c4eba837aae2e80e38c489
+- 3D Reference Organ for Kidney, Male, Left (v1.3): https://cdn.humanatlas.io/digital-objects/ref-organ/kidney-male-left/v1.3/assets/3d-vh-m-kidney-l.glb
+  SHA-256: 1e9f54281652d0b05c9ae54a06380a41a8d9c62c1036829180750995b1730fac
+- 3D Reference Organ for Kidney, Male, Right (v1.3): https://cdn.humanatlas.io/digital-objects/ref-organ/kidney-male-right/v1.3/assets/3d-vh-m-kidney-r.glb
+  SHA-256: f23bac3f62fd050b689bdee86bb8a20bff6997e830cb508c847f74c03c6a964b
+- 3D Reference Organ for Urinary Bladder, Male (v1.2): https://cdn.humanatlas.io/digital-objects/ref-organ/urinary-bladder-male/v1.2/assets/3d-vh-m-urinary-bladder.glb
+  SHA-256: 070893aea9139d9a2c4f8da3aa66ca309a3c683a599d93a37dd7031c7d71021d
+
+Modifications by Study with Shabari:
+- Combined ten HuBMAP 3D Reference Organs (Visible Human Male: heart, lung, spleen, liver, pancreas, small intestine, large intestine, left kidney, right kidney, urinary bladder) in their shared CCF body coordinate frame.
+- Merged sub-structures per organ into one pickable organ mesh, recentred at the origin, and scaled uniformly to a 0.22 m display bounding box.
+- Simplified meshes with meshoptimizer into mobile and desktop tiers, removed vertex normals (recomputed in the browser), quantized positions with KHR_mesh_quantization, and pre-compressed as .glb.gz.

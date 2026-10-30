@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { BookingBand } from "@/components/b/booking-band";
 import { Band, H2, Kicker, Lead, Wrap } from "@/components/b/primitives";
+import anatomyAssets from "@/lib/explore/anatomy-assets.json";
 import brainAssets from "@/lib/explore/brain-assets.json";
 
 export const metadata: Metadata = {
@@ -18,6 +19,12 @@ const BRAIN_CHANGES = [
   "Split the superior temporal gyrus at the anterior edge of Heschl's gyrus (the posterior part plus the planum temporale approximates Wernicke's area).",
   "Dropped internal structures (white matter, ventricles, tracts, small nuclei) and the Visible Human optic chiasm.",
   "Simplified (meshoptimizer), removed normals (recomputed in the browser), quantized positions (KHR_mesh_quantization) and recoloured.",
+];
+
+const ANATOMY_CHANGES = [
+  "Combined ten HuBMAP 3D Reference Organs (Visible Human Male: heart, lung, spleen, liver, pancreas, small intestine, large intestine, left kidney, right kidney, urinary bladder) in their shared CCF body coordinate frame.",
+  "Merged sub-structures per organ into one pickable organ mesh, recentred at the origin, and scaled uniformly to a 0.22 m display bounding box.",
+  "Simplified meshes with meshoptimizer into mobile and desktop tiers, removed vertex normals (recomputed in the browser), quantized positions with KHR_mesh_quantization, and pre-compressed as .glb.gz.",
 ];
 
 export default function CreditsPage() {
@@ -84,6 +91,54 @@ export default function CreditsPage() {
             <h3 className="font-display text-[1.45rem] text-hema">Modifications made by Study with Shabari</h3>
             <ul className="mt-3 list-disc space-y-2 pl-5 text-[1rem] leading-relaxed text-specimen">
               {BRAIN_CHANGES.map((c) => (
+                <li key={c}>{c}</li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </Band>
+
+      <Band id="anatomy-credit" labelledBy="anatomy-credit-h">
+        <div className="max-w-3xl space-y-6">
+          <Kicker>Used on /explore/anatomy</Kicker>
+          <H2 id="anatomy-credit-h">HuBMAP 3D Reference Organs (Torso Organ Systems)</H2>
+          <p className="text-[1.0625rem] leading-relaxed text-specimen">
+            Adapted from ten{" "}
+            <strong className="font-semibold text-hema">HuBMAP Human Reference Atlas 3D Reference Organs</strong>{" "}
+            (Kristen Browne and Heidi Schlehlein, HuBMAP Common Coordinate Framework; licensed under{" "}
+            <a
+              href="https://creativecommons.org/licenses/by/4.0/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-semibold text-hema underline decoration-hema/30 underline-offset-4 hover:decoration-eosin"
+            >
+              CC BY 4.0
+            </a>
+            ).Explorer page:{" "}
+            <Link href="/explore/anatomy" className="font-semibold text-hema underline decoration-hema/30 underline-offset-4 hover:decoration-eosin">
+              /explore/anatomy
+            </Link>
+            .
+          </p>
+
+          <div className="overflow-x-auto rounded-2xl border border-hairline bg-mist p-5">
+            <ul className="space-y-3 text-[0.9rem] text-specimen">
+              {anatomyAssets.sources.map((s) => (
+                <li key={s.slug} className="border-b border-hairline pb-2 last:border-0 last:pb-0">
+                  <div className="font-semibold text-hema">
+                    {s.title} ({s.version}) — CC BY 4.0
+                  </div>
+                  <div className="break-all text-[0.82rem] text-quiet">{s.url}</div>
+                  <div className="break-all font-mono text-[0.78rem] text-quiet">SHA-256: {s.sha256}</div>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div>
+            <h3 className="font-display text-[1.45rem] text-hema">Modifications made by Study with Shabari</h3>
+            <ul className="mt-3 list-disc space-y-2 pl-5 text-[1rem] leading-relaxed text-specimen">
+              {ANATOMY_CHANGES.map((c) => (
                 <li key={c}>{c}</li>
               ))}
             </ul>

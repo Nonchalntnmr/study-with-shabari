@@ -13,6 +13,7 @@ const COLUMNS = [
       { href: "/resources", label: "Free notes" },
       { href: "/dopamine", label: "Free dopamine lesson" },
       { href: "/explore/brain", label: "Explore the brain" },
+      { href: "/explore/anatomy", label: "Explore the organ systems" },
       { href: "/explore/signaling", label: "Explore how neurons signal" },
     ],
   },

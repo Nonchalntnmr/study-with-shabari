@@ -1,0 +1,117 @@
+{
+  "sources": [
+    {
+      "slug": "heart-male",
+      "atom": "M.heart",
+      "title": "3D Reference Organ for Heart, Male",
+      "version": "v1.3",
+      "license": "https://creativecommons.org/licenses/by/4.0/",
+      "url": "https://cdn.humanatlas.io/digital-objects/ref-organ/heart-male/v1.3/assets/3d-vh-m-heart.glb",
+      "sha256": "689df039c8bc264ea06a44cd926762976f0666c0ff2dc532d046409b185e6b0c"
+    },
+    {
+      "slug": "lung-male",
+      "atom": "M.lungs",
+      "title": "3D Reference Organ for Lung, Male",
+      "version": "v1.4",
+      "license": "https://creativecommons.org/licenses/by/4.0/",
+      "url": "https://cdn.humanatlas.io/digital-objects/ref-organ/lung-male/v1.4/assets/3d-vh-m-lung.glb",
+      "sha256": "bba95516fa993ac45c3b1c53f32b58d97232ffd78ae56397e5a2589c6ce4903d"
+    },
+    {
+      "slug": "spleen-male",
+      "atom": "L.spleen",
+      "title": "3D Reference Organ for Spleen, Male",
+      "version": "v1.3",
+      "license": "https://creativecommons.org/licenses/by/4.0/",
+      "url": "https://cdn.humanatlas.io/digital-objects/ref-organ/spleen-male/v1.3/assets/3d-vh-m-spleen.glb",
+      "sha256": "826012b9dc6b69064b76c3aabbce32a2baa32d1f97fde3e88a015f399c9040b8"
+    },
+    {
+      "slug": "liver-male",
+      "atom": "R.liver",
+      "title": "3D Reference Organ for Liver, Male",
+      "version": "v1.2",
+      "license": "https://creativecommons.org/licenses/by/4.0/",
+      "url": "https://cdn.humanatlas.io/digital-objects/ref-organ/liver-male/v1.2/assets/3d-vh-m-liver.glb",
+      "sha256": "8e4c38293cfdb6b4f47ef2930c7f4af9e37b9144d1cf26d07c8f12c5045eb404"
+    },
+    {
+      "slug": "pancreas-male",
+      "atom": "M.pancreas",
+      "title": "3D Reference Organ for Pancreas, Male",
+      "version": "v1.3",
+      "license": "https://creativecommons.org/licenses/by/4.0/",
+      "url": "https://cdn.humanatlas.io/digital-objects/ref-organ/pancreas-male/v1.3/assets/3d-vh-m-pancreas.glb",
+      "sha256": "a89d7acbc9448ca1e6c09f7f6d6a18b2bd8a2e94cd4a0b51709915a8b7bea84e"
+    },
+    {
+      "slug": "small-intestine-male",
+      "atom": "M.small_intestine",
+      "title": "3D Reference Organ for Small Intestine, Male",
+      "version": "v1.2",
+      "license": "https://creativecommons.org/licenses/by/4.0/",
+      "url": "https://cdn.humanatlas.io/digital-objects/ref-organ/small-intestine-male/v1.2/assets/3d-vh-m-small-intestine.glb",
+      "sha256": "5d51b9b102e762f9b64fd1e7d9fbd1f1a23ed9cfdb536a9e756cca3206fbc5bb"
+    },
+    {
+      "slug": "large-intestine-male",
+      "atom": "M.large_intestine",
+      "title": "3D Reference Organ for Large Intestine, Male",
+      "version": "v1.3",
+      "license": "https://creativecommons.org/licenses/by/4.0/",
+      "url": "https://cdn.humanatlas.io/digital-objects/ref-organ/large-intestine-male/v1.3/assets/3d-sbu-m-large-intestine.glb",
+      "sha256": "908a5c38bf14574a673f2d2619502281f7f9e47c46c4eba837aae2e80e38c489"
+    },
+    {
+      "slug": "kidney-male-left",
+      "atom": "L.kidney",
+      "title": "3D Reference Organ for Kidney, Male, Left",
+      "version": "v1.3",
+      "license": "https://creativecommons.org/licenses/by/4.0/",
+      "url": "https://cdn.humanatlas.io/digital-objects/ref-organ/kidney-male-left/v1.3/assets/3d-vh-m-kidney-l.glb",
+      "sha256": "1e9f54281652d0b05c9ae54a06380a41a8d9c62c1036829180750995b1730fac"
+    },
+    {
+      "slug": "kidney-male-right",
+      "atom": "R.kidney",
+      "title": "3D Reference Organ for Kidney, Male, Right",
+      "version": "v1.3",
+      "license": "https://creativecommons.org/licenses/by/4.0/",
+      "url": "https://cdn.humanatlas.io/digital-objects/ref-organ/kidney-male-right/v1.3/assets/3d-vh-m-kidney-r.glb",
+      "sha256": "f23bac3f62fd050b689bdee86bb8a20bff6997e830cb508c847f74c03c6a964b"
+    },
+    {
+      "slug": "urinary-bladder-male",
+      "atom": "M.urinary_bladder",
+      "title": "3D Reference Organ for Urinary Bladder, Male",
+      "version": "v1.2",
+      "license": "https://creativecommons.org/licenses/by/4.0/",
+      "url": "https://cdn.humanatlas.io/digital-objects/ref-organ/urinary-bladder-male/v1.2/assets/3d-vh-m-urinary-bladder.glb",
+      "sha256": "070893aea9139d9a2c4f8da3aa66ca309a3c683a599d93a37dd7031c7d71021d"
+    }
+  ],
+  "size": [
+    0.093,
+    0.22,
+    0.0778
+  ],
+  "tiers": {
+    "mobile": {
+      "glb": "/models/anatomy/v1/anatomy-mobile.e92e5542.glb",
+      "gz": "/models/anatomy/v1/anatomy-mobile.e92e5542.glb.gz",
+      "bytes": 303036,
+      "gzBytes": 208869,
+      "triangles": 29423,
+      "meshes": 10
+    },
+    "desktop": {
+      "glb": "/models/anatomy/v1/anatomy-desktop.239f6ec0.glb",
+      "gz": "/models/anatomy/v1/anatomy-desktop.239f6ec0.glb.gz",
+      "bytes": 692272,
+      "gzBytes": 484412,
+      "triangles": 68299,
+      "meshes": 10
+    }
+  }
+}

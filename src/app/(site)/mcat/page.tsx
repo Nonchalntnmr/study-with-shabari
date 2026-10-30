@@ -151,6 +151,7 @@ export default async function McatPage() {
         <div className="mt-12 flex flex-wrap items-center gap-4">
           <ButtonLink href="/dopamine">Read the free dopamine lesson</ButtonLink>
           <TextLink href="/explore/brain">Explore the brain</TextLink>
+          <TextLink href="/explore/anatomy">Explore the organ systems</TextLink>
           <TextLink href="/explore/signaling">Explore how neurons signal</TextLink>
         </div>
       </Band>
