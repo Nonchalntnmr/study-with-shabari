@@ -145,3 +145,11 @@
     display: none;
   }
 }
+
+/* An index card on the paper: ruled lines in CSS, a soft lift. */
+.exp-card {
+  background-color: #fffdf7;
+  background-image: repeating-linear-gradient(180deg, transparent 0 35px, rgb(11 31 68 / 0.055) 35px 36px);
+  border: 1px solid #e8dfcc;
+  box-shadow: 0 1px 0 rgb(120 96 60 / 0.08), 0 24px 50px -32px rgb(80 60 30 / 0.45);
+}
