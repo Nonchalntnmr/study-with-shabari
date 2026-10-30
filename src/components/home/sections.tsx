@@ -79,7 +79,7 @@ export function Founder() {
         </h2>
         <div className="mt-8 max-w-[62ch] space-y-5 text-[1.125rem] leading-relaxed text-specimen/90">
           <p>
-            I’m {founder.standing}, double majoring in {founder.majors}, and I’m headed to {founder.goal}.
+            I’m {founder.standing}, double majoring in {founder.majors}, and I’m premed.
           </p>
           <p>
             Studying for the MCAT taught me that content is only half of it: the other half is learning how the test asks questions. That’s what I

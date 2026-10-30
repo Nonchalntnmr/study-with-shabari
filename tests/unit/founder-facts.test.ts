@@ -21,11 +21,22 @@ const APPROVED_CHANGES = new Set([
   facts.identity.degree, // Amendment 4, item 5
   facts.highSchool.title, // Amendment 4, item 7
   facts.highSchool.disclaimer, // Amendment 4, item 7
+  // Founder update 2026-10-30, "make the whole site more humble": plainer wording, no new facts.
+  facts.mcatTutoring.headline,
+  "Full-length exams and practice questions with explanations",
+  facts.admissionsHeadline,
+  facts.research.find((r) => r.org === "Beth Israel Lahey Health")!.body, // the spec's note, minus "do not call it published"
 ]);
 
 function strings(): string[] {
   return [
     facts.headline,
+    facts.heroEyebrow,
+    facts.heroSubline,
+    ...facts.admissionsResults.flatMap((a) => [a.school, a.note ?? ""]),
+    ...facts.education,
+    ...facts.writingPrizes.flat(),
+    facts.writing,
     facts.identity.classOf,
     facts.identity.majors,
     facts.mcatScore.line,
@@ -38,7 +49,7 @@ function strings(): string[] {
     facts.practicePlatform,
     facts.notes.headline,
     ...facts.notes.cards.flatMap((c) => [c.title, c.body]),
-    ...facts.mcatPricing.flatMap((p) => [p.name, p.price === "Free" || p.price === "Priced on the consult call" ? "" : p.price, ...p.items]),
+    ...facts.mcatPricing.flatMap((p) => [p.name, p.price === "Free" ? "" : p.price, ...p.items]),
     facts.admissionsHeadline,
     ...facts.highSchool.stats.map((s) => (s.label === "IB Diploma" ? `${s.label} ${s.value}` : `${s.value} ${s.label}`)),
     ...facts.highSchool.ib.map((s) => `${s.level} ${s.subject} ${s.score}`),
@@ -63,6 +74,18 @@ describe("founder facts", () => {
   it("every published fact appears in docs/FOUNDER-SPEC.md, apart from approved wording changes", () => {
     const missing = strings().filter((s) => !APPROVED_CHANGES.has(s) && !inSpec(s));
     expect(missing).toEqual([]);
+  });
+
+  it("stays humble: no medical-school or specialty plans, no bragging framing (founder update 2026-10-30)", () => {
+    const site = JSON.stringify(Object.values(facts));
+    for (const banned of [/plastic surgery/i, /medical school/i, /headed to/i, /now i teach both/i, /teaches this material at MIT/i, /gets you in/i, /5 of 8 Ivies/i]) {
+      expect(site).not.toMatch(banned);
+    }
+    expect(facts.heroEyebrow).toBe("MIT Class of 2027 · Premed");
+  });
+
+  it("never calls the Beth Israel manuscript published", () => {
+    expect(facts.research.find((r) => r.org === "Beth Israel Lahey Health")!.body).not.toMatch(/\bpublished\b/i);
   });
 
   it("uses the approved degree and BMJ wording", () => {

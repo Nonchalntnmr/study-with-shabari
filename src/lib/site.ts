@@ -34,7 +34,6 @@ export const founder = {
   standing: "a senior at MIT",
   // As written in docs/FOUNDER-SPEC.md (MIT Class of 2027).
   majors: "Chemistry & Molecular Biology (Course 5-7) and Neuroscience (Course 9)",
-  goal: "medical school, with plastic surgery as the goal",
   mcat: {
     taken: "January 2026",
     total: 522,

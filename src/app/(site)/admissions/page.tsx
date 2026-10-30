@@ -6,12 +6,12 @@ import {
   admissionsHeadline,
   admissionsHelp,
   admissionsPricing,
+  admissionsResults,
   admissionsTimeline,
-  admittedTo,
   essayCredentials,
   highSchool,
   mentoring,
-  pennNote,
+  writingPrizes,
 } from "@/lib/founder-facts";
 
 export const metadata: Metadata = {
@@ -20,14 +20,14 @@ export const metadata: Metadata = {
   alternates: { canonical: "/admissions" },
 };
 
-/** School names as set type. No tiles, no logos. */
+/** School names as set type, each with its honor. No tiles, no logos. */
 function SchoolNames() {
   return (
     <ul aria-label="Admitted to" className="flex flex-wrap items-baseline gap-x-8 gap-y-2">
-      {admittedTo.map((s) => (
-        <li key={s} className="font-display text-[clamp(1.5rem,2.4vw,2.1rem)] leading-tight text-hema">
-          {s}
-          {s === "Penn" && <span className="ml-2 font-sans text-[0.95rem] text-quiet">({pennNote})</span>}
+      {admissionsResults.map((a) => (
+        <li key={a.school} className="font-display text-[clamp(1.5rem,2.4vw,2.1rem)] leading-tight text-hema">
+          {a.school}
+          {a.note && <span className="ml-2 font-sans text-[0.95rem] text-quiet">({a.note})</span>}
         </li>
       ))}
     </ul>
@@ -77,11 +77,8 @@ function IbScores() {
 }
 
 // The three MIT writing prizes, then the newspaper and the humanities honor.
-const prizes = essayCredentials.slice(0, 3).map((c) => {
-  const [name, ...rest] = c.split(", MIT");
-  return { name, detail: `MIT${rest.join(", MIT")}` };
-});
-const otherWriting = essayCredentials.slice(3);
+const prizes = writingPrizes.map(([name, placing]) => ({ name, detail: `MIT · ${placing.replace(/^\((\d{4})\)$/, "$1")}` }));
+const otherWriting = essayCredentials;
 
 export default function AdmissionsPage() {
   return (

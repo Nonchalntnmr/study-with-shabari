@@ -90,10 +90,10 @@ test("journey: homepage → credentials → lesson → miss, diagnose, retest �
 
   await step(page, 1, "opens the homepage", "home", async () => {
     await page.goto("/");
-    await expect(page.getByRole("heading", { level: 1 })).toHaveText("I scored a 522 on the MCAT and got into MIT and 5 Ivies. Now I teach both.");
+    await expect(page.getByRole("heading", { level: 1 })).toHaveText("MCAT tutoring and college admissions help, from someone who recently went through both.");
     // Book and practice are both on the first screen of a phone.
     await expect(page.getByRole("link", { name: "Book a free 15-min call" }).first()).toBeInViewport();
-    await expect(page.getByRole("link", { name: "Free practice test" }).first()).toBeInViewport();
+    await expect(page.getByRole("link", { name: "Explore MCAT tutoring" }).first()).toBeInViewport();
   });
 
   await step(page, 2, "credentials (522, MIT, majors) are in the first two screens", "credentials", async () => {
@@ -196,7 +196,7 @@ test("journey: admissions visitor: home → admissions → credentials → prici
     await explore.scrollIntoViewIfNeeded();
     await explore.click();
     await expect(page).toHaveURL(/\/admissions$/);
-    await expect(page.getByRole("heading", { level: 1 })).toHaveText("I got into MIT and 5 of 8 Ivies. I'll help you build the application that gets you in.");
+    await expect(page.getByRole("heading", { level: 1 })).toHaveText("College admissions help, from someone who went through it recently.");
     await expect(page.getByRole("link", { name: "Book a free 15-min call" }).first()).toBeInViewport();
   });
 

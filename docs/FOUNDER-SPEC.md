@@ -147,3 +147,96 @@ Plain, confident, specific. Short sentences. No filler phrases like "unlock your
 
 
 The only blanks left are your three admissions prices.
+---
+
+## Founder update, 2026-10-30 (supersedes the bio, headlines and MCAT pricing above)
+
+Provided by Shabari on 2026-10-30. Where this section and the text above differ, this section wins. Never claim
+anything that isn't listed here or above.
+
+### 1. Tone: make the whole site more humble
+- Describe me only as an "MIT premed." Remove every mention of medical school plans and plastic surgery.
+- Let the facts speak. No bragging framing like "Now I teach both." State results plainly and put the focus on helping the student.
+- Warm, simple, first person. Short sentences. No hype words.
+
+New home hero:
+- Eyebrow: "MIT Class of 2027 · Premed"
+- Headline: "MCAT tutoring and college admissions help, from someone who recently went through both."
+- Subline: "I'm Shabari, an MIT senior studying Chemistry & Molecular Biology and Neuroscience. I scored a 522 on the MCAT and was admitted to MIT, Yale, Columbia, Brown, Dartmouth, and Penn. I'd love to help you with your path."
+- Buttons: "Book a free 15-min call" / "Explore MCAT tutoring"
+
+New About text:
+"Hi, I'm Shabari. I'm a senior at MIT studying Chemistry & Molecular Biology and Neuroscience, and I'm premed. I took the MCAT in January 2026 and scored a 522. Before that, I went through college admissions and was lucky to be admitted to MIT, Yale, Columbia, Brown, Dartmouth, and Penn. At MIT, I've done research in immunology, computational genomics, and surgical sustainability, TA'd chemistry and neuroscience courses, and co-founded the Mudzi Project in Malawi. I remember how overwhelming both processes felt, so I try to make things clear, simple, and built around you."
+
+### 2. Credentials (used on /admissions, /research and /about)
+
+EDUCATION
+- MIT, B.S. candidate, Chemistry & Molecular Biology (Course 5-7) and Neuroscience (Course 9), Class of 2027. Premed.
+- Hillcrest High School, 2019–2023: 4.00/4.00 GPA, 1550 SAT, 35 ACT, IB Diploma 40/45 (HL Math 7, HL Physics 7, HL Biology 7, HL Chemistry 6; SL English 6, SL French B 6, SL History 6). Extended Essay on the history of the pesticide DDT.
+
+MCAT: 522, January 2026 (132 Bio/Biochem, 132 Psych/Soc, 131 Chem/Phys).
+
+COLLEGE ADMISSIONS
+- MIT; Yale; Columbia (Likely Letter); Penn (Benjamin Franklin Scholar); Brown; Dartmouth
+- Johns Hopkins (Hodson Trust Scholar, near full ride)
+- Wake Forest (Carswell Scholar, full ride)
+- UT Dallas (McDermott Scholar, full ride)
+
+HIGH SCHOOL
+- Top rank in the USA Biology Olympiad; USA Biology Olympiad tutor
+- Top 10 in Science Olympiad Cell Biology and Designer Genes
+- Science Club / Science Olympiad Vice President; IB Student Council
+- MIT Beaver Works Summer Institute (CogWorks); Quantum School for Young Students; Kenyon Young Writers
+- Letter to the Editor published in The New York Times (Sept 2022)
+
+MIT HONORS
+- Peter J. Eloranta Fellowship (top 6 proposals, immunology research), Summer 2025
+- MIT–Massachusetts General Hospital Clinical Prehealth Research Extern (one of five), Summer 2025
+- MIT Sloan Legatum Fellow, 2024–25 (sole undergraduate)
+- PKG IDEAS Finalist and Top 2 Public Voting Winner, 2024
+- Burchard Scholar (top 35 humanities students at MIT), 2024–25
+- Jeffrey L. Pressman Award (health policy research), Summer 2024
+- OME Prize sponsored by Chevron, Fall 2023
+- BCAP Fellow, 2024
+- MIT Social and Ethical Responsibilities of Computing Scholar, 2023–24
+- Klein Technical Writing Prize, 1st place (2024); Louis Kampf Writing Prize (2024); Boit Manuscript Prize, 3rd place (2024)
+
+RESEARCH
+- Ragon Institute of MIT and Harvard, Ringel Lab (Nov 2024 – Sep 2025): how methionine restriction changes antigen presentation between macrophages and CD8+ T cells.
+- MIT CSAIL (Sep 2023 – Oct 2024): applied the deep learning model Enformer to 684 human-specific regulatory regions. Co-author on a manuscript in preparation; posters at the European Association for Cancer Research and the MIT Bioengineering Annual Conference.
+- Beth Israel Lahey Health: built the Health Sustainability Normalized Index comparing surgical procedures by environmental impact. First author on the manuscript (in preparation for resubmission — do not call it published).
+- Utah Health Policy Project: analyzed Utah Medicare and Medicaid; policy pamphlet distributed to Utah State Senate offices.
+- NASA L'SPACE: lead author on a probiotic biomaterials proposal for spaceflight; top 15 nationally.
+
+PUBLICATIONS
+- "The problem may not be fragmentation: it may be accumulation," Rapid Response, The BMJ, June 2026
+- "Integration without incentive reform will fail," Rapid Response, The BMJ, March 2026
+- Commentary on "A Post-Pandemic Wellness Experiences Scale," Journal of Mental Health and Clinical Psychology, June 2025
+- "Ending FGM: A New Ruling in the Gambia Can Reignite Progress Towards SDG Target 5.3," Journal of Women's Health, December 2024
+- Letter to the Editor, The New York Times, September 2022
+
+TEACHING & MENTORING
+- TA, MIT Introduction to Chemistry (Fall 2024); TA, MIT Statistics for Neuroscience (Fall 2025)
+- TA, MIT Beaver Works Summer Institute Medlytics: mentored ~30 high schoolers; Caring Coach Award
+- MIT Associate Advisor; First-Year Pre-Orientation Counselor; DynaMIT volunteer
+
+WRITING
+- News Editor, The Tech: 25+ articles, including interviews with MIT President Sally Kornbluth, Moderna co-founder Noubar Afeyan, and Nobel laureate Moungi Bawendi
+
+FOUNDER
+- Co-founder, Mudzi Cooking Project (Malawi): clean-burning briquettes from agricultural waste. 5,000 women engaged, 1.5M briquettes, $14,000 raised, UN-subsidiary contract. PKG IDEAS Finalist; Princeton TigerLaunch finalist.
+
+### 3. MCAT packages (/pricing and /mcat)
+- Free 15-minute consult call
+- Single 1:1 session: $100/hour
+- 5-session pack: $450
+- Section Focus: $600 — 5 sessions on one section (C/P, B/B, or P/S) + 500 practice questions for that section
+- Full MCAT Package: $2,000 — 10 live 1:1 sessions, 2 full-length exams, 2,000 practice questions with explanations, personalized study plan
+- Intensive: $3,500 — 20 live 1:1 sessions, all practice materials, weekly check-ins, full-length review sessions
+- Group sessions: $40 per person per session (up to 6)
+Payment via Zelle after the consult call. No card checkout.
+
+### 6. Still to do (don't fake these)
+- Notes links: the three Google Doc links come later; keep "Coming soon" until then.
+- Admissions prices: keep the current placeholders until they're sent.
+- Never claim things not listed here.
