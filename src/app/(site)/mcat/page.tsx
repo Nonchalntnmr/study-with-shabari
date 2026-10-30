@@ -10,7 +10,7 @@ import { ReactionScheme } from "@/components/molecule/reaction-scheme";
 import { Skeletal } from "@/components/molecule/skeletal";
 import { ExamPreview } from "@/components/site/exam-preview";
 import { PlanCards } from "@/components/site/plan-cards";
-import { mcatScore, mcatTutoring, notes, practicePlatform } from "@/lib/founder-facts";
+import { mcatScore, mcatTutoring, notes } from "@/lib/founder-facts";
 import { practiceOrTutoring } from "@/lib/availability";
 import { MOLECULES, keyBondLengths, roles } from "@/lib/molecules/analyze";
 import { getAvailability, getFeaturedLesson, getPublishedExams, getPublishedResources } from "@/lib/public-data";
@@ -168,7 +168,12 @@ export default async function McatPage() {
             <H2 id="practice-h" className="mt-4">
               Practice in a test-day interface.
             </H2>
-            <Lead className="mt-6">{practicePlatform}</Lead>
+            {/* Not founder-facts' practicePlatform: that is the spec's build brief, in the present tense, and full-length
+                sections don't exist yet. Whether sample sets are open is said on the next line, from published data. */}
+            <Lead className="mt-6">
+              Built for full-length C/P, B/B and P/S sections, in an exam-style interface: passage on the left, question on the right, answer
+              choices, timer, flag-for-review, question navigator, and a results screen with score and an explanation for every question.
+            </Lead>
             <p className="mt-6 text-[1rem] text-specimen/85">
               {exams.length > 0
                 ? "Available now: short sample sets. Full-length C/P, B/B and P/S sections are coming as Shabari adds her questions."
