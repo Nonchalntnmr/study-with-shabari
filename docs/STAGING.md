@@ -18,6 +18,32 @@ first.
 `scripts/vercel-build.sh` enforces the migration rule. It runs `prisma migrate deploy` only when
 `VERCEL_ENV=production` or `MIGRATE_ON_BUILD=1`. Otherwise it prints that it skipped the migration and builds.
 
+## Staging database (approved by Nishanth, 2026-10-30)
+
+Previews used to share the production database and skip migrations, so any PR with a migration failed its preview
+build. Staging gives previews their own database:
+
+1. **Create it (owner, in the Supabase dashboard):** a free project, `study-with-shabari-staging`, in us-east-1.
+   If the free-project limit is reached or any step asks for billing, stop; don't upgrade. Generate its database
+   password in the dashboard or with `openssl rand -base64 32`, and never paste it into chat.
+2. **Point Preview at it (owner, in Vercel → Settings → Environment Variables):** set these in the **Preview**
+   scope only, and leave every Production variable alone:
+   - `DATABASE_URL` and `DIRECT_URL` (the staging pooler URLs);
+   - `DATABASE_SSL_CA` (the same Supabase root CA as production, `certs/supabase-root-2021.pem`);
+   - `MIGRATE_ON_BUILD=1`;
+   - a staging `AUTH_SECRET`, `LESSON_PREVIEW=on` and `MAIL_SENDER_VERIFIED=false`.
+3. **Guard:** `scripts/vercel-build.sh` refuses to migrate any non-production build whose `DATABASE_URL` or
+   `DIRECT_URL` names the production project (`oxihkuivrwnwlrsolwzx`). `tests/unit/vercel-build.test.ts` covers
+   it.
+4. **Seed with synthetic data only,** once, against the staging URLs. Never copy production rows.
+   - Run `npx prisma db seed -- --publish-samples`.
+   - Run `npm run content:import -- content/exams/fl1.json --status PUBLISHED`.
+   - Then `npm run admin:create` with a staging-only email.
+5. **Verify:**
+   - the preview build of a PR that adds a migration succeeds;
+   - its log shows `prisma migrate deploy` against staging;
+   - `prisma migrate status` on production still lists the migration as pending.
+
 ## Environment variables, by name
 
 Values are never written here. `.env.example` describes each one.
@@ -39,8 +65,7 @@ Values are never written here. `.env.example` describes each one.
 
 ## Release steps (each needs approval)
 
-1. **Staging project:** create the staging Supabase project and set the Preview-scope variables above. Turn
-   Deployment Protection on for previews.
+1. **Staging project:** follow "Staging database" above. Deployment Protection stays on for previews.
 2. **First staging deploy:** deploy this branch to staging. The build migrates the staging database
    (`MIGRATE_ON_BUILD=1`).
 3. **Staging data:** seed it with `npx prisma db seed`, which imports the samples and the lesson as REVIEW,
