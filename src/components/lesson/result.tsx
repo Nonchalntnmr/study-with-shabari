@@ -5,6 +5,7 @@ import { AiNote, DraftBadge } from "@/components/lesson/badges";
 import { CONFIDENCE_LABEL, lessonResult, type AnswerSummary } from "@/lib/lessons/flow";
 import { practiceSetsFor, type LoadedAttempt } from "@/lib/lessons/service";
 import { containsAi } from "@/lib/lessons/snapshot";
+import { getAvailability } from "@/lib/public-data";
 import { sectionShort, type SectionCode } from "@/lib/site";
 
 // The end-of-lesson summary. Shared by the public result page and the admin draft preview;
@@ -28,7 +29,7 @@ export async function LessonResult({ attempt: a, base }: { attempt: LoadedAttemp
   const s = a.snapshot;
   const r = lessonResult(s, a.answers);
   if (!r.complete) redirect(base);
-  const sets = await practiceSetsFor(r.missedSections);
+  const [sets, { practice }] = await Promise.all([practiceSetsFor(r.missedSections), getAvailability()]);
 
   return (
     <div className="mx-auto max-w-3xl px-5 pb-28 pt-10 sm:px-8 sm:pt-16">
@@ -136,11 +137,15 @@ export async function LessonResult({ attempt: a, base }: { attempt: LoadedAttemp
             </ul>
           </div>
         ) : (
-          <p className="mt-4 text-[1.0625rem] text-specimen/90">A full practice set is the next step: more questions, in a test-day interface.</p>
+          <p className="mt-4 text-[1.0625rem] text-specimen/90">
+            {practice
+              ? "A full practice set is the next step: more questions, in a test-day interface."
+              : "Full practice sets, in a test-day interface, are coming soon."}
+          </p>
         )}
         <div className="mt-7 flex flex-wrap items-center gap-x-8 gap-y-4">
           <ButtonLink href="/book?service=mcat">Book a free 15-min call</ButtonLink>
-          <TextLink href="/practice">Try a full free practice set</TextLink>
+          {practice && <TextLink href="/practice">Try a full free practice set</TextLink>}
         </div>
       </section>
 
