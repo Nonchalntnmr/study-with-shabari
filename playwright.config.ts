@@ -22,7 +22,7 @@ export default defineConfig({
   },
   projects: live
     ? [
-        { name: "post-deploy", testMatch: /post-deploy\.spec\.ts/, use: { ...devices["Desktop Chrome"] } },
+        { name: "post-deploy", testMatch: /(post-deploy|honest-links)\.spec\.ts/, use: { ...devices["Desktop Chrome"] } },
         { name: "journey", testMatch: /journey-mobile\.spec\.ts/, use: { ...devices["iPhone 14"], browserName: "chromium" } },
       ]
     : [

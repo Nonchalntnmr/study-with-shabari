@@ -1,5 +1,6 @@
 import "server-only";
 import { cacheLife, cacheTag } from "next/cache";
+import type { Availability } from "@/lib/availability";
 import { db } from "@/lib/db";
 import { previewAllowed } from "@/lib/lessons/preview";
 import type { LessonSnapshot } from "@/lib/lessons/snapshot";
@@ -117,4 +118,10 @@ export async function getFeaturedLesson(slug = "dopamine") {
   }
   if (!previewAllowed(false)) return null;
   return { slug, title: lesson.title, summary: lesson.summary, questions: lesson._count.steps, draft: true };
+}
+
+/** What a visitor can open right now, for the links that would otherwise promise it (src/lib/availability.ts). */
+export async function getAvailability(): Promise<Availability> {
+  const [exams, lesson, resources] = await Promise.all([getPublishedExams(), getFeaturedLesson(), getPublishedResources()]);
+  return { practice: exams.length > 0, lesson: lesson !== null, notes: resources.some((r) => r.kind === "NOTES" && r.url) };
 }

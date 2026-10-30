@@ -2,8 +2,10 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { SiteFooter } from "@/components/site/site-footer";
 import { SiteHeader } from "@/components/site/site-header";
+import { getAvailability } from "@/lib/public-data";
 
-export default function NotFound() {
+export default async function NotFound() {
+  const { practice } = await getAvailability();
   return (
     <>
       <SiteHeader />
@@ -15,9 +17,15 @@ export default function NotFound() {
           <Button asChild>
             <Link href="/">Home</Link>
           </Button>
-          <Button asChild variant="outline">
-            <Link href="/practice">Practice sets</Link>
-          </Button>
+          {practice ? (
+            <Button asChild variant="outline">
+              <Link href="/practice">Practice sets</Link>
+            </Button>
+          ) : (
+            <Button asChild variant="outline">
+              <Link href="/mcat">MCAT tutoring</Link>
+            </Button>
+          )}
         </div>
       </main>
       <SiteFooter />

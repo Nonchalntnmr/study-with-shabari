@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { ResourceList } from "@/components/site/resource-list";
 import { Container, PageIntro, SectionHeading } from "@/components/site/section";
+import { getAvailability } from "@/lib/public-data";
 
 export const metadata: Metadata = {
   title: "Free MCAT notes and practice",
@@ -9,7 +10,8 @@ export const metadata: Metadata = {
   alternates: { canonical: "/resources" },
 };
 
-export default function ResourcesPage() {
+export default async function ResourcesPage() {
+  const { practice } = await getAvailability();
   return (
     <>
       <PageIntro eyebrow="Free MCAT notes" title="My complete MCAT notes. Free, no signup.">
@@ -25,9 +27,13 @@ export default function ResourcesPage() {
         <Container>
           <SectionHeading title="Practice sets">
             Original passage-style questions with full explanations.{" "}
-            <Link href="/practice" className="font-medium text-blue hover:underline">
-              See all practice
-            </Link>
+            {practice ? (
+              <Link href="/practice" className="font-medium text-blue hover:underline">
+                See all practice
+              </Link>
+            ) : (
+              "Coming soon."
+            )}
           </SectionHeading>
           <ResourceList kind="PRACTICE_SET" />
         </Container>

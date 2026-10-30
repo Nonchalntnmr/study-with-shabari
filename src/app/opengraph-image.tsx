@@ -14,7 +14,7 @@ export default function OpengraphImage() {
         </div>
         <div style={{ display: "flex", flexDirection: "column", gap: 18 }}>
           <div style={{ fontSize: 76, fontWeight: 700, lineHeight: 1.05, letterSpacing: -2 }}>MCAT tutoring from someone who just took it.</div>
-          <div style={{ fontSize: 32, color: "#bfdbfe" }}>522 in January 2026 · Free notes · Original practice sets</div>
+          <div style={{ fontSize: 32, color: "#bfdbfe" }}>522 in January 2026 · MCAT tutoring · College admissions</div>
         </div>
         <div style={{ display: "flex", height: 14, borderRadius: 7, background: "rgba(255,255,255,0.15)" }}>
           <div style={{ width: "89%", borderRadius: 7, background: "#f3e15a" }} />

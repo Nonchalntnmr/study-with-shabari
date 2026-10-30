@@ -1,4 +1,6 @@
+import { practiceOrTutoring } from "@/lib/availability";
 import { admittedLine, credibilityStrip, headline, identity, mcatScore } from "@/lib/founder-facts";
+import { getAvailability } from "@/lib/public-data";
 import { ButtonLink, TextLink, Wrap } from "./primitives";
 import { HeroMolecule } from "./hero-molecule";
 
@@ -28,7 +30,8 @@ function ScoreBars() {
   );
 }
 
-export function Hero() {
+export async function Hero() {
+  const second = practiceOrTutoring(await getAvailability(), "Free practice test", "/mcat");
   return (
     <section aria-labelledby="hero-h" className="bg-white pt-12 sm:pt-20">
       <Wrap>
@@ -45,7 +48,7 @@ export function Hero() {
             </p>
             <div className="mt-9 flex flex-wrap items-center gap-x-8 gap-y-4">
               <ButtonLink href="/book">Book a free 15-min call</ButtonLink>
-              <TextLink href="/practice">Free practice test</TextLink>
+              <TextLink href={second.href}>{second.label}</TextLink>
             </div>
           </div>
           <div className="mx-auto w-full max-w-[32rem] lg:max-w-none">

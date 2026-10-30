@@ -1,11 +1,14 @@
 import type { Metadata } from "next";
 import { CtaBand } from "@/components/site/cta-band";
 import { Container, PageIntro } from "@/components/site/section";
-import { faqs } from "@/lib/faq";
+import { faqForVisitors } from "@/lib/availability";
+import { faqs as allFaqs } from "@/lib/faq";
+import { getAvailability } from "@/lib/public-data";
 
 export const metadata: Metadata = { title: "FAQ", description: "Answers about MCAT prep, college admissions, sessions, payment and the free practice platform.", alternates: { canonical: "/faq" } };
 
-export default function FaqPage() {
+export default async function FaqPage() {
+  const faqs = faqForVisitors(allFaqs, await getAvailability());
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "FAQPage",

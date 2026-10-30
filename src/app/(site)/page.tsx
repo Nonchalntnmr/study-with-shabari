@@ -3,28 +3,32 @@ import Image from "next/image";
 import { Band, ButtonLink, H2, Lead, PaymentNote, TextLink, Wrap } from "@/components/b/primitives";
 import { Hero } from "@/components/b/hero";
 import { DraftBadge } from "@/components/lesson/badges";
+import { faqForVisitors, type Availability } from "@/lib/availability";
 import { bio, faq, mudzi, notes, research, teaching } from "@/lib/founder-facts";
-import { getFeaturedLesson } from "@/lib/public-data";
+import { getAvailability, getFeaturedLesson } from "@/lib/public-data";
 
 export const metadata: Metadata = { alternates: { canonical: "/" } };
 
-export default function HomePage() {
+export default async function HomePage() {
+  const availability = await getAvailability();
   return (
     <>
       <Hero />
-      <FreeToStart />
+      <FreeToStart availability={availability} />
       <MeetShabari />
-      <Faq />
+      <Faq availability={availability} />
       <Closing />
     </>
   );
 }
 
-async function FreeToStart() {
+async function FreeToStart({ availability }: { availability: Availability }) {
   const lesson = await getFeaturedLesson();
+  // Each card links only to what is published; the rest say they're coming (src/lib/availability.ts).
   const items = [
     {
       href: "/practice",
+      open: availability.practice,
       title: "Free practice test",
       body: "Exam-style interface: passage on the left, question on the right, a timer, flag-for-review, a question navigator, and an explanation for every question.",
       cta: "Start a practice set",
@@ -36,6 +40,7 @@ async function FreeToStart() {
             title: "Free interactive lesson",
             body: `${lesson.title}: ${lesson.questions} questions across the three science sections, the reasoning after every answer, and a retest on each idea.`,
             cta: "Start the lesson",
+            open: true,
             draft: lesson.draft,
           },
         ]
@@ -45,13 +50,18 @@ async function FreeToStart() {
       title: "Free MCAT notes",
       body: `${notes.headline} ${notes.cards.map((c) => c.title).join(", ")}.`,
       cta: "Open the notes",
+      open: availability.notes,
     },
   ];
   return (
     <Band labelledBy="free-h">
       <div className="grid gap-6 lg:grid-cols-[1fr_1fr] lg:items-end">
-        <H2 id="free-h">Start free. No signup.</H2>
-        <p className="max-w-md text-[1.0625rem] text-quiet lg:justify-self-end">For MCAT students: practice, a lesson and the notes, all open to everyone.</p>
+        <H2 id="free-h">{items.some((i) => i.open) ? "Start free. No signup." : "Free to start, very soon."}</H2>
+        <p className="max-w-md text-[1.0625rem] text-quiet lg:justify-self-end">
+          {items.every((i) => i.open)
+            ? "For MCAT students: practice, a lesson and the notes, all open to everyone."
+            : "For MCAT students: practice, a lesson and the notes, all open to everyone with no signup. Each opens here once it's ready."}
+        </p>
       </div>
       <div>
         <div className={`mt-14 grid gap-12 sm:grid-cols-2 ${items.length === 3 ? "lg:grid-cols-3" : ""}`}>
@@ -60,9 +70,13 @@ async function FreeToStart() {
               {"draft" in i && i.draft && <DraftBadge />}
               <h3 className="text-[1.55rem]">{i.title}</h3>
               <p className="mt-3 flex-1 text-[1.0625rem] leading-relaxed text-quiet">{i.body}</p>
-              <TextLink href={i.href} className="mt-6">
-                {i.cta}
-              </TextLink>
+              {i.open ? (
+                <TextLink href={i.href} className="mt-6">
+                  {i.cta}
+                </TextLink>
+              ) : (
+                <p className="mt-6 text-[1rem] font-medium text-quiet">Coming soon</p>
+              )}
             </div>
           ))}
         </div>
@@ -105,13 +119,13 @@ function MeetShabari() {
   );
 }
 
-function Faq() {
+function Faq({ availability }: { availability: Availability }) {
   return (
     <Band labelledBy="faq-h">
       <div className="grid gap-12 lg:grid-cols-[0.75fr_1.25fr] lg:gap-20">
         <H2 id="faq-h">Questions</H2>
         <dl className="border-t border-hairline">
-          {faq.map((f) => (
+          {faqForVisitors(faq, availability).map((f) => (
             <div key={f.q} className="grid gap-2 border-b border-hairline py-6 sm:grid-cols-[1fr_1fr] sm:gap-10">
               <dt className="font-display text-[1.3rem] leading-snug text-hema">{f.q}</dt>
               <dd className="text-[1.0625rem] text-specimen/85">{f.a}</dd>
