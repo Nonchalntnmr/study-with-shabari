@@ -446,7 +446,7 @@ function Rig({ store }: { store: StoryStore }) {
         SYNAPSE_LABELS.forEach((l, k) => {
           const el = labelNodes[k];
           if (!el) return;
-          const o = l.show(phase);
+          const o = l.show(phase) >= 0.5 ? 1 : 0;
           el.style.opacity = String(o);
           if (o <= 0) return;
           tmp.e.set(l.at[0], l.at[1], 0);

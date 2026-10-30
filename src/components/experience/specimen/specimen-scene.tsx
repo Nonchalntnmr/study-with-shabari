@@ -307,7 +307,7 @@ function useLabels() {
       SPECIMEN_LABELS.forEach((l: SpecimenLabel, i) => {
         const el = labelNodes[i];
         if (!el) return;
-        const opacity = Math.max(0, Math.min(1, l.show(st)));
+        const opacity = l.show(st) >= 0.5 ? 1 : 0;
         el.style.opacity = String(opacity);
         if (opacity <= 0) return;
         // Anchor: the centroid of the label's atoms, or its topmost/bottommost atom on screen.
