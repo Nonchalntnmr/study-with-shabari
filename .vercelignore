@@ -1,0 +1,15 @@
+# Files the Vercel CLI must never upload. Its built-in list misses a plain .env and
+# this repo's .local/ folder (local credentials, env backups, screenshots, logs).
+.env
+.env.*
+!.env.example
+.local
+.agents
+.claude
+.next-*
+test-results
+playwright-report
+blob-report
+coverage
+*.pem
+skills-lock.json
