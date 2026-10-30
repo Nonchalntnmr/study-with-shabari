@@ -7,6 +7,7 @@ import "dotenv/config";
 import { readFileSync } from "node:fs";
 import { PrismaPg } from "@prisma/adapter-pg";
 import { PrismaClient } from "../src/generated/prisma/client";
+import { poolConfig } from "../src/lib/db-config";
 import { LessonValidationError, importLesson, parseLessonFile } from "../src/lib/lessons/import";
 
 async function main() {
@@ -19,7 +20,7 @@ async function main() {
     console.log(`valid: ${l.lesson.slug}, ${l.steps.length} steps, ${l.questions.length} questions, ${l.misconceptions.length} misconceptions`);
     return;
   }
-  const db = new PrismaClient({ adapter: new PrismaPg({ connectionString: process.env.DATABASE_URL! }) });
+  const db = new PrismaClient({ adapter: new PrismaPg(poolConfig(process.env.DATABASE_URL!)) });
   try {
     console.log(await importLesson(db, json));
   } finally {

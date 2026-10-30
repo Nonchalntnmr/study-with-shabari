@@ -4,6 +4,7 @@
 import "dotenv/config";
 import { PrismaPg } from "@prisma/adapter-pg";
 import { PrismaClient } from "../src/generated/prisma/client";
+import { poolConfig } from "../src/lib/db-config";
 import { randomToken, sha256 } from "../src/lib/security/hash";
 
 async function main() {
@@ -13,7 +14,7 @@ async function main() {
     throw new Error(`Refusing: dev-session only runs against a local database (got ${host}).`);
   }
   const email = (process.argv[2] ?? "").toLowerCase();
-  const db = new PrismaClient({ adapter: new PrismaPg({ connectionString: url }) });
+  const db = new PrismaClient({ adapter: new PrismaPg(poolConfig(url)) });
   try {
     const user = await db.user.findUniqueOrThrow({ where: { email } });
     const token = randomToken();

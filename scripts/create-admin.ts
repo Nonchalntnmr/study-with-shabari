@@ -7,6 +7,7 @@ import "dotenv/config";
 import { createInterface } from "node:readline";
 import { PrismaPg } from "@prisma/adapter-pg";
 import { PrismaClient } from "../src/generated/prisma/client";
+import { poolConfig } from "../src/lib/db-config";
 import { PASSWORD_MIN_LENGTH, hashPassword } from "../src/lib/auth/password";
 
 function promptHidden(question: string): Promise<string> {
@@ -29,7 +30,7 @@ async function main() {
   if (!emailArg) throw new Error('usage: npm run admin:create -- <email> ["Full Name"]');
   const email = emailArg.trim().toLowerCase();
 
-  const db = new PrismaClient({ adapter: new PrismaPg({ connectionString: process.env.DATABASE_URL! }) });
+  const db = new PrismaClient({ adapter: new PrismaPg(poolConfig(process.env.DATABASE_URL!)) });
   try {
     const existing = await db.user.findUnique({ where: { email } });
     let password = process.env.ADMIN_PASSWORD;

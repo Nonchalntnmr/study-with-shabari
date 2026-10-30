@@ -5,6 +5,7 @@ import "dotenv/config";
 import { readFileSync } from "node:fs";
 import { PrismaPg } from "@prisma/adapter-pg";
 import { PrismaClient } from "../src/generated/prisma/client";
+import { poolConfig } from "../src/lib/db-config";
 import type { ContentStatus } from "../src/generated/prisma/enums";
 import { ImportValidationError, importBank, parseBank } from "../src/lib/content/import";
 
@@ -23,7 +24,7 @@ async function main() {
     return;
   }
 
-  const db = new PrismaClient({ adapter: new PrismaPg({ connectionString: process.env.DATABASE_URL! }) });
+  const db = new PrismaClient({ adapter: new PrismaPg(poolConfig(process.env.DATABASE_URL!)) });
   try {
     console.log(await importBank(db, json, statusArg as ContentStatus));
   } finally {

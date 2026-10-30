@@ -6,6 +6,7 @@
 import "dotenv/config";
 import { PrismaPg } from "@prisma/adapter-pg";
 import { PrismaClient } from "../src/generated/prisma/client";
+import { poolConfig } from "../src/lib/db-config";
 import { publishLesson } from "../src/lib/lessons/publish";
 
 export function isLocalTestDatabase(url: string): boolean {
@@ -23,7 +24,7 @@ async function main() {
   const url = process.env.DATABASE_URL ?? "";
   if (!isLocalTestDatabase(url)) throw new Error("refusing: this fixture only publishes into a local e2e/test database");
 
-  const db = new PrismaClient({ adapter: new PrismaPg({ connectionString: url }) });
+  const db = new PrismaClient({ adapter: new PrismaPg(poolConfig(url)) });
   try {
     const lesson = await db.lesson.findUniqueOrThrow({ where: { slug } });
     const admin = await db.user.findUniqueOrThrow({ where: { email: adminEmail.toLowerCase() } });

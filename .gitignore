@@ -15,6 +15,7 @@
 
 # next.js
 /.next/
+/.next-*/
 /.next-e2e/
 /.next-verify/
 /out/
@@ -25,6 +26,7 @@
 # misc
 .DS_Store
 *.pem
+!certs/supabase-root-2021.pem
 
 # debug
 npm-debug.log*
