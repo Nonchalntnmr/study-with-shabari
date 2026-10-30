@@ -51,8 +51,8 @@ Preview and Production share the one Supabase project, so:
 
 | Variable | Production | Preview | Value comes from |
 |---|---|---|---|
-| `NEXT_PUBLIC_CALENDLY_URL_MCAT` | ✓ | ✓ | The founder's MCAT 15-minute event link, `https://calendly.com/…`. Until it's set, booking shows the honest fallback (request a time by email). |
-| `NEXT_PUBLIC_CALENDLY_URL_ADMISSIONS` | ✓ | ✓ | The founder's College Admissions event link. |
+| `NEXT_PUBLIC_CALENDLY_URL_MCAT` | ✓ | ✓ | `https://calendly.com/shabarishankar`, the founder's Calendly profile, which lists her event types. It passes `safeCalendlyUrl`, and the CSP allows `calendly.com` frames. |
+| `NEXT_PUBLIC_CALENDLY_URL_ADMISSIONS` | ✓ | ✓ | `https://calendly.com/shabarishankar`, the same profile, until there's a separate admissions event link. |
 | `NEXT_PUBLIC_CALENDLY_URL` | — | — | The old single link. It only serves MCAT if `_MCAT` is empty, so it isn't needed. |
 | `SUPABASE_URL` | ✓ | ✓ | `https://oxihkuivrwnwlrsolwzx.supabase.co`, for image uploads in admin. |
 | `SUPABASE_SERVICE_ROLE_KEY` 🔒 | ✓ | ✓ | Supabase → Project Settings → API → `service_role`. It is server-only, and never goes in a `NEXT_PUBLIC_` variable. |
