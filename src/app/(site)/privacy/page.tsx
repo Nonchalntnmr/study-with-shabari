@@ -84,9 +84,10 @@ export default function PrivacyPage() {
             {chatOn ? (
               <li>
                 The on-site chat assistant runs on IONOS AI Frontdesk. Its widget loads from IONOS (ionos.ai-voicereceptionist.com) on the
-                public pages, never on practice tests, lessons in progress, sign-in or account pages. IONOS stores what you type, and any
-                name, email or phone number you give it, under IONOS’s terms, and a summary of each chat is emailed to the site team. Don’t
-                share anything in the chat that you wouldn’t put in an email.
+                public pages, never on practice tests, lessons in progress, sign-in or account pages, and sends the conversation to IONOS’s
+                chat provider at voiceable.tech. IONOS stores what you type, and any name, email or phone number you give it, under IONOS’s
+                terms, and a summary of each chat is emailed to the site team. Don’t share anything in the chat that you wouldn’t put in an
+                email.
               </li>
             ) : (
               <li>If the on-site chat assistant is turned on, it is provided by IONOS, and conversations are handled under IONOS’s terms.</li>

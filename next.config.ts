@@ -2,19 +2,23 @@ import path from "node:path";
 import type { NextConfig } from "next";
 import { contentSecurityPolicy } from "./src/lib/csp";
 import { CUSTOM_HOST_PATTERN } from "./src/lib/domains";
+import { WIDGET_HIDDEN_SOURCES } from "./src/lib/widget-pages";
 
 const isDev = process.env.NODE_ENV !== "production";
 const https = (process.env.NEXT_PUBLIC_SITE_URL ?? "").startsWith("https://");
 
 // Third parties are allowed only when configured: the IONOS AI Chat widget, Sentry, Supabase
 // Storage images, plus Calendly's booking iframe. See src/lib/csp.ts.
-const csp = contentSecurityPolicy({
+const cspEnv = {
   dev: isDev,
   https,
   ionosAgentId: process.env.NEXT_PUBLIC_IONOS_CHAT_AGENT_ID,
   sentryDsn: process.env.NEXT_PUBLIC_SENTRY_DSN,
   supabaseUrl: process.env.SUPABASE_URL,
-});
+};
+const csp = contentSecurityPolicy(cspEnv);
+// Exam, admin, dashboard, auth and lesson-attempt pages never load the chat widget, so their policy
+// doesn't allow its hosts either (src/lib/widget-pages.ts).
 
 const securityHeaders = [
   { key: "Content-Security-Policy", value: csp },
@@ -54,6 +58,8 @@ const nextConfig: NextConfig = {
   async headers() {
     return [
       { source: "/:path*", headers: securityHeaders },
+      // Later rules win for the same header, so these replace the CSP on the widget-free pages.
+      ...WIDGET_HIDDEN_SOURCES.map((source) => ({ source, headers: [{ key: "Content-Security-Policy", value: contentSecurityPolicy(cspEnv, { widget: false }) }] })),
       // Only the site's own domains may be indexed. The *.vercel.app URLs serve the same production
       // build (and its robots.txt), so they tell crawlers not to index anything. Not a redirect:
       // until DNS is cut over, the vercel.app URL is how the site is reached.

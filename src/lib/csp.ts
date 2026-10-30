@@ -20,8 +20,11 @@ export type CspEnv = {
   supabaseUrl?: string;
 };
 
+// The IONOS AI Frontdesk widget, as observed in Chromium and WebKit on 2026-10-30 (opening it and
+// sending a message): its script from IONOS, then fetches to its chat provider for the widget's
+// config and the conversation. No frames, websockets, images or fonts from elsewhere.
 const IONOS = "https://ionos.ai-voicereceptionist.com";
-const IONOS_WS = "wss://ionos.ai-voicereceptionist.com";
+const CHAT_PROVIDER = ["https://misc.aireceptionist.voiceable.tech", "https://engine.aireceptionist.voiceable.tech"];
 // Calendly event and profile pages. src/lib/calendly.ts only ever embeds this origin; Calendly's
 // own nested frames (payments, captcha) are governed by Calendly's CSP, not this one.
 const CALENDLY = "https://calendly.com";
@@ -51,8 +54,13 @@ function supabaseHosts(url: string | undefined): string[] {
   return [o ?? "https://*.supabase.co"];
 }
 
-export function contentSecurityPolicy(env: CspEnv): string {
-  const ionos = env.ionosAgentId?.trim() ? [IONOS] : [];
+/**
+ * `widget: false` is the policy for pages the chat widget never loads on (src/lib/widget-pages.ts):
+ * no IONOS or chat-provider host at all, whatever the deployment's configuration.
+ */
+export function contentSecurityPolicy(env: CspEnv, { widget = true }: { widget?: boolean } = {}): string {
+  const chat = widget && !!env.ionosAgentId?.trim();
+  const ionos = chat ? [IONOS] : [];
   const directives: [string, ...string[]][] = [
     ["default-src", "'self'"],
     ["script-src", "'self'", "'unsafe-inline'", ...(env.dev ? ["'unsafe-eval'"] : []), ...ionos],
@@ -61,8 +69,8 @@ export function contentSecurityPolicy(env: CspEnv): string {
     ["style-src", "'self'", "'unsafe-inline'"],
     ["img-src", "'self'", "data:", "blob:", ...supabaseHosts(env.supabaseUrl)],
     ["font-src", "'self'", "data:"],
-    ["connect-src", "'self'", ...(env.dev ? ["ws:"] : []), ...ionos, ...(ionos.length ? [IONOS_WS] : []), ...sentryHosts(env.sentryDsn)],
-    ["frame-src", CALENDLY, ...ionos],
+    ["connect-src", "'self'", ...(env.dev ? ["ws:"] : []), ...(chat ? CHAT_PROVIDER : []), ...sentryHosts(env.sentryDsn)],
+    ["frame-src", CALENDLY],
     ["frame-ancestors", "'none'"],
     ["base-uri", "'self'"],
     ["form-action", "'self'"],

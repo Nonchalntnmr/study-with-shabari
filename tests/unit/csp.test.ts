@@ -23,12 +23,20 @@ describe("contentSecurityPolicy", () => {
     expect(directives({ ...base, https: false }).has("upgrade-insecure-requests")).toBe(false);
   });
 
-  it("adds the IONOS chat hosts only with an agent id", () => {
+  it("adds exactly the chat widget's hosts with an agent id: its script, and fetches to its chat provider", () => {
     const d = directives({ ...base, ionosAgentId: "agent-1" });
-    expect(d.get("script-src")).toContain("https://ionos.ai-voicereceptionist.com");
-    expect(d.get("connect-src")).toEqual(expect.arrayContaining(["https://ionos.ai-voicereceptionist.com", "wss://ionos.ai-voicereceptionist.com"]));
-    expect(d.get("frame-src")).toEqual(["https://calendly.com", "https://ionos.ai-voicereceptionist.com"]);
-    expect(contentSecurityPolicy({ ...base, ionosAgentId: "  " })).not.toContain("ionos");
+    expect(d.get("script-src")).toEqual(["'self'", "'unsafe-inline'", "https://ionos.ai-voicereceptionist.com"]);
+    expect(d.get("connect-src")).toEqual(["'self'", "https://misc.aireceptionist.voiceable.tech", "https://engine.aireceptionist.voiceable.tech"]);
+    expect(d.get("frame-src")).toEqual(["https://calendly.com"]);
+    expect(contentSecurityPolicy({ ...base, ionosAgentId: "agent-1" })).not.toMatch(/wss:/);
+    expect(contentSecurityPolicy({ ...base, ionosAgentId: "  " })).not.toMatch(/ionos|voiceable/);
+  });
+
+  it("leaves the widget's hosts out of the policy for widget-free pages, even with an agent id", () => {
+    const csp = contentSecurityPolicy({ ...base, ionosAgentId: "agent-1", sentryDsn: "https://k@o1.ingest.us.sentry.io/2" }, { widget: false });
+    expect(csp).not.toMatch(/ionos|voiceable/);
+    expect(csp).toContain("https://o1.ingest.us.sentry.io");
+    expect(contentSecurityPolicy(base, { widget: false })).toBe(contentSecurityPolicy(base));
   });
 
   it("adds only the DSN's Sentry host, and the ingest wildcards if the DSN can't be read", () => {

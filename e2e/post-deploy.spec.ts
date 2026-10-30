@@ -141,6 +141,16 @@ test("deployment: no answer key reaches a guest, and drafts stay hidden", async 
   } else expect(res.status()).toBe(404);
 });
 
+test("deployment: the chat widget's hosts are allowed only on public pages", async ({ request }) => {
+  const csp = async (path: string) => (await request.get(path, { maxRedirects: 0 })).headers()["content-security-policy"] ?? "";
+  const home = await csp("/");
+  test.skip(!/voiceable/.test(home), "the chat widget isn't configured on this deployment");
+  expect(home).toContain("https://ionos.ai-voicereceptionist.com");
+  for (const path of ["/login", "/signup", "/admin", "/dashboard", "/exam/x", "/forgot-password", "/reset-password", "/lessons/dopamine/a/x"]) {
+    expect(await csp(path), path).not.toMatch(/ionos|voiceable/);
+  }
+});
+
 test("16. canonical site is served over HTTPS with HSTS", async ({ request }) => {
   test.skip(!onCanonical, "checked after the DNS cutover, against https://studywithshabari.com");
   const res = await request.get("https://studywithshabari.com/");
