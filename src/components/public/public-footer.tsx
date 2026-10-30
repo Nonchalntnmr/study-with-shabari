@@ -1,4 +1,6 @@
 import Link from "next/link";
+import { availableLinks } from "@/lib/availability";
+import { getAvailability } from "@/lib/public-data";
 import { contactEmail, founder } from "@/lib/site";
 
 // Spec section 17: name, email and links to every section.
@@ -41,7 +43,9 @@ const COLUMNS = [
   },
 ];
 
-export function PublicFooter() {
+export async function PublicFooter() {
+  const availability = await getAvailability();
+  const columns = COLUMNS.map((c) => ({ ...c, links: availableLinks(c.links, availability) }));
   return (
     <footer className="border-t border-hairline bg-mist">
       <div className="mx-auto grid max-w-[1320px] gap-14 px-5 py-16 sm:px-8 lg:grid-cols-[1fr_2.4fr]">
@@ -53,7 +57,7 @@ export function PublicFooter() {
           </a>
         </div>
         <div className="grid grid-cols-2 gap-10 sm:grid-cols-4">
-          {COLUMNS.map((c) => (
+          {columns.map((c) => (
             <nav key={c.title} aria-label={`Footer: ${c.title}`}>
               <p className="text-sm font-semibold text-hema">{c.title}</p>
               <ul className="mt-4 space-y-2.5">

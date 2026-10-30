@@ -23,7 +23,8 @@ function supabaseConfig() {
 export function storageConfigured(): { ok: boolean; provider: "supabase" | "local"; reason?: string } {
   if (supabaseConfig()) return { ok: true, provider: "supabase" };
   // Vercel's filesystem is ephemeral, so local storage would silently lose files.
-  if (process.env.VERCEL) return { ok: false, provider: "local", reason: "Supabase Storage is not configured" };
+  // Until SUPABASE_SERVICE_ROLE_KEY is set (server-only, in Vercel), uploads are refused with a message.
+  if (process.env.VERCEL) return { ok: false, provider: "local", reason: "Image uploads aren’t switched on for this site yet. Save without the image for now." };
   return { ok: true, provider: "local" };
 }
 

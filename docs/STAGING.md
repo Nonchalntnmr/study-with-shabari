@@ -11,7 +11,7 @@ first.
 | Domain | studywithshabari.com | a Vercel preview URL or `staging.studywithshabari.com`, behind Deployment Protection | localhost |
 | Database | production Supabase project | a **separate** Supabase project (never the production one) | local Postgres (`sws_dev`) |
 | Migrations on build | yes (`VERCEL_ENV=production`) | only with `MIGRATE_ON_BUILD=1`, set in the Preview scope **only** when that scope points at the staging database | `npx prisma migrate dev` |
-| Unapproved lessons shown | never (admins only) | `LESSON_PREVIEW=on` (draft badge shown) | always in `next dev` |
+| Unapproved lessons shown | never: the public URL is a 404, and admins preview drafts at `/admin/lessons/[id]/preview` | `LESSON_PREVIEW=on` (draft badge shown) | always in `next dev` |
 | Daily retention job | Vercel Cron, Production only | none (Vercel runs crons on Production only) | run by hand |
 | Contact-message purge | `INQUIRY_PURGE` empty (report-only) until the founder approves the period | empty | empty |
 

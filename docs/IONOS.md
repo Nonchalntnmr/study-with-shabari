@@ -26,7 +26,7 @@ The four domains use IONOS nameservers. Today each serves an IONOS parking page 
 - Conversations are saved under "Conversations", and a summary is emailed after each chat. IONOS documents no analytics and no live human takeover. "Escalation" means transfer to a phone call, configured in AI Receptionist.
 - No API for the chat. "API integrations" are documented only for AI Receptionist Unlimited.
 
-**How the site uses it:** `src/components/site/chat-widget.tsx` loads exactly that script through `next/script`, and only when `NEXT_PUBLIC_IONOS_CHAT_AGENT_ID` is set. It's kept off the exam (no help mid-test), admin, dashboard and sign-in pages. The site's Content-Security-Policy already allows `ionos.ai-voicereceptionist.com`. IONOS doesn't document what else the widget loads, so after enabling it, open the browser console on the live site. If you see CSP violations, add those hosts in `next.config.ts`.
+**How the site uses it:** `src/components/site/chat-widget.tsx` loads exactly that script through `next/script`, and only when `NEXT_PUBLIC_IONOS_CHAT_AGENT_ID` is set. It's kept off the exam (no help mid-test), admin, dashboard and sign-in pages. The site's Content-Security-Policy allows `ionos.ai-voicereceptionist.com` only when that variable is set, and the policy is fixed at build time, so redeploy after setting it. IONOS doesn't document what else the widget loads, so after enabling it, open the browser console on the live site. If you see CSP violations, add those hosts in `src/lib/csp.ts`.
 
 **There is no fake chatbot.** Unless the IONOS widget is configured, the site has no chat at all.
 

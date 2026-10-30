@@ -23,6 +23,8 @@ export function BookingToggle({ urls, contactEmail }: { urls: Record<Service, st
     if (requested === "admissions" || requested === "mcat") setService(requested);
   }, [requested]);
   const url = urls[service];
+  // While both services share one Calendly profile, say which event is the free call.
+  const shared = urls.mcat !== null && urls.mcat === urls.admissions;
 
   return (
     <div>
@@ -42,7 +44,15 @@ export function BookingToggle({ urls, contactEmail }: { urls: Record<Service, st
       </div>
       <div className="mt-8" role="tabpanel" aria-label={`${LABEL[service]} booking`}>
         {url ? (
-          <CalendlyEmbed key={service} url={url} />
+          <>
+            {shared && (
+              <p className="mb-4 text-[1rem] text-quiet">
+                For the free 15-minute {LABEL[service] === "MCAT" ? "MCAT" : "college admissions"} call, choose “initial consult”. Your booking is marked
+                as {LABEL[service] === "MCAT" ? "an MCAT" : "a College Admissions"} call.
+              </p>
+            )}
+            <CalendlyEmbed key={service} url={url} campaign={service} />
+          </>
         ) : (
           <div className="rounded-2xl border border-hairline bg-white p-8 text-center sm:p-12">
             <h2 className="text-[1.5rem]">Online scheduling for {LABEL[service].toLowerCase()} calls is coming soon.</h2>

@@ -9,13 +9,14 @@ const CALENDLY_ORIGIN = "https://calendly.com";
 /**
  * Inline Calendly scheduler. The booking is only reported as confirmed when
  * Calendly itself posts `calendly.event_scheduled` from its own origin; we
- * never infer success from anything the page does.
+ * never infer success from anything the page does. `campaign` (mcat or admissions) is sent as
+ * utm_campaign, which Calendly records on the booking, so each one says which service it was for.
  */
-export function CalendlyEmbed({ url }: { url: string }) {
+export function CalendlyEmbed({ url, campaign }: { url: string; campaign?: string }) {
   const [scheduled, setScheduled] = useState(false);
   const host = useHost();
   // Calendly only posts events to the parent when told which domain embeds it.
-  const src = host ? withEmbedParams(url, host) : null;
+  const src = host ? withEmbedParams(url, host, campaign) : null;
 
   useEffect(() => {
     function onMessage(e: MessageEvent) {
@@ -49,9 +50,14 @@ export function CalendlyEmbed({ url }: { url: string }) {
   );
 }
 
-function withEmbedParams(url: string, host: string): string {
+function withEmbedParams(url: string, host: string, campaign?: string): string {
   const u = new URL(url);
   u.searchParams.set("embed_domain", host);
   u.searchParams.set("embed_type", "Inline");
+  if (campaign) {
+    u.searchParams.set("utm_source", "studywithshabari");
+    u.searchParams.set("utm_medium", "booking");
+    u.searchParams.set("utm_campaign", campaign);
+  }
   return u.toString();
 }

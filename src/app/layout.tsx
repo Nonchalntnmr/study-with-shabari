@@ -22,7 +22,8 @@ export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: { default: `${SITE_NAME} — MCAT tutoring from a 522 scorer`, template: `%s · ${SITE_NAME}` },
   description:
-    "Free MCAT notes, original practice sets, and 1:1 MCAT tutoring from Shabari Shankar, who scored 522 on the MCAT in January 2026.",
+    // Static, so it names only what is always there; free practice and notes are listed where they are open.
+    "1:1 MCAT tutoring and college admissions consulting from Shabari Shankar, who scored 522 on the MCAT in January 2026.",
   applicationName: SITE_NAME,
   openGraph: { type: "website", siteName: SITE_NAME, locale: "en_US", url: "/" },
   twitter: { card: "summary_large_image" },

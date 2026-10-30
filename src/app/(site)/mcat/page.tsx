@@ -10,16 +10,23 @@ import { ReactionScheme } from "@/components/molecule/reaction-scheme";
 import { Skeletal } from "@/components/molecule/skeletal";
 import { ExamPreview } from "@/components/site/exam-preview";
 import { PlanCards } from "@/components/site/plan-cards";
-import { mcatScore, mcatTutoring, notes, practicePlatform } from "@/lib/founder-facts";
+import { mcatScore, mcatTutoring, notes } from "@/lib/founder-facts";
+import { practiceOrTutoring } from "@/lib/availability";
 import { MOLECULES, keyBondLengths, roles } from "@/lib/molecules/analyze";
-import { getFeaturedLesson, getPublishedExams, getPublishedResources } from "@/lib/public-data";
+import { getAvailability, getFeaturedLesson, getPublishedExams, getPublishedResources } from "@/lib/public-data";
 import { AAMC_DISCLAIMER, founder, sectionShort, type SectionCode } from "@/lib/site";
 
-export const metadata: Metadata = {
-  title: "MCAT Prep",
-  description: `${mcatTutoring.headline} 1:1 MCAT tutoring on Zoom for C/P, B/B and P/S, a free practice test, a free interactive lesson and free notes.`,
-  alternates: { canonical: "/mcat" },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const a = await getAvailability();
+  // Search results list only the free tools that are actually open.
+  const free = [a.practice && "a free practice test", a.lesson && "a free interactive lesson", a.notes && "free notes"].filter(Boolean);
+  const list = free.length > 1 ? `${free.slice(0, -1).join(", ")} and ${free.at(-1)}` : (free[0] ?? "");
+  return {
+    title: "MCAT Prep",
+    description: `${mcatTutoring.headline} 1:1 MCAT tutoring on Zoom for C/P, B/B and P/S${list ? `, ${list}` : ""}.`,
+    alternates: { canonical: "/mcat" },
+  };
+}
 
 const dopamine = MOLECULES.dopamine;
 const measures = keyBondLengths(dopamine);
@@ -89,6 +96,8 @@ const readings: Reading[] = [
 
 export default async function McatPage() {
   const [lesson, exams, resources] = await Promise.all([getFeaturedLesson(), getPublishedExams(), getPublishedResources()]);
+  // Practice links only while a set is published; until then the tutoring section (src/lib/availability.ts).
+  const second = practiceOrTutoring(await getAvailability(), "Start a free practice test", "#tutoring");
   const noteLinks = new Map(resources.filter((x) => x.kind === "NOTES").map((x) => [x.section, x.url]));
 
   return (
@@ -103,7 +112,7 @@ export default async function McatPage() {
             <p className="mt-7 text-[1.125rem] leading-relaxed text-quiet">{mcatScore.line}.</p>
             <div className="mt-9 flex flex-wrap items-center gap-x-8 gap-y-4">
               <ButtonLink href="/book?service=mcat">Book a free 15-min call</ButtonLink>
-              <TextLink href="/practice">Start a free practice test</TextLink>
+              <TextLink href={second.href}>{second.label}</TextLink>
             </div>
           </div>
           <div className="rounded-2xl border border-hairline bg-white p-8 sm:p-11">
@@ -159,9 +168,16 @@ export default async function McatPage() {
             <H2 id="practice-h" className="mt-4">
               Practice in a test-day interface.
             </H2>
-            <Lead className="mt-6">{practicePlatform}</Lead>
+            {/* Not founder-facts' practicePlatform: that is the spec's build brief, in the present tense, and full-length
+                sections don't exist yet. Whether sample sets are open is said on the next line, from published data. */}
+            <Lead className="mt-6">
+              Built for full-length C/P, B/B and P/S sections, in an exam-style interface: passage on the left, question on the right, answer
+              choices, timer, flag-for-review, question navigator, and a results screen with score and an explanation for every question.
+            </Lead>
             <p className="mt-6 text-[1rem] text-specimen/85">
-              Available now: short sample sets. Full-length C/P, B/B and P/S sections are coming as Shabari adds her questions.
+              {exams.length > 0
+                ? "Available now: short sample sets. Full-length C/P, B/B and P/S sections are coming as Shabari adds her questions."
+                : "Practice sets are coming soon: the first short sample sets open here once Shabari has reviewed them, then full-length C/P, B/B and P/S sections as she adds her questions."}
             </p>
             {exams.length > 0 && (
               <ul className="mt-8 border-t border-hairline">
@@ -175,9 +191,11 @@ export default async function McatPage() {
                 ))}
               </ul>
             )}
-            <TextLink href="/practice" className="mt-8">
-              Start a free practice test
-            </TextLink>
+            {exams.length > 0 && (
+              <TextLink href="/practice" className="mt-8">
+                Start a free practice test
+              </TextLink>
+            )}
           </div>
           <div className="exam-surface lg:pt-16">
             <ExamPreview />

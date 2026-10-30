@@ -3,11 +3,11 @@ import { Suspense } from "react";
 import { BookingToggle } from "@/components/b/booking-toggle";
 import { Kicker, PaymentNote, Wrap } from "@/components/b/primitives";
 import { safeCalendlyUrl } from "@/lib/calendly";
-import { contactEmail } from "@/lib/site";
+import { consultPlatform, contactEmail } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "Book a free 15-minute call",
-  description: "Pick a time for a free 15-minute Zoom call about MCAT prep or college admissions.",
+  description: `Pick a time for a free 15-minute${consultPlatform ? ` ${consultPlatform}` : ""} call about MCAT prep or college admissions.`,
   alternates: { canonical: "/book" },
 };
 
@@ -26,7 +26,9 @@ export default function BookPage() {
           <h1 id="book-h" className="mt-4 text-[clamp(2.35rem,4.2vw,3.9rem)] leading-[1.04]">
             Book a free <span className="whitespace-nowrap">15-minute</span> call.
           </h1>
-          <p className="mt-5 max-w-2xl text-[1.125rem] text-quiet">On Zoom. Choose MCAT or College Admissions, then pick a time. Parents are welcome to join.</p>
+          <p className="mt-5 max-w-2xl text-[1.125rem] text-quiet">
+            {consultPlatform ? `On ${consultPlatform}. ` : ""}Choose MCAT or College Admissions, then pick a time. Parents are welcome to join.
+          </p>
           <PaymentNote className="mt-2" />
         </Wrap>
       </section>

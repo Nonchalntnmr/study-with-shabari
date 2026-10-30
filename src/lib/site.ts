@@ -19,6 +19,13 @@ export const contactEmail =
  */
 export const sessionPlatform = "Zoom";
 
+/**
+ * Where the free 15-minute call happens, as the booking pages promise it. Null while Calendly's
+ * "initial consult" event has no location: checked 2026-10-30 in Calendly's own event data, so a
+ * booking doesn't create a Zoom meeting yet. Set it to "Zoom" once that event has Zoom attached.
+ */
+export const consultPlatform: string | null = null;
+
 export const founder = {
   name: "Shabari Shankar",
   shortName: "Shabari",

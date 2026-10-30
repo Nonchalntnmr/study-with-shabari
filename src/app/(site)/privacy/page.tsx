@@ -5,11 +5,14 @@ import { contactEmail, founder } from "@/lib/site";
 
 export const metadata: Metadata = { title: "Privacy policy", alternates: { canonical: "/privacy" } };
 
+// Fixed at build time, like the widget itself (src/components/site/chat-widget.tsx).
+const chatOn = Boolean(process.env.NEXT_PUBLIC_IONOS_CHAT_AGENT_ID?.trim());
+
 export default function PrivacyPage() {
   return (
     <>
       <PageIntro eyebrow="Legal" title="Privacy policy">
-        Effective October 29, 2026. Plain language: what this site stores, why, and how to get it deleted.
+        Effective October 30, 2026. Plain language: what this site stores, why, and how to get it deleted.
       </PageIntro>
       <Container className="max-w-3xl py-14">
         <Prose>
@@ -40,12 +43,22 @@ export default function PrivacyPage() {
               <strong>Security records:</strong> a log of sensitive admin actions, and short-lived rate-limit counters keyed by a keyed hash of
               your IP address (the raw address isn’t stored).
             </li>
+            {chatOn && (
+              <li>
+                <strong>When you use the chat assistant:</strong> what you type, and any name, email or phone number you give it, is stored
+                by IONOS AI Frontdesk (see below), and a summary of each chat is emailed to the site team.
+              </li>
+            )}
           </ul>
           <h2>Cookies</h2>
           <p>
             The site sets only the cookies it needs to work: a sign-in cookie if you have an account, and a guest cookie so you can resume
-            practice without one. Both are HTTP-only. Just reading pages sets no cookie at all; the guest cookie is set when you start a
-            practice set or lesson. There are no advertising or cross-site tracking cookies, and no third-party analytics.
+            practice without one. Both are HTTP-only. The site itself sets no cookie when you just read a page; the guest cookie is set when
+            you start a practice set or lesson.
+            {chatOn
+              ? " On public pages the chat assistant’s widget loads from IONOS, and it may store data in your browser (cookies or local storage) for the chat."
+              : ""}{" "}
+            There are no advertising or cross-site tracking cookies, and no third-party analytics.
           </p>
           <h2>Visit counts</h2>
           <p>
@@ -59,10 +72,25 @@ export default function PrivacyPage() {
               Vercel hosts the site. Like any web host it keeps its own short-lived request logs (the page address, browser type and IP
               address), for one hour to one day depending on the hosting plan. Supabase hosts the database and uploaded images.
             </li>
-            <li>Fonts and images are served from this site, so reading a page doesn’t contact Google or any other outside service.</li>
-            <li>IONOS provides the domains and, once set up, the email account used to reply to you.</li>
+            <li>
+              Fonts and images are served from this site, so reading a page doesn’t contact Google or any other outside service
+              {chatOn ? ", apart from the chat assistant below" : ""}.
+            </li>
+            <li>
+              IONOS provides the domains. An IONOS email account for the site isn’t set up yet, so replies come from{" "}
+              <a href={`mailto:${contactEmail}`}>{contactEmail}</a>.
+            </li>
             <li>Calendly handles booking, and is loaded only on the booking page, under Calendly’s own privacy policy.</li>
-            <li>If the on-site chat assistant is turned on, it is provided by IONOS, and conversations are handled under IONOS’s terms.</li>
+            {chatOn ? (
+              <li>
+                The on-site chat assistant runs on IONOS AI Frontdesk. Its widget loads from IONOS (ionos.ai-voicereceptionist.com) on the
+                public pages, never on practice tests, lessons in progress, sign-in or account pages. IONOS stores what you type, and any
+                name, email or phone number you give it, under IONOS’s terms, and a summary of each chat is emailed to the site team. Don’t
+                share anything in the chat that you wouldn’t put in an email.
+              </li>
+            ) : (
+              <li>If the on-site chat assistant is turned on, it is provided by IONOS, and conversations are handled under IONOS’s terms.</li>
+            )}
             <li>If error monitoring is turned on, Sentry receives technical error reports.</li>
           </ul>
           <p>Your data is never sold or used for advertising.</p>
@@ -85,8 +113,12 @@ export default function PrivacyPage() {
               To have a contact message deleted, or for any other request, email <a href={`mailto:${contactEmail}`}>{contactEmail}</a>.
             </li>
           </ul>
-          <h2>Children</h2>
-          <p>The site is meant for students preparing for the MCAT and isn’t directed at children under 13.</p>
+          <h2>Students under 18</h2>
+          <p>
+            Admissions consulting works with high-school students, many of them under 18. For anyone under 18, a parent or guardian is
+            involved: they’re welcome on calls, and contact happens through the student’s or the parent’s email. The site isn’t directed at
+            children under 13.
+          </p>
           <h2>Changes</h2>
           <p>If this policy changes, the effective date above changes with it.</p>
         </Prose>

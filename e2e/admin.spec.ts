@@ -24,6 +24,16 @@ test("11. non-admins can't reach admin pages or data", async ({ page, request })
   await page.goto("/admin/users");
   await expect(page).toHaveURL(/\/login\?next=%2Fadmin%2Fusers/);
 
+  // Encoded, mixed-case or doubled-slash spellings reach the same pages, so they get the same redirect.
+  // `next` keeps the path as it was requested.
+  for (const path of ["/%61dmin", "/%61dmin/users", "/admin%2Fusers", "/%64ashboard", "/dashboard%2Faccount", "/%2561dmin", "/ADMIN/users", "/admin%E0%A4%A"]) {
+    const res = await request.get(path, { maxRedirects: 0 });
+    expect(res.status(), path).toBe(307);
+    const location = new URL(res.headers()["location"], "http://localhost");
+    expect(location.pathname, path).toBe("/login");
+    expect(location.searchParams.get("next"), path).toBe(path);
+  }
+
   // Signed-in student: the admin area doesn't exist for them.
   await signUp(page, uniqueEmail("snoop"));
   for (const path of ["/admin", "/admin/users", "/admin/inquiries", "/admin/audit"]) {

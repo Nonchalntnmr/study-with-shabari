@@ -71,6 +71,13 @@ test("deployment: only the canonical production site may be indexed", async ({ r
   else expect(robots).toMatch(/Disallow: \/\s*$/m);
 });
 
+test("deployment: only the custom domains may be indexed", async ({ request }) => {
+  // The *.vercel.app URL serves the production build and its permissive robots.txt, so it says noindex itself.
+  const res = await request.get("/robots.txt");
+  if (base.host.endsWith(".vercel.app")) expect(res.headers()["x-robots-tag"]).toBe("noindex");
+  if (onCanonical) expect(res.headers()["x-robots-tag"]).toBeUndefined();
+});
+
 test("deployment: every public page loads", async ({ request }) => {
   for (const path of PAGES) {
     const res = await request.get(path, { maxRedirects: 0 });
@@ -114,15 +121,19 @@ test("deployment: no answer key reaches a guest, and drafts stay hidden", async 
 
   // The samples wait in REVIEW, so their pages aren't served.
   expect((await request.get("/practice/cp-sample-set-1")).status()).toBe(404);
-  // The AI-drafted lesson: hidden in production, shown with the draft badge on a protected preview.
-  // The lesson page calls notFound() inside a Suspense boundary, after the 200 shell has streamed,
-  // so production answers 200 with the not-found page: check that nothing of the draft is in it.
+  // The AI-drafted lesson: a real 404 in production until an admin approves it, shown with the draft
+  // badge on a protected preview. Once approved, production serves it without the badge.
   const res = await request.get("/lessons/dopamine");
   if (production) {
     const html = await res.text();
-    expect(html).not.toContain("drafted with AI");
-    expect(html).not.toContain(lesson.lesson.title);
-    expect(res.status()).toBeLessThan(500);
+    if (res.status() === 404) {
+      expect(html).not.toContain("drafted with AI");
+      expect(html).not.toContain(lesson.lesson.title);
+    } else {
+      expect(res.status(), "an unapproved lesson must be a 404").toBe(200);
+      expect(html).not.toContain('data-testid="draft-badge"');
+      check("/lessons/dopamine", html);
+    }
   } else if (res.status() === 200) {
     const html = await res.text();
     expect(html).toContain("drafted with AI");

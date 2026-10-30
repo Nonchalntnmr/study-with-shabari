@@ -20,7 +20,9 @@ export default async function PracticePage() {
   return (
     <>
       <PageIntro eyebrow="Practice" title="Practice like it’s test day.">
-        Original passage-style questions I wrote, with full explanations. Start anywhere. No account needed.
+        {exams.length > 0
+          ? "Original passage-style questions I wrote, with full explanations. Start anywhere. No account needed."
+          : "Original passage-style questions with full explanations, free and with no account needed. The first sets open here once they’ve been reviewed."}
       </PageIntro>
       <section className="py-14">
         <Container className="space-y-12">

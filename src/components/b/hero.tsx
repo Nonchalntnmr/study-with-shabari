@@ -1,4 +1,7 @@
+import { practiceOrTutoring } from "@/lib/availability";
 import { admittedLine, credibilityStrip, headline, identity, mcatScore } from "@/lib/founder-facts";
+import { getAvailability } from "@/lib/public-data";
+import { consultPlatform } from "@/lib/site";
 import { ButtonLink, TextLink, Wrap } from "./primitives";
 import { HeroMolecule } from "./hero-molecule";
 
@@ -28,7 +31,8 @@ function ScoreBars() {
   );
 }
 
-export function Hero() {
+export async function Hero() {
+  const second = practiceOrTutoring(await getAvailability(), "Free practice test", "/mcat");
   return (
     <section aria-labelledby="hero-h" className="bg-white pt-12 sm:pt-20">
       <Wrap>
@@ -45,7 +49,7 @@ export function Hero() {
             </p>
             <div className="mt-9 flex flex-wrap items-center gap-x-8 gap-y-4">
               <ButtonLink href="/book">Book a free 15-min call</ButtonLink>
-              <TextLink href="/practice">Free practice test</TextLink>
+              <TextLink href={second.href}>{second.label}</TextLink>
             </div>
           </div>
           <div className="mx-auto w-full max-w-[32rem] lg:max-w-none">
@@ -77,7 +81,7 @@ export function Hero() {
 
         <div className="flex flex-wrap items-center gap-x-6 gap-y-3 border-t border-hairline py-10">
           <ButtonLink href="/book">Book a free 15-min call</ButtonLink>
-          <p className="text-[0.98rem] text-quiet">Fifteen minutes on Zoom, for MCAT or college admissions.</p>
+          <p className="text-[0.98rem] text-quiet">Fifteen minutes{consultPlatform ? ` on ${consultPlatform}` : ""}, for MCAT or college admissions.</p>
         </div>
       </Wrap>
 

@@ -78,7 +78,7 @@ export default async function DashboardHome() {
       <section className="rounded-2xl border border-dashed p-6 text-sm text-muted-foreground">
         <h2 className="text-base font-semibold text-ink">Tutoring sessions</h2>
         <p className="mt-1">
-          Sessions are scheduled through Calendly, and your confirmation and Zoom link arrive by email. Questions about a session? Email{" "}
+          Sessions are scheduled through Calendly, and your confirmation and meeting details arrive by email. Questions about a session? Email{" "}
           <a href={`mailto:${contactEmail}`} className="text-blue hover:underline">
             {contactEmail}
           </a>

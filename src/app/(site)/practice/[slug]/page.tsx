@@ -8,6 +8,12 @@ import { StartPracticeForm } from "@/components/site/start-practice-form";
 import { getPublishedExam, getPublishedExams } from "@/lib/public-data";
 import { AAMC_DISCLAIMER, sectionNames, type SectionCode } from "@/lib/site";
 
+// "blocking", as on the lesson pages: a set published after the build (or an unknown slug) renders
+// in full on its first visit instead of from the route's shared shell, where the nav's usePathname()
+// has no URL to read and the render aborts. It also makes an unknown slug a real 404 on first visit.
+export const unstable_paramMatching = { slug: "blocking" } as const;
+export const instant = false;
+
 // Cache Components fails the build on an empty list, and a fresh database has no published sets
 // (the samples wait in REVIEW). The placeholder renders the not-found page like any unknown slug.
 export async function generateStaticParams() {

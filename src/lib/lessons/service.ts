@@ -46,6 +46,13 @@ export async function startLessonAttempt(slug: string, owner: { userId: string |
   return attempt;
 }
 
+/** An admin's run-through of a lesson's current draft (/admin/lessons/[id]/preview). Never counted in the funnel. */
+export async function startPreviewAttempt(lessonId: string, adminUserId: string) {
+  const lesson = await db.lesson.findUnique({ where: { id: lessonId }, select: { id: true } });
+  if (!lesson) throw new LessonError("not_found");
+  return db.lessonAttempt.create({ data: { lessonVersionId: null, previewLessonId: lesson.id, userId: adminUserId, guestKeyHash: null }, select: { id: true } });
+}
+
 export type LoadedAttempt = {
   id: string;
   mode: LessonMode;
@@ -87,18 +94,19 @@ const MAX_STEP_MS = 30 * 60 * 1000;
 /**
  * Records the first answer to a question step, graded against the snapshot on
  * the server. The confidence rating arrives with the answer, before anything is
- * revealed. Answers can't be changed once given.
+ * revealed. Answers can't be changed once given. Returns which lesson the attempt belongs to.
  */
 export async function answerLessonStep(
   attemptId: string,
   viewer: Viewer,
   input: { position: number; choiceLabel: string; confidence: ConfidenceLevel; elapsedMs: number },
-): Promise<void> {
+): Promise<{ lessonId: string; mode: LessonMode }> {
   const loaded = await loadLessonAttempt(attemptId, viewer);
   if (!loaded) throw new LessonError("not_found");
+  const where = { lessonId: loaded.snapshot.lessonId, mode: loaded.mode };
   const step = loaded.snapshot.steps[input.position];
   if (!step || !isQuestionStep(step) || !step.question) throw new LessonError("invalid");
-  if (loaded.answered.has(input.position)) return;
+  if (loaded.answered.has(input.position)) return where;
   if (input.position > furthestStep(loaded.snapshot, loaded.answered)) throw new LessonError("invalid");
   const graded = grade(loaded.snapshot, step.question, input.choiceLabel);
   if (!graded) throw new LessonError("invalid");
@@ -119,7 +127,7 @@ export async function answerLessonStep(
     });
   } catch (e) {
     // A double submit: the first answer stands.
-    if (e instanceof Prisma.PrismaClientKnownRequestError && e.code === "P2002") return;
+    if (e instanceof Prisma.PrismaClientKnownRequestError && e.code === "P2002") return where;
     throw e;
   }
 
@@ -130,6 +138,7 @@ export async function answerLessonStep(
     const done = await db.lessonAttempt.updateMany({ where: { id: attemptId, completedAt: null }, data: { completedAt: new Date() } });
     if (published && done.count > 0) await countEvent("lesson_completed");
   }
+  return where;
 }
 
 /** Published practice sets in the given sections, for the result screen's next step. */

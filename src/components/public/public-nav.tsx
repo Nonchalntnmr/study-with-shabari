@@ -4,11 +4,14 @@ import { useMotionValueEvent, useScroll } from "motion/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
-import { bookCta, nav } from "@/lib/founder-facts";
+import { bookCta } from "@/lib/founder-facts";
 import { PublicMenu } from "./public-menu";
 
-/** White bar with the spec's navigation. A hairline appears once the page scrolls. */
-export function PublicNav({ account, className = "" }: { account: React.ReactNode; className?: string }) {
+/**
+ * White bar with the spec's navigation. A hairline appears once the page scrolls.
+ * `links` is the spec's nav minus anything not yet published (availableLinks).
+ */
+export function PublicNav({ links, account, className = "" }: { links: { href: string; label: string }[]; account: React.ReactNode; className?: string }) {
   const { scrollY } = useScroll();
   const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
@@ -22,7 +25,7 @@ export function PublicNav({ account, className = "" }: { account: React.ReactNod
           Study with Shabari
         </Link>
         <nav aria-label="Main" className="hidden items-center gap-6 min-[1180px]:flex">
-          {nav.map((l) => (
+          {links.map((l) => (
             <Link
               key={l.href}
               href={l.href}
@@ -41,7 +44,7 @@ export function PublicNav({ account, className = "" }: { account: React.ReactNod
           >
             {bookCta.label}
           </Link>
-          <PublicMenu links={[...nav, { ...bookCta }, { href: "/faq", label: "FAQ" }, { href: "/contact", label: "Contact" }, { href: "/dashboard", label: "Your dashboard" }]} />
+          <PublicMenu links={[...links, { ...bookCta }, { href: "/faq", label: "FAQ" }, { href: "/contact", label: "Contact" }, { href: "/dashboard", label: "Your dashboard" }]} />
         </div>
       </div>
     </header>
