@@ -26,7 +26,7 @@ export function synapseStills(datBlocked = false, priority = true): React.ReactN
       {i === 0 ? (
         <Image src="/images/dopamine-model-tight.png" alt="" width={918} height={727} priority={priority} sizes="(min-width: 768px) 38rem, 22rem" className="h-auto w-full" />
       ) : (
-        <SynapseFigure beat={i} datBlocked={datBlocked} title={t} className="w-full" />
+        <SynapseFigure beat={i} datBlocked={datBlocked} title={t} uid="s" className="w-full" />
       )}
     </StillFrame>
   ));
@@ -125,6 +125,18 @@ export function synapseSteps({ heroLevel = 1 as 1 | 2, title = "Dopamine" } = {}
       figure: <SynapseFigure beat={6} title={TITLES[6]} className="w-full" />,
     },
   ];
+}
+
+/** With DAT blocked only the last two beats look different (reuptake never happens). */
+export function synapseBlockedStills(): Record<number, React.ReactNode> {
+  return Object.fromEntries(
+    [5, 6].map((i) => [
+      i,
+      <StillFrame key={`b${i}`}>
+        <SynapseFigure beat={i} datBlocked title={`${TITLES[i]}, with DAT blocked: dopamine stays in the cleft`} uid="s" className="w-full" />
+      </StillFrame>,
+    ]),
+  );
 }
 
 /** Shabari's clinical line about DAT, shown when the visitor blocks the transporter. */

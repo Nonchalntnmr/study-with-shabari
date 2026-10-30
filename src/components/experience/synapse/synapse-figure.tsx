@@ -52,7 +52,9 @@ const BEAT_FOCUS: Record<number, string[]> = {
   6: ["pre", "vesicles", "cleft", "receptors", "camp", "dat"],
 };
 
-export function SynapseFigure({ beat, datBlocked = false, title, className }: { beat: number; datBlocked?: boolean; title: string; className?: string }) {
+export function SynapseFigure({ beat, datBlocked = false, title, className, uid = "" }: { beat: number; datBlocked?: boolean; title: string; className?: string; uid?: string }) {
+  // Each figure defines its own glyph, so ids stay unique when several figures share a page.
+  const glyph = `da-${beat}${datBlocked ? "b" : ""}${uid}`;
   const focus = new Set(BEAT_FOCUS[beat] ?? BEAT_FOCUS[6]);
   const dim = (k: string) => (focus.has(k) ? 1 : 0.38);
   const phase = beat;
@@ -76,7 +78,7 @@ export function SynapseFigure({ beat, datBlocked = false, title, className }: { 
     <svg viewBox={`0 0 ${W} ${H}`} role="img" aria-label={title} className={className}>
       <title>{title}</title>
       <defs>
-        <g id="da-glyph">
+        <g id={glyph}>
           <polygon points="0,-4.2 3.6,-2.1 3.6,2.1 0,4.2 -3.6,2.1 -3.6,-2.1" fill="#FFFFFF" stroke="#1B2A5C" strokeWidth="1.5" />
           <line x1="3.6" y1="0" x2="9" y2="0" stroke="#1B2A5C" strokeWidth="1.5" />
           <circle cx="10.4" cy="0" r="1.9" fill="#0E9F9A" />
@@ -114,7 +116,7 @@ export function SynapseFigure({ beat, datBlocked = false, title, className }: { 
           return rr > 0.05 ? <circle key={i} cx={sx(cx)} cy={sy(v.y)} r={rr * S} fill="#ECE8F8" stroke="#8C7BE0" strokeWidth="2" /> : null;
         })}
         {stored.map((p, i) => (
-          <use key={i} href="#da-glyph" transform={`translate(${sx(p.x).toFixed(1)} ${sy(p.y).toFixed(1)}) rotate(${p.rot.toFixed(0)}) scale(0.8)`} />
+          <use key={i} href={`#${glyph}`} transform={`translate(${sx(p.x).toFixed(1)} ${sy(p.y).toFixed(1)}) rotate(${p.rot.toFixed(0)}) scale(0.8)`} />
         ))}
       </g>
 
@@ -192,9 +194,9 @@ export function SynapseFigure({ beat, datBlocked = false, title, className }: { 
           const { at } = particleAt(p, phase, datBlocked);
           const bound = p.site !== null && beat === 4;
           const pos = bound ? siteOf(p.site!) : at;
-          return <use key={i} href="#da-glyph" transform={`translate(${sx(pos.x).toFixed(1)} ${sy(pos.y).toFixed(1)}) rotate(${(i * 47) % 360})`} />;
+          return <use key={i} href={`#${glyph}`} transform={`translate(${sx(pos.x).toFixed(1)} ${sy(pos.y).toFixed(1)}) rotate(${(i * 47) % 360})`} />;
         })}
-      {beat === 0 && <use href="#da-glyph" transform={`translate(${sx(-3)} ${sy(0.6)}) scale(3.2)`} />}
+      {beat === 0 && <use href={`#${glyph}`} transform={`translate(${sx(-3)} ${sy(0.6)}) scale(3.2)`} />}
     </svg>
   );
 }

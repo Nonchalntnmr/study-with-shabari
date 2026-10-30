@@ -3,6 +3,7 @@
 // Server: scripts/e2e-server.sh (next build + next start). Writes .local/shots/experience/measure.json.
 //
 // Same method for every route:
+// - warm-up: one unmeasured visit per route and device first (see below).
 // - load: iPhone 14 viewport (390×844, DPR 3) in Chromium with 4× CPU throttling, cold cache;
 //   once without network throttling and once with "Slow 4G" (150 ms RTT, 1.6 Mbps down).
 //   LCP, FCP and CLS from the browser's own PerformanceObservers; JS bytes from every script
@@ -260,6 +261,15 @@ async function axe(browser, route) {
 
 const results = { ranAt: new Date().toISOString(), base: BASE, build: "next build + next start (scripts/e2e-server.sh), Chromium headless with the Metal GPU, Apple M5", routes: {} };
 const browser = await chromium.launch({ args: GPU });
+// Warm the server once per route and device (image optimizer, route cache), as a CDN would be
+// warm after the first visitor; every measured load below is still a cold browser cache.
+for (const route of ROUTES)
+  for (const opts of [{ ...iphone }, { viewport: { width: 1440, height: 900 } }]) {
+    const ctx = await browser.newContext(opts);
+    const page = await ctx.newPage();
+    await page.goto(BASE + route, { waitUntil: "networkidle" }).catch(() => {});
+    await ctx.close();
+  }
 for (const route of ROUTES) {
   console.log("measuring", route);
   const r = {};

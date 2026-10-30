@@ -24,7 +24,8 @@ export function SynapseStory({
 }: {
   steps: StepContent[];
   stills: React.ReactNode[];
-  blockedStills: React.ReactNode[];
+  /** Stills that change when DAT is blocked, by beat. */
+  blockedStills: Record<number, React.ReactNode>;
   /** The reuptake beat's still with DAT blocked, for the reduced-motion layout. */
   blockedFigure: React.ReactNode;
   datNote: string;
@@ -93,7 +94,7 @@ export function SynapseStory({
       steps={withControls}
       stage={
         <div className="exp-spotlight h-full w-full">
-          <GlStage store={store} Scene={SynapseScene} lazy={lazy} fallback={<Stills stills={blocked ? blockedStills : stills} />} />
+          <GlStage store={store} Scene={SynapseScene} lazy={lazy} fallback={<Stills stills={blocked ? stills.map((s, i) => blockedStills[i] ?? s) : stills} />} />
         </div>
       }
     />

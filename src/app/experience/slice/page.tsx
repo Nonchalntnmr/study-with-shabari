@@ -5,7 +5,7 @@ import { Understanding } from "@/components/experience/slice/understanding";
 import { specimenSteps, specimenStills } from "@/components/experience/specimen/specimen-content";
 import { SpecimenStory } from "@/components/experience/specimen/specimen-story";
 import { SynapseFigure } from "@/components/experience/synapse/synapse-figure";
-import { DAT_NOTE, synapseSteps, synapseStills } from "@/components/experience/synapse/synapse-content";
+import { DAT_NOTE, synapseBlockedStills, synapseSteps, synapseStills } from "@/components/experience/synapse/synapse-content";
 import { SynapseStory } from "@/components/experience/synapse/synapse-story";
 import { gateExperience } from "@/lib/experience/gate";
 import { paymentNote } from "@/lib/founder-facts";
@@ -34,8 +34,8 @@ export default function SlicePage() {
         label="At the synapse"
         steps={synapseSteps({ heroLevel: 2, title: "Between two neurons" })}
         stills={synapseStills(false, false)}
-        blockedStills={synapseStills(true, false)}
-        blockedFigure={<SynapseFigure beat={5} datBlocked title="With DAT blocked, dopamine stays in the cleft and on its receptors" className="w-full" />}
+        blockedStills={synapseBlockedStills()}
+        blockedFigure={<SynapseFigure beat={5} datBlocked uid="i" title="With DAT blocked, dopamine stays in the cleft and on its receptors" className="w-full" />}
         datNote={DAT_NOTE}
       />
       <ScoreBand />
