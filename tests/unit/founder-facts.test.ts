@@ -59,7 +59,7 @@ function strings(): string[] {
     ...facts.essayCredentials,
     ...facts.mentoring,
     ...facts.research.flatMap((r) => [r.org, r.body, r.when ?? ""]),
-    ...facts.publications.flatMap((p) => [p.title.replace(/^“|”$/g, ""), p.venue, p.when]),
+    ...facts.publications.flatMap((p) => [p.title.replace(/^“|”$/g, ""), p.venue, p.when, p.authorship ?? "", p.url ?? ""]),
     ...facts.teaching,
     ...facts.honors,
     facts.mudzi.body,

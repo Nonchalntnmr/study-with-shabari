@@ -214,6 +214,7 @@ PUBLICATIONS
 - Commentary on "A Post-Pandemic Wellness Experiences Scale," Journal of Mental Health and Clinical Psychology, June 2025
 - "Ending FGM: A New Ruling in the Gambia Can Reignite Progress Towards SDG Target 5.3," Journal of Women's Health, December 2024
 - Letter to the Editor, The New York Times, September 2022
+- Correction (CD, docs/FOUNDER-UPDATE-NOTES.md): the Journal of Women's Health piece is co-authored, Co-author (4th of 7); link https://doi.org/10.1089/jwh.2024.0900 and don't imply first author.
 
 TEACHING & MENTORING
 - TA, MIT Introduction to Chemistry (Fall 2024); TA, MIT Statistics for Neuroscience (Fall 2025)

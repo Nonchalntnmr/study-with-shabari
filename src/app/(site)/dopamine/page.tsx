@@ -35,6 +35,7 @@ export default function DopamineLessonPage() {
             <h1 id="lesson-h" className="mt-4 text-[clamp(2.35rem,4.2vw,3.9rem)] leading-[1.04]">
               {TITLE}
             </h1>
+            <p className="mt-5 text-[1.0625rem] text-quiet">Written by Shabari.</p>
           </div>
           <div className="mx-auto w-full max-w-[32rem] lg:max-w-none">
             <HeroMolecule />

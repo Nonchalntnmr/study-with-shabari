@@ -196,6 +196,9 @@ export const publications = [
     title: "“Ending FGM: A New Ruling in the Gambia Can Reignite Progress Towards SDG Target 5.3”",
     venue: "Journal of Women's Health",
     when: "December 2024",
+    // CD correction (docs/FOUNDER-UPDATE-NOTES.md): a co-authored paper, so never implied as first author.
+    authorship: "Co-author (4th of 7)",
+    url: "https://doi.org/10.1089/jwh.2024.0900",
   },
   { title: "Letter to the Editor", venue: "The New York Times", when: "September 2022" },
 ];

@@ -98,5 +98,5 @@ export function Card({ className, children }: { className?: string; children: Re
 }
 
 export function PaymentNote({ className }: { className?: string }) {
-  return <p className={cn("text-[0.98rem] text-quiet", className)}>{paymentNote} No credit card checkout.</p>;
+  return <p className={cn("text-[0.98rem] text-quiet", className)}>{paymentNote}</p>;
 }

@@ -41,7 +41,16 @@ export default function ResearchPage() {
             <li key={p.title} className="grid gap-1 py-5 sm:grid-cols-[9rem_1fr] sm:gap-8">
               <span className="text-[0.95rem] font-semibold tabular-nums text-quiet">{p.when}</span>
               <span className="text-[1.0625rem] text-specimen">
-                {p.title}, <span className="text-quiet">{p.venue}</span>
+                {"url" in p ? (
+                  <a href={p.url} className="underline decoration-hairline underline-offset-4 hover:decoration-hema" rel="noopener noreferrer" target="_blank">
+                    {p.title}
+                    <span className="sr-only"> (opens in a new tab)</span>
+                  </a>
+                ) : (
+                  p.title
+                )}
+                , <span className="text-quiet">{p.venue}</span>
+                {"authorship" in p && <span className="text-quiet"> · {p.authorship}</span>}
               </span>
             </li>
           ))}
