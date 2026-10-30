@@ -17,7 +17,7 @@
   "explanation": "Km is the [S] at which v0 = ½Vmax = 25 µM/s, which Table 1 shows at 2.0 mM. 25 is the velocity, not the Km; 1.0 and 5.0 mM give 16.7 and 35.7 µM/s.",
   "topic": "1A – Enzyme kinetics",
   "difficulty": "easy",
-  "reviewed": false
+  "reviewed": true
  },
  {
   "id": "FL1-CP-002",
@@ -37,7 +37,7 @@
   "explanation": "Apparent Km increases while Vmax is unchanged, the signature of competitive inhibition: excess substrate outcompetes the inhibitor. Uncompetitive lowers both; noncompetitive lowers Vmax only; irreversible inhibition lowers effective Vmax.",
   "topic": "1A – Enzyme kinetics",
   "difficulty": "easy",
-  "reviewed": false
+  "reviewed": true
  },
  {
   "id": "FL1-CP-003",
@@ -57,7 +57,7 @@
   "explanation": "v0 = (50)(2.0)/(6.0 + 2.0) = 12.5 µM/s. 25.0 µM/s is the uninhibited value; 10.0 and 37.5 come from using the wrong Km in the denominator or numerator.",
   "topic": "1A – Enzyme kinetics",
   "difficulty": "medium",
-  "reviewed": false
+  "reviewed": true
  },
  {
   "id": "FL1-CP-004",
@@ -77,7 +77,7 @@
   "explanation": "Lineweaver–Burk: 1/v0 = (Km/Vmax)(1/[S]) + 1/Vmax. The y-intercept is 1/Vmax, the slope is Km/Vmax, and the x-intercept is −1/Km.",
   "topic": "1A – Enzyme kinetics",
   "difficulty": "medium",
-  "reviewed": false
+  "reviewed": true
  },
  {
   "id": "FL1-CP-005",
@@ -97,7 +97,7 @@
   "explanation": "Vmax = kcat[E]total, so doubling enzyme doubles Vmax. Km is an intrinsic property of the enzyme–substrate pair and does not depend on enzyme concentration.",
   "topic": "1A – Enzyme kinetics",
   "difficulty": "medium",
-  "reviewed": false
+  "reviewed": true
  },
  {
   "id": "FL1-CP-006",
@@ -117,7 +117,7 @@
   "explanation": "1/f = 1/do + 1/di → 1/di = 1/4.0 − 1/5.0 = 1/20, so di = 20 mm. 2.2 mm comes from adding the reciprocals; 9.0 mm adds the distances.",
   "topic": "4E – Geometrical optics",
   "difficulty": "medium",
-  "reviewed": false
+  "reviewed": true
  },
  {
   "id": "FL1-CP-007",
@@ -137,7 +137,7 @@
   "explanation": "di is positive (real), and m = −di/do = −20/5.0 = −4, so the image is inverted and magnified 4×. Virtual images form only when the object is inside the focal length.",
   "topic": "4E – Geometrical optics",
   "difficulty": "easy",
-  "reviewed": false
+  "reviewed": true
  },
  {
   "id": "FL1-CP-008",
@@ -157,7 +157,7 @@
   "explanation": "E = hc/λ. The emitted photon (520 nm) has a longer wavelength than the absorbed one (488 nm), so lower energy and lower frequency. The difference (Stokes shift) is lost as vibrational relaxation.",
   "topic": "4E – Light and electromagnetic radiation",
   "difficulty": "easy",
-  "reviewed": false
+  "reviewed": true
  },
  {
   "id": "FL1-CP-009",
@@ -177,7 +177,7 @@
   "explanation": "sin θc = n2/n1 = 1.00/1.50 ≈ 0.67, so θc ≈ 42°. 30° would require sin θc = 0.5; 48° is its complement.",
   "topic": "4E – Geometrical optics",
   "difficulty": "medium",
-  "reviewed": false
+  "reviewed": true
  },
  {
   "id": "FL1-CP-010",
@@ -197,7 +197,7 @@
   "explanation": "E°cell = E°cathode − E°anode = 0.34 − (−0.76) = +1.10 V. A galvanic cell has a positive E°cell; 0.42 V comes from adding the potentials directly.",
   "topic": "4C – Electrochemistry",
   "difficulty": "easy",
-  "reviewed": false
+  "reviewed": true
  },
  {
   "id": "FL1-CP-011",
@@ -217,7 +217,7 @@
   "explanation": "Zinc has the more negative reduction potential, so it is oxidized (Zn → Zn²⁺ + 2e⁻). Oxidation always occurs at the anode.",
   "topic": "4C – Electrochemistry",
   "difficulty": "easy",
-  "reviewed": false
+  "reviewed": true
  },
  {
   "id": "FL1-CP-012",
@@ -237,7 +237,7 @@
   "explanation": "ΔG° = −nFE° = −(2)(96,500)(1.10) ≈ −212,000 J/mol = −212 kJ/mol. −106 uses n = 1; −424 uses n = 4; a positive value would mean a nonspontaneous cell.",
   "topic": "5E – Thermodynamics / electrochemistry",
   "difficulty": "medium",
-  "reviewed": false
+  "reviewed": true
  },
  {
   "id": "FL1-CP-013",
@@ -257,7 +257,7 @@
   "explanation": "Q = [Zn²⁺]/[Cu²⁺]. As the cell runs, [Zn²⁺] rises and [Cu²⁺] falls, so Q increases and E = E° − (0.0592/n)log Q decreases toward zero.",
   "topic": "4C – Electrochemistry",
   "difficulty": "medium",
-  "reviewed": false
+  "reviewed": true
  },
  {
   "id": "FL1-CP-014",
@@ -277,7 +277,7 @@
   "explanation": "The anode compartment accumulates Zn²⁺ (positive charge), so anions such as NO3⁻ migrate toward it to maintain neutrality, while K⁺ migrates toward the cathode.",
   "topic": "4C – Electrochemistry",
   "difficulty": "medium",
-  "reviewed": false
+  "reviewed": true
  },
  {
   "id": "FL1-CP-015",
@@ -297,7 +297,7 @@
   "explanation": "Q ∝ r⁴, so halving r gives (1/2)⁴ = 1/16 of normal flow. 1/4 would come from treating flow as proportional to cross-sectional area.",
   "topic": "4B – Fluids",
   "difficulty": "medium",
-  "reviewed": false
+  "reviewed": true
  },
  {
   "id": "FL1-CP-016",
@@ -317,7 +317,7 @@
   "explanation": "Continuity: A1v1 = A2v2. Halving area doubles speed for an incompressible fluid.",
   "topic": "4B – Fluids",
   "difficulty": "easy",
-  "reviewed": false
+  "reviewed": true
  },
  {
   "id": "FL1-CP-017",
@@ -337,7 +337,7 @@
   "explanation": "Bernoulli: P + ½ρv² is constant along a streamline at equal height. Faster flow in the constriction means lower static pressure.",
   "topic": "4B – Fluids",
   "difficulty": "medium",
-  "reviewed": false
+  "reviewed": true
  },
  {
   "id": "FL1-CP-018",
@@ -357,7 +357,7 @@
   "explanation": "Q ∝ 1/η, so doubling viscosity halves flow.",
   "topic": "4B – Fluids",
   "difficulty": "easy",
-  "reviewed": false
+  "reviewed": true
  },
  {
   "id": "FL1-CP-019",
@@ -377,7 +377,7 @@
   "explanation": "Secondary halide + strong nucleophile + polar aprotic solvent → SN2 with backside attack and inversion. CN keeps Br's priority rank (CN > ethyl > methyl > H), so inverting the geometry converts R to S. A racemic product would indicate SN1.",
   "topic": "5D – Nucleophilic substitution",
   "difficulty": "hard",
-  "reviewed": false
+  "reviewed": true
  },
  {
   "id": "FL1-CP-020",
@@ -397,7 +397,7 @@
   "explanation": "SN2 rate = k[substrate][nucleophile], first order in cyanide, so doubling [CN⁻] doubles the rate.",
   "topic": "5D – Reaction kinetics",
   "difficulty": "easy",
-  "reviewed": false
+  "reviewed": true
  },
  {
   "id": "FL1-CP-021",
@@ -417,7 +417,7 @@
   "explanation": "A tertiary halide in a polar protic solvent reacts by SN1. Unimolecular ionization to the tertiary carbocation is slow and rate-determining; nucleophilic capture and deprotonation are fast.",
   "topic": "5D – Nucleophilic substitution",
   "difficulty": "medium",
-  "reviewed": false
+  "reviewed": true
  },
  {
   "id": "FL1-CP-022",
@@ -437,7 +437,7 @@
   "explanation": "DMSO is polar aprotic. It solvates Na⁺ but cannot hydrogen-bond to CN⁻, leaving a 'naked', highly reactive nucleophile. SN2 has no carbocation intermediate.",
   "topic": "5D – Solvent effects",
   "difficulty": "medium",
-  "reviewed": false
+  "reviewed": true
  },
  {
   "id": "FL1-CP-023",
@@ -457,7 +457,7 @@
   "explanation": "Good leaving groups are weak bases. I⁻ is the conjugate base of the strongest acid (HI) and is large and polarizable, making it the best leaving group here.",
   "topic": "5D – Leaving groups",
   "difficulty": "easy",
-  "reviewed": false
+  "reviewed": true
  },
  {
   "id": "FL1-CP-024",
@@ -477,7 +477,7 @@
   "explanation": "For an amino acid without an ionizable side chain, pI = (pKa1 + pKa2)/2 = (2.34 + 9.60)/2 = 5.97.",
   "topic": "1A – Amino acids",
   "difficulty": "easy",
-  "reviewed": false
+  "reviewed": true
  },
  {
   "id": "FL1-CP-025",
@@ -497,7 +497,7 @@
   "explanation": "At 7.4 the pH is above pKa1 (carboxyl deprotonated) and below pKa2 (amine protonated), so the zwitterion dominates. The neutral uncharged form is never significant in water.",
   "topic": "1A – Amino acids",
   "difficulty": "easy",
-  "reviewed": false
+  "reviewed": true
  },
  {
   "id": "FL1-CP-026",
@@ -517,7 +517,7 @@
   "explanation": "At pH = pKa1, half the molecules are +1 (fully protonated) and half are 0 (zwitterion), giving an average of +0.5.",
   "topic": "1A – Amino acids / acid–base",
   "difficulty": "medium",
-  "reviewed": false
+  "reviewed": true
  },
  {
   "id": "FL1-CP-027",
@@ -537,7 +537,7 @@
   "explanation": "Fully protonated glycine has two ionizable protons (COOH and NH3⁺), so two equivalents of base are required.",
   "topic": "5A – Titration",
   "difficulty": "easy",
-  "reviewed": false
+  "reviewed": true
  },
  {
   "id": "FL1-CP-028",
@@ -557,7 +557,7 @@
   "explanation": "ΔG = ΔH − TΔS = −200 − (300)(−0.600) = −200 + 180 = −20 kJ/mol, so folding is spontaneous at 300 K.",
   "topic": "5E – Gibbs free energy",
   "difficulty": "medium",
-  "reviewed": false
+  "reviewed": true
  },
  {
   "id": "FL1-CP-029",
@@ -577,7 +577,7 @@
   "explanation": "ΔG = 0 when T = ΔH/ΔS = (−200)/(−0.600) ≈ 333 K. Above it, the −TΔS term dominates and ΔG for folding becomes positive.",
   "topic": "5E – Gibbs free energy",
   "difficulty": "medium",
-  "reviewed": false
+  "reviewed": true
  },
  {
   "id": "FL1-CP-030",
@@ -597,7 +597,7 @@
   "explanation": "Exposed nonpolar groups force water into ordered cages. Burying them releases that water, increasing solvent entropy. The protein's own conformational entropy decreases on folding.",
   "topic": "1A – Protein structure",
   "difficulty": "medium",
-  "reviewed": false
+  "reviewed": true
  },
  {
   "id": "FL1-CP-031",
@@ -617,7 +617,7 @@
   "explanation": "Like a catalyst, a chaperone changes kinetics, not thermodynamics. ΔG, ΔH, and K are state functions or determined by them.",
   "topic": "5E – Kinetics vs thermodynamics",
   "difficulty": "easy",
-  "reviewed": false
+  "reviewed": true
  },
  {
   "id": "FL1-CP-032",
@@ -637,7 +637,7 @@
   "explanation": "U = ½CV² = ½(100 × 10⁻⁶)(2,000)² = ½(10⁻⁴)(4 × 10⁶) = 200 J. 400 J omits the ½.",
   "topic": "4C – Capacitors",
   "difficulty": "medium",
-  "reviewed": false
+  "reviewed": true
  },
  {
   "id": "FL1-CP-033",
@@ -657,7 +657,7 @@
   "explanation": "Q = CV = (100 × 10⁻⁶)(2,000) = 0.2 C.",
   "topic": "4C – Capacitors",
   "difficulty": "easy",
-  "reviewed": false
+  "reviewed": true
  },
  {
   "id": "FL1-CP-034",
@@ -677,7 +677,7 @@
   "explanation": "τ = RC = (50)(100 × 10⁻⁶) = 5 × 10⁻³ s = 5 ms.",
   "topic": "4C – Circuits",
   "difficulty": "medium",
-  "reviewed": false
+  "reviewed": true
  },
  {
   "id": "FL1-CP-035",
@@ -697,7 +697,7 @@
   "explanation": "C doubles with κ = 2. At fixed V, U = ½CV² doubles to 400 J.",
   "topic": "4C – Capacitors",
   "difficulty": "medium",
-  "reviewed": false
+  "reviewed": true
  },
  {
   "id": "FL1-CP-036",
@@ -717,7 +717,7 @@
   "explanation": "The 1715 cm⁻¹ C=O stretch and one 6H singlet (two equivalent CH3 groups) identify acetone. Propanal would show an aldehyde H near 9.7 ppm; the alcohol would show a broad O–H stretch; oxetane has no C=O.",
   "topic": "5D – Spectroscopy",
   "difficulty": "medium",
-  "reviewed": false
+  "reviewed": true
  },
  {
   "id": "FL1-CP-037",
@@ -737,7 +737,7 @@
   "explanation": "Carbonyl stretches appear near 1700–1750 cm⁻¹. O–H is broad near 3300; sp³ C–H near 2900; C–O near 1000–1300.",
   "topic": "5D – IR spectroscopy",
   "difficulty": "easy",
-  "reviewed": false
+  "reviewed": true
  },
  {
   "id": "FL1-CP-038",
@@ -757,7 +757,7 @@
   "explanation": "The electronegative oxygen and the magnetic anisotropy of the C=O bond deshield the aldehyde proton, shifting it far downfield.",
   "topic": "5D – NMR spectroscopy",
   "difficulty": "medium",
-  "reviewed": false
+  "reviewed": true
  },
  {
   "id": "FL1-CP-039",
@@ -777,7 +777,7 @@
   "explanation": "DoU = (2C + 2 − H)/2 = (6 + 2 − 6)/2 = 1. Oxygen does not affect the count. Here it is the C=O bond.",
   "topic": "5D – Molecular structure",
   "difficulty": "easy",
-  "reviewed": false
+  "reviewed": true
  },
  {
   "id": "FL1-CP-040",
@@ -797,7 +797,7 @@
   "explanation": "Acetone has two carbon environments: the two equivalent methyl carbons and the carbonyl carbon.",
   "topic": "5D – NMR spectroscopy",
   "difficulty": "easy",
-  "reviewed": false
+  "reviewed": true
  },
  {
   "id": "FL1-CP-041",
@@ -817,7 +817,7 @@
   "explanation": "Pure O2 at 3.0 atm total gives P(O2) = 1.00 × 3.0 = 3.0 atm. 0.63 atm would be air at 3.0 atm.",
   "topic": "5A – Gas laws / Dalton's law",
   "difficulty": "easy",
-  "reviewed": false
+  "reviewed": true
  },
  {
   "id": "FL1-CP-042",
@@ -837,7 +837,7 @@
   "explanation": "Henry's law: C ∝ P(O2). 3.0/0.21 ≈ 14. 3 compares total pressures only; 5 ignores the switch to pure O2 in the other direction.",
   "topic": "5A – Henry's law",
   "difficulty": "medium",
-  "reviewed": false
+  "reviewed": true
  },
  {
   "id": "FL1-CP-043",
@@ -857,7 +857,7 @@
   "explanation": "Boyle's law: P1V1 = P2V2, so dropping pressure from 3.0 to 1.0 atm triples the volume, which is why rapid decompression is dangerous.",
   "topic": "4B – Gas laws",
   "difficulty": "easy",
-  "reviewed": false
+  "reviewed": true
  },
  {
   "id": "FL1-CP-044",
@@ -877,7 +877,7 @@
   "explanation": "CO and O2 bind the same heme iron. Raising P(O2) shifts the binding equilibrium toward oxyhemoglobin (Le Châtelier), displacing CO.",
   "topic": "5A – Equilibrium / 3B – Respiratory",
   "difficulty": "medium",
-  "reviewed": false
+  "reviewed": true
  },
  {
   "id": "FL1-CP-045",
@@ -897,7 +897,7 @@
   "explanation": "Fe is [Ar]3d⁶4s². Transition metals lose 4s electrons first, then 3d: removing two 4s and one 3d electron gives [Ar]3d⁵.",
   "topic": "4E – Atomic structure",
   "difficulty": "medium",
-  "reviewed": false
+  "reviewed": true
  },
  {
   "id": "FL1-CP-046",
@@ -917,7 +917,7 @@
   "explanation": "15 days = 3 half-lives: 80 → 40 → 20 → 10 g.",
   "topic": "4E – Nuclear decay",
   "difficulty": "easy",
-  "reviewed": false
+  "reviewed": true
  },
  {
   "id": "FL1-CP-047",
@@ -937,7 +937,7 @@
   "explanation": "β = 10 log(I/I0), so a 100× increase adds 10 log(100) = 20 dB.",
   "topic": "4D – Sound",
   "difficulty": "easy",
-  "reviewed": false
+  "reviewed": true
  },
  {
   "id": "FL1-CP-048",
@@ -957,7 +957,7 @@
   "explanation": "Glycine's side chain is H, so its α-carbon has two identical substituents and is not a stereocenter.",
   "topic": "1A – Amino acids",
   "difficulty": "easy",
-  "reviewed": false
+  "reviewed": true
  },
  {
   "id": "FL1-CP-049",
@@ -977,7 +977,7 @@
   "explanation": "At constant V and n, P ∝ T (Gay-Lussac). Doubling absolute temperature doubles pressure.",
   "topic": "4B – Gas laws",
   "difficulty": "easy",
-  "reviewed": false
+  "reviewed": true
  },
  {
   "id": "FL1-CP-050",
@@ -997,7 +997,7 @@
   "explanation": "Doppler effect: a source moving toward the observer compresses wavefronts, raising the observed frequency.",
   "topic": "4D – Doppler effect",
   "difficulty": "easy",
-  "reviewed": false
+  "reviewed": true
  },
  {
   "id": "FL1-CP-051",
@@ -1017,7 +1017,7 @@
   "explanation": "For an exothermic reaction, heat acts as a product. Adding heat shifts left, and K decreases because K is temperature-dependent.",
   "topic": "5E – Le Châtelier's principle",
   "difficulty": "medium",
-  "reviewed": false
+  "reviewed": true
  },
  {
   "id": "FL1-CP-052",
@@ -1037,7 +1037,7 @@
   "explanation": "K is +1 and each O is −2 (total −8), so Mn = +7 for a neutral compound.",
   "topic": "4C – Oxidation states",
   "difficulty": "easy",
-  "reviewed": false
+  "reviewed": true
  },
  {
   "id": "FL1-CP-053",
@@ -1057,7 +1057,7 @@
   "explanation": "W = Fd cos θ = (10)(5.0)(cos 60°) = 25 J. 43 J uses sin 60°; 50 J ignores the angle.",
   "topic": "4A – Work and energy",
   "difficulty": "easy",
-  "reviewed": false
+  "reviewed": true
  },
  {
   "id": "FL1-CP-054",
@@ -1077,7 +1077,7 @@
   "explanation": "Three electron-withdrawing fluorines stabilize the carboxylate of trifluoroacetic acid (pKa ≈ 0.2), making it far stronger than acetic acid (4.76), phenol (10), or ethanol (16).",
   "topic": "5D – Acidity",
   "difficulty": "medium",
-  "reviewed": false
+  "reviewed": true
  },
  {
   "id": "FL1-CP-055",
@@ -1097,7 +1097,7 @@
   "explanation": "Fischer esterification: carboxylic acid + alcohol under acid catalysis gives an ester plus water.",
   "topic": "5D – Carboxylic acid derivatives",
   "difficulty": "easy",
-  "reviewed": false
+  "reviewed": true
  },
  {
   "id": "FL1-CP-056",
@@ -1117,7 +1117,7 @@
   "explanation": "Archimedes: F = ρVg = (1,000)(0.0020)(10) = 20 N, independent of the object's own density.",
   "topic": "4B – Fluids / buoyancy",
   "difficulty": "easy",
-  "reviewed": false
+  "reviewed": true
  },
  {
   "id": "FL1-CP-057",
@@ -1137,7 +1137,7 @@
   "explanation": "R_eq = (6 × 6)/(6 + 6) = 3 Ω, so I = V/R = 12/3 = 4 A. 1 A uses the series value of 12 Ω.",
   "topic": "4C – Circuits",
   "difficulty": "easy",
-  "reviewed": false
+  "reviewed": true
  },
  {
   "id": "FL1-CP-058",
@@ -1157,7 +1157,7 @@
   "explanation": "Phosphodiester bonds join the 3′ carbon of one sugar to the 5′ carbon of the next. Glycosidic bonds attach bases to sugars; hydrogen bonds pair bases across strands.",
   "topic": "1B – Nucleic acids",
   "difficulty": "easy",
-  "reviewed": false
+  "reviewed": true
  },
  {
   "id": "FL1-CP-059",
@@ -1177,6 +1177,6 @@
   "explanation": "5.85/58.5 = 0.100 mol, and 0.100 mol / 0.500 L = 0.200 M. 0.1 M forgets to divide by volume.",
   "topic": "5A – Solutions",
   "difficulty": "easy",
-  "reviewed": false
+  "reviewed": true
  }
 ]

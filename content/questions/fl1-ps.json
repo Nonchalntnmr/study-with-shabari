@@ -17,7 +17,7 @@
   "explanation": "Early items get more rehearsal and are transferred into long-term memory: the primacy effect.",
   "topic": "6B – Memory",
   "difficulty": "easy",
-  "reviewed": false
+  "reviewed": true
  },
  {
   "id": "FL1-PS-002",
@@ -37,7 +37,7 @@
   "explanation": "Recent items are held in short-term memory, and a 30-second distractor displaces them. Primacy items in long-term memory are unaffected.",
   "topic": "6B – Memory",
   "difficulty": "medium",
-  "reviewed": false
+  "reviewed": true
  },
  {
   "id": "FL1-PS-003",
@@ -57,7 +57,7 @@
   "explanation": "Miller's classic estimate is 7 ± 2 items, which can be extended with chunking.",
   "topic": "6B – Memory",
   "difficulty": "easy",
-  "reviewed": false
+  "reviewed": true
  },
  {
   "id": "FL1-PS-004",
@@ -77,7 +77,7 @@
   "explanation": "Deeper (semantic) processing produces more durable encoding than shallow processing: the levels-of-processing framework.",
   "topic": "6B – Memory encoding",
   "difficulty": "medium",
-  "reviewed": false
+  "reviewed": true
  },
  {
   "id": "FL1-PS-005",
@@ -97,7 +97,7 @@
   "explanation": "Hippocampal damage causes anterograde amnesia for declarative memory (as in patient H.M.). Older memories, procedural memory, and digit span are relatively spared.",
   "topic": "6B – Biological bases of memory",
   "difficulty": "medium",
-  "reviewed": false
+  "reviewed": true
  },
  {
   "id": "FL1-PS-006",
@@ -117,7 +117,7 @@
   "explanation": "People are less likely to help when others are present: the bystander effect.",
   "topic": "7A / 8C – Social behavior",
   "difficulty": "easy",
-  "reviewed": false
+  "reviewed": true
  },
  {
   "id": "FL1-PS-007",
@@ -137,7 +137,7 @@
   "explanation": "When each person privately doubts but sees others looking unconcerned, everyone wrongly concludes nothing is wrong: pluralistic ignorance, a form of informational social influence.",
   "topic": "8C – Social influence",
   "difficulty": "medium",
-  "reviewed": false
+  "reviewed": true
  },
  {
   "id": "FL1-PS-008",
@@ -157,7 +157,7 @@
   "explanation": "Researchers manipulated group size, so it is the independent variable. Reporting rate is the dependent variable.",
   "topic": "Research methods",
   "difficulty": "easy",
-  "reviewed": false
+  "reviewed": true
  },
  {
   "id": "FL1-PS-009",
@@ -177,7 +177,7 @@
   "explanation": "Singling out one person removes diffusion of responsibility, because that person now clearly owns the responsibility to act.",
   "topic": "8C – Social behavior",
   "difficulty": "easy",
-  "reviewed": false
+  "reviewed": true
  },
  {
   "id": "FL1-PS-010",
@@ -197,7 +197,7 @@
   "explanation": "Stage N3 (slow-wave sleep) is characterized by high-amplitude, low-frequency delta waves. N2 shows sleep spindles and K-complexes.",
   "topic": "6A – Sleep",
   "difficulty": "easy",
-  "reviewed": false
+  "reviewed": true
  },
  {
   "id": "FL1-PS-011",
@@ -217,7 +217,7 @@
   "explanation": "REM shows an EEG resembling wakefulness, vivid dreaming, rapid eye movements, and paralysis of most skeletal muscles. Sleepwalking occurs in N3.",
   "topic": "6A – Sleep",
   "difficulty": "easy",
-  "reviewed": false
+  "reviewed": true
  },
  {
   "id": "FL1-PS-012",
@@ -237,7 +237,7 @@
   "explanation": "After REM deprivation, the body compensates by entering REM sooner and spending more time in it: REM rebound.",
   "topic": "6A – Sleep",
   "difficulty": "easy",
-  "reviewed": false
+  "reviewed": true
  },
  {
   "id": "FL1-PS-013",
@@ -257,7 +257,7 @@
   "explanation": "The pineal gland secretes melatonin in darkness under control of the suprachiasmatic nucleus.",
   "topic": "6A – Circadian rhythms",
   "difficulty": "easy",
-  "reviewed": false
+  "reviewed": true
  },
  {
   "id": "FL1-PS-014",
@@ -277,7 +277,7 @@
   "explanation": "Moving to a higher social position than one's parents is intergenerational upward mobility.",
   "topic": "10A – Social class and mobility",
   "difficulty": "easy",
-  "reviewed": false
+  "reviewed": true
  },
  {
   "id": "FL1-PS-015",
@@ -297,7 +297,7 @@
   "explanation": "Bourdieu's cultural capital is non-financial knowledge, skills, and dispositions that confer advantage. Social capital refers to networks of relationships.",
   "topic": "9B / 10A – Social stratification",
   "difficulty": "medium",
-  "reviewed": false
+  "reviewed": true
  },
  {
   "id": "FL1-PS-016",
@@ -317,7 +317,7 @@
   "explanation": "A meritocracy is a system in which advancement is based on individual merit. The passage suggests unequal cultural capital complicates that belief.",
   "topic": "10A – Social stratification",
   "difficulty": "easy",
-  "reviewed": false
+  "reviewed": true
  },
  {
   "id": "FL1-PS-017",
@@ -337,7 +337,7 @@
   "explanation": "Social reproduction is the transmission of social inequality across generations through structures such as cultural capital and education.",
   "topic": "10A – Social inequality",
   "difficulty": "medium",
-  "reviewed": false
+  "reviewed": true
  },
  {
   "id": "FL1-PS-018",
@@ -357,7 +357,7 @@
   "explanation": "Weber separated class (economic position), status (prestige), and party (power).",
   "topic": "9B – Social theory",
   "difficulty": "medium",
-  "reviewed": false
+  "reviewed": true
  },
  {
   "id": "FL1-PS-019",
@@ -377,7 +377,7 @@
   "explanation": "Rewards depend on a varying number of responses: variable-ratio, the schedule most resistant to extinction (like slot machines).",
   "topic": "7C – Operant conditioning",
   "difficulty": "easy",
-  "reviewed": false
+  "reviewed": true
  },
  {
   "id": "FL1-PS-020",
@@ -397,7 +397,7 @@
   "explanation": "Fixed-interval schedules produce a scallop: responding drops after reinforcement and increases as the next reward time nears.",
   "topic": "7C – Operant conditioning",
   "difficulty": "medium",
-  "reviewed": false
+  "reviewed": true
  },
  {
   "id": "FL1-PS-021",
@@ -417,7 +417,7 @@
   "explanation": "When reinforcement stops, behavior often briefly intensifies before declining: an extinction burst.",
   "topic": "7C – Operant conditioning",
   "difficulty": "medium",
-  "reviewed": false
+  "reviewed": true
  },
  {
   "id": "FL1-PS-022",
@@ -437,7 +437,7 @@
   "explanation": "Removing an aversive stimulus (nagging) to increase a behavior is negative reinforcement.",
   "topic": "7C – Operant conditioning",
   "difficulty": "easy",
-  "reviewed": false
+  "reviewed": true
  },
  {
   "id": "FL1-PS-023",
@@ -457,7 +457,7 @@
   "explanation": "Object permanence develops during the sensorimotor stage (birth to ~2 years).",
   "topic": "6C – Cognitive development",
   "difficulty": "easy",
-  "reviewed": false
+  "reviewed": true
  },
  {
   "id": "FL1-PS-024",
@@ -477,7 +477,7 @@
   "explanation": "Conservation, understanding that quantity is unchanged by shape, emerges in the concrete operational stage (~7–11 years).",
   "topic": "6C – Cognitive development",
   "difficulty": "easy",
-  "reviewed": false
+  "reviewed": true
  },
  {
   "id": "FL1-PS-025",
@@ -497,7 +497,7 @@
   "explanation": "Preoperational children struggle to take others' perspectives: egocentrism.",
   "topic": "6C – Cognitive development",
   "difficulty": "easy",
-  "reviewed": false
+  "reviewed": true
  },
  {
   "id": "FL1-PS-026",
@@ -517,7 +517,7 @@
   "explanation": "Modifying or creating a schema to fit new information is accommodation. Fitting new information into an existing schema is assimilation.",
   "topic": "6C – Cognitive development",
   "difficulty": "medium",
-  "reviewed": false
+  "reviewed": true
  },
  {
   "id": "FL1-PS-027",
@@ -537,7 +537,7 @@
   "explanation": "The hypothalamus releases CRH, the anterior pituitary releases ACTH, and the adrenal cortex releases cortisol.",
   "topic": "6A / 3B – Stress physiology",
   "difficulty": "easy",
-  "reviewed": false
+  "reviewed": true
  },
  {
   "id": "FL1-PS-028",
@@ -557,7 +557,7 @@
   "explanation": "Chronically elevated cortisol is immunosuppressive. It also raises blood glucose.",
   "topic": "6B – Stress and health",
   "difficulty": "easy",
-  "reviewed": false
+  "reviewed": true
  },
  {
   "id": "FL1-PS-029",
@@ -577,7 +577,7 @@
   "explanation": "The GAS stages are alarm, resistance, and exhaustion. Exhaustion follows prolonged stress and increases illness vulnerability.",
   "topic": "6B – Stress",
   "difficulty": "easy",
-  "reviewed": false
+  "reviewed": true
  },
  {
   "id": "FL1-PS-030",
@@ -597,7 +597,7 @@
   "explanation": "Directly tackling the source of stress is problem-focused coping. Watching TV to avoid thinking is avoidance.",
   "topic": "6B – Coping",
   "difficulty": "easy",
-  "reviewed": false
+  "reviewed": true
  },
  {
   "id": "FL1-PS-031",
@@ -617,7 +617,7 @@
   "explanation": "Phone location is manipulated; working-memory score is the measured dependent variable.",
   "topic": "Research methods",
   "difficulty": "easy",
-  "reviewed": false
+  "reviewed": true
  },
  {
   "id": "FL1-PS-032",
@@ -637,7 +637,7 @@
   "explanation": "Random assignment distributes participant differences evenly across groups, supporting causal inference (internal validity). Generalization depends on sampling.",
   "topic": "Research methods",
   "difficulty": "medium",
-  "reviewed": false
+  "reviewed": true
  },
  {
   "id": "FL1-PS-033",
@@ -657,7 +657,7 @@
   "explanation": "A scorer who knows the conditions may unconsciously score in line with the hypothesis. Blinding the scorer would fix this.",
   "topic": "Research methods",
   "difficulty": "medium",
-  "reviewed": false
+  "reviewed": true
  },
  {
   "id": "FL1-PS-034",
@@ -677,7 +677,7 @@
   "explanation": "A narrow sample limits generalizability to other populations, which is external validity.",
   "topic": "Research methods",
   "difficulty": "easy",
-  "reviewed": false
+  "reviewed": true
  },
  {
   "id": "FL1-PS-035",
@@ -697,7 +697,7 @@
   "explanation": "A p-value is the probability of data at least this extreme assuming the null is true. It is not the probability that the hypothesis is false and says nothing about effect size.",
   "topic": "Research methods / statistics",
   "difficulty": "hard",
-  "reviewed": false
+  "reviewed": true
  },
  {
   "id": "FL1-PS-036",
@@ -717,7 +717,7 @@
   "explanation": "Labeling theory holds that a deviant label can push someone toward a deviant identity and further (secondary) deviance.",
   "topic": "9B / 8A – Deviance",
   "difficulty": "easy",
-  "reviewed": false
+  "reviewed": true
  },
  {
   "id": "FL1-PS-037",
@@ -737,7 +737,7 @@
   "explanation": "A master status overshadows a person's other statuses and dominates how others see them.",
   "topic": "8A / 9A – Self and identity",
   "difficulty": "easy",
-  "reviewed": false
+  "reviewed": true
  },
  {
   "id": "FL1-PS-038",
@@ -757,7 +757,7 @@
   "explanation": "Goffman's dramaturgy compares social life to a performance: front stage for an audience, back stage where people relax.",
   "topic": "8B – Self-presentation",
   "difficulty": "easy",
-  "reviewed": false
+  "reviewed": true
  },
  {
   "id": "FL1-PS-039",
@@ -777,7 +777,7 @@
   "explanation": "An expectation that elicits behavior confirming it is a self-fulfilling prophecy.",
   "topic": "8B – Social perception",
   "difficulty": "easy",
-  "reviewed": false
+  "reviewed": true
  },
  {
   "id": "FL1-PS-040",
@@ -797,7 +797,7 @@
   "explanation": "Goffman called stigma an attribute that discredits a person, reducing them to a 'spoiled identity.'",
   "topic": "8A – Identity / stigma",
   "difficulty": "medium",
-  "reviewed": false
+  "reviewed": true
  },
  {
   "id": "FL1-PS-041",
@@ -817,7 +817,7 @@
   "explanation": "Social determinants of health are the conditions in which people are born, live, and work that shape health.",
   "topic": "10A – Health disparities",
   "difficulty": "easy",
-  "reviewed": false
+  "reviewed": true
  },
  {
   "id": "FL1-PS-042",
@@ -837,7 +837,7 @@
   "explanation": "A food desert is an area with limited access to affordable, nutritious food.",
   "topic": "10A – Health disparities",
   "difficulty": "easy",
-  "reviewed": false
+  "reviewed": true
  },
  {
   "id": "FL1-PS-043",
@@ -857,7 +857,7 @@
   "explanation": "The social gradient describes a stepwise relationship between socioeconomic position and health across the whole spectrum.",
   "topic": "10A – Health disparities",
   "difficulty": "medium",
-  "reviewed": false
+  "reviewed": true
  },
  {
   "id": "FL1-PS-044",
@@ -877,7 +877,7 @@
   "explanation": "Discrimination embedded in policies and institutions, rather than individual attitudes, is institutional discrimination (here, environmental injustice).",
   "topic": "9B / 10A – Discrimination",
   "difficulty": "medium",
-  "reviewed": false
+  "reviewed": true
  },
  {
   "id": "FL1-PS-045",
@@ -897,7 +897,7 @@
   "explanation": "Maslow's hierarchy starts with physiological needs, followed by safety, belonging, esteem, and self-actualization.",
   "topic": "7A – Motivation",
   "difficulty": "easy",
-  "reviewed": false
+  "reviewed": true
  },
  {
   "id": "FL1-PS-046",
@@ -917,7 +917,7 @@
   "explanation": "Holding conflicting beliefs and behaviors creates discomfort (dissonance), which people reduce by changing beliefs or justifying behavior.",
   "topic": "7B – Attitudes",
   "difficulty": "easy",
-  "reviewed": false
+  "reviewed": true
  },
  {
   "id": "FL1-PS-047",
@@ -937,7 +937,7 @@
   "explanation": "The absolute threshold is the lowest intensity detected half the time. The difference threshold (JND) is the smallest detectable change.",
   "topic": "6A – Sensation",
   "difficulty": "easy",
-  "reviewed": false
+  "reviewed": true
  },
  {
   "id": "FL1-PS-048",
@@ -957,7 +957,7 @@
   "explanation": "Broca's (expressive) aphasia impairs speech production. Wernicke's aphasia produces fluent but nonsensical speech.",
   "topic": "6B – Language and the brain",
   "difficulty": "easy",
-  "reviewed": false
+  "reviewed": true
  },
  {
   "id": "FL1-PS-049",
@@ -977,7 +977,7 @@
   "explanation": "Erikson's adolescent stage is identity vs role confusion. Intimacy vs isolation follows in young adulthood.",
   "topic": "8A – Identity development",
   "difficulty": "easy",
-  "reviewed": false
+  "reviewed": true
  },
  {
   "id": "FL1-PS-050",
@@ -997,7 +997,7 @@
   "explanation": "Groupthink is prioritizing consensus over critical evaluation, which leads to poor decisions.",
   "topic": "7A / 8C – Group behavior",
   "difficulty": "easy",
-  "reviewed": false
+  "reviewed": true
  },
  {
   "id": "FL1-PS-051",
@@ -1017,7 +1017,7 @@
   "explanation": "Anomie is a breakdown of social norms that leaves individuals without guidance, which Durkheim linked to suicide rates.",
   "topic": "9B – Social theory",
   "difficulty": "easy",
-  "reviewed": false
+  "reviewed": true
  },
  {
   "id": "FL1-PS-052",
@@ -1037,7 +1037,7 @@
   "explanation": "The presence of others improves performance on well-learned or simple tasks and impairs it on complex or new tasks.",
   "topic": "8C – Social influence",
   "difficulty": "easy",
-  "reviewed": false
+  "reviewed": true
  },
  {
   "id": "FL1-PS-053",
@@ -1057,7 +1057,7 @@
   "explanation": "Confirmation bias is seeking or favoring information that confirms prior beliefs.",
   "topic": "6B – Cognition",
   "difficulty": "easy",
-  "reviewed": false
+  "reviewed": true
  },
  {
   "id": "FL1-PS-054",
@@ -1077,7 +1077,7 @@
   "explanation": "The mesolimbic pathway (ventral tegmental area to nucleus accumbens) mediates reward and is implicated in addiction. The nigrostriatal pathway controls movement.",
   "topic": "6B / 7C – Biology of behavior",
   "difficulty": "medium",
-  "reviewed": false
+  "reviewed": true
  },
  {
   "id": "FL1-PS-055",
@@ -1097,7 +1097,7 @@
   "explanation": "Positive symptoms add abnormal experiences, such as hallucinations and delusions. Negative symptoms are deficits, such as flat affect and avolition.",
   "topic": "7A – Psychological disorders",
   "difficulty": "easy",
-  "reviewed": false
+  "reviewed": true
  },
  {
   "id": "FL1-PS-056",
@@ -1117,7 +1117,7 @@
   "explanation": "Symbolic interactionism is a micro-level theory about meaning made through interaction and symbols. Conflict theory and functionalism are macro-level.",
   "topic": "9B – Sociological theory",
   "difficulty": "easy",
-  "reviewed": false
+  "reviewed": true
  },
  {
   "id": "FL1-PS-057",
@@ -1137,7 +1137,7 @@
   "explanation": "Stage 2 sees death rates drop from better sanitation and medicine while birth rates stay high, producing rapid population growth.",
   "topic": "9B – Demographics",
   "difficulty": "medium",
-  "reviewed": false
+  "reviewed": true
  },
  {
   "id": "FL1-PS-058",
@@ -1157,7 +1157,7 @@
   "explanation": "A false alarm is a 'yes' response with no signal. A hit is a 'yes' with a signal; a miss is a 'no' with a signal.",
   "topic": "6A – Sensation",
   "difficulty": "easy",
-  "reviewed": false
+  "reviewed": true
  },
  {
   "id": "FL1-PS-059",
@@ -1177,6 +1177,6 @@
   "explanation": "James–Lange: we feel afraid because we notice our body trembling. Cannon–Bard says they occur simultaneously; Schachter–Singer adds cognitive labeling.",
   "topic": "6C – Emotion",
   "difficulty": "medium",
-  "reviewed": false
+  "reviewed": true
  }
 ]

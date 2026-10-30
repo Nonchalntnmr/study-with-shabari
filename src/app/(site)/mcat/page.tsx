@@ -167,8 +167,8 @@ export default async function McatPage() {
               choices, timer, flag-for-review, question navigator, and a results screen with score and an explanation for every question.
             </Lead>
             <p className="mt-6 text-[1rem] text-specimen/85">
-              {exams.some((e) => e.underReview)
-                ? "Available now: a full-length practice test (C/P, B/B and P/S), being reviewed by Shabari."
+              {exams.some((e) => !e.isSample)
+                ? `Available now: a full-length practice test (C/P, B/B and P/S)${exams.some((e) => !e.isSample && e.underReview) ? ", being reviewed by Shabari" : ""}.`
                 : exams.length > 0
                 ? "Available now: short sample sets. Full-length C/P, B/B and P/S sections are coming."
                 : "Practice sets are coming soon: the first short sample sets open here once Shabari has reviewed them, then full-length C/P, B/B and P/S sections as she adds her questions."}

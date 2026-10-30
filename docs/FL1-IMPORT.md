@@ -20,3 +20,21 @@ Status as of 2026-10-30. The CD's notes are in docs/FOUNDER-UPDATE-NOTES.md (kep
 - **Paid bank:** planned in docs/QUESTION-BANK-PLAN.md, not built.
 - **Chat:** docs/ionos-chat-knowledge.md is rewritten with the score rule. **It has to be uploaded in AI Frontdesk
   by the account owner**; engineering has no access to it.
+
+## Shabari's review (2026-10-30 05:56)
+
+She reviewed all 177 questions, keys and explanations ("all good"), relayed by Nishanth.
+- The question files say `reviewed: true`, and `content/exams/fl1.json` was regenerated, so `underReview` is false.
+  Choice order and answer letters are unchanged.
+- **Production keeps its own flag until someone records the review there.** An admin account runs this, dry run
+  first:
+  ```
+  DATABASE_URL=… DATABASE_SSL_CA="$(cat certs/supabase-root-2021.pem)" \
+    npx tsx scripts/mark-exams-reviewed.ts --actor <admin email> fl1-cp fl1-bb fl1-ps          # dry run
+  … same command with --apply                                                                 # write
+  ```
+  It clears `underReview` on the three sets and stamps `reviewedAt`/`reviewedById` on their questions, with one
+  `exam.review` AuditLog row per set. Status, content, versions, attempts and responses are untouched, and the cached
+  pages refresh within minutes.
+- FL1 is still not an official, calibrated or representative MCAT. Results stay percent correct, and
+  `e2e/practice-review.spec.ts` fails if a practice page says otherwise.
