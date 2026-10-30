@@ -71,6 +71,13 @@ test("deployment: only the canonical production site may be indexed", async ({ r
   else expect(robots).toMatch(/Disallow: \/\s*$/m);
 });
 
+test("deployment: only the custom domains may be indexed", async ({ request }) => {
+  // The *.vercel.app URL serves the production build and its permissive robots.txt, so it says noindex itself.
+  const res = await request.get("/robots.txt");
+  if (base.host.endsWith(".vercel.app")) expect(res.headers()["x-robots-tag"]).toBe("noindex");
+  if (onCanonical) expect(res.headers()["x-robots-tag"]).toBeUndefined();
+});
+
 test("deployment: every public page loads", async ({ request }) => {
   for (const path of PAGES) {
     const res = await request.get(path, { maxRedirects: 0 });

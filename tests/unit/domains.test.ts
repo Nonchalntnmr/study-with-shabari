@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
-import { domainRedirect } from "@/lib/domains";
+import { CUSTOM_HOST_PATTERN, CUSTOM_HOSTS, domainRedirect } from "@/lib/domains";
+import nextConfig from "../../next.config";
 
 describe("domainRedirect", () => {
   it("serves the canonical apex without redirecting", () => {
@@ -33,5 +34,26 @@ describe("domainRedirect", () => {
       const target = domainRedirect(host, "//evil.example/x", "");
       expect(new URL(target!).host).toBe("studywithshabari.com");
     }
+  });
+});
+
+describe("X-Robots-Tag on hosts other than the site's own domains", () => {
+  // Next.js anchors `has`/`missing` values and matches them against the lowercased hostname, port removed.
+  const custom = new RegExp(`^${CUSTOM_HOST_PATTERN}$`);
+
+  it("covers the canonical apex and every redirecting host, and nothing else", () => {
+    expect(CUSTOM_HOSTS).toEqual(expect.arrayContaining(["studywithshabari.com", "www.studywithshabari.com", "studywithshabari.org", "studywithshabari.info", "studywithshabari.store"]));
+    expect(CUSTOM_HOSTS).toHaveLength(8);
+    for (const host of CUSTOM_HOSTS) expect(custom.test(host), host).toBe(true);
+    for (const host of ["study-with-shabari.vercel.app", "study-with-shabari-git-main-team.vercel.app", "localhost", "studywithshabari.com.evil.example", "xstudywithshabari.com", "studywithshabariXcom"]) {
+      expect(custom.test(host), host).toBe(false);
+    }
+  });
+
+  it("is sent with noindex wherever the host isn't one of them", async () => {
+    const rules = await nextConfig.headers!();
+    const rule = rules.find((r) => r.headers.some((h) => h.key === "X-Robots-Tag"));
+    expect(rule).toMatchObject({ source: "/:path*", missing: [{ type: "host", value: CUSTOM_HOST_PATTERN }], headers: [{ key: "X-Robots-Tag", value: "noindex" }] });
+    expect(rule!.has).toBeUndefined();
   });
 });

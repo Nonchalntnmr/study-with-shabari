@@ -1,5 +1,6 @@
 import path from "node:path";
 import type { NextConfig } from "next";
+import { CUSTOM_HOST_PATTERN } from "./src/lib/domains";
 
 const isDev = process.env.NODE_ENV !== "production";
 const https = (process.env.NEXT_PUBLIC_SITE_URL ?? "").startsWith("https://");
@@ -61,7 +62,13 @@ const nextConfig: NextConfig = {
     return [{ source: "/mcat-tutoring", destination: "/mcat", permanent: true }];
   },
   async headers() {
-    return [{ source: "/:path*", headers: securityHeaders }];
+    return [
+      { source: "/:path*", headers: securityHeaders },
+      // Only the site's own domains may be indexed. The *.vercel.app URLs serve the same production
+      // build (and its robots.txt), so they tell crawlers not to index anything. Not a redirect:
+      // until DNS is cut over, the vercel.app URL is how the site is reached.
+      { source: "/:path*", missing: [{ type: "host", value: CUSTOM_HOST_PATTERN }], headers: [{ key: "X-Robots-Tag", value: "noindex" }] },
+    ];
   },
 };
 
