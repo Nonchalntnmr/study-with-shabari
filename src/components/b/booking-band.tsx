@@ -1,3 +1,4 @@
+import { consultPlatform } from "@/lib/site";
 import { ButtonLink, Wrap } from "./primitives";
 
 /** Closing call to action for one service; the booking page opens with that service selected. */
@@ -10,7 +11,10 @@ export function BookingBand({ service }: { service: "mcat" | "admissions" }) {
           <h2 id={`book-${service}-h`} className="max-w-2xl text-[clamp(2rem,3.4vw,3rem)] text-white">
             Book a free <span className="whitespace-nowrap">15-minute</span> call.
           </h2>
-          <p className="mt-4 text-[1.125rem] text-white/80">Talk through your plan for {label}, on Zoom.</p>
+          <p className="mt-4 text-[1.125rem] text-white/80">
+            Talk through your plan for {label}
+            {consultPlatform ? `, on ${consultPlatform}` : ""}.
+          </p>
         </div>
         <ButtonLink href={`/book?service=${service}`} variant="onDark">
           Book a free 15-min call

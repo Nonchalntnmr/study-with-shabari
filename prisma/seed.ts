@@ -35,7 +35,7 @@ async function main() {
       slug: "consult",
       name: "Free 15-minute consult call",
       priceLabel: "Free",
-      detail: "On Zoom",
+      detail: null, // Calendly's consult event has no meeting location yet (src/lib/site.ts consultPlatform)
       features: ["Talk through your timeline, scores and weak spots", "Leave with a next step, whether or not we work together"],
       note: null,
       ctaLabel: "Book a free call",
