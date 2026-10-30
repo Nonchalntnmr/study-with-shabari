@@ -45,7 +45,7 @@ export function SynapseStory({
 
   const toggle = (
     <div className="mt-5 rounded-xl border border-[color:var(--exp-rule)] bg-white/80 p-4">
-      <label className="flex cursor-pointer items-center justify-between gap-4 text-[1rem] font-semibold text-hema">
+      <label className="relative flex cursor-pointer items-center justify-between gap-4 text-[1rem] font-semibold text-hema">
         Block DAT
         <input
           type="checkbox"
@@ -55,7 +55,7 @@ export function SynapseStory({
             setBlocked(e.target.checked);
             setFlag(store, "datBlocked", e.target.checked);
           }}
-          className="peer sr-only"
+          className="peer absolute inset-0 z-10 cursor-pointer opacity-0"
         />
         <span aria-hidden className="relative h-7 w-12 shrink-0 rounded-full bg-hema/20 transition-colors peer-checked:bg-hema peer-focus-visible:outline peer-focus-visible:outline-3 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-eosin">
           <span className={`absolute top-1 size-5 rounded-full bg-white shadow transition-all ${blocked ? "left-6" : "left-1"}`} />

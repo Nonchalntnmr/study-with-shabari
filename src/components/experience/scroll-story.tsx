@@ -87,7 +87,8 @@ export function ScrollStory({
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const focus = window.innerWidth >= 768 || reduce ? window.innerHeight / 2 : window.innerHeight * 0.75;
     const y = step.getBoundingClientRect().top + window.scrollY + step.offsetHeight / 2 - focus;
-    window.scrollTo({ top: Math.max(0, y), behavior: reduce ? "auto" : "smooth" });
+    window.scrollTo({ top: Math.max(0, y), behavior: "instant" });
+    setActive(i);
     // Move focus with the view, so keyboard users continue reading from the beat they chose.
     (step.querySelector<HTMLElement>("[data-step-heading]") ?? (i === 0 ? root.current?.querySelector<HTMLElement>(".exp-lead [data-step-heading]") : null))?.focus({ preventScroll: true });
   };

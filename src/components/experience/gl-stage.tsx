@@ -23,23 +23,47 @@ export function registerRenderer(name: string, gl: WebGLRenderer) {
  * hidden <Activity>, and R3F deliberately keeps its root alive there), so a hidden scene stops
  * drawing instead of rendering off screen. Pass the returned callback to Canvas onCreated.
  */
+type R3FControl = {
+  gl: WebGLRenderer;
+  invalidate: () => void;
+  setFrameloop: (f: "always" | "demand" | "never") => void;
+  internal: { frames: number };
+};
+
 export function useRenderLoop(running: boolean, name: string, onReady: () => void) {
-  const invalidate = useRef<(() => void) | null>(null);
+  const r3f = useRef<R3FControl | null>(null);
   const [created, setCreated] = useState(false);
   useEffect(() => {
-    if (!running || !created) return;
+    if (!created) return;
+    if (!running) {
+      if (r3f.current) {
+        r3f.current.internal.frames = 0;
+        r3f.current.setFrameloop("never");
+      }
+      return;
+    }
+    r3f.current?.setFrameloop("demand");
+    let active = true;
     const loop = { f: 0 };
     const tick = () => {
-      invalidate.current?.();
+      if (!active) return;
+      r3f.current?.invalidate();
       loop.f = requestAnimationFrame(tick);
     };
     loop.f = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(loop.f);
+    return () => {
+      active = false;
+      cancelAnimationFrame(loop.f);
+      if (r3f.current) {
+        r3f.current.internal.frames = 0;
+        r3f.current.setFrameloop("never");
+      }
+    };
   }, [running, created]);
   return useCallback(
-    (state: { gl: WebGLRenderer; invalidate: () => void }) => {
+    (state: R3FControl) => {
       state.gl.setClearColor(0x000000, 0);
-      invalidate.current = state.invalidate;
+      r3f.current = state;
       registerRenderer(name, state.gl);
       setCreated(true);
       requestAnimationFrame(onReady);
