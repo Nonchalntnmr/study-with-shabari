@@ -3,6 +3,17 @@
 # production, or a staging database that opts in with MIGRATE_ON_BUILD=1. A preview build can
 # therefore never migrate the production database by accident (SECURITY-AUDIT.md, finding a).
 set -euo pipefail
+# A build outside production that migrates must point at the staging database, never production's
+# (docs/STAGING.md): refuse if either URL names the production Supabase project.
+PRODUCTION_DB_REF="oxihkuivrwnwlrsolwzx"
+if [ "${VERCEL_ENV:-}" != "production" ] && [ "${MIGRATE_ON_BUILD:-}" = "1" ]; then
+  case "${DATABASE_URL:-} ${DIRECT_URL:-}" in
+    *"$PRODUCTION_DB_REF"*)
+      echo "vercel-build: refusing to migrate: this ${VERCEL_ENV:-unset} build points at the production database" >&2
+      exit 1
+      ;;
+  esac
+fi
 npx prisma generate
 if [ "${VERCEL_ENV:-}" = "production" ] || [ "${MIGRATE_ON_BUILD:-}" = "1" ]; then
   npx prisma migrate deploy
