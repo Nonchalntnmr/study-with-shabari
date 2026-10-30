@@ -42,7 +42,7 @@
   font-weight: 600;
   letter-spacing: 0.14em;
   line-height: 1.3;
-  text-transform: uppercase;
+  font-variant-caps: small-caps;
 }
 .adm-label::before {
   content: "";
@@ -55,7 +55,7 @@
   font-size: 0.8125rem;
   font-weight: 600;
   letter-spacing: 0.12em;
-  text-transform: uppercase;
+  font-variant-caps: small-caps;
 }
 
 /* The schools as a letterhead: set type, the honor in the display italic. */

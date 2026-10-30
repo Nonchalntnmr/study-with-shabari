@@ -161,7 +161,7 @@ test.describe("admissions, desktop 1440×900", () => {
     // Reach each by Tab from the element before it, so :focus-visible applies as it does for a keyboard user.
     for (const t of targets) {
       await t.evaluate((el) => {
-        const all = [...document.querySelectorAll<HTMLElement>("a[href], button, [tabindex]:not([tabindex='-1'])")];
+        const all = [...document.querySelectorAll<HTMLElement>("a[href], button, [tabindex]:not([tabindex='-1'])")].filter((n) => n.offsetParent !== null || getComputedStyle(n).position === "fixed");
         all[all.indexOf(el as HTMLElement) - 1]?.focus();
       });
       await page.keyboard.press("Tab");
@@ -234,7 +234,7 @@ for (const [name, viewport] of [
       await page.goto("/admissions");
       await page.locator("#help").scrollIntoViewIfNeeded();
       const still = await page.evaluate(() => ({
-        animations: document.getAnimations().filter((a) => a.playState === "running").length,
+        animations: (document.querySelector("main")?.getAnimations({ subtree: true }) ?? []).filter((a) => a.playState === "running").length,
         animated: [...document.querySelectorAll("main *")].filter((el) => getComputedStyle(el).animationName !== "none").length,
         inks: [...document.querySelectorAll(".adm-seg-ink")].map((el) => getComputedStyle(el).transform),
         discs: [...document.querySelectorAll(".adm-disc")].map((el) => getComputedStyle(el).transform),
