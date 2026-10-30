@@ -96,7 +96,7 @@ export function SynapseFigure({ beat, datBlocked = false, title, className, uid 
         <path d={`${smoothPath(membrane(-1))} L${sx(-10)},${sy(-7)} L${sx(-10)},${sy(7)} Z`} fill="#F3EEE4" />
         <path d={smoothPath(membrane(-1))} fill="none" stroke="#5B6785" strokeWidth="3" />
         <path d={smoothPath(membrane(-1, 0.3))} fill="none" stroke="#9AA3BA" strokeWidth="2" />
-        <text x={sx(-8.2)} y={sy(-5.6)} fontSize="17" fontWeight="600" fill="#0B1F44" fontFamily="var(--font-schibsted), sans-serif">
+        <text x={sx(-8.2)} y={sy(-6.3)} fontSize="17" fontWeight="600" fill="#0B1F44" fontFamily="var(--font-schibsted), sans-serif">
           Presynaptic
         </text>
       </g>
@@ -104,7 +104,7 @@ export function SynapseFigure({ beat, datBlocked = false, title, className, uid 
         <path d={`${smoothPath(membrane(1))} L${sx(10)},${sy(-7)} L${sx(10)},${sy(7)} Z`} fill="#F1F1F5" />
         <path d={smoothPath(membrane(1))} fill="none" stroke="#5B6785" strokeWidth="3" />
         <path d={smoothPath(membrane(1, 0.3))} fill="none" stroke="#9AA3BA" strokeWidth="2" />
-        <text x={sx(5.4)} y={sy(-5.6)} fontSize="17" fontWeight="600" fill="#0B1F44" textAnchor="end" fontFamily="var(--font-schibsted), sans-serif">
+        <text x={sx(5.4)} y={sy(-6.3)} fontSize="17" fontWeight="600" fill="#0B1F44" textAnchor="end" fontFamily="var(--font-schibsted), sans-serif">
           Postsynaptic
         </text>
       </g>
