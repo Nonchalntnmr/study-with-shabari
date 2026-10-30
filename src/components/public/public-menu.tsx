@@ -11,7 +11,8 @@ export function PublicMenu({ links }: { links: { href: string; label: string }[]
       <SheetTrigger className="rounded-full px-3.5 py-2 text-[0.9rem] font-medium text-hema ring-1 ring-hairline min-[1180px]:hidden" aria-label="Open menu">
         Menu
       </SheetTrigger>
-      <SheetContent side="top" className="public border-b border-hairline bg-slide">
+      {/* Capped at the screen and scrollable: on an iPhone the links run past the bottom. */}
+      <SheetContent side="top" className="public max-h-dvh overflow-y-auto overscroll-contain border-b border-hairline bg-slide">
         <SheetHeader>
           <SheetTitle className="font-display text-2xl font-normal text-hema">Study with Shabari</SheetTitle>
         </SheetHeader>
