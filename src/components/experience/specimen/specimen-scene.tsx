@@ -384,7 +384,8 @@ export default function SpecimenScene({ store, lowPower, running, onReady }: Sce
     <>
       <Canvas
         dpr={[1, lowPower ? 1.25 : 1.75]}
-        frameloop="demand"
+        frameloop={running ? "demand" : "never"}
+        resize={{ scroll: false }}
         gl={{ antialias: true, alpha: true, powerPreference: "high-performance" }}
         camera={{ fov: 30, position: [0, 0, 22], near: 0.1, far: 200 }}
         onCreated={onCreated}

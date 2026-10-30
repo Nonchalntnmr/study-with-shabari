@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
-import type { WebGLRenderer } from "three";
+import type { Camera, Scene, WebGLRenderer } from "three";
 import { useStageMode } from "@/components/cinema/capabilities";
 import { type StoryStore, dragTo, nudge, resetTurn, setDragging } from "./story-store";
 
@@ -28,41 +28,77 @@ type R3FControl = {
   invalidate: () => void;
   setFrameloop: (f: "always" | "demand" | "never") => void;
   internal: { frames: number };
+  get?: () => R3FControl;
 };
+
+function liveState(ctrl: R3FControl | null): R3FControl | null {
+  if (!ctrl) return null;
+  return typeof ctrl.get === "function" ? ctrl.get() : ctrl;
+}
 
 export function useRenderLoop(running: boolean, name: string, onReady: () => void) {
   const r3f = useRef<R3FControl | null>(null);
+  const activeRef = useRef(true);
   const [created, setCreated] = useState(false);
+
   useEffect(() => {
     if (!created) return;
-    if (!running) {
-      if (r3f.current) {
-        r3f.current.internal.frames = 0;
-        r3f.current.setFrameloop("never");
+    const halt = () => {
+      activeRef.current = false;
+      const s = liveState(r3f.current);
+      if (s) {
+        s.internal.frames = 0;
+        s.setFrameloop("never");
       }
+    };
+    if (!running) {
+      halt();
       return;
     }
-    r3f.current?.setFrameloop("demand");
-    let active = true;
+    activeRef.current = !document.hidden;
+    const s0 = liveState(r3f.current);
+    if (s0) {
+      s0.setFrameloop(document.hidden ? "never" : "demand");
+      if (!document.hidden) s0.invalidate();
+    }
     const loop = { f: 0 };
     const tick = () => {
-      if (!active) return;
-      r3f.current?.invalidate();
+      if (!activeRef.current || document.hidden) return;
+      liveState(r3f.current)?.invalidate();
       loop.f = requestAnimationFrame(tick);
     };
-    loop.f = requestAnimationFrame(tick);
-    return () => {
-      active = false;
-      cancelAnimationFrame(loop.f);
-      if (r3f.current) {
-        r3f.current.internal.frames = 0;
-        r3f.current.setFrameloop("never");
+    const onVis = () => {
+      if (document.hidden) {
+        cancelAnimationFrame(loop.f);
+        halt();
+      } else if (running) {
+        activeRef.current = true;
+        const s = liveState(r3f.current);
+        if (s) {
+          s.setFrameloop("demand");
+          s.invalidate();
+        }
+        cancelAnimationFrame(loop.f);
+        loop.f = requestAnimationFrame(tick);
       }
     };
+    document.addEventListener("visibilitychange", onVis);
+    loop.f = requestAnimationFrame(tick);
+    return () => {
+      cancelAnimationFrame(loop.f);
+      document.removeEventListener("visibilitychange", onVis);
+      halt();
+    };
   }, [running, created]);
+
   return useCallback(
     (state: R3FControl) => {
       state.gl.setClearColor(0x000000, 0);
+      const origRender = state.gl.render.bind(state.gl);
+      state.gl.render = (scene: Scene, camera: Camera) => {
+        if (!activeRef.current || document.hidden) return;
+        origRender(scene, camera);
+      };
       r3f.current = state;
       registerRenderer(name, state.gl);
       setCreated(true);

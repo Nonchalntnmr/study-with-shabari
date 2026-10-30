@@ -1,5 +1,5 @@
 import { ButtonLink, TextLink } from "@/components/b/primitives";
-import { credibilityStrip, headline, heroEyebrow, heroSubline } from "@/lib/founder-facts";
+import { credibilityStrip, headline, heroEyebrow, heroSubline, scholarshipAdmissionsLine } from "@/lib/founder-facts";
 import { MOLECULES } from "@/lib/molecules/analyze";
 import { DOPAMINE, subscriptFormula } from "@/lib/experience/structure";
 
@@ -25,7 +25,10 @@ export function CinematicLead() {
         <TextLink href="/dopamine" className="mt-5">
           Explore the free dopamine lesson
         </TextLink>
-        <ul aria-label="Credentials" className="mt-8 flex flex-wrap gap-x-5 gap-y-2 border-t border-[color:var(--exp-rule)] pt-5">
+        <p className="mt-6 border-t border-[color:var(--exp-rule)] pt-4 text-[0.98rem] font-medium leading-relaxed text-hema">
+          {scholarshipAdmissionsLine}
+        </p>
+        <ul aria-label="Credentials" className="mt-5 flex flex-wrap gap-x-5 gap-y-2 border-t border-[color:var(--exp-rule)] pt-5">
           {credibilityStrip.map((c) => (
             <li key={c} className="font-display text-[1.05rem] text-hema">
               {c}

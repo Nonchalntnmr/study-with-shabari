@@ -1,4 +1,5 @@
-import { admittedLine, credibilityStrip, headline, heroEyebrow, heroSubline, mcatScore } from "@/lib/founder-facts";
+import { admittedLine,
+  scholarshipAdmissionsLine, credibilityStrip, headline, heroEyebrow, heroSubline, mcatScore } from "@/lib/founder-facts";
 import { consultPlatform } from "@/lib/site";
 import { ButtonLink, TextLink, Wrap } from "./primitives";
 import { HeroMolecule } from "./hero-molecule";
@@ -49,6 +50,7 @@ export function HeroPanels({ className = "" }: { className?: string }) {
             College Admissions
           </h2>
           <p className="mt-4 max-w-xl font-display text-[clamp(1.75rem,2.6vw,2.4rem)] leading-[1.12] text-hema">{admittedLine}</p>
+          <p className="mt-4 max-w-xl text-[1.02rem] font-medium leading-relaxed text-hema">{scholarshipAdmissionsLine}</p>
           <div className="mt-auto pt-9">
             <TextLink href="/admissions">Explore Admissions Consulting</TextLink>
           </div>

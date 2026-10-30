@@ -494,7 +494,8 @@ export default function SynapseScene({ store, lowPower, running, onReady }: Scen
     <>
       <Canvas
         dpr={[1, lowPower ? 1.25 : 1.6]}
-        frameloop="demand"
+        frameloop={running ? "demand" : "never"}
+        resize={{ scroll: false }}
         gl={{ antialias: true, alpha: true, powerPreference: "high-performance" }}
         camera={{ fov: 30, position: [0, 0, 24], near: 0.1, far: 300 }}
         onCreated={onCreated}

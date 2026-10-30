@@ -24,7 +24,8 @@ function hasWebGL() {
   if (webgl === undefined) {
     try {
       const c = document.createElement("canvas");
-      webgl = Boolean(c.getContext("webgl2") ?? c.getContext("webgl"));
+      const gl = (c.getContext("webgl2") ?? c.getContext("webgl")) as WebGLRenderingContext | null;
+      webgl = Boolean(gl && !gl.isContextLost());
     } catch {
       webgl = false;
     }

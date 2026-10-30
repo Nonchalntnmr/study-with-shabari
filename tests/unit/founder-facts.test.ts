@@ -25,6 +25,7 @@ const APPROVED_CHANGES = new Set([
   facts.mcatTutoring.headline,
   "Full-length exams and practice questions with explanations",
   facts.admissionsHeadline,
+  facts.scholarshipAdmissionsLine,
   facts.research.find((r) => r.org === "Beth Israel Lahey Health")!.body, // the spec's note, minus "do not call it published"
 ]);
 

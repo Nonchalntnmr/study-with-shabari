@@ -16,8 +16,25 @@ const MoleculeScene = dynamic(() => import("./scene/molecule-scene"), { ssr: fal
 export function MoleculeStage({ linked, className = "" }: { linked: boolean; className?: string }) {
   const { mode, wide, lowPower } = useStageMode();
   const box = useRef<HTMLDivElement>(null);
+  const [armed, setArmed] = useState(false);
   const [ready, setReady] = useState(false);
   const [visible, setVisible] = useState(true);
+
+  useEffect(() => {
+    if (mode !== "live") return;
+    const t = { idle: 0, timer: 0 };
+    const arm = () => {
+      if (window.requestIdleCallback) t.idle = window.requestIdleCallback(() => setArmed(true), { timeout: 1500 });
+      else t.timer = window.setTimeout(() => setArmed(true), 250);
+    };
+    if (document.readyState === "complete") arm();
+    else window.addEventListener("load", arm, { once: true });
+    return () => {
+      window.removeEventListener("load", arm);
+      if (t.idle) window.cancelIdleCallback?.(t.idle);
+      clearTimeout(t.timer);
+    };
+  }, [mode]);
 
   useEffect(() => {
     narrative.linked = linked && wide;
@@ -78,7 +95,7 @@ export function MoleculeStage({ linked, className = "" }: { linked: boolean; cla
         sizes={wide && linked ? "100vw" : "(min-width: 768px) 50vw, 100vw"}
         className={`pointer-events-none transition-opacity duration-700 ${wide && linked ? "object-cover object-right" : "object-contain"} ${mode === "live" && ready ? "opacity-0" : "opacity-100"}`}
       />
-      {mode === "live" && (
+      {mode === "live" && armed && (
         <div className={`absolute inset-0 transition-opacity duration-700 ${ready ? "opacity-100" : "opacity-0"}`}>
           <MoleculeScene layout={wide && linked ? "wide" : "narrow"} lowPower={lowPower} running={visible} onReady={() => setReady(true)} />
           {wide && linked && <ModelLabels />}
