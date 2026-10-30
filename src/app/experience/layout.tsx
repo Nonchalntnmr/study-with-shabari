@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { ExperienceHeader } from "@/components/experience/chrome";
-import { PROTOTYPE_NOTE, gateExperience } from "@/lib/experience/gate";
+import { PROTOTYPE_NOTE, experienceAllowed, gateExperience } from "@/lib/experience/gate";
 import "./experience.css";
 
 // "The Beauty of Intelligence" prototypes. Prerendered; on the production deployment the gate
@@ -9,10 +9,11 @@ import "./experience.css";
 // allowed to block, so the decision is always made before anything streams.
 export const instant = false;
 
-export const metadata: Metadata = {
-  title: { default: "Prototypes", template: "%s · Prototype · Study with Shabari" },
-  robots: { index: false, follow: false },
-};
+// Only where the prototypes exist: on the production deployment the 404 must not carry their title.
+export function generateMetadata(): Metadata {
+  if (!experienceAllowed()) return { robots: { index: false, follow: false } };
+  return { title: { default: "Prototypes", template: "%s · Prototype · Study with Shabari" }, robots: { index: false, follow: false } };
+}
 
 export default function ExperienceLayout({ children }: LayoutProps<"/experience">) {
   gateExperience();
