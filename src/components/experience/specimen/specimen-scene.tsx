@@ -66,15 +66,17 @@ function Studio() {
   const get = useThree((s) => s.get);
   useEffect(() => {
     const { gl, scene } = get();
+    // Dispose the render target, not just its texture: three counts (and frees) a render
+    // target's texture only when the target itself is disposed.
     const pmrem = new PMREMGenerator(gl);
     const room = new RoomEnvironment();
-    const env = pmrem.fromScene(room, 0.04).texture;
+    const target = pmrem.fromScene(room, 0.04);
     room.dispose();
-    scene.environment = env;
+    pmrem.dispose();
+    scene.environment = target.texture;
     return () => {
       scene.environment = null;
-      env.dispose();
-      pmrem.dispose();
+      target.dispose();
     };
   }, [get]);
   return null;
