@@ -135,12 +135,12 @@ export function ScrollStory({
 }
 
 /** The caption card for one beat. */
-export function Panel({ kicker, title, children, level = 2 }: { kicker?: string; title: string; children?: React.ReactNode; level?: 1 | 2 }) {
+export function Panel({ kicker, title, children, level = 2, titleClass }: { kicker?: string; title: string; children?: React.ReactNode; level?: 1 | 2; titleClass?: string }) {
   const H = level === 1 ? "h1" : "h2";
   return (
     <div className="exp-panel rounded-2xl p-6 sm:p-7">
       {kicker && <p className="exp-label-caps text-[color:var(--exp-quiet)]">{kicker}</p>}
-      <H data-step-heading tabIndex={-1} className={`${kicker ? "mt-3" : ""} ${level === 1 ? "text-[clamp(2.4rem,5vw,4.2rem)] leading-[1]" : "text-[clamp(1.6rem,2.6vw,2.15rem)] leading-[1.08]"} outline-none`}>
+      <H data-step-heading tabIndex={-1} className={`${kicker ? "mt-3" : ""} ${titleClass ?? (level === 1 ? "text-[clamp(2.4rem,5vw,4.2rem)] leading-[1]" : "text-[clamp(1.6rem,2.6vw,2.15rem)] leading-[1.08]")} outline-none`}>
         {title}
       </H>
       {children && <div className="mt-4 space-y-3 text-[1.0625rem] leading-relaxed text-specimen/90">{children}</div>}
