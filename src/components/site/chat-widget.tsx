@@ -3,23 +3,21 @@
 import Script from "next/script";
 import { usePathname } from "next/navigation";
 import { useEffect } from "react";
+import { widgetHidden } from "@/lib/widget-pages";
 
 // IONOS AI Chat Assistant (AI Frontdesk). Embed code per IONOS help:
 // https://www.ionos.com/help/ai/ai-frontdesk/availability-and-publishing/ai-frontdesk-setting-up-and-integrating-the-website-widget/
 // It only loads on domains allow-listed in AI Frontdesk, and only when an agent id is configured.
-// Kept off the exam, so it can't distract or help mid-test, and off admin and account pages.
+// The pages it never loads on (exam, lessons in progress, admin, account and auth pages) are listed
+// in src/lib/widget-pages.ts, which also gives them a CSP without the widget's hosts.
 const AGENT_ID = process.env.NEXT_PUBLIC_IONOS_CHAT_AGENT_ID;
-// Off password reset pages too: the reset token sits in the URL fragment there.
-const HIDDEN_PREFIXES = ["/exam", "/admin", "/dashboard", "/login", "/signup", "/account", "/reset-password", "/forgot-password"];
-// A lesson in progress is a focused answering surface, like the exam: no third-party widget on it.
-const LESSON_ATTEMPT = /^\/lessons\/[^/]+\/a\//;
 
 // Once loaded, a third-party script keeps its DOM across client-side navigation.
 let widgetLoaded = false;
 
 export function ChatWidget() {
   const pathname = usePathname();
-  const hidden = HIDDEN_PREFIXES.some((p) => pathname.startsWith(p)) || LESSON_ATTEMPT.test(pathname);
+  const hidden = widgetHidden(pathname);
   // Navigating into the exam or an auth page from a page that loaded the widget: reload the
   // page so the widget is really gone there, rather than just not rendered again.
   useEffect(() => {
