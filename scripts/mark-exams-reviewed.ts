@@ -20,9 +20,20 @@ async function main() {
   const db = new PrismaClient({ adapter: new PrismaPg(poolConfig(process.env.DATABASE_URL!)) });
   try {
     const actor = await db.user.findUnique({ where: { email: email.toLowerCase() }, select: { id: true, email: true, role: true } });
-    if (!actor || actor.role !== "ADMIN") throw new Error(`${email} isn't an admin account`);
-    const before = await db.exam.findMany({ where: { slug: { in: slugs } }, select: { slug: true, status: true, underReview: true, _count: { select: { items: true } } } });
-    console.log("before:", before.map((e) => `${e.slug} ${e.status} underReview=${e.underReview} questions=${e._count.items}`).join(" | ") || "(none)");
+    if (!actor || actor.role !== "ADMIN") {
+      const admins = await db.user.findMany({ where: { role: "ADMIN" }, select: { email: true }, orderBy: { email: "asc" } });
+      throw new Error(`${email} isn't an admin account. Admin accounts: ${admins.map((a) => a.email).join(", ") || "(none)"}`);
+    }
+    const before = await db.exam.findMany({
+      where: { slug: { in: slugs } },
+      select: { slug: true, status: true, underReview: true, items: { select: { question: { select: { reviewedAt: true } } } } },
+    });
+    const missing = slugs.filter((s) => !before.some((e) => e.slug === s));
+    if (missing.length) throw new Error(`no such practice set: ${missing.join(", ")}`);
+    for (const e of before) {
+      const unstamped = e.items.filter((i) => !i.question.reviewedAt).length;
+      console.log(`${e.slug}: ${e.status}, underReview=${e.underReview}, ${e.items.length} questions, ${unstamped} without a review stamp`);
+    }
     if (!apply) {
       console.log("dry run: nothing written. Re-run with --apply.");
       return;
