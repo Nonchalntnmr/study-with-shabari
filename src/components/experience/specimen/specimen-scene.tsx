@@ -9,7 +9,7 @@ import { DISPLAY_RADIUS, DOPAMINE, type GroupId } from "@/lib/experience/structu
 import { specimenState } from "@/lib/experience/specimen-choreography";
 import { damp, ease, lerp } from "@/lib/experience/timeline";
 import { MOLECULES } from "@/lib/molecules/analyze";
-import { type SceneProps, registerRenderer } from "../gl-stage";
+import { type SceneProps, useRenderLoop } from "../gl-stage";
 import { type StoryStore, advance, decayTurn } from "../story-store";
 import { SPECIMEN_LABELS, type SpecimenLabel } from "./specimen-labels";
 
@@ -67,7 +67,9 @@ function Studio() {
   useEffect(() => {
     const { gl, scene } = get();
     const pmrem = new PMREMGenerator(gl);
-    const env = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
+    const room = new RoomEnvironment();
+    const env = pmrem.fromScene(room, 0.04).texture;
+    room.dispose();
     scene.environment = env;
     return () => {
       scene.environment = null;
@@ -375,18 +377,15 @@ function Labels() {
 }
 
 export default function SpecimenScene({ store, lowPower, running, onReady }: SceneProps) {
+  const onCreated = useRenderLoop(running, "specimen", onReady);
   return (
     <>
       <Canvas
         dpr={[1, lowPower ? 1.25 : 1.75]}
-        frameloop={running ? "always" : "never"}
+        frameloop="demand"
         gl={{ antialias: true, alpha: true, powerPreference: "high-performance" }}
         camera={{ fov: 30, position: [0, 0, 22], near: 0.1, far: 200 }}
-        onCreated={({ gl }) => {
-          gl.setClearColor(0x000000, 0);
-          registerRenderer("specimen", gl);
-          requestAnimationFrame(onReady);
-        }}
+        onCreated={onCreated}
       >
         <Studio />
         <hemisphereLight args={["#fffdf8", "#e9e2d4", 0.9]} />

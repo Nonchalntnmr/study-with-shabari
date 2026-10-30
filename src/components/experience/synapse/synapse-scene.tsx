@@ -24,7 +24,7 @@ import { CAMP_MAX, GEOMETRY, RELEASED, STORED_PER_VESICLE, campCounts, fusion, o
 import { DOPAMINE } from "@/lib/experience/structure";
 import { clamp01, damp, ease, lerp, seeded } from "@/lib/experience/timeline";
 import { MOLECULES } from "@/lib/molecules/analyze";
-import { type SceneProps, registerRenderer } from "../gl-stage";
+import { type SceneProps, useRenderLoop } from "../gl-stage";
 import { type StoryStore, advance, decayTurn } from "../story-store";
 
 // The Synapse: the PubChem dopamine model, then the same molecule as one of many in a stylized
@@ -490,18 +490,15 @@ function LabelLayer() {
 }
 
 export default function SynapseScene({ store, lowPower, running, onReady }: SceneProps) {
+  const onCreated = useRenderLoop(running, "synapse", onReady);
   return (
     <>
       <Canvas
         dpr={[1, lowPower ? 1.25 : 1.6]}
-        frameloop={running ? "always" : "never"}
+        frameloop="demand"
         gl={{ antialias: true, alpha: true, powerPreference: "high-performance" }}
         camera={{ fov: 30, position: [0, 0, 24], near: 0.1, far: 300 }}
-        onCreated={({ gl }) => {
-          gl.setClearColor(0x000000, 0);
-          registerRenderer("synapse", gl);
-          requestAnimationFrame(onReady);
-        }}
+        onCreated={onCreated}
       >
         <hemisphereLight args={["#fffdf8", "#e3dccd", 1.25]} />
         <directionalLight position={[-6, 9, 10]} intensity={2.1} color="#fff8ec" />

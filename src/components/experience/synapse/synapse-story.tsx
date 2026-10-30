@@ -20,6 +20,7 @@ export function SynapseStory({
   blockedFigure,
   datNote,
   label = "Dopamine at a synapse",
+  lazy = false,
 }: {
   steps: StepContent[];
   stills: React.ReactNode[];
@@ -28,6 +29,7 @@ export function SynapseStory({
   blockedFigure: React.ReactNode;
   datNote: string;
   label?: string;
+  lazy?: boolean;
 }) {
   const [store] = useState(() => createStore(steps.length));
   const [blocked, setBlocked] = useState(false);
@@ -91,7 +93,7 @@ export function SynapseStory({
       steps={withControls}
       stage={
         <div className="exp-spotlight h-full w-full">
-          <GlStage store={store} Scene={SynapseScene} fallback={<Stills stills={blocked ? blockedStills : stills} />} />
+          <GlStage store={store} Scene={SynapseScene} lazy={lazy} fallback={<Stills stills={blocked ? blockedStills : stills} />} />
         </div>
       }
     />

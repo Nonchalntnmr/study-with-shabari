@@ -39,9 +39,12 @@ export function SpecimenLabel() {
   );
 }
 
+// The stage's still is the hero's first paint (and on phones its LCP), so it is the one high-priority
+// image; the reduced-motion copy further down loads normally.
 const poster = (
-  <Image src="/images/dopamine-model-tight.png" alt="" width={918} height={727} priority sizes="(min-width: 768px) 46vw, 88vw" className="h-auto w-full" />
+  <Image src="/images/dopamine-model-tight.png" alt="" width={918} height={727} priority sizes="(min-width: 768px) 38rem, 22rem" className="h-auto w-full" />
 );
+const posterInline = <Image src="/images/dopamine-model-tight.png" alt="" width={918} height={727} sizes="(min-width: 768px) 38rem, 22rem" className="mx-auto h-auto w-full max-w-md" />;
 
 export function specimenStills(): React.ReactNode[] {
   return [
@@ -81,7 +84,7 @@ export function specimenSteps({ heroLevel = 1 as 1 | 2, heroExtra }: { heroLevel
           {heroExtra}
         </Panel>
       ),
-      figure: poster,
+      figure: posterInline,
     },
     {
       id: "closer",

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import type { WebGLRenderer } from "three";
 import { useStageMode } from "@/components/cinema/capabilities";
 import { type StoryStore, dragTo, nudge, resetTurn, setDragging } from "./story-store";
@@ -18,6 +18,37 @@ export function registerRenderer(name: string, gl: WebGLRenderer) {
 }
 
 /**
+ * Drives a demand-mode <Canvas> from the DOM side: one invalidate() per animation frame while
+ * `running`. Effects here are cleaned up when the route is hidden (Next keeps visited routes in a
+ * hidden <Activity>, and R3F deliberately keeps its root alive there), so a hidden scene stops
+ * drawing instead of rendering off screen. Pass the returned callback to Canvas onCreated.
+ */
+export function useRenderLoop(running: boolean, name: string, onReady: () => void) {
+  const invalidate = useRef<(() => void) | null>(null);
+  const [created, setCreated] = useState(false);
+  useEffect(() => {
+    if (!running || !created) return;
+    const loop = { f: 0 };
+    const tick = () => {
+      invalidate.current?.();
+      loop.f = requestAnimationFrame(tick);
+    };
+    loop.f = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(loop.f);
+  }, [running, created]);
+  return useCallback(
+    (state: { gl: WebGLRenderer; invalidate: () => void }) => {
+      state.gl.setClearColor(0x000000, 0);
+      invalidate.current = state.invalidate;
+      registerRenderer(name, state.gl);
+      setCreated(true);
+      requestAnimationFrame(onReady);
+    },
+    [name, onReady],
+  );
+}
+
+/**
  * The stage for a WebGL scene. The still (`fallback`) paints first and stays when WebGL is off,
  * motion is reduced or the device is low-powered. The scene's code is only requested once the
  * page has loaded and the browser is idle, so it never competes with first paint, and it stops
@@ -28,20 +59,32 @@ export function GlStage({
   Scene,
   fallback,
   className = "",
+  lazy = false,
 }: {
   store: StoryStore;
   Scene: React.ComponentType<SceneProps>;
   fallback: React.ReactNode;
   className?: string;
+  /** Wait until the stage is within a screen of the viewport (for a second scene lower on a page). */
+  lazy?: boolean;
 }) {
   const { mode, lowPower } = useStageMode();
   const box = useRef<HTMLDivElement>(null);
   const [armed, setArmed] = useState(false);
+  const [near, setNear] = useState(!lazy);
+
+  useEffect(() => {
+    const el = box.current;
+    if (near || !el) return;
+    const io = new IntersectionObserver(([e]) => e.isIntersecting && setNear(true), { rootMargin: "100% 0px" });
+    io.observe(el);
+    return () => io.disconnect();
+  }, [near]);
   const [ready, setReady] = useState(false);
   const [visible, setVisible] = useState(true);
 
   useEffect(() => {
-    if (mode !== "live") return;
+    if (mode !== "live" || !near) return;
     const t = { idle: 0, timer: 0 };
     const arm = () => {
       if (window.requestIdleCallback) t.idle = window.requestIdleCallback(() => setArmed(true), { timeout: 1500 });
@@ -54,7 +97,7 @@ export function GlStage({
       if (t.idle) window.cancelIdleCallback?.(t.idle);
       clearTimeout(t.timer);
     };
-  }, [mode]);
+  }, [mode, near]);
 
   useEffect(() => {
     const el = box.current;

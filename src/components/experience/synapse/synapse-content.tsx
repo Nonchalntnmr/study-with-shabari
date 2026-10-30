@@ -20,11 +20,11 @@ const TITLES = [
   "The whole synapse",
 ];
 
-export function synapseStills(datBlocked = false): React.ReactNode[] {
+export function synapseStills(datBlocked = false, priority = true): React.ReactNode[] {
   return TITLES.map((t, i) => (
     <StillFrame key={`${i}${datBlocked}`}>
       {i === 0 ? (
-        <Image src="/images/dopamine-model-tight.png" alt="" width={918} height={727} priority sizes="(min-width: 768px) 46vw, 88vw" className="h-auto w-full" />
+        <Image src="/images/dopamine-model-tight.png" alt="" width={918} height={727} priority={priority} sizes="(min-width: 768px) 38rem, 22rem" className="h-auto w-full" />
       ) : (
         <SynapseFigure beat={i} datBlocked={datBlocked} title={t} className="w-full" />
       )}
@@ -34,13 +34,13 @@ export function synapseStills(datBlocked = false): React.ReactNode[] {
 
 export const SCALE_NOTE = "Stylized and not to scale: molecules are drawn far larger than life, and D1 and D2 sit side by side for comparison (in the striatum they are mostly on different neurons).";
 
-export function synapseSteps({ heroLevel = 1 as 1 | 2 } = {}): StepContent[] {
+export function synapseSteps({ heroLevel = 1 as 1 | 2, title = "Dopamine" } = {}): StepContent[] {
   return [
     {
       id: "molecule",
       nav: "the molecule",
       panel: (
-        <Panel kicker="Synapse" title="Dopamine" level={heroLevel}>
+        <Panel kicker="Synapse" title={title} level={heroLevel}>
           <p>{LESSON_TITLE}. A free lesson written by Shabari.</p>
           <p>It’s a neurotransmitter and the precursor to norepinephrine and epinephrine.</p>
           <div className="flex flex-wrap items-center gap-x-6 gap-y-3 pt-3">
@@ -49,7 +49,7 @@ export function synapseSteps({ heroLevel = 1 as 1 | 2 } = {}): StepContent[] {
           </div>
         </Panel>
       ),
-      figure: <Image src="/images/dopamine-model-tight.png" alt="" width={918} height={727} sizes="(min-width: 768px) 40vw, 88vw" className="mx-auto h-auto w-full max-w-md" />,
+      figure: <Image src="/images/dopamine-model-tight.png" alt="" width={918} height={727} sizes="(min-width: 768px) 38rem, 22rem" className="mx-auto h-auto w-full max-w-md" />,
     },
     {
       id: "vesicles",

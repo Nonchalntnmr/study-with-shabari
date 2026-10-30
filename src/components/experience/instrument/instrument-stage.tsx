@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { beatWeights, damp } from "@/lib/experience/timeline";
 import type { StoryStore } from "../story-store";
 
@@ -37,14 +37,8 @@ function Odometer({ value, rolling }: { value: number; rolling: boolean }) {
   );
 }
 
-export function InstrumentStage({ store, words }: { store: StoryStore; words: InstrumentWords }) {
+export function InstrumentStage({ store, words, rolling }: { store: StoryStore; words: InstrumentWords; rolling: boolean }) {
   const root = useRef<HTMLDivElement>(null);
-  const [rolling, setRolling] = useState(false);
-
-  useEffect(() => {
-    const raf = requestAnimationFrame(() => setRolling(true));
-    return () => cancelAnimationFrame(raf);
-  }, []);
 
   useEffect(() => {
     const el = root.current;
