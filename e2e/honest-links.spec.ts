@@ -18,9 +18,10 @@ function anchors(body: string) {
 
 test("links promise only the practice, lesson and notes that are open", async ({ request }) => {
   test.setTimeout(90_000);
-  const practiceOpen = !(await html(request, "/practice")).includes("New practice sets are on the way");
-  const lessonPage = await html(request, "/lessons/dopamine");
-  const lessonOpen = !lessonPage.includes("This page doesn’t exist") && !lessonPage.includes("This page doesn&#x27;t exist");
+  // What is open, from rendered markup only: the not-found text also ships inside every page's payload.
+  const practiceOpen = anchors(await html(request, "/practice")).some((a) => /^\/practice\/[a-z0-9-]+$/.test(a.href));
+  const lessonRes = await request.get("/lessons/dopamine");
+  const lessonOpen = lessonRes.status() === 200 && !/<h1[^>]*>[^<]*This page doesn/.test(await lessonRes.text());
   const notesOpen = anchors(await html(request, "/resources")).some((a) => /Open notes/.test(a.text));
   test.info().annotations.push({ type: "open", description: JSON.stringify({ practiceOpen, lessonOpen, notesOpen }) });
 
