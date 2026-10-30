@@ -10,6 +10,30 @@ import { choose, finishLesson, lessonKey } from "./helpers";
 // Runs on the production build against the throwaway E2E database, where
 // scripts/e2e-server.sh has approved the dopamine lesson's AI drafts.
 
+// Against a real deployment (SMOKE_BASE_URL), the lesson can still be an unapproved draft, shown with its
+// badge on a protected preview, and the Calendly links may not be set yet, in which case booking shows its
+// fallback. Locally, both journeys check the exact test fixtures.
+const LIVE = Boolean(process.env.SMOKE_BASE_URL);
+
+async function expectBooking(page: Page, slot: string) {
+  const frame = page.locator('iframe[title^="Schedule a free consultation"]');
+  if (!LIVE) {
+    await expect(frame).toHaveAttribute("src", new RegExp(`^https://calendly\\.com/e2e-shabari/${slot}\\?`));
+    return;
+  }
+  const fallback = page.getByText(/Online scheduling for .+ calls is coming soon\./);
+  await expect(frame.or(fallback)).toBeVisible();
+  if (await frame.count()) await expect(frame).toHaveAttribute("src", /^https:\/\/calendly\.com\//);
+  else await expect(page.getByRole("link", { name: "Request a time" })).toBeVisible();
+}
+
+async function frameBooking(page: Page) {
+  await page.evaluate(() => {
+    const target = document.querySelector('iframe[title^="Schedule a free consultation"]') ?? document.querySelector('[role="tabpanel"]');
+    if (target) window.scrollTo(0, target.getBoundingClientRect().top + scrollY - 260);
+  });
+}
+
 const SHOTS = process.env.JOURNEY_SHOTS_DIR ?? path.join(homedir(), "projects/study-with-shabari/.local/shots/concept-b/journey");
 const results: { step: number | string; name: string; status: "passed" | "failed"; ms: number; error?: string }[] = [];
 
@@ -87,8 +111,13 @@ test("journey: homepage → credentials → lesson → miss, diagnose, retest �
     await start.click();
     await expect(page.getByRole("heading", { level: 1, name: "Dopamine, read three ways" })).toBeVisible();
     // Published, approved content: no draft badge, an honest AI note, nothing attributed to Shabari.
-    await expect(page.getByTestId("draft-badge")).toHaveCount(0);
-    await expect(page.getByText("Questions and explanations drafted with AI, then reviewed before publishing.")).toBeVisible();
+    if (LIVE && (await page.getByTestId("draft-badge").count()) > 0) {
+      // A protected preview showing the unapproved draft says so plainly.
+      await expect(page.getByText(/drafted with AI and haven.t been reviewed yet/)).toBeVisible();
+    } else {
+      await expect(page.getByTestId("draft-badge")).toHaveCount(0);
+      await expect(page.getByText("Questions and explanations drafted with AI, then reviewed before publishing.")).toBeVisible();
+    }
     await expect(page.getByText(/Shabari[’']s explanation/i)).toHaveCount(0);
     await page.getByRole("button", { name: "Start the lesson" }).click();
     await expect(page.getByTestId("step-count")).toHaveText("Step 1 of 13");
@@ -146,14 +175,10 @@ test("journey: homepage → credentials → lesson → miss, diagnose, retest �
     // The lesson is MCAT, so booking opens on the MCAT tab.
     await expect(page).toHaveURL(/\/book\?service=mcat$/);
     await expect(page.getByRole("tab", { name: "MCAT" })).toHaveAttribute("aria-selected", "true");
-    const frame = page.locator('iframe[title^="Schedule a free consultation"]');
-    await expect(frame).toHaveAttribute("src", /^https:\/\/calendly\.com\/e2e-shabari\/15min\?/);
-    await expect(page.frameLocator('iframe[title^="Schedule a free consultation"]').getByRole("heading", { name: "Calendly (stub)" })).toBeVisible();
+    await expectBooking(page, "15min");
+    if (!LIVE) await expect(page.frameLocator('iframe[title^="Schedule a free consultation"]').getByRole("heading", { name: "Calendly (stub)" })).toBeVisible();
     // Frame the embed below the page heading for the evidence shot.
-    await page.evaluate(() => {
-      const f = document.querySelector('iframe[title^="Schedule a free consultation"]')!;
-      window.scrollTo(0, f.getBoundingClientRect().top + scrollY - 260);
-    });
+    await frameBooking(page);
   });
 
   expect(errors, "no uncaught page errors").toEqual([]);
@@ -195,15 +220,11 @@ test("journey: admissions visitor: home → admissions → credentials → prici
     await page.getByRole("link", { name: "Book a free 15-min call" }).last().click();
     await expect(page).toHaveURL(/\/book\?service=admissions$/);
     await expect(page.getByRole("tab", { name: "College Admissions" })).toHaveAttribute("aria-selected", "true");
-    const frame = page.locator('iframe[title^="Schedule a free consultation"]');
-    await expect(frame).toHaveAttribute("src", /^https:\/\/calendly\.com\/e2e-shabari\/admissions-15min\?/);
+    await expectBooking(page, "admissions-15min");
     await page.getByRole("tab", { name: "MCAT" }).click();
-    await expect(frame).toHaveAttribute("src", /^https:\/\/calendly\.com\/e2e-shabari\/15min\?/);
+    await expectBooking(page, "15min");
     await page.getByRole("tab", { name: "College Admissions" }).click();
-    await page.evaluate(() => {
-      const f = document.querySelector('iframe[title^="Schedule a free consultation"]')!;
-      window.scrollTo(0, f.getBoundingClientRect().top + scrollY - 260);
-    });
+    await frameBooking(page);
   });
 
   expect(errors, "no uncaught page errors").toEqual([]);

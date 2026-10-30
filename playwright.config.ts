@@ -3,6 +3,9 @@ import { defineConfig, devices } from "@playwright/test";
 const PORT = Number(process.env.E2E_PORT ?? 3100);
 // Post-deploy checks (redirects, HTTPS) run only when pointed at a live URL.
 const live = process.env.SMOKE_BASE_URL;
+// Vercel Deployment Protection: "Protection Bypass for Automation" lets tests reach a protected preview.
+// The secret is read from the environment and never logged.
+const bypass = process.env.VERCEL_AUTOMATION_BYPASS_SECRET;
 
 export default defineConfig({
   testDir: "./e2e",
@@ -13,11 +16,15 @@ export default defineConfig({
   timeout: 60_000,
   use: {
     baseURL: live ?? `http://localhost:${PORT}`,
+    ...(live && bypass ? { extraHTTPHeaders: { "x-vercel-protection-bypass": bypass, "x-vercel-set-bypass-cookie": "true" } } : {}),
     trace: "retain-on-failure",
     screenshot: "only-on-failure",
   },
   projects: live
-    ? [{ name: "post-deploy", testMatch: /post-deploy\.spec\.ts/, use: { ...devices["Desktop Chrome"] } }]
+    ? [
+        { name: "post-deploy", testMatch: /post-deploy\.spec\.ts/, use: { ...devices["Desktop Chrome"] } },
+        { name: "journey", testMatch: /journey-mobile\.spec\.ts/, use: { ...devices["iPhone 14"], browserName: "chromium" } },
+      ]
     : [
         { name: "desktop", testIgnore: /(post-deploy|journey-mobile)\.spec\.ts/, use: { ...devices["Desktop Chrome"] } },
         { name: "mobile", testMatch: /(^|\/)mobile\.spec\.ts/, use: { ...devices["Pixel 7"] } },
