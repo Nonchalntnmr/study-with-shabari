@@ -1,0 +1,118 @@
+/* /explore/signaling styles: controls, sliders, step buttons and focus rings. */
+
+.sig {
+  overflow-x: clip;
+}
+
+.sig-button-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
+  background-color: #0b1f44;
+  color: #ffffff;
+  font-size: 0.98rem;
+  font-weight: 600;
+  padding: 0.65rem 1.35rem;
+  transition: background-color 150ms ease;
+}
+.sig-button-primary:hover:not(:disabled) {
+  background-color: #1747d1;
+}
+.sig-button-primary:disabled {
+  opacity: 0.48;
+  cursor: not-allowed;
+}
+.sig-button-primary:focus-visible,
+.sig-button-secondary:focus-visible,
+.sig-step:focus-visible,
+.sig-range:focus-visible {
+  outline: 3px solid #1f5bff;
+  outline-offset: 2px;
+}
+
+.sig-button-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
+  border: 1px solid #cbd5e1;
+  background-color: #ffffff;
+  color: #0b1f44;
+  font-size: 0.95rem;
+  font-weight: 600;
+  padding: 0.55rem 1.15rem;
+  transition: border-color 150ms ease, background-color 150ms ease;
+}
+.sig-button-secondary:hover:not(:disabled) {
+  border-color: #0b1f44;
+  background-color: #f8fafc;
+}
+.sig-button-secondary:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.sig-step {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.75rem;
+  border: 1px solid #cbd5e1;
+  background-color: #ffffff;
+  color: #0b1f44;
+  font-size: 0.95rem;
+  font-weight: 600;
+  padding: 0.6rem 0.9rem;
+  transition: border-color 150ms ease, background-color 150ms ease;
+}
+.sig-step[aria-pressed="true"],
+.sig-step[aria-current="step"] {
+  border-color: #0b1f44;
+  background-color: #0b1f44;
+  color: #ffffff;
+}
+.sig-step[aria-current="step"] span {
+  color: #cbd5e1;
+}
+.sig-step:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.sig-choice {
+  display: block;
+  cursor: pointer;
+}
+.sig-choice > span {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.75rem;
+  border: 1px solid #cbd5e1;
+  background-color: #ffffff;
+  color: #0b1f44;
+  font-size: 0.92rem;
+  font-weight: 600;
+  padding: 0.55rem 0.75rem;
+  text-align: center;
+}
+.sig-choice > input:checked + span {
+  border-color: #0b1f44;
+  background-color: #0b1f44;
+  color: #ffffff;
+}
+.sig-choice > input:focus-visible + span {
+  outline: 3px solid #1f5bff;
+  outline-offset: 2px;
+}
+
+.sig-range {
+  accent-color: #1747d1;
+  height: 0.5rem;
+  cursor: pointer;
+}
+.sig-range:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}

@@ -24,6 +24,7 @@ import { CAMP_MAX, GEOMETRY, RELEASED, STORED_PER_VESICLE, campCounts, fusion, o
 import { DOPAMINE } from "@/lib/experience/structure";
 import { clamp01, damp, ease, lerp, seeded } from "@/lib/experience/timeline";
 import { MOLECULES } from "@/lib/molecules/analyze";
+import { AdaptiveDpr } from "../adaptive-dpr";
 import { type SceneProps, useRenderLoop } from "../gl-stage";
 import { type StoryStore, advance, decayTurn } from "../story-store";
 
@@ -210,7 +211,7 @@ function Synapse({ store, onPhase }: { store: StoryStore; onPhase: (phase: numbe
     const big = 1 - into;
     const tn = Math.tan((camera.fov * Math.PI) / 360);
     const halfW = camera.position.z * tn * (s.size.width / Math.max(1, s.size.height));
-    const heroWorld = tmp.e.set(store.wide ? halfW * 0.3 : 0, 0, 0);
+    const heroWorld = tmp.e.set(store.wide && !store.flags.centered ? halfW * 0.3 : 0, 0, 0);
     w.worldToLocal(heroWorld);
     const heroScale = lerp(PARTICLE_SCALE, (halfW * 2 * (store.wide ? 0.36 : 0.62)) / 9, big * big);
     heroRef.current.visible = phase < 1.02;
@@ -429,8 +430,9 @@ function Rig({ store }: { store: StoryStore }) {
         const tn = Math.tan((camera.fov * Math.PI) / 360);
         const sceneW = wide ? 13 : 11.5;
         const sceneH = wide ? 12 : 13;
-        const fillW = wide ? 0.6 : 0.95;
-        const fillH = wide ? 0.82 : 0.9;
+        const centered = !!store.flags.centered;
+        const fillW = wide ? (centered ? 0.94 : 0.6) : 0.95;
+        const fillH = wide ? (centered ? 0.9 : 0.82) : 0.9;
         const zFit = Math.max(sceneW / (fillW * 2 * tn * aspect), sceneH / (fillH * 2 * tn));
         const z = zFit;
         const i = Math.min(FOCUS_X.length - 2, Math.floor(phase));
@@ -438,7 +440,7 @@ function Rig({ store }: { store: StoryStore }) {
         camera.position.setZ(z);
         // Keep the subject right of the caption column on desktop.
         const halfW = z * tn * aspect;
-        const shift = wide ? halfW * 0.28 : 0;
+        const shift = wide && !centered ? halfW * 0.28 : 0;
         if (wide) w.position.set(shift - fx, 0, 0);
         else w.position.set(0, fx, 0);
         camera.lookAt(0, 0, 0);
@@ -504,6 +506,7 @@ export default function SynapseScene({ store, lowPower, running, onReady }: Scen
         <directionalLight position={[-6, 9, 10]} intensity={2.1} color="#fff8ec" />
         <directionalLight position={[7, -2, 6]} intensity={0.6} color="#e6ecfa" />
         <Rig store={store} />
+        <AdaptiveDpr max={lowPower ? 1.25 : 1.6} />
       </Canvas>
       <LabelLayer />
     </>
