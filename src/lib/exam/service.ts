@@ -5,7 +5,7 @@ import { assetUrl } from "@/lib/storage";
 import type { Prisma } from "@/generated/prisma/client";
 import { normalizeRanges, splitParagraphs, type HighlightRange } from "./passage";
 import type { SyncPayload, startInput } from "./schemas";
-import { scoreAttempt, topicBreakdown } from "./scoring";
+import { difficultyBreakdown, scoreAttempt, topicBreakdown } from "./scoring";
 import { LATE_DELIVERY_MS, acceptsWrites, clampTimeSpent, computeDeadline, inLateDelivery, isExpired, resolveChangedAt } from "./timing";
 import type { RunnerFigure, RunnerPassage, RunnerQuestion, RunnerResponse, RunnerState, SubmitResult, SyncResult } from "./types";
 import { attemptContent, correctChoiceId, pinVersionsWithRetry, type PinnedQuestion, type VersionFigure } from "./versions";
@@ -165,6 +165,7 @@ export async function loadRunnerState(attemptId: string, viewer: Viewer): Promis
         title: s.passage.title,
         paragraphs: splitParagraphs(s.passage.body),
         source: s.passage.source,
+        figureText: s.passage.figureText ?? null,
         figures: s.passage.figures.flatMap((f, i) => toFigure(f, urls, `${s.passage!.id}-${i}`) ?? []),
       };
     }
@@ -441,6 +442,7 @@ export async function getResults(attemptId: string, viewer: Viewer) {
       flagged: r?.flagged ?? false,
       timeSpentMs: r?.timeSpentMs ?? 0,
       topics: s.topics,
+      difficulty: s.difficulty,
       // The misconception the chosen wrong answer reveals, when the author mapped one.
       misconception: picked && !picked.isCorrect ? picked.misconception?.name ?? null : null,
       revised: version !== null && (latestById.get(questionId) ?? 0) > version,
@@ -482,6 +484,7 @@ export async function getResults(attemptId: string, viewer: Viewer) {
       items,
       passages,
       topics,
+      difficulty: difficultyBreakdown(items),
       retestOf: full.retestOf,
       retests: full.retests,
     },

@@ -10,6 +10,8 @@ export type RunnerPassage = {
   title: string;
   paragraphs: string[];
   source: string | null;
+  /** A figure given as text, shown as a caption box under the passage. */
+  figureText: string | null;
   figures: RunnerFigure[];
 };
 

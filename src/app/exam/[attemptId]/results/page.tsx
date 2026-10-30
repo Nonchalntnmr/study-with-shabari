@@ -95,28 +95,8 @@ async function Results({ attemptId }: { attemptId: string }) {
         </div>
       </section>
 
-      {r.topics.length > 0 && (
-        <section aria-labelledby="topics-h">
-          <h2 id="topics-h" className="mb-4 text-2xl font-semibold">
-            By topic
-          </h2>
-          <ul className="space-y-3">
-            {r.topics.map((t) => (
-              <li key={t.slug}>
-                <div className="mb-1 flex justify-between text-sm">
-                  <span>{t.name}</span>
-                  <span className="tabular-nums text-muted-foreground">
-                    {t.correct}/{t.total}
-                  </span>
-                </div>
-                <div className="h-2 overflow-hidden rounded-full bg-muted" aria-hidden>
-                  <div className={t.accuracy < 0.6 ? "h-full rounded-full bg-danger" : "h-full rounded-full bg-blue"} style={{ width: `${Math.round(t.accuracy * 100)}%` }} />
-                </div>
-              </li>
-            ))}
-          </ul>
-        </section>
-      )}
+      {r.topics.length > 0 && <Breakdown id="topics-h" title="By topic" stats={r.topics} />}
+      {r.difficulty.length > 0 && <Breakdown id="difficulty-h" title="By difficulty" stats={r.difficulty} />}
 
       {r.retests.length > 0 && (
         <section aria-labelledby="retests-h">
@@ -142,5 +122,31 @@ async function Results({ attemptId }: { attemptId: string }) {
       {out.isOwner && <ClearAttemptBackup attemptId={r.attemptId} />}
       <p className="text-xs text-muted-foreground">{AAMC_DISCLAIMER}</p>
     </div>
+  );
+}
+
+/** Percent correct per group (topic or difficulty), weakest in red. */
+function Breakdown({ id, title, stats }: { id: string; title: string; stats: { slug: string; name: string; correct: number; total: number; accuracy: number }[] }) {
+  return (
+    <section aria-labelledby={id}>
+      <h2 id={id} className="mb-4 text-2xl font-semibold">
+        {title}
+      </h2>
+      <ul className="space-y-3">
+        {stats.map((t) => (
+          <li key={t.slug}>
+            <div className="mb-1 flex justify-between text-sm">
+              <span>{t.name}</span>
+              <span className="tabular-nums text-muted-foreground">
+                {t.correct}/{t.total}
+              </span>
+            </div>
+            <div className="h-2 overflow-hidden rounded-full bg-muted" aria-hidden>
+              <div className={t.accuracy < 0.6 ? "h-full rounded-full bg-danger" : "h-full rounded-full bg-blue"} style={{ width: `${Math.round(t.accuracy * 100)}%` }} />
+            </div>
+          </li>
+        ))}
+      </ul>
+    </section>
   );
 }

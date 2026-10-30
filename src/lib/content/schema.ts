@@ -41,6 +41,8 @@ export const passageItemSchema = z.object({
   title: z.string().trim().min(1),
   body: z.string().trim().min(1),
   source: z.string().trim().optional(),
+  /** A figure described in text (a table, a blot), shown as a caption box under the passage. */
+  figure: z.string().trim().min(1).optional(),
   questions: z.array(questionSchema).min(1),
 });
 

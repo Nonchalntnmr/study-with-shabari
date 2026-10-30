@@ -60,6 +60,23 @@ export function topicBreakdown(
     .sort((a, b) => a.accuracy - b.accuracy || b.total - a.total || a.name.localeCompare(b.name));
 }
 
+// Authored difficulty is 1–5; content imports map easy, medium and hard to 2, 3 and 4.
+const DIFFICULTY_BANDS = [
+  { slug: "easy", name: "Easy", max: 2 },
+  { slug: "medium", name: "Medium", max: 3 },
+  { slug: "hard", name: "Hard", max: 5 },
+] as const;
+
+/** Accuracy by difficulty band, easiest first. Questions without a difficulty are left out. */
+export function difficultyBreakdown(rows: { difficulty: number | null; isCorrect: boolean }[]): TopicStat[] {
+  return DIFFICULTY_BANDS.map(({ slug, name, max }, i) => {
+    const min = i === 0 ? 1 : DIFFICULTY_BANDS[i - 1].max + 1;
+    const inBand = rows.filter((r) => r.difficulty !== null && r.difficulty >= min && r.difficulty <= max);
+    const correct = inBand.filter((r) => r.isCorrect).length;
+    return { slug, name, correct, total: inBand.length, accuracy: inBand.length ? correct / inBand.length : 0 };
+  }).filter((s) => s.total > 0);
+}
+
 export const MIN_TOPIC_SAMPLE = 3;
 
 /** Weakest topics with enough answered questions to mean something. */

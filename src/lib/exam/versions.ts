@@ -25,7 +25,8 @@ export type VersionSnapshot = {
   explanation: string;
   difficulty: number | null;
   figure: VersionFigure | null;
-  passage: { id: string; title: string; body: string; source: string | null; figures: VersionFigure[] } | null;
+  // figureText is present only when the passage has one, so older snapshots hash exactly as before.
+  passage: { id: string; title: string; body: string; source: string | null; figureText?: string; figures: VersionFigure[] } | null;
   choices: VersionChoice[];
   topics: { slug: string; name: string }[];
 };
@@ -55,6 +56,7 @@ export function snapshotOf(q: QuestionWithContent): VersionSnapshot {
           title: q.passage.title,
           body: q.passage.body,
           source: q.passage.source,
+          ...(q.passage.figureText ? { figureText: q.passage.figureText } : {}),
           figures: q.passage.figures.map((f) => ({ assetId: f.asset.id, alt: f.asset.alt, caption: f.caption })),
         }
       : null,

@@ -1,0 +1,1182 @@
+[
+ {
+  "id": "FL1-BB-001",
+  "section": "BB",
+  "passage_id": "FL1-BB-P01",
+  "passage_title": "Knocking Out TLR4 in Macrophages",
+  "passage": "Researchers used CRISPR-Cas9 with a guide RNA targeting exon 2 of Tlr4 to generate knockout (KO) mouse macrophages. Western blotting of cell lysates was probed for TLR4 (~95 kDa) and β-actin (~42 kDa). Wild-type (WT) and KO cells were then stimulated with lipopolysaccharide (LPS) from gram-negative bacteria, and TNF-α secretion was measured by ELISA.",
+  "figure_description": "Figure 1: Western blot — WT lane shows bands at 95 and 42 kDa; KO lane shows only the 42 kDa band. ELISA: WT + LPS ≈ 1,200 pg/mL TNF-α; KO + LPS ≈ 80 pg/mL; unstimulated cells of both types < 50 pg/mL.",
+  "stem": "What is the purpose of probing for β-actin?",
+  "choices": [
+   "To confirm the knockout",
+   "To show equal protein was loaded in each lane",
+   "To measure TNF-α production",
+   "To mark the 95 kDa position"
+  ],
+  "answer": 1,
+  "explanation": "β-actin is a constitutively expressed loading control. Equal β-actin bands show that the missing TLR4 band in KO cells reflects absent protein, not less sample loaded.",
+  "topic": "Experimental methods – Western blot",
+  "difficulty": "easy",
+  "reviewed": false
+ },
+ {
+  "id": "FL1-BB-002",
+  "section": "BB",
+  "passage_id": "FL1-BB-P01",
+  "passage_title": "Knocking Out TLR4 in Macrophages",
+  "passage": null,
+  "figure_description": null,
+  "stem": "The guide RNA's role is to:",
+  "choices": [
+   "Cut the DNA at the target site",
+   "Direct Cas9 to the target sequence by complementary base pairing",
+   "Repair the double-strand break",
+   "Silence Tlr4 mRNA after transcription"
+  ],
+  "answer": 1,
+  "explanation": "The sgRNA base-pairs with the target DNA and recruits Cas9, which makes the cut. Repair is done by host machinery; mRNA silencing describes RNAi.",
+  "topic": "1B – Biotechnology",
+  "difficulty": "easy",
+  "reviewed": false
+ },
+ {
+  "id": "FL1-BB-003",
+  "section": "BB",
+  "passage_id": "FL1-BB-P01",
+  "passage_title": "Knocking Out TLR4 in Macrophages",
+  "passage": null,
+  "figure_description": null,
+  "stem": "Loss of TLR4 protein most likely resulted from:",
+  "choices": [
+   "Homology-directed repair inserting a functional copy",
+   "Error-prone non-homologous end joining creating a frameshift",
+   "Methylation of the Tlr4 promoter",
+   "Degradation of TLR4 by the proteasome"
+  ],
+  "answer": 1,
+  "explanation": "Without a repair template, the Cas9 break is repaired by NHEJ, which often introduces small insertions or deletions. A frameshift creates a premature stop codon, so no full-length protein is made.",
+  "topic": "1B – DNA repair / biotechnology",
+  "difficulty": "medium",
+  "reviewed": false
+ },
+ {
+  "id": "FL1-BB-004",
+  "section": "BB",
+  "passage_id": "FL1-BB-P01",
+  "passage_title": "Knocking Out TLR4 in Macrophages",
+  "passage": null,
+  "figure_description": null,
+  "stem": "TLR4 detecting LPS is an example of:",
+  "choices": [
+   "Adaptive immunity via antigen-specific receptors",
+   "Innate immunity via pattern-recognition receptors",
+   "Humoral immunity via antibodies",
+   "Complement-mediated lysis"
+  ],
+  "answer": 1,
+  "explanation": "Toll-like receptors are germline-encoded pattern-recognition receptors that detect conserved microbial molecules such as LPS, a hallmark of innate immunity.",
+  "topic": "3B – Immune system",
+  "difficulty": "easy",
+  "reviewed": false
+ },
+ {
+  "id": "FL1-BB-005",
+  "section": "BB",
+  "passage_id": "FL1-BB-P02",
+  "passage_title": "Insulin Signaling and GLUT4",
+  "passage": "Insulin binds its cell-surface receptor, triggering receptor autophosphorylation on tyrosine residues and activation of the PI3K–Akt pathway. In skeletal muscle and adipose tissue, Akt signaling causes vesicles containing the glucose transporter GLUT4 to fuse with the plasma membrane. In type 2 diabetes, tissues show reduced responsiveness to insulin (insulin resistance).",
+  "figure_description": null,
+  "stem": "The insulin receptor is best classified as a:",
+  "choices": [
+   "G protein–coupled receptor",
+   "Receptor tyrosine kinase",
+   "Ligand-gated ion channel",
+   "Nuclear receptor"
+  ],
+  "answer": 1,
+  "explanation": "Autophosphorylation on tyrosines after ligand binding defines a receptor tyrosine kinase. Nuclear receptors bind lipophilic ligands such as steroids.",
+  "topic": "2A – Cell signaling",
+  "difficulty": "easy",
+  "reviewed": false
+ },
+ {
+  "id": "FL1-BB-006",
+  "section": "BB",
+  "passage_id": "FL1-BB-P02",
+  "passage_title": "Insulin Signaling and GLUT4",
+  "passage": null,
+  "figure_description": null,
+  "stem": "Glucose moves through GLUT4 by:",
+  "choices": [
+   "Primary active transport",
+   "Secondary active transport",
+   "Facilitated diffusion",
+   "Simple diffusion"
+  ],
+  "answer": 2,
+  "explanation": "GLUT transporters move glucose down its concentration gradient using a carrier protein, without ATP. That is facilitated diffusion. SGLT transporters use secondary active transport.",
+  "topic": "2A – Membrane transport",
+  "difficulty": "easy",
+  "reviewed": false
+ },
+ {
+  "id": "FL1-BB-007",
+  "section": "BB",
+  "passage_id": "FL1-BB-P02",
+  "passage_title": "Insulin Signaling and GLUT4",
+  "passage": null,
+  "figure_description": null,
+  "stem": "Which tissue takes up glucose largely independently of insulin?",
+  "choices": [
+   "Skeletal muscle",
+   "Adipose tissue",
+   "Brain",
+   "Cardiac muscle during rest"
+  ],
+  "answer": 2,
+  "explanation": "Neurons rely on insulin-independent GLUT1 and GLUT3, keeping the brain's glucose supply steady. Muscle and fat depend on insulin-stimulated GLUT4.",
+  "topic": "3B – Endocrine / metabolism",
+  "difficulty": "medium",
+  "reviewed": false
+ },
+ {
+  "id": "FL1-BB-008",
+  "section": "BB",
+  "passage_id": "FL1-BB-P02",
+  "passage_title": "Insulin Signaling and GLUT4",
+  "passage": null,
+  "figure_description": null,
+  "stem": "In the liver, insulin promotes:",
+  "choices": [
+   "Glycogenolysis",
+   "Gluconeogenesis",
+   "Glycogen synthesis",
+   "Ketogenesis"
+  ],
+  "answer": 2,
+  "explanation": "Insulin is the fed-state hormone: it stimulates glycogen synthesis and inhibits glycogenolysis, gluconeogenesis, and ketogenesis.",
+  "topic": "1D – Metabolic regulation",
+  "difficulty": "easy",
+  "reviewed": false
+ },
+ {
+  "id": "FL1-BB-009",
+  "section": "BB",
+  "passage_id": "FL1-BB-P02",
+  "passage_title": "Insulin Signaling and GLUT4",
+  "passage": null,
+  "figure_description": null,
+  "stem": "Insulin is secreted by:",
+  "choices": [
+   "α cells of the pancreatic islets",
+   "β cells of the pancreatic islets",
+   "δ cells of the pancreatic islets",
+   "Acinar cells of the exocrine pancreas"
+  ],
+  "answer": 1,
+  "explanation": "β cells secrete insulin; α cells secrete glucagon; δ cells secrete somatostatin; acinar cells secrete digestive enzymes.",
+  "topic": "3B – Endocrine system",
+  "difficulty": "easy",
+  "reviewed": false
+ },
+ {
+  "id": "FL1-BB-010",
+  "section": "BB",
+  "passage_id": "FL1-BB-P03",
+  "passage_title": "An Uncoupler of Oxidative Phosphorylation",
+  "passage": "2,4-Dinitrophenol (DNP) is a lipophilic weak acid that picks up protons in the mitochondrial intermembrane space, diffuses across the inner membrane, and releases them in the matrix. It was once sold as a weight-loss drug before being banned due to fatal hyperthermia. Isolated mitochondria were given succinate as substrate, and O2 consumption and ATP production were measured before and after adding DNP.",
+  "figure_description": null,
+  "stem": "After DNP is added, O2 consumption will:",
+  "choices": [
+   "Decrease, because the gradient is lost",
+   "Increase, because the electron transport chain is no longer slowed by the gradient",
+   "Stop, because complex IV is inhibited",
+   "Not change"
+  ],
+  "answer": 1,
+  "explanation": "A steep proton gradient normally slows the ETC (respiratory control). Dissipating it removes that brake, so electron flow and O2 consumption increase.",
+  "topic": "1D – Oxidative phosphorylation",
+  "difficulty": "medium",
+  "reviewed": false
+ },
+ {
+  "id": "FL1-BB-011",
+  "section": "BB",
+  "passage_id": "FL1-BB-P03",
+  "passage_title": "An Uncoupler of Oxidative Phosphorylation",
+  "passage": null,
+  "figure_description": null,
+  "stem": "ATP production by ATP synthase will:",
+  "choices": [
+   "Increase",
+   "Decrease",
+   "Not change",
+   "Reverse direction only in the matrix"
+  ],
+  "answer": 1,
+  "explanation": "ATP synthase is driven by protons flowing back through it. DNP provides a bypass, so less proton-motive force drives ATP synthesis.",
+  "topic": "1D – Oxidative phosphorylation",
+  "difficulty": "easy",
+  "reviewed": false
+ },
+ {
+  "id": "FL1-BB-012",
+  "section": "BB",
+  "passage_id": "FL1-BB-P03",
+  "passage_title": "An Uncoupler of Oxidative Phosphorylation",
+  "passage": null,
+  "figure_description": null,
+  "stem": "The energy from electron transport in DNP-treated mitochondria is mainly released as:",
+  "choices": [
+   "ATP",
+   "GTP",
+   "Heat",
+   "NADH"
+  ],
+  "answer": 2,
+  "explanation": "With the gradient dissipated, energy from substrate oxidation is lost as heat, explaining the hyperthermia. Brown fat's UCP1 does the same thing physiologically.",
+  "topic": "1D – Bioenergetics",
+  "difficulty": "easy",
+  "reviewed": false
+ },
+ {
+  "id": "FL1-BB-013",
+  "section": "BB",
+  "passage_id": "FL1-BB-P03",
+  "passage_title": "An Uncoupler of Oxidative Phosphorylation",
+  "passage": null,
+  "figure_description": null,
+  "stem": "Which complex transfers electrons directly to O2?",
+  "choices": [
+   "Complex I",
+   "Complex II",
+   "Complex III",
+   "Complex IV"
+  ],
+  "answer": 3,
+  "explanation": "Complex IV (cytochrome c oxidase) reduces O2 to H2O. Complex II accepts electrons from succinate.",
+  "topic": "1D – Electron transport chain",
+  "difficulty": "easy",
+  "reviewed": false
+ },
+ {
+  "id": "FL1-BB-014",
+  "section": "BB",
+  "passage_id": "FL1-BB-P03",
+  "passage_title": "An Uncoupler of Oxidative Phosphorylation",
+  "passage": null,
+  "figure_description": null,
+  "stem": "In functioning mitochondria, the proton concentration is highest in the:",
+  "choices": [
+   "Matrix",
+   "Intermembrane space",
+   "Cytosol only",
+   "Inner membrane"
+  ],
+  "answer": 1,
+  "explanation": "Complexes I, III, and IV pump protons from the matrix into the intermembrane space, so it has the higher [H⁺] (lower pH).",
+  "topic": "1D – Electron transport chain",
+  "difficulty": "easy",
+  "reviewed": false
+ },
+ {
+  "id": "FL1-BB-015",
+  "section": "BB",
+  "passage_id": "FL1-BB-P04",
+  "passage_title": "Loop Diuretics",
+  "passage": "Furosemide is a loop diuretic that inhibits the Na⁺–K⁺–2Cl⁻ cotransporter (NKCC2) on the apical membrane of the nephron. It is used to treat fluid overload in heart failure. A common side effect is low serum potassium.",
+  "figure_description": null,
+  "stem": "Furosemide acts mainly in the:",
+  "choices": [
+   "Proximal convoluted tubule",
+   "Thin descending limb",
+   "Thick ascending limb of the loop of Henle",
+   "Collecting duct"
+  ],
+  "answer": 2,
+  "explanation": "NKCC2 is located on the apical membrane of the thick ascending limb, the segment loop diuretics are named for.",
+  "topic": "3B – Excretory system",
+  "difficulty": "easy",
+  "reviewed": false
+ },
+ {
+  "id": "FL1-BB-016",
+  "section": "BB",
+  "passage_id": "FL1-BB-P04",
+  "passage_title": "Loop Diuretics",
+  "passage": null,
+  "figure_description": null,
+  "stem": "Furosemide will cause urine volume to:",
+  "choices": [
+   "Decrease",
+   "Increase",
+   "Stay the same",
+   "Fall to zero"
+  ],
+  "answer": 1,
+  "explanation": "Blocking NaCl reabsorption leaves more solute in the tubule and weakens the medullary gradient, so less water is reabsorbed and urine volume rises.",
+  "topic": "3B – Excretory system",
+  "difficulty": "easy",
+  "reviewed": false
+ },
+ {
+  "id": "FL1-BB-017",
+  "section": "BB",
+  "passage_id": "FL1-BB-P04",
+  "passage_title": "Loop Diuretics",
+  "passage": null,
+  "figure_description": null,
+  "stem": "Low serum potassium results mainly because:",
+  "choices": [
+   "NKCC2 secretes K⁺",
+   "More Na⁺ reaches the collecting duct, increasing K⁺ secretion",
+   "Furosemide blocks K⁺ absorption in the gut",
+   "Aldosterone secretion falls"
+  ],
+  "answer": 1,
+  "explanation": "Increased distal Na⁺ delivery drives Na⁺ reabsorption via ENaC in principal cells, making the lumen more negative and promoting K⁺ secretion. Volume loss also raises aldosterone.",
+  "topic": "3B – Excretory system",
+  "difficulty": "hard",
+  "reviewed": false
+ },
+ {
+  "id": "FL1-BB-018",
+  "section": "BB",
+  "passage_id": "FL1-BB-P04",
+  "passage_title": "Loop Diuretics",
+  "passage": null,
+  "figure_description": null,
+  "stem": "Which hormone increases water reabsorption in the collecting duct?",
+  "choices": [
+   "ADH",
+   "ANP",
+   "Calcitonin",
+   "Renin"
+  ],
+  "answer": 0,
+  "explanation": "ADH (vasopressin) inserts aquaporin-2 channels into collecting duct cells. ANP promotes natriuresis; renin is an enzyme.",
+  "topic": "3B – Endocrine / excretory",
+  "difficulty": "easy",
+  "reviewed": false
+ },
+ {
+  "id": "FL1-BB-019",
+  "section": "BB",
+  "passage_id": "FL1-BB-P05",
+  "passage_title": "Hemophilia A in a Family",
+  "passage": "Hemophilia A is an X-linked recessive disorder caused by mutations in the gene for clotting factor VIII. A woman whose father had hemophilia A has a normal clotting profile. She and her husband, who does not have hemophilia, are planning a family.",
+  "figure_description": null,
+  "stem": "What is the probability that their son will have hemophilia A?",
+  "choices": [
+   "0",
+   "1/4",
+   "1/2",
+   "1"
+  ],
+  "answer": 2,
+  "explanation": "Her father passed her his affected X, so she is a carrier (XᴴXʰ). Each son receives one of her X chromosomes, so the chance is 1/2.",
+  "topic": "1C – X-linked inheritance",
+  "difficulty": "medium",
+  "reviewed": false
+ },
+ {
+  "id": "FL1-BB-020",
+  "section": "BB",
+  "passage_id": "FL1-BB-P05",
+  "passage_title": "Hemophilia A in a Family",
+  "passage": null,
+  "figure_description": null,
+  "stem": "What is the probability that their daughter will have hemophilia A?",
+  "choices": [
+   "0",
+   "1/4",
+   "1/2",
+   "1"
+  ],
+  "answer": 0,
+  "explanation": "Daughters receive the father's normal X, so at worst they are carriers.",
+  "topic": "1C – X-linked inheritance",
+  "difficulty": "medium",
+  "reviewed": false
+ },
+ {
+  "id": "FL1-BB-021",
+  "section": "BB",
+  "passage_id": "FL1-BB-P05",
+  "passage_title": "Hemophilia A in a Family",
+  "passage": null,
+  "figure_description": null,
+  "stem": "If an affected man has children with a woman who is not a carrier, his daughters will be:",
+  "choices": [
+   "All affected",
+   "All carriers",
+   "Half carriers",
+   "All unaffected non-carriers"
+  ],
+  "answer": 1,
+  "explanation": "Every daughter gets his X carrying the mutation plus a normal X from her mother, so all daughters are carriers. Sons get his Y and are unaffected.",
+  "topic": "1C – X-linked inheritance",
+  "difficulty": "easy",
+  "reviewed": false
+ },
+ {
+  "id": "FL1-BB-022",
+  "section": "BB",
+  "passage_id": "FL1-BB-P05",
+  "passage_title": "Hemophilia A in a Family",
+  "passage": null,
+  "figure_description": null,
+  "stem": "Factor VIII deficiency most directly impairs:",
+  "choices": [
+   "Platelet plug formation",
+   "The coagulation cascade leading to fibrin formation",
+   "Fibrinolysis",
+   "Vasoconstriction"
+  ],
+  "answer": 1,
+  "explanation": "Factor VIII is part of the intrinsic coagulation pathway (secondary hemostasis). Platelet plug formation (primary hemostasis) is largely normal.",
+  "topic": "3B – Circulatory system",
+  "difficulty": "medium",
+  "reviewed": false
+ },
+ {
+  "id": "FL1-BB-023",
+  "section": "BB",
+  "passage_id": "FL1-BB-P05",
+  "passage_title": "Hemophilia A in a Family",
+  "passage": null,
+  "figure_description": null,
+  "stem": "X-linked recessive disorders are more common in males because males are:",
+  "choices": [
+   "Heterozygous for X-linked genes",
+   "Hemizygous for X-linked genes",
+   "Subject to X-inactivation",
+   "More likely to have new mutations"
+  ],
+  "answer": 1,
+  "explanation": "Males have one X, so a single recessive allele is expressed. Females need two copies.",
+  "topic": "1C – Inheritance",
+  "difficulty": "easy",
+  "reviewed": false
+ },
+ {
+  "id": "FL1-BB-024",
+  "section": "BB",
+  "passage_id": "FL1-BB-P06",
+  "passage_title": "Metabolism and Antigen Presentation",
+  "passage": "Tumors consume large amounts of methionine, depleting it from the surrounding environment. Methionine is required for protein synthesis and is converted to S-adenosylmethionine (SAM). Researchers hypothesized that methionine restriction impairs the ability of macrophages to process and present tumor antigens to CD8⁺ T cells through MHC class I.",
+  "figure_description": null,
+  "stem": "MHC class I molecules present peptides to:",
+  "choices": [
+   "CD4⁺ helper T cells",
+   "CD8⁺ cytotoxic T cells",
+   "B cells",
+   "Natural killer cells via antibodies"
+  ],
+  "answer": 1,
+  "explanation": "MHC I presents to CD8⁺ T cells; MHC II presents to CD4⁺ T cells.",
+  "topic": "3B – Immune system",
+  "difficulty": "easy",
+  "reviewed": false
+ },
+ {
+  "id": "FL1-BB-025",
+  "section": "BB",
+  "passage_id": "FL1-BB-P06",
+  "passage_title": "Metabolism and Antigen Presentation",
+  "passage": null,
+  "figure_description": null,
+  "stem": "Which cells express MHC class I?",
+  "choices": [
+   "Only professional antigen-presenting cells",
+   "All nucleated cells",
+   "Only T cells",
+   "Only red blood cells"
+  ],
+  "answer": 1,
+  "explanation": "MHC I is on essentially all nucleated cells, letting CD8⁺ T cells survey any infected or cancerous cell. Mature red blood cells lack nuclei and MHC I.",
+  "topic": "3B – Immune system",
+  "difficulty": "easy",
+  "reviewed": false
+ },
+ {
+  "id": "FL1-BB-026",
+  "section": "BB",
+  "passage_id": "FL1-BB-P06",
+  "passage_title": "Metabolism and Antigen Presentation",
+  "passage": null,
+  "figure_description": null,
+  "stem": "Peptides loaded onto MHC I are typically generated by:",
+  "choices": [
+   "Lysosomal proteases, then loaded in endosomes",
+   "The proteasome, then transported into the ER by TAP",
+   "The Golgi apparatus",
+   "Secreted extracellular proteases"
+  ],
+  "answer": 1,
+  "explanation": "Cytosolic proteins are degraded by the proteasome, and peptides enter the ER via TAP for loading onto MHC I. The lysosomal route feeds MHC II.",
+  "topic": "2A – Cellular processes / immunity",
+  "difficulty": "medium",
+  "reviewed": false
+ },
+ {
+  "id": "FL1-BB-027",
+  "section": "BB",
+  "passage_id": "FL1-BB-P06",
+  "passage_title": "Metabolism and Antigen Presentation",
+  "passage": null,
+  "figure_description": null,
+  "stem": "SAM derived from methionine functions mainly as a:",
+  "choices": [
+   "Phosphate donor",
+   "Methyl group donor",
+   "Electron carrier",
+   "Acyl group carrier"
+  ],
+  "answer": 1,
+  "explanation": "SAM is the main cellular methyl donor, used for DNA and histone methylation among other reactions. ATP donates phosphate; NADH carries electrons; CoA carries acyl groups.",
+  "topic": "1D – Metabolism",
+  "difficulty": "medium",
+  "reviewed": false
+ },
+ {
+  "id": "FL1-BB-028",
+  "section": "BB",
+  "passage_id": "FL1-BB-P07",
+  "passage_title": "Tetrodotoxin and the Action Potential",
+  "passage": "Tetrodotoxin (TTX), found in pufferfish, binds voltage-gated sodium channels and blocks the pore. Researchers recorded from a squid giant axon before and after TTX application while stimulating it with a depolarizing current.",
+  "figure_description": null,
+  "stem": "After TTX application, stimulation will:",
+  "choices": [
+   "Produce a larger action potential",
+   "Fail to produce the rising phase of an action potential",
+   "Prolong repolarization",
+   "Cause spontaneous firing"
+  ],
+  "answer": 1,
+  "explanation": "The upstroke depends on Na⁺ influx through voltage-gated Na⁺ channels. Blocking them prevents the action potential.",
+  "topic": "3A – Nervous system",
+  "difficulty": "easy",
+  "reviewed": false
+ },
+ {
+  "id": "FL1-BB-029",
+  "section": "BB",
+  "passage_id": "FL1-BB-P07",
+  "passage_title": "Tetrodotoxin and the Action Potential",
+  "passage": null,
+  "figure_description": null,
+  "stem": "The resting membrane potential is established mainly by:",
+  "choices": [
+   "Na⁺ influx through voltage-gated channels",
+   "K⁺ efflux through leak channels",
+   "Cl⁻ influx through ligand-gated channels",
+   "Ca²⁺ release from the ER"
+  ],
+  "answer": 1,
+  "explanation": "At rest the membrane is most permeable to K⁺ via leak channels, so the resting potential (~−70 mV) sits near K⁺'s equilibrium potential. The Na⁺/K⁺ pump maintains the gradients.",
+  "topic": "3A – Nervous system",
+  "difficulty": "medium",
+  "reviewed": false
+ },
+ {
+  "id": "FL1-BB-030",
+  "section": "BB",
+  "passage_id": "FL1-BB-P07",
+  "passage_title": "Tetrodotoxin and the Action Potential",
+  "passage": null,
+  "figure_description": null,
+  "stem": "Repolarization is caused mainly by:",
+  "choices": [
+   "Opening of voltage-gated K⁺ channels",
+   "Opening of voltage-gated Na⁺ channels",
+   "Closing of K⁺ leak channels",
+   "Activation of the Na⁺/K⁺ pump"
+  ],
+  "answer": 0,
+  "explanation": "After Na⁺ channels inactivate, voltage-gated K⁺ channels open and K⁺ efflux returns the membrane toward rest.",
+  "topic": "3A – Nervous system",
+  "difficulty": "easy",
+  "reviewed": false
+ },
+ {
+  "id": "FL1-BB-031",
+  "section": "BB",
+  "passage_id": "FL1-BB-P07",
+  "passage_title": "Tetrodotoxin and the Action Potential",
+  "passage": null,
+  "figure_description": null,
+  "stem": "Myelin increases conduction velocity by:",
+  "choices": [
+   "Increasing the number of Na⁺ channels along the whole axon",
+   "Allowing saltatory conduction between nodes of Ranvier",
+   "Raising the threshold potential",
+   "Increasing membrane capacitance"
+  ],
+  "answer": 1,
+  "explanation": "Myelin insulates the axon and decreases capacitance, so the signal jumps between nodes of Ranvier, where Na⁺ channels cluster.",
+  "topic": "3A – Nervous system",
+  "difficulty": "easy",
+  "reviewed": false
+ },
+ {
+  "id": "FL1-BB-032",
+  "section": "BB",
+  "passage_id": "FL1-BB-P08",
+  "passage_title": "Regulation of the lac Operon",
+  "passage": "E. coli expresses the lac operon genes (lacZ, lacY, lacA) to use lactose as a carbon source. Transcription is controlled by the LacI repressor binding the operator and by the catabolite activator protein (CAP), which binds DNA when complexed with cAMP. Researchers grew wild-type and mutant strains in different media and measured β-galactosidase activity.",
+  "figure_description": null,
+  "stem": "β-galactosidase expression will be highest when:",
+  "choices": [
+   "Glucose present, lactose absent",
+   "Glucose present, lactose present",
+   "Glucose absent, lactose present",
+   "Glucose absent, lactose absent"
+  ],
+  "answer": 2,
+  "explanation": "High expression needs the repressor removed (lactose present) and CAP–cAMP bound, which requires high cAMP when glucose is absent.",
+  "topic": "1B – Prokaryotic gene regulation",
+  "difficulty": "easy",
+  "reviewed": false
+ },
+ {
+  "id": "FL1-BB-033",
+  "section": "BB",
+  "passage_id": "FL1-BB-P08",
+  "passage_title": "Regulation of the lac Operon",
+  "passage": null,
+  "figure_description": null,
+  "stem": "A lacI mutation producing a repressor that cannot bind the operator will cause:",
+  "choices": [
+   "No expression under any conditions",
+   "Constitutive expression",
+   "Expression only with glucose",
+   "Expression only with high cAMP and glucose"
+  ],
+  "answer": 1,
+  "explanation": "Without a functional repressor binding the operator, the operon is transcribed regardless of lactose (constitutive), though still modulated by CAP.",
+  "topic": "1B – Prokaryotic gene regulation",
+  "difficulty": "medium",
+  "reviewed": false
+ },
+ {
+  "id": "FL1-BB-034",
+  "section": "BB",
+  "passage_id": "FL1-BB-P08",
+  "passage_title": "Regulation of the lac Operon",
+  "passage": null,
+  "figure_description": null,
+  "stem": "cAMP levels in E. coli are high when:",
+  "choices": [
+   "Glucose is abundant",
+   "Glucose is scarce",
+   "Lactose is abundant",
+   "The repressor is bound"
+  ],
+  "answer": 1,
+  "explanation": "Glucose transport inhibits adenylate cyclase. When glucose is scarce, cAMP rises and forms CAP–cAMP, which boosts transcription.",
+  "topic": "1B – Prokaryotic gene regulation",
+  "difficulty": "medium",
+  "reviewed": false
+ },
+ {
+  "id": "FL1-BB-035",
+  "section": "BB",
+  "passage_id": "FL1-BB-P08",
+  "passage_title": "Regulation of the lac Operon",
+  "passage": null,
+  "figure_description": null,
+  "stem": "Lactose induces the operon because allolactose:",
+  "choices": [
+   "Binds the operator directly",
+   "Binds the repressor and lowers its affinity for the operator",
+   "Activates RNA polymerase",
+   "Degrades the repressor"
+  ],
+  "answer": 1,
+  "explanation": "Allolactose is an allosteric inducer: it binds LacI and changes its shape so it releases the operator.",
+  "topic": "1B – Prokaryotic gene regulation",
+  "difficulty": "easy",
+  "reviewed": false
+ },
+ {
+  "id": "FL1-BB-036",
+  "section": "BB",
+  "passage_id": "FL1-BB-P09",
+  "passage_title": "Allele Frequencies in an Island Population",
+  "passage": "An island population of 1,000 lizards was surveyed for an autosomal recessive trait causing pale coloration. 160 lizards showed the pale phenotype. Researchers assumed the population was in Hardy–Weinberg equilibrium for this gene.",
+  "figure_description": null,
+  "stem": "What is the frequency of the recessive allele?",
+  "choices": [
+   "0.16",
+   "0.40",
+   "0.60",
+   "0.84"
+  ],
+  "answer": 1,
+  "explanation": "q² = 160/1,000 = 0.16, so q = 0.40. 0.16 is the genotype frequency; 0.60 is p.",
+  "topic": "1C – Population genetics",
+  "difficulty": "easy",
+  "reviewed": false
+ },
+ {
+  "id": "FL1-BB-037",
+  "section": "BB",
+  "passage_id": "FL1-BB-P09",
+  "passage_title": "Allele Frequencies in an Island Population",
+  "passage": null,
+  "figure_description": null,
+  "stem": "What fraction of the population is heterozygous?",
+  "choices": [
+   "0.16",
+   "0.24",
+   "0.36",
+   "0.48"
+  ],
+  "answer": 3,
+  "explanation": "2pq = 2(0.60)(0.40) = 0.48. 0.24 omits the factor of 2.",
+  "topic": "1C – Hardy–Weinberg",
+  "difficulty": "medium",
+  "reviewed": false
+ },
+ {
+  "id": "FL1-BB-038",
+  "section": "BB",
+  "passage_id": "FL1-BB-P09",
+  "passage_title": "Allele Frequencies in an Island Population",
+  "passage": null,
+  "figure_description": null,
+  "stem": "What fraction is homozygous dominant?",
+  "choices": [
+   "0.16",
+   "0.36",
+   "0.48",
+   "0.60"
+  ],
+  "answer": 1,
+  "explanation": "p² = (0.60)² = 0.36. Check: 0.36 + 0.48 + 0.16 = 1.00.",
+  "topic": "1C – Hardy–Weinberg",
+  "difficulty": "easy",
+  "reviewed": false
+ },
+ {
+  "id": "FL1-BB-039",
+  "section": "BB",
+  "passage_id": "FL1-BB-P09",
+  "passage_title": "Allele Frequencies in an Island Population",
+  "passage": null,
+  "figure_description": null,
+  "stem": "A storm kills a random 90% of the lizards. Allele frequencies in survivors may change mainly due to:",
+  "choices": [
+   "Natural selection",
+   "Genetic drift",
+   "Gene flow",
+   "Mutation"
+  ],
+  "answer": 1,
+  "explanation": "A random reduction in population size is a bottleneck. Chance changes in allele frequency, unrelated to fitness, are genetic drift.",
+  "topic": "1C – Evolution",
+  "difficulty": "easy",
+  "reviewed": false
+ },
+ {
+  "id": "FL1-BB-040",
+  "section": "BB",
+  "passage_id": "FL1-BB-P09",
+  "passage_title": "Allele Frequencies in an Island Population",
+  "passage": null,
+  "figure_description": null,
+  "stem": "Lizards from the mainland begin arriving on rafts and breeding. This violates the Hardy–Weinberg assumption of:",
+  "choices": [
+   "Random mating",
+   "No migration",
+   "Large population size",
+   "No mutation"
+  ],
+  "answer": 1,
+  "explanation": "Migration introduces alleles from another population (gene flow), changing allele frequencies.",
+  "topic": "1C – Evolution",
+  "difficulty": "easy",
+  "reviewed": false
+ },
+ {
+  "id": "FL1-BB-041",
+  "section": "BB",
+  "passage_id": "FL1-BB-P10",
+  "passage_title": "Carnitine Deficiency",
+  "passage": "Long-chain fatty acids are activated to acyl-CoA in the cytosol and must be transported into the mitochondrial matrix for β-oxidation. Patients with primary carnitine deficiency develop muscle weakness and, during fasting, low blood glucose with abnormally low ketone levels.",
+  "figure_description": null,
+  "stem": "Carnitine's role is to:",
+  "choices": [
+   "Activate fatty acids to acyl-CoA",
+   "Shuttle long-chain acyl groups across the inner mitochondrial membrane",
+   "Carry acetyl groups out of the mitochondria for fatty acid synthesis",
+   "Oxidize fatty acids in peroxisomes"
+  ],
+  "answer": 1,
+  "explanation": "The carnitine shuttle (CPT-I, translocase, CPT-II) moves long-chain acyl groups into the matrix. Citrate carries acetyl groups out for fatty acid synthesis.",
+  "topic": "1D – Lipid metabolism",
+  "difficulty": "easy",
+  "reviewed": false
+ },
+ {
+  "id": "FL1-BB-042",
+  "section": "BB",
+  "passage_id": "FL1-BB-P10",
+  "passage_title": "Carnitine Deficiency",
+  "passage": null,
+  "figure_description": null,
+  "stem": "Why do these patients become hypoglycemic with low ketones during fasting?",
+  "choices": [
+   "Excess insulin secretion",
+   "Impaired β-oxidation limits ketone production and the energy that supports gluconeogenesis",
+   "Liver glycogen stores are increased",
+   "Increased glucose uptake by the brain"
+  ],
+  "answer": 1,
+  "explanation": "Without β-oxidation, the liver cannot make acetyl-CoA for ketogenesis or the ATP and NADH that power gluconeogenesis, producing hypoketotic hypoglycemia.",
+  "topic": "1D – Metabolic integration",
+  "difficulty": "hard",
+  "reviewed": false
+ },
+ {
+  "id": "FL1-BB-043",
+  "section": "BB",
+  "passage_id": "FL1-BB-P10",
+  "passage_title": "Carnitine Deficiency",
+  "passage": null,
+  "figure_description": null,
+  "stem": "Each round of β-oxidation produces:",
+  "choices": [
+   "1 NADH, 1 FADH2, and 1 acetyl-CoA",
+   "2 NADH and 1 acetyl-CoA",
+   "1 ATP and 1 acetyl-CoA",
+   "1 NADPH and 1 acetyl-CoA"
+  ],
+  "answer": 0,
+  "explanation": "Each cycle has an FAD-dependent dehydrogenation, a hydration, an NAD⁺-dependent oxidation, and a thiolysis that releases one acetyl-CoA.",
+  "topic": "1D – Lipid metabolism",
+  "difficulty": "medium",
+  "reviewed": false
+ },
+ {
+  "id": "FL1-BB-044",
+  "section": "BB",
+  "passage_id": "FL1-BB-P10",
+  "passage_title": "Carnitine Deficiency",
+  "passage": null,
+  "figure_description": null,
+  "stem": "Complete β-oxidation of palmitoyl-CoA (16 carbons) yields how many acetyl-CoA?",
+  "choices": [
+   "7",
+   "8",
+   "14",
+   "16"
+  ],
+  "answer": 1,
+  "explanation": "16 carbons / 2 = 8 acetyl-CoA, produced over 7 rounds (the final round releases two).",
+  "topic": "1D – Lipid metabolism",
+  "difficulty": "medium",
+  "reviewed": false
+ },
+ {
+  "id": "FL1-BB-045",
+  "section": "BB",
+  "passage_id": null,
+  "passage_title": null,
+  "passage": null,
+  "figure_description": null,
+  "stem": "Which enzyme relieves supercoiling ahead of the replication fork?",
+  "choices": [
+   "Helicase",
+   "Primase",
+   "Topoisomerase",
+   "Ligase"
+  ],
+  "answer": 2,
+  "explanation": "Topoisomerases cut and reseal DNA to relieve torsional strain created by unwinding. Helicase unwinds; primase makes RNA primers; ligase seals nicks.",
+  "topic": "1B – DNA replication",
+  "difficulty": "easy",
+  "reviewed": false
+ },
+ {
+  "id": "FL1-BB-046",
+  "section": "BB",
+  "passage_id": null,
+  "passage_title": null,
+  "passage": null,
+  "figure_description": null,
+  "stem": "Which organelle is the main site of lipid synthesis?",
+  "choices": [
+   "Rough ER",
+   "Smooth ER",
+   "Golgi apparatus",
+   "Lysosome"
+  ],
+  "answer": 1,
+  "explanation": "Smooth ER synthesizes lipids and steroids and detoxifies drugs. Rough ER synthesizes secreted and membrane proteins.",
+  "topic": "2A – Cell organelles",
+  "difficulty": "easy",
+  "reviewed": false
+ },
+ {
+  "id": "FL1-BB-047",
+  "section": "BB",
+  "passage_id": null,
+  "passage_title": null,
+  "passage": null,
+  "figure_description": null,
+  "stem": "How many of the 64 codons specify amino acids?",
+  "choices": [
+   "20",
+   "61",
+   "62",
+   "64"
+  ],
+  "answer": 1,
+  "explanation": "Three codons (UAA, UAG, UGA) are stop codons, leaving 61 sense codons.",
+  "topic": "1B – Genetic code",
+  "difficulty": "easy",
+  "reviewed": false
+ },
+ {
+  "id": "FL1-BB-048",
+  "section": "BB",
+  "passage_id": null,
+  "passage_title": null,
+  "passage": null,
+  "figure_description": null,
+  "stem": "Antibodies are secreted by:",
+  "choices": [
+   "Helper T cells",
+   "Plasma cells",
+   "Macrophages",
+   "Memory T cells"
+  ],
+  "answer": 1,
+  "explanation": "Plasma cells are differentiated B cells that secrete antibodies.",
+  "topic": "3B – Immune system",
+  "difficulty": "easy",
+  "reviewed": false
+ },
+ {
+  "id": "FL1-BB-049",
+  "section": "BB",
+  "passage_id": null,
+  "passage_title": null,
+  "passage": null,
+  "figure_description": null,
+  "stem": "Pulmonary surfactant is produced by:",
+  "choices": [
+   "Type I pneumocytes",
+   "Type II pneumocytes",
+   "Alveolar macrophages",
+   "Goblet cells"
+  ],
+  "answer": 1,
+  "explanation": "Type II pneumocytes secrete surfactant, which lowers surface tension and prevents alveolar collapse. Type I cells form the gas-exchange surface.",
+  "topic": "3B – Respiratory system",
+  "difficulty": "easy",
+  "reviewed": false
+ },
+ {
+  "id": "FL1-BB-050",
+  "section": "BB",
+  "passage_id": null,
+  "passage_title": null,
+  "passage": null,
+  "figure_description": null,
+  "stem": "Crossing over occurs during:",
+  "choices": [
+   "Prophase of mitosis",
+   "Prophase I of meiosis",
+   "Metaphase II of meiosis",
+   "Anaphase I of meiosis"
+  ],
+  "answer": 1,
+  "explanation": "Homologous chromosomes pair as tetrads and exchange segments at chiasmata during prophase I.",
+  "topic": "1C – Meiosis",
+  "difficulty": "easy",
+  "reviewed": false
+ },
+ {
+  "id": "FL1-BB-051",
+  "section": "BB",
+  "passage_id": null,
+  "passage_title": null,
+  "passage": null,
+  "figure_description": null,
+  "stem": "Which hormone is released from the posterior pituitary?",
+  "choices": [
+   "Prolactin",
+   "Oxytocin",
+   "Growth hormone",
+   "ACTH"
+  ],
+  "answer": 1,
+  "explanation": "The posterior pituitary releases oxytocin and ADH, which are made in the hypothalamus. The others come from the anterior pituitary.",
+  "topic": "3B – Endocrine system",
+  "difficulty": "easy",
+  "reviewed": false
+ },
+ {
+  "id": "FL1-BB-052",
+  "section": "BB",
+  "passage_id": null,
+  "passage_title": null,
+  "passage": null,
+  "figure_description": null,
+  "stem": "A rise in blood CO2 and a fall in pH shift the hemoglobin–O2 dissociation curve:",
+  "choices": [
+   "Left, increasing O2 affinity",
+   "Right, decreasing O2 affinity",
+   "Right, increasing O2 affinity",
+   "Not at all"
+  ],
+  "answer": 1,
+  "explanation": "The Bohr effect: H⁺ and CO2 stabilize the low-affinity T state, shifting the curve right and promoting O2 unloading in active tissues.",
+  "topic": "3B – Respiratory / circulatory",
+  "difficulty": "medium",
+  "reviewed": false
+ },
+ {
+  "id": "FL1-BB-053",
+  "section": "BB",
+  "passage_id": null,
+  "passage_title": null,
+  "passage": null,
+  "figure_description": null,
+  "stem": "Branch points in glycogen are formed by:",
+  "choices": [
+   "α-1,4 glycosidic bonds",
+   "α-1,6 glycosidic bonds",
+   "β-1,4 glycosidic bonds",
+   "Phosphodiester bonds"
+  ],
+  "answer": 1,
+  "explanation": "Glycogen chains are α-1,4 linked, with α-1,6 branches added by branching enzyme. β-1,4 bonds are found in cellulose.",
+  "topic": "1D – Carbohydrates",
+  "difficulty": "easy",
+  "reviewed": false
+ },
+ {
+  "id": "FL1-BB-054",
+  "section": "BB",
+  "passage_id": null,
+  "passage_title": null,
+  "passage": null,
+  "figure_description": null,
+  "stem": "Okazaki fragments are synthesized on the:",
+  "choices": [
+   "Leading strand",
+   "Lagging strand",
+   "Template strand only during transcription",
+   "mRNA"
+  ],
+  "answer": 1,
+  "explanation": "DNA polymerase works only 5′→3′, so the lagging strand is made discontinuously in short Okazaki fragments.",
+  "topic": "1B – DNA replication",
+  "difficulty": "easy",
+  "reviewed": false
+ },
+ {
+  "id": "FL1-BB-055",
+  "section": "BB",
+  "passage_id": null,
+  "passage_title": null,
+  "passage": null,
+  "figure_description": null,
+  "stem": "Bile is produced by the:",
+  "choices": [
+   "Gallbladder",
+   "Liver",
+   "Pancreas",
+   "Duodenum"
+  ],
+  "answer": 1,
+  "explanation": "Hepatocytes produce bile; the gallbladder stores and concentrates it.",
+  "topic": "3B – Digestive system",
+  "difficulty": "easy",
+  "reviewed": false
+ },
+ {
+  "id": "FL1-BB-056",
+  "section": "BB",
+  "passage_id": null,
+  "passage_title": null,
+  "passage": null,
+  "figure_description": null,
+  "stem": "A point mutation that changes a codon to UAG is a:",
+  "choices": [
+   "Silent mutation",
+   "Missense mutation",
+   "Nonsense mutation",
+   "Frameshift mutation"
+  ],
+  "answer": 2,
+  "explanation": "UAG is a stop codon, so the mutation truncates the protein: a nonsense mutation.",
+  "topic": "1B – Mutations",
+  "difficulty": "easy",
+  "reviewed": false
+ },
+ {
+  "id": "FL1-BB-057",
+  "section": "BB",
+  "passage_id": null,
+  "passage_title": null,
+  "passage": null,
+  "figure_description": null,
+  "stem": "Loss-of-function mutations in p53 promote cancer because p53 normally:",
+  "choices": [
+   "Drives cell division",
+   "Halts the cell cycle or triggers apoptosis after DNA damage",
+   "Lengthens telomeres",
+   "Inhibits apoptosis"
+  ],
+  "answer": 1,
+  "explanation": "p53 is a tumor suppressor that arrests the cycle at G1/S for repair or triggers apoptosis. Losing it lets damaged cells keep dividing.",
+  "topic": "2C – Cell cycle / cancer",
+  "difficulty": "easy",
+  "reviewed": false
+ },
+ {
+  "id": "FL1-BB-058",
+  "section": "BB",
+  "passage_id": null,
+  "passage_title": null,
+  "passage": null,
+  "figure_description": null,
+  "stem": "One primary spermatocyte produces how many mature sperm?",
+  "choices": [
+   "1",
+   "2",
+   "4",
+   "8"
+  ],
+  "answer": 2,
+  "explanation": "Meiosis I and II yield four haploid spermatids, which mature into four sperm. Oogenesis yields one egg plus polar bodies.",
+  "topic": "2B – Reproduction",
+  "difficulty": "easy",
+  "reviewed": false
+ },
+ {
+  "id": "FL1-BB-059",
+  "section": "BB",
+  "passage_id": null,
+  "passage_title": null,
+  "passage": null,
+  "figure_description": null,
+  "stem": "Pepsin is secreted as pepsinogen by:",
+  "choices": [
+   "Parietal cells",
+   "Chief cells",
+   "G cells",
+   "Mucous neck cells"
+  ],
+  "answer": 1,
+  "explanation": "Chief cells secrete pepsinogen, which HCl from parietal cells converts to active pepsin. G cells secrete gastrin.",
+  "topic": "3B – Digestive system",
+  "difficulty": "easy",
+  "reviewed": false
+ }
+]
