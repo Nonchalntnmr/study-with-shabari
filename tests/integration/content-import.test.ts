@@ -42,8 +42,9 @@ describe("content import", () => {
     const source = ["cp", "bb", "ps"].flatMap((s) => JSON.parse(readFileSync(`content/questions/fl1-${s}.json`, "utf8")));
     const { bank } = convertFullLength("fl1", source);
     expect(await importBank(db, bank, "REVIEW")).toMatchObject({ exams: 3, passages: 30, questions: 177, status: "REVIEW" });
-    const exams = await db.exam.findMany({ where: { slug: { startsWith: "fl1-" } }, select: { slug: true, status: true, timeLimitSec: true } });
-    expect(exams.map((e) => [e.slug, e.status, e.timeLimitSec]).sort()).toEqual([["fl1-bb", "REVIEW", 5700], ["fl1-cp", "REVIEW", 5700], ["fl1-ps", "REVIEW", 5700]]);
+    const exams = await db.exam.findMany({ where: { slug: { startsWith: "fl1-" } }, select: { slug: true, status: true, timeLimitSec: true, underReview: true } });
+    // Shabari has reviewed every question (reviewed:true), so no set carries the "being reviewed" label.
+    expect(exams.map((e) => [e.slug, e.status, e.timeLimitSec, e.underReview]).sort()).toEqual([["fl1-bb", "REVIEW", 5700, false], ["fl1-cp", "REVIEW", 5700, false], ["fl1-ps", "REVIEW", 5700, false]]);
     expect(await db.question.count({ where: { externalId: { startsWith: "fl1-" }, status: { not: "REVIEW" } } })).toBe(0);
     const p = await db.passage.findUniqueOrThrow({ where: { externalId: "fl1-cp-p01" } });
     expect(p.figureText).toMatch(/^Table 1: \[S\] \(mM\) vs v0/);

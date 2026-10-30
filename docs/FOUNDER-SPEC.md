@@ -263,3 +263,10 @@ access code sent after Zelle payment.
 - **Booking:** both tabs open her existing "initial consult" Calendly event. Say "Free consult call" (and "Book a free
   consult call") instead of "15-min" until she confirms the length or creates dedicated 15-minute events.
 - The $2,000 Full MCAT Package stays as listed. The database password rotation is deferred.
+
+### Founder decisions, 2026-10-30 05:56 (Shabari's answers, relayed by Nishanth)
+- **FL1 reviewed:** Shabari reviewed all 177 FL1 questions, their answer keys and explanations ("all good"). FL1 stays
+  published, marked reviewed (reviewed:true in the question files), without the "being reviewed" label. It is still
+  not an official, calibrated or representative MCAT, and results stay percent correct.
+- **Confirmed by Shabari, kept as written:** the Mudzi figures, the honors qualifiers, the MCAT section scores, and the
+  March 2026 BMJ Rapid Response, at https://www.bmj.com/content/392/bmj.s539/rr-0

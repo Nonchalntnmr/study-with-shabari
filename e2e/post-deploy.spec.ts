@@ -27,7 +27,7 @@ const questions: Q[] = [
   ...bank.exams.flatMap((e: { items: ({ type: string; questions?: Q[] } & Q)[] }) => e.items.flatMap((i) => (i.type === "passage" ? i.questions! : [i]))),
   ...lesson.questions,
 ];
-// FL1, published before Shabari's review (founder decision 2026-10-30), is scanned too.
+// FL1, published and reviewed by Shabari (founder decisions 2026-10-30), is scanned too.
 const fl1 = JSON.parse(readFileSync("content/exams/fl1.json", "utf8"));
 questions.push(...fl1.exams.flatMap((e: { items: ({ type: string; questions?: Q[] } & Q)[] }) => e.items.flatMap((i) => (i.type === "passage" ? i.questions! : [i]))));
 const visible = words(questions.map((q) => [q.stem, ...q.choices.map((c) => c.text)].join(" ")).join(" "));
@@ -154,14 +154,18 @@ test("deployment: the chat widget's hosts are allowed only on public pages", asy
   }
 });
 
-test("deployment: practice sets published before Shabari's review are labelled, with a way to report an error", async ({ request }) => {
+test("deployment: FL1, reviewed by Shabari, has no review label, and nothing calls it official or calibrated", async ({ request }) => {
   const html = await (await request.get("/practice")).text();
   test.skip(!html.includes("/practice/fl1-"), "FL1 isn't published on this deployment");
-  expect(html).toContain("Practice set, being reviewed by Shabari.");
-  expect(html).toContain('href="/contact?topic=support"');
-  const intro = await (await request.get("/practice/fl1-cp")).text();
-  expect(intro).toContain("Practice set, being reviewed by Shabari.");
-  for (const body of [html, intro]) expect(body).not.toMatch(/I wrote|written by Shabari|verified by Shabari/i);
+  const overclaim = /\bcalibrated\b|\brepresentative of\b|\bofficial (MCAT|practice|exam|full-length)\b|matching the real MCAT/i;
+  for (const slug of ["fl1-cp", "fl1-bb", "fl1-ps"]) {
+    const intro = await (await request.get(`/practice/${slug}`)).text();
+    expect(intro, slug).not.toContain("Practice set, being reviewed by Shabari.");
+    expect(intro, slug).not.toMatch(overclaim);
+  }
+  const mcat = await (await request.get("/mcat")).text();
+  expect(mcat).toContain("Available now: a full-length practice test (C/P, B/B and P/S).");
+  for (const body of [html, mcat]) expect(body).not.toMatch(overclaim);
 });
 
 test("16. canonical site is served over HTTPS with HSTS", async ({ request }) => {

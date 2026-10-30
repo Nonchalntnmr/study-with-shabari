@@ -17,7 +17,7 @@
   "explanation": "β-actin is a constitutively expressed loading control. Equal β-actin bands show that the missing TLR4 band in KO cells reflects absent protein, not less sample loaded.",
   "topic": "Experimental methods – Western blot",
   "difficulty": "easy",
-  "reviewed": false
+  "reviewed": true
  },
  {
   "id": "FL1-BB-002",
@@ -37,7 +37,7 @@
   "explanation": "The sgRNA base-pairs with the target DNA and recruits Cas9, which makes the cut. Repair is done by host machinery; mRNA silencing describes RNAi.",
   "topic": "1B – Biotechnology",
   "difficulty": "easy",
-  "reviewed": false
+  "reviewed": true
  },
  {
   "id": "FL1-BB-003",
@@ -57,7 +57,7 @@
   "explanation": "Without a repair template, the Cas9 break is repaired by NHEJ, which often introduces small insertions or deletions. A frameshift creates a premature stop codon, so no full-length protein is made.",
   "topic": "1B – DNA repair / biotechnology",
   "difficulty": "medium",
-  "reviewed": false
+  "reviewed": true
  },
  {
   "id": "FL1-BB-004",
@@ -77,7 +77,7 @@
   "explanation": "Toll-like receptors are germline-encoded pattern-recognition receptors that detect conserved microbial molecules such as LPS, a hallmark of innate immunity.",
   "topic": "3B – Immune system",
   "difficulty": "easy",
-  "reviewed": false
+  "reviewed": true
  },
  {
   "id": "FL1-BB-005",
@@ -97,7 +97,7 @@
   "explanation": "Autophosphorylation on tyrosines after ligand binding defines a receptor tyrosine kinase. Nuclear receptors bind lipophilic ligands such as steroids.",
   "topic": "2A – Cell signaling",
   "difficulty": "easy",
-  "reviewed": false
+  "reviewed": true
  },
  {
   "id": "FL1-BB-006",
@@ -117,7 +117,7 @@
   "explanation": "GLUT transporters move glucose down its concentration gradient using a carrier protein, without ATP. That is facilitated diffusion. SGLT transporters use secondary active transport.",
   "topic": "2A – Membrane transport",
   "difficulty": "easy",
-  "reviewed": false
+  "reviewed": true
  },
  {
   "id": "FL1-BB-007",
@@ -137,7 +137,7 @@
   "explanation": "Neurons rely on insulin-independent GLUT1 and GLUT3, keeping the brain's glucose supply steady. Muscle and fat depend on insulin-stimulated GLUT4.",
   "topic": "3B – Endocrine / metabolism",
   "difficulty": "medium",
-  "reviewed": false
+  "reviewed": true
  },
  {
   "id": "FL1-BB-008",
@@ -157,7 +157,7 @@
   "explanation": "Insulin is the fed-state hormone: it stimulates glycogen synthesis and inhibits glycogenolysis, gluconeogenesis, and ketogenesis.",
   "topic": "1D – Metabolic regulation",
   "difficulty": "easy",
-  "reviewed": false
+  "reviewed": true
  },
  {
   "id": "FL1-BB-009",
@@ -177,7 +177,7 @@
   "explanation": "β cells secrete insulin; α cells secrete glucagon; δ cells secrete somatostatin; acinar cells secrete digestive enzymes.",
   "topic": "3B – Endocrine system",
   "difficulty": "easy",
-  "reviewed": false
+  "reviewed": true
  },
  {
   "id": "FL1-BB-010",
@@ -197,7 +197,7 @@
   "explanation": "A steep proton gradient normally slows the ETC (respiratory control). Dissipating it removes that brake, so electron flow and O2 consumption increase.",
   "topic": "1D – Oxidative phosphorylation",
   "difficulty": "medium",
-  "reviewed": false
+  "reviewed": true
  },
  {
   "id": "FL1-BB-011",
@@ -217,7 +217,7 @@
   "explanation": "ATP synthase is driven by protons flowing back through it. DNP provides a bypass, so less proton-motive force drives ATP synthesis.",
   "topic": "1D – Oxidative phosphorylation",
   "difficulty": "easy",
-  "reviewed": false
+  "reviewed": true
  },
  {
   "id": "FL1-BB-012",
@@ -237,7 +237,7 @@
   "explanation": "With the gradient dissipated, energy from substrate oxidation is lost as heat, explaining the hyperthermia. Brown fat's UCP1 does the same thing physiologically.",
   "topic": "1D – Bioenergetics",
   "difficulty": "easy",
-  "reviewed": false
+  "reviewed": true
  },
  {
   "id": "FL1-BB-013",
@@ -257,7 +257,7 @@
   "explanation": "Complex IV (cytochrome c oxidase) reduces O2 to H2O. Complex II accepts electrons from succinate.",
   "topic": "1D – Electron transport chain",
   "difficulty": "easy",
-  "reviewed": false
+  "reviewed": true
  },
  {
   "id": "FL1-BB-014",
@@ -277,7 +277,7 @@
   "explanation": "Complexes I, III, and IV pump protons from the matrix into the intermembrane space, so it has the higher [H⁺] (lower pH).",
   "topic": "1D – Electron transport chain",
   "difficulty": "easy",
-  "reviewed": false
+  "reviewed": true
  },
  {
   "id": "FL1-BB-015",
@@ -297,7 +297,7 @@
   "explanation": "NKCC2 is located on the apical membrane of the thick ascending limb, the segment loop diuretics are named for.",
   "topic": "3B – Excretory system",
   "difficulty": "easy",
-  "reviewed": false
+  "reviewed": true
  },
  {
   "id": "FL1-BB-016",
@@ -317,7 +317,7 @@
   "explanation": "Blocking NaCl reabsorption leaves more solute in the tubule and weakens the medullary gradient, so less water is reabsorbed and urine volume rises.",
   "topic": "3B – Excretory system",
   "difficulty": "easy",
-  "reviewed": false
+  "reviewed": true
  },
  {
   "id": "FL1-BB-017",
@@ -337,7 +337,7 @@
   "explanation": "Increased distal Na⁺ delivery drives Na⁺ reabsorption via ENaC in principal cells, making the lumen more negative and promoting K⁺ secretion. Volume loss also raises aldosterone.",
   "topic": "3B – Excretory system",
   "difficulty": "hard",
-  "reviewed": false
+  "reviewed": true
  },
  {
   "id": "FL1-BB-018",
@@ -357,7 +357,7 @@
   "explanation": "ADH (vasopressin) inserts aquaporin-2 channels into collecting duct cells. ANP promotes natriuresis; renin is an enzyme.",
   "topic": "3B – Endocrine / excretory",
   "difficulty": "easy",
-  "reviewed": false
+  "reviewed": true
  },
  {
   "id": "FL1-BB-019",
@@ -377,7 +377,7 @@
   "explanation": "Her father passed her his affected X, so she is a carrier (XᴴXʰ). Each son receives one of her X chromosomes, so the chance is 1/2.",
   "topic": "1C – X-linked inheritance",
   "difficulty": "medium",
-  "reviewed": false
+  "reviewed": true
  },
  {
   "id": "FL1-BB-020",
@@ -397,7 +397,7 @@
   "explanation": "Daughters receive the father's normal X, so at worst they are carriers.",
   "topic": "1C – X-linked inheritance",
   "difficulty": "medium",
-  "reviewed": false
+  "reviewed": true
  },
  {
   "id": "FL1-BB-021",
@@ -417,7 +417,7 @@
   "explanation": "Every daughter gets his X carrying the mutation plus a normal X from her mother, so all daughters are carriers. Sons get his Y and are unaffected.",
   "topic": "1C – X-linked inheritance",
   "difficulty": "easy",
-  "reviewed": false
+  "reviewed": true
  },
  {
   "id": "FL1-BB-022",
@@ -437,7 +437,7 @@
   "explanation": "Factor VIII is part of the intrinsic coagulation pathway (secondary hemostasis). Platelet plug formation (primary hemostasis) is largely normal.",
   "topic": "3B – Circulatory system",
   "difficulty": "medium",
-  "reviewed": false
+  "reviewed": true
  },
  {
   "id": "FL1-BB-023",
@@ -457,7 +457,7 @@
   "explanation": "Males have one X, so a single recessive allele is expressed. Females need two copies.",
   "topic": "1C – Inheritance",
   "difficulty": "easy",
-  "reviewed": false
+  "reviewed": true
  },
  {
   "id": "FL1-BB-024",
@@ -477,7 +477,7 @@
   "explanation": "MHC I presents to CD8⁺ T cells; MHC II presents to CD4⁺ T cells.",
   "topic": "3B – Immune system",
   "difficulty": "easy",
-  "reviewed": false
+  "reviewed": true
  },
  {
   "id": "FL1-BB-025",
@@ -497,7 +497,7 @@
   "explanation": "MHC I is on essentially all nucleated cells, letting CD8⁺ T cells survey any infected or cancerous cell. Mature red blood cells lack nuclei and MHC I.",
   "topic": "3B – Immune system",
   "difficulty": "easy",
-  "reviewed": false
+  "reviewed": true
  },
  {
   "id": "FL1-BB-026",
@@ -517,7 +517,7 @@
   "explanation": "Cytosolic proteins are degraded by the proteasome, and peptides enter the ER via TAP for loading onto MHC I. The lysosomal route feeds MHC II.",
   "topic": "2A – Cellular processes / immunity",
   "difficulty": "medium",
-  "reviewed": false
+  "reviewed": true
  },
  {
   "id": "FL1-BB-027",
@@ -537,7 +537,7 @@
   "explanation": "SAM is the main cellular methyl donor, used for DNA and histone methylation among other reactions. ATP donates phosphate; NADH carries electrons; CoA carries acyl groups.",
   "topic": "1D – Metabolism",
   "difficulty": "medium",
-  "reviewed": false
+  "reviewed": true
  },
  {
   "id": "FL1-BB-028",
@@ -557,7 +557,7 @@
   "explanation": "The upstroke depends on Na⁺ influx through voltage-gated Na⁺ channels. Blocking them prevents the action potential.",
   "topic": "3A – Nervous system",
   "difficulty": "easy",
-  "reviewed": false
+  "reviewed": true
  },
  {
   "id": "FL1-BB-029",
@@ -577,7 +577,7 @@
   "explanation": "At rest the membrane is most permeable to K⁺ via leak channels, so the resting potential (~−70 mV) sits near K⁺'s equilibrium potential. The Na⁺/K⁺ pump maintains the gradients.",
   "topic": "3A – Nervous system",
   "difficulty": "medium",
-  "reviewed": false
+  "reviewed": true
  },
  {
   "id": "FL1-BB-030",
@@ -597,7 +597,7 @@
   "explanation": "After Na⁺ channels inactivate, voltage-gated K⁺ channels open and K⁺ efflux returns the membrane toward rest.",
   "topic": "3A – Nervous system",
   "difficulty": "easy",
-  "reviewed": false
+  "reviewed": true
  },
  {
   "id": "FL1-BB-031",
@@ -617,7 +617,7 @@
   "explanation": "Myelin insulates the axon and decreases capacitance, so the signal jumps between nodes of Ranvier, where Na⁺ channels cluster.",
   "topic": "3A – Nervous system",
   "difficulty": "easy",
-  "reviewed": false
+  "reviewed": true
  },
  {
   "id": "FL1-BB-032",
@@ -637,7 +637,7 @@
   "explanation": "High expression needs the repressor removed (lactose present) and CAP–cAMP bound, which requires high cAMP when glucose is absent.",
   "topic": "1B – Prokaryotic gene regulation",
   "difficulty": "easy",
-  "reviewed": false
+  "reviewed": true
  },
  {
   "id": "FL1-BB-033",
@@ -657,7 +657,7 @@
   "explanation": "Without a functional repressor binding the operator, the operon is transcribed regardless of lactose (constitutive), though still modulated by CAP.",
   "topic": "1B – Prokaryotic gene regulation",
   "difficulty": "medium",
-  "reviewed": false
+  "reviewed": true
  },
  {
   "id": "FL1-BB-034",
@@ -677,7 +677,7 @@
   "explanation": "Glucose transport inhibits adenylate cyclase. When glucose is scarce, cAMP rises and forms CAP–cAMP, which boosts transcription.",
   "topic": "1B – Prokaryotic gene regulation",
   "difficulty": "medium",
-  "reviewed": false
+  "reviewed": true
  },
  {
   "id": "FL1-BB-035",
@@ -697,7 +697,7 @@
   "explanation": "Allolactose is an allosteric inducer: it binds LacI and changes its shape so it releases the operator.",
   "topic": "1B – Prokaryotic gene regulation",
   "difficulty": "easy",
-  "reviewed": false
+  "reviewed": true
  },
  {
   "id": "FL1-BB-036",
@@ -717,7 +717,7 @@
   "explanation": "q² = 160/1,000 = 0.16, so q = 0.40. 0.16 is the genotype frequency; 0.60 is p.",
   "topic": "1C – Population genetics",
   "difficulty": "easy",
-  "reviewed": false
+  "reviewed": true
  },
  {
   "id": "FL1-BB-037",
@@ -737,7 +737,7 @@
   "explanation": "2pq = 2(0.60)(0.40) = 0.48. 0.24 omits the factor of 2.",
   "topic": "1C – Hardy–Weinberg",
   "difficulty": "medium",
-  "reviewed": false
+  "reviewed": true
  },
  {
   "id": "FL1-BB-038",
@@ -757,7 +757,7 @@
   "explanation": "p² = (0.60)² = 0.36. Check: 0.36 + 0.48 + 0.16 = 1.00.",
   "topic": "1C – Hardy–Weinberg",
   "difficulty": "easy",
-  "reviewed": false
+  "reviewed": true
  },
  {
   "id": "FL1-BB-039",
@@ -777,7 +777,7 @@
   "explanation": "A random reduction in population size is a bottleneck. Chance changes in allele frequency, unrelated to fitness, are genetic drift.",
   "topic": "1C – Evolution",
   "difficulty": "easy",
-  "reviewed": false
+  "reviewed": true
  },
  {
   "id": "FL1-BB-040",
@@ -797,7 +797,7 @@
   "explanation": "Migration introduces alleles from another population (gene flow), changing allele frequencies.",
   "topic": "1C – Evolution",
   "difficulty": "easy",
-  "reviewed": false
+  "reviewed": true
  },
  {
   "id": "FL1-BB-041",
@@ -817,7 +817,7 @@
   "explanation": "The carnitine shuttle (CPT-I, translocase, CPT-II) moves long-chain acyl groups into the matrix. Citrate carries acetyl groups out for fatty acid synthesis.",
   "topic": "1D – Lipid metabolism",
   "difficulty": "easy",
-  "reviewed": false
+  "reviewed": true
  },
  {
   "id": "FL1-BB-042",
@@ -837,7 +837,7 @@
   "explanation": "Without β-oxidation, the liver cannot make acetyl-CoA for ketogenesis or the ATP and NADH that power gluconeogenesis, producing hypoketotic hypoglycemia.",
   "topic": "1D – Metabolic integration",
   "difficulty": "hard",
-  "reviewed": false
+  "reviewed": true
  },
  {
   "id": "FL1-BB-043",
@@ -857,7 +857,7 @@
   "explanation": "Each cycle has an FAD-dependent dehydrogenation, a hydration, an NAD⁺-dependent oxidation, and a thiolysis that releases one acetyl-CoA.",
   "topic": "1D – Lipid metabolism",
   "difficulty": "medium",
-  "reviewed": false
+  "reviewed": true
  },
  {
   "id": "FL1-BB-044",
@@ -877,7 +877,7 @@
   "explanation": "16 carbons / 2 = 8 acetyl-CoA, produced over 7 rounds (the final round releases two).",
   "topic": "1D – Lipid metabolism",
   "difficulty": "medium",
-  "reviewed": false
+  "reviewed": true
  },
  {
   "id": "FL1-BB-045",
@@ -897,7 +897,7 @@
   "explanation": "Topoisomerases cut and reseal DNA to relieve torsional strain created by unwinding. Helicase unwinds; primase makes RNA primers; ligase seals nicks.",
   "topic": "1B – DNA replication",
   "difficulty": "easy",
-  "reviewed": false
+  "reviewed": true
  },
  {
   "id": "FL1-BB-046",
@@ -917,7 +917,7 @@
   "explanation": "Smooth ER synthesizes lipids and steroids and detoxifies drugs. Rough ER synthesizes secreted and membrane proteins.",
   "topic": "2A – Cell organelles",
   "difficulty": "easy",
-  "reviewed": false
+  "reviewed": true
  },
  {
   "id": "FL1-BB-047",
@@ -937,7 +937,7 @@
   "explanation": "Three codons (UAA, UAG, UGA) are stop codons, leaving 61 sense codons.",
   "topic": "1B – Genetic code",
   "difficulty": "easy",
-  "reviewed": false
+  "reviewed": true
  },
  {
   "id": "FL1-BB-048",
@@ -957,7 +957,7 @@
   "explanation": "Plasma cells are differentiated B cells that secrete antibodies.",
   "topic": "3B – Immune system",
   "difficulty": "easy",
-  "reviewed": false
+  "reviewed": true
  },
  {
   "id": "FL1-BB-049",
@@ -977,7 +977,7 @@
   "explanation": "Type II pneumocytes secrete surfactant, which lowers surface tension and prevents alveolar collapse. Type I cells form the gas-exchange surface.",
   "topic": "3B – Respiratory system",
   "difficulty": "easy",
-  "reviewed": false
+  "reviewed": true
  },
  {
   "id": "FL1-BB-050",
@@ -997,7 +997,7 @@
   "explanation": "Homologous chromosomes pair as tetrads and exchange segments at chiasmata during prophase I.",
   "topic": "1C – Meiosis",
   "difficulty": "easy",
-  "reviewed": false
+  "reviewed": true
  },
  {
   "id": "FL1-BB-051",
@@ -1017,7 +1017,7 @@
   "explanation": "The posterior pituitary releases oxytocin and ADH, which are made in the hypothalamus. The others come from the anterior pituitary.",
   "topic": "3B – Endocrine system",
   "difficulty": "easy",
-  "reviewed": false
+  "reviewed": true
  },
  {
   "id": "FL1-BB-052",
@@ -1037,7 +1037,7 @@
   "explanation": "The Bohr effect: H⁺ and CO2 stabilize the low-affinity T state, shifting the curve right and promoting O2 unloading in active tissues.",
   "topic": "3B – Respiratory / circulatory",
   "difficulty": "medium",
-  "reviewed": false
+  "reviewed": true
  },
  {
   "id": "FL1-BB-053",
@@ -1057,7 +1057,7 @@
   "explanation": "Glycogen chains are α-1,4 linked, with α-1,6 branches added by branching enzyme. β-1,4 bonds are found in cellulose.",
   "topic": "1D – Carbohydrates",
   "difficulty": "easy",
-  "reviewed": false
+  "reviewed": true
  },
  {
   "id": "FL1-BB-054",
@@ -1077,7 +1077,7 @@
   "explanation": "DNA polymerase works only 5′→3′, so the lagging strand is made discontinuously in short Okazaki fragments.",
   "topic": "1B – DNA replication",
   "difficulty": "easy",
-  "reviewed": false
+  "reviewed": true
  },
  {
   "id": "FL1-BB-055",
@@ -1097,7 +1097,7 @@
   "explanation": "Hepatocytes produce bile; the gallbladder stores and concentrates it.",
   "topic": "3B – Digestive system",
   "difficulty": "easy",
-  "reviewed": false
+  "reviewed": true
  },
  {
   "id": "FL1-BB-056",
@@ -1117,7 +1117,7 @@
   "explanation": "UAG is a stop codon, so the mutation truncates the protein: a nonsense mutation.",
   "topic": "1B – Mutations",
   "difficulty": "easy",
-  "reviewed": false
+  "reviewed": true
  },
  {
   "id": "FL1-BB-057",
@@ -1137,7 +1137,7 @@
   "explanation": "p53 is a tumor suppressor that arrests the cycle at G1/S for repair or triggers apoptosis. Losing it lets damaged cells keep dividing.",
   "topic": "2C – Cell cycle / cancer",
   "difficulty": "easy",
-  "reviewed": false
+  "reviewed": true
  },
  {
   "id": "FL1-BB-058",
@@ -1157,7 +1157,7 @@
   "explanation": "Meiosis I and II yield four haploid spermatids, which mature into four sperm. Oogenesis yields one egg plus polar bodies.",
   "topic": "2B – Reproduction",
   "difficulty": "easy",
-  "reviewed": false
+  "reviewed": true
  },
  {
   "id": "FL1-BB-059",
@@ -1177,6 +1177,6 @@
   "explanation": "Chief cells secrete pepsinogen, which HCl from parietal cells converts to active pepsin. G cells secrete gastrin.",
   "topic": "3B – Digestive system",
   "difficulty": "easy",
-  "reviewed": false
+  "reviewed": true
  }
 ]

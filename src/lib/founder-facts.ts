@@ -190,7 +190,13 @@ export const research = [
 
 export const publications = [
   { title: "“The problem may not be fragmentation: it may be accumulation”", venue: "Rapid Response, The BMJ", when: "June 2026" },
-  { title: "“Integration without incentive reform will fail”", venue: "Rapid Response, The BMJ", when: "March 2026" },
+  {
+    title: "“Integration without incentive reform will fail”",
+    venue: "Rapid Response, The BMJ",
+    when: "March 2026",
+    // Link from Shabari, 2026-10-30 05:56 (docs/FOUNDER-SPEC.md).
+    url: "https://www.bmj.com/content/392/bmj.s539/rr-0",
+  },
   { title: "Commentary on “A Post-Pandemic Wellness Experiences Scale”", venue: "Journal of Mental Health and Clinical Psychology", when: "June 2025" },
   {
     title: "“Ending FGM: A New Ruling in the Gambia Can Reignite Progress Towards SDG Target 5.3”",
