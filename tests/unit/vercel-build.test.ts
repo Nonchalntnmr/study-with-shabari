@@ -10,7 +10,7 @@ function build(env: Record<string, string>) {
   const log = join(dir, "npx.log");
   writeFileSync(join(dir, "npx"), `#!/usr/bin/env bash\necho "$*" >> "${log}"\n`);
   chmodSync(join(dir, "npx"), 0o755);
-  const r = spawnSync("bash", ["scripts/vercel-build.sh"], { env: { PATH: `${dir}:/usr/bin:/bin`, ...env }, encoding: "utf8" });
+  const r = spawnSync("bash", ["scripts/vercel-build.sh"], { env: { PATH: `${dir}:/usr/bin:/bin`, NODE_ENV: "test", ...env }, encoding: "utf8" });
   let ran: string[] = [];
   try {
     ran = readFileSync(log, "utf8").trim().split("\n");
@@ -24,7 +24,8 @@ const STAGING = "postgresql://postgres.stagingref000000000:pw@aws-0-us-east-1.po
 
 describe("vercel-build.sh", () => {
   it("refuses to migrate a preview build that points at the production database", () => {
-    for (const env of [{ DATABASE_URL: PROD_POOLER }, { DATABASE_URL: STAGING, DIRECT_URL: PROD_DIRECT }]) {
+    const cases: Record<string, string>[] = [{ DATABASE_URL: PROD_POOLER }, { DATABASE_URL: STAGING, DIRECT_URL: PROD_DIRECT }];
+    for (const env of cases) {
       const r = build({ VERCEL_ENV: "preview", MIGRATE_ON_BUILD: "1", ...env });
       expect(r.status).toBe(1);
       expect(r.stderr).toMatch(/refusing to migrate/);
