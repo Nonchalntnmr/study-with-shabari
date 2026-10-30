@@ -45,9 +45,12 @@ test("home: the 522 reveal states MCAT 522 and her three section scores plainly,
   const html = await (await request.get("/")).text();
   const text = html.replace(/<script[\s\S]*?<\/script>|<style[\s\S]*?<\/style>/g, " ").replace(/<[^>]+>/g, " ");
   expect(text).toContain("MCAT 522");
-  for (const s of [/\bCARS\b/, /percentile/i, /verified/i, /as reported/i, /Shabari reports/i]) expect(text, String(s)).not.toMatch(s);
+  for (const s of [/percentile/i, /verified/i, /as reported/i, /Shabari reports/i]) expect(text, String(s)).not.toMatch(s);
   await page.goto("/");
   const reveal = page.getByRole("region", { name: "MCAT 522" });
+  // The FAQ's "Do you tutor CARS?" is elsewhere on the page; the reveal itself never names or derives it.
+  const revealText = await reveal.evaluate((el) => el.textContent ?? "");
+  for (const s of [/\bCARS\b/, /\b12[0-9]\b/]) expect(revealText, String(s)).not.toMatch(s);
   for (const s of ["C/P: 131", "B/B: 132", "P/S: 132", "Each section from 118 to 132.", "Totals run from 472 to 528."]) await expect(reveal.getByText(s)).toBeAttached();
 });
 
@@ -136,7 +139,8 @@ test.describe("phone", () => {
     await page.goto("/");
     for (const f of [0, 0.15, 0.3, 0.45, 0.6]) {
       await page.evaluate((f) => window.scrollTo(0, document.documentElement.scrollHeight * f), f);
-      await page.waitForTimeout(400);
+      // Let fades settle (the booking pill fades in over 300 ms) before measuring contrast.
+      await page.waitForTimeout(900);
       expect(await serious(page), `scrolled ${f}`).toEqual([]);
     }
   });
