@@ -2,10 +2,9 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import { Band, ButtonLink, H2, Lead, PaymentNote, TextLink, Wrap } from "@/components/b/primitives";
 import { Hero } from "@/components/b/hero";
-import { DraftBadge } from "@/components/lesson/badges";
 import { faqForVisitors, type Availability } from "@/lib/availability";
 import { bio, faq, mudzi, notes, research, teaching } from "@/lib/founder-facts";
-import { getAvailability, getFeaturedLesson } from "@/lib/public-data";
+import { getAvailability } from "@/lib/public-data";
 
 export const metadata: Metadata = { alternates: { canonical: "/" } };
 
@@ -22,8 +21,7 @@ export default async function HomePage() {
   );
 }
 
-async function FreeToStart({ availability }: { availability: Availability }) {
-  const lesson = await getFeaturedLesson();
+function FreeToStart({ availability }: { availability: Availability }) {
   // Each card links only to what is published; the rest say they're coming (src/lib/availability.ts).
   const items = [
     {
@@ -33,18 +31,13 @@ async function FreeToStart({ availability }: { availability: Availability }) {
       body: "Exam-style interface: passage on the left, question on the right, a timer, flag-for-review, a question navigator, and an explanation for every question.",
       cta: "Start a practice set",
     },
-    ...(lesson
-      ? [
-          {
-            href: `/lessons/${lesson.slug}`,
-            title: "Free interactive lesson",
-            body: `${lesson.title}: ${lesson.questions} questions across the three science sections, the reasoning after every answer, and a retest on each idea.`,
-            cta: "Start the lesson",
-            open: true,
-            draft: lesson.draft,
-          },
-        ]
-      : []),
+    {
+      href: "/dopamine",
+      title: "Free lesson: dopamine",
+      body: "One molecule, every MCAT section: structure and charge, synthesis, receptors, the four pathways and clinical connections, with six practice questions.",
+      cta: "Read the lesson",
+      open: true,
+    },
     {
       href: "/resources",
       title: "Free MCAT notes",
@@ -67,7 +60,6 @@ async function FreeToStart({ availability }: { availability: Availability }) {
         <div className={`mt-14 grid gap-12 sm:grid-cols-2 ${items.length === 3 ? "lg:grid-cols-3" : ""}`}>
           {items.map((i) => (
             <div key={i.href} className="flex flex-col border-t-2 border-hema pt-6">
-              {"draft" in i && i.draft && <DraftBadge />}
               <h3 className="text-[1.55rem]">{i.title}</h3>
               <p className="mt-3 flex-1 text-[1.0625rem] leading-relaxed text-quiet">{i.body}</p>
               {i.open ? (

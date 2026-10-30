@@ -4,7 +4,7 @@ import { expect, test, type APIRequestContext } from "@playwright/test";
 // have no link (src/lib/availability.ts). The test reads what is actually open from the site itself,
 // so it holds locally (samples published) and on production (nothing approved yet):
 //   SMOKE_BASE_URL=https://studywithshabari.com npx playwright test --project post-deploy
-const PAGES = ["/", "/mcat", "/admissions", "/practice", "/resources", "/faq", "/pricing", "/about", "/research", "/testimonials", "/book", "/contact", "/does-not-exist"];
+const PAGES = ["/", "/mcat", "/dopamine", "/admissions", "/practice", "/resources", "/faq", "/pricing", "/about", "/research", "/testimonials", "/book", "/contact", "/does-not-exist"];
 
 const html = async (request: APIRequestContext, path: string) => (await request.get(path)).text();
 

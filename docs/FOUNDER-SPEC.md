@@ -240,3 +240,17 @@ Payment via Zelle after the consult call. No card checkout.
 - Notes links: the three Google Doc links come later; keep "Coming soon" until then.
 - Admissions prices: keep the current placeholders until they're sent.
 - Never claim things not listed here.
+
+### 5. Free lesson: dopamine (new page, linked from the hero's 3D model)
+Title: "Dopamine: One Molecule, Every MCAT Section." Keep the interactive 3D model at the top. The page carries
+Shabari's text for: 1) What it is, 2) How it's made (catecholamine synthesis), 3) How it's cleared, 4) Receptors,
+5) The four pathways, 6) Clinical connections, 7) Psych/Soc connection: reward prediction error, and 8) six
+practice questions (answers: Q1 B, Q2 C, Q3 D, Q4 B, Q5 B, Q6 C) with explanations revealed on answer. End of
+page: "Want to go deeper? Book a free 15-minute call." The page text is in src/app/(site)/dopamine/page.tsx and the
+questions in src/lib/lessons/dopamine-page.ts, copied from her message of 2026-10-30.
+
+### 4. Practice platform (in progress)
+fl1.json (Full-Length 1, 177 questions; the free practice test), samples.json (9 short sample questions), then FL2,
+FL3 and a 2,000-question bank in the same format. Only questions with "reviewed": true are shown in production;
+figure_description renders as a caption under the passage. The question bank for paying students unlocks with an
+access code sent after Zelle payment.

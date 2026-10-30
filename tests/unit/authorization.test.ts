@@ -27,6 +27,7 @@ const NOT_ADMIN: Record<string, { guard: "requireUser" | "public"; why: string }
   "src/lib/dashboard-actions.ts#toggleSavedResource": { guard: "requireUser", why: "the caller's own saved list" },
   "src/lib/inquiries/actions.ts#submitInquiry": { guard: "public", why: "the contact form; rate limited" },
   "src/lib/lessons/actions.ts#startLesson": { guard: "public", why: "a guest or student attempt of a published lesson" },
+  "src/lib/lessons/dopamine-actions.ts#checkDopamineAnswer": { guard: "public", why: "checks one answer to the free dopamine lesson; stores nothing" },
   "src/lib/lessons/actions.ts#answerStep": { guard: "public", why: "the caller's own attempt, ownership checked in the service" },
   "src/lib/practice/actions.ts#startPractice": { guard: "public", why: "a guest or student attempt of a published set" },
   "src/lib/practice/actions.ts#retestMissed": { guard: "public", why: "the caller's own attempt, ownership checked in the service" },

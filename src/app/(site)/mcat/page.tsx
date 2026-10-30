@@ -4,7 +4,6 @@ import { BookingBand } from "@/components/b/booking-band";
 import { LessonExplorer, type Reading } from "@/components/b/lesson-explorer";
 import { Band, ButtonLink, H2, Kicker, Lead, PaymentNote, Rows, TextLink, Wrap } from "@/components/b/primitives";
 import { ScoreInstrument } from "@/components/home/score-instrument";
-import { DraftBadge } from "@/components/lesson/badges";
 import { MesolimbicPathway } from "@/components/molecule/mesolimbic-pathway";
 import { ReactionScheme } from "@/components/molecule/reaction-scheme";
 import { Skeletal } from "@/components/molecule/skeletal";
@@ -13,13 +12,13 @@ import { PlanCards } from "@/components/site/plan-cards";
 import { mcatScore, mcatTutoring, notes } from "@/lib/founder-facts";
 import { practiceOrTutoring } from "@/lib/availability";
 import { MOLECULES, keyBondLengths, roles } from "@/lib/molecules/analyze";
-import { getAvailability, getFeaturedLesson, getPublishedExams, getPublishedResources } from "@/lib/public-data";
+import { getAvailability, getPublishedExams, getPublishedResources } from "@/lib/public-data";
 import { AAMC_DISCLAIMER, founder, sectionShort, type SectionCode } from "@/lib/site";
 
 export async function generateMetadata(): Promise<Metadata> {
   const a = await getAvailability();
   // Search results list only the free tools that are actually open.
-  const free = [a.practice && "a free practice test", a.lesson && "a free interactive lesson", a.notes && "free notes"].filter(Boolean);
+  const free = [a.practice && "a free practice test", "a free dopamine lesson", a.notes && "free notes"].filter(Boolean);
   const list = free.length > 1 ? `${free.slice(0, -1).join(", ")} and ${free.at(-1)}` : (free[0] ?? "");
   return {
     title: "MCAT Prep",
@@ -95,7 +94,7 @@ const readings: Reading[] = [
 ];
 
 export default async function McatPage() {
-  const [lesson, exams, resources] = await Promise.all([getFeaturedLesson(), getPublishedExams(), getPublishedResources()]);
+  const [exams, resources] = await Promise.all([getPublishedExams(), getPublishedResources()]);
   // Practice links only while a set is published; until then the tutoring section (src/lib/availability.ts).
   const second = practiceOrTutoring(await getAvailability(), "Start a free practice test", "#tutoring");
   const noteLinks = new Map(resources.filter((x) => x.kind === "NOTES").map((x) => [x.section, x.url]));
@@ -150,14 +149,7 @@ export default async function McatPage() {
           <LessonExplorer readings={readings} />
         </div>
         <div className="mt-12 flex flex-wrap items-center gap-4">
-          {lesson ? (
-            <>
-              <ButtonLink href={`/lessons/${lesson.slug}`}>Start the free lesson</ButtonLink>
-              {lesson.draft && <DraftBadge />}
-            </>
-          ) : (
-            <p className="text-[1.0625rem] text-quiet">The interactive lesson opens here once Shabari has reviewed it.</p>
-          )}
+          <ButtonLink href="/dopamine">Read the free dopamine lesson</ButtonLink>
         </div>
       </Band>
 

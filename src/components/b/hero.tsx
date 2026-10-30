@@ -47,6 +47,9 @@ export function Hero() {
           </div>
           <div className="mx-auto w-full max-w-[32rem] lg:max-w-none">
             <HeroMolecule />
+            <TextLink href="/dopamine" className="mt-4">
+              Explore the free dopamine lesson
+            </TextLink>
           </div>
         </div>
 
