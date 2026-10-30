@@ -37,6 +37,8 @@ jobs:
       NEXT_PUBLIC_SITE_URL: http://localhost:3000
     steps:
       - uses: actions/checkout@v4
+      - name: No environment, local or Vercel files are tracked
+        run: bash scripts/check-tracked-files.sh
       - uses: actions/setup-node@v4
         with:
           node-version: 22
