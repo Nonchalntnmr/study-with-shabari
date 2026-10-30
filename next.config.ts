@@ -1,29 +1,20 @@
 import path from "node:path";
 import type { NextConfig } from "next";
+import { contentSecurityPolicy } from "./src/lib/csp";
+import { CUSTOM_HOST_PATTERN } from "./src/lib/domains";
 
 const isDev = process.env.NODE_ENV !== "production";
 const https = (process.env.NEXT_PUBLIC_SITE_URL ?? "").startsWith("https://");
 
-// Third parties are limited to what the site actually embeds:
-// Calendly (booking iframe), the IONOS AI Chat widget, Supabase Storage images, Sentry.
-// The IONOS widget's own network needs aren't documented: if it misbehaves once
-// enabled, check the browser console for CSP violations and extend these lists.
-const IONOS = "https://ionos.ai-voicereceptionist.com";
-const csp = [
-  "default-src 'self'",
-  // Next.js inlines bootstrap scripts; nonces would force every page to render dynamically.
-  `script-src 'self' 'unsafe-inline'${isDev ? " 'unsafe-eval'" : ""} ${IONOS}`,
-  "style-src 'self' 'unsafe-inline'",
-  "img-src 'self' data: blob: https://*.supabase.co",
-  "font-src 'self' data:",
-  `connect-src 'self'${isDev ? " ws:" : ""} ${IONOS} wss://ionos.ai-voicereceptionist.com https://*.ingest.sentry.io https://*.ingest.us.sentry.io`,
-  `frame-src https://calendly.com https://*.calendly.com ${IONOS}`,
-  "frame-ancestors 'none'",
-  "base-uri 'self'",
-  "form-action 'self'",
-  "object-src 'none'",
-  ...(https ? ["upgrade-insecure-requests"] : []),
-].join("; ");
+// Third parties are allowed only when configured: the IONOS AI Chat widget, Sentry, Supabase
+// Storage images, plus Calendly's booking iframe. See src/lib/csp.ts.
+const csp = contentSecurityPolicy({
+  dev: isDev,
+  https,
+  ionosAgentId: process.env.NEXT_PUBLIC_IONOS_CHAT_AGENT_ID,
+  sentryDsn: process.env.NEXT_PUBLIC_SENTRY_DSN,
+  supabaseUrl: process.env.SUPABASE_URL,
+});
 
 const securityHeaders = [
   { key: "Content-Security-Policy", value: csp },
@@ -61,7 +52,13 @@ const nextConfig: NextConfig = {
     return [{ source: "/mcat-tutoring", destination: "/mcat", permanent: true }];
   },
   async headers() {
-    return [{ source: "/:path*", headers: securityHeaders }];
+    return [
+      { source: "/:path*", headers: securityHeaders },
+      // Only the site's own domains may be indexed. The *.vercel.app URLs serve the same production
+      // build (and its robots.txt), so they tell crawlers not to index anything. Not a redirect:
+      // until DNS is cut over, the vercel.app URL is how the site is reached.
+      { source: "/:path*", missing: [{ type: "host", value: CUSTOM_HOST_PATTERN }], headers: [{ key: "X-Robots-Tag", value: "noindex" }] },
+    ];
   },
 };
 

@@ -70,9 +70,14 @@ export default async function LessonDetailPage({ params }: PageProps<"/admin/les
         actions={
           <div className="flex items-center gap-3">
             <StatusBadge status={lesson.status} />
-            <Link href={`/lessons/${lesson.slug}`} className="text-sm text-navy underline underline-offset-4">
-              Open the {published ? "published lesson" : "preview"}
+            <Link href={`/admin/lessons/${lesson.id}/preview`} className="text-sm text-navy underline underline-offset-4">
+              Preview the draft
             </Link>
+            {published && (
+              <Link href={`/lessons/${lesson.slug}`} className="text-sm text-navy underline underline-offset-4">
+                Open the published lesson
+              </Link>
+            )}
           </div>
         }
       />

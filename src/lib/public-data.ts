@@ -2,13 +2,15 @@ import "server-only";
 import { cacheLife, cacheTag } from "next/cache";
 import type { Availability } from "@/lib/availability";
 import { db } from "@/lib/db";
+import { isQuestionStep } from "@/lib/lessons/flow";
 import { previewAllowed } from "@/lib/lessons/preview";
-import type { LessonSnapshot } from "@/lib/lessons/snapshot";
+import { buildSnapshot, containsAi, type LessonSnapshot } from "@/lib/lessons/snapshot";
 
 // Published content for the public pages. Cached into the static shell and
 // refreshed within minutes; admin mutations call `updateTag(PUBLIC_TAGS.x)`
 // (Server Actions) or `revalidateTag(PUBLIC_TAGS.x, "max")` to refresh at once.
-// Only PUBLISHED rows ever leave this module.
+// Only PUBLISHED rows ever leave this module, except unapproved lessons on a deployment that
+// allows previews (see getPublicLesson).
 
 export const PUBLIC_TAGS = {
   pricing: "public:pricing",
@@ -99,25 +101,44 @@ export type PublicResource = Awaited<ReturnType<typeof getPublishedResources>>[n
 export type PublicPlan = Awaited<ReturnType<typeof getPublishedPlans>>[number];
 
 /**
- * The lesson the homepage invites visitors into. Students only ever get an
- * approved version; an unapproved draft appears only where previews are allowed
- * (local development and preview deployments), flagged as a draft.
+ * A lesson as the public pages may show it, decided from cached data only (never the visitor's
+ * session), so `/lessons/[slug]` can answer a real 404 before anything streams. Students only ever
+ * get an approved version; an unapproved draft appears only where previews are allowed by the
+ * deployment (local development and LESSON_PREVIEW=on), flagged as a draft. Admins preview drafts
+ * at /admin/lessons/[id]/preview instead. Approving calls `updateTag(PUBLIC_TAGS.lessons)`.
+ * Returns the intro fields only: nothing here carries an answer.
  */
-export async function getFeaturedLesson(slug = "dopamine") {
+export async function getPublicLesson(slug: string) {
   "use cache";
   cacheLife("minutes");
   cacheTag(PUBLIC_TAGS.lessons);
-  const lesson = await db.lesson.findUnique({
-    where: { slug },
-    select: { slug: true, title: true, summary: true, status: true, publishedVersion: { select: { snapshot: true } }, _count: { select: { steps: { where: { questionId: { not: null } } } } } },
-  });
-  if (!lesson || lesson.status === "ARCHIVED") return null;
-  const published = lesson.publishedVersion?.snapshot as unknown as LessonSnapshot | undefined;
-  if (published) {
-    return { slug, title: published.title, summary: published.summary, questions: published.steps.filter((s) => s.question).length, draft: false };
+  const lesson = await db.lesson.findUnique({ where: { slug }, select: { id: true, status: true, publishedVersion: { select: { snapshot: true } } } });
+  if (!lesson) return null;
+  let snapshot: LessonSnapshot | null = null;
+  let mode: "published" | "preview" = "published";
+  if (lesson.publishedVersion && lesson.status !== "ARCHIVED") {
+    snapshot = lesson.publishedVersion.snapshot as unknown as LessonSnapshot;
+  } else if (lesson.status !== "ARCHIVED" && previewAllowed(false)) {
+    snapshot = await buildSnapshot(db, lesson.id);
+    mode = "preview";
   }
-  if (!previewAllowed(false)) return null;
-  return { slug, title: lesson.title, summary: lesson.summary, questions: lesson._count.steps, draft: true };
+  if (!snapshot) return null;
+  return {
+    slug,
+    mode,
+    title: snapshot.title,
+    summary: snapshot.summary,
+    objectives: snapshot.objectives,
+    questions: snapshot.steps.filter(isQuestionStep).length,
+    ai: containsAi(snapshot),
+  };
+}
+
+/** The lesson the homepage invites visitors into, on the same rules as its own page. */
+export async function getFeaturedLesson(slug = "dopamine") {
+  const lesson = await getPublicLesson(slug);
+  if (!lesson) return null;
+  return { slug: lesson.slug, title: lesson.title, summary: lesson.summary, questions: lesson.questions, draft: lesson.mode === "preview" };
 }
 
 /** What a visitor can open right now, for the links that would otherwise promise it (src/lib/availability.ts). */

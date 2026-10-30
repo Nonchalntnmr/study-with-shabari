@@ -21,11 +21,14 @@ export function QuestionForm({
   attemptId,
   position,
   choices,
+  scope,
 }: {
   slug: string;
   attemptId: string;
   position: number;
   choices: Choice[];
+  /** "admin": an admin's draft preview, which continues under /admin/lessons. */
+  scope?: "admin";
 }) {
   const [state, action, pending] = useActionState<LessonFormState, FormData>(
     answerStep,
@@ -60,6 +63,7 @@ export function QuestionForm({
       <input type="hidden" name="slug" value={slug} />
       <input type="hidden" name="attemptId" value={attemptId} />
       <input type="hidden" name="position" value={position} />
+      {scope && <input type="hidden" name="scope" value={scope} />}
       <input
         type="hidden"
         name="elapsedMs"

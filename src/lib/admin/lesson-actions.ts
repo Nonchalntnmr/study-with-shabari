@@ -30,6 +30,8 @@ async function markForReview(lessonIds: string[]) {
   await db.lesson.updateMany({ where: { id: { in: lessonIds }, status: "PUBLISHED" }, data: { status: "REVIEW" } });
   for (const id of lessonIds) revalidatePath(`/admin/lessons/${id}`);
   revalidatePath("/admin/lessons");
+  // Students keep the approved version, but a deployment that shows drafts (LESSON_PREVIEW) shows the edit at once.
+  updateTag(PUBLIC_TAGS.lessons);
 }
 
 /** Lessons whose steps use a question with this choice or misconception: found in the database, not taken from the form. */

@@ -24,3 +24,13 @@ export function domainRedirect(host: string | null, pathname: string, search: st
 }
 
 export const REDIRECT_HOSTS = Object.keys(RULES);
+
+/** The site's own domains: the canonical apex and every host that redirects to it. */
+export const CUSTOM_HOSTS = [new URL(CANONICAL_ORIGIN).host, ...REDIRECT_HOSTS];
+
+/**
+ * A regex source matching exactly the custom hosts, for next.config.ts `headers()` (`missing` host
+ * conditions are anchored and matched against the hostname without its port). Any other host, such
+ * as the *.vercel.app deployment URLs, gets `X-Robots-Tag: noindex`.
+ */
+export const CUSTOM_HOST_PATTERN = `(?:${CUSTOM_HOSTS.map((h) => h.replace(/\./g, "\\.")).join("|")})`;

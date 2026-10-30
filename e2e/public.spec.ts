@@ -109,6 +109,19 @@ test("15 (local). secondary domains redirect permanently to the canonical site",
   expect(canonical.status()).toBe(200);
 });
 
+test("only the site's own domains may be indexed: any other host is sent X-Robots-Tag: noindex", async ({ request }) => {
+  // The production build also answers on its *.vercel.app URL, where robots.txt follows VERCEL_ENV and allows crawling.
+  for (const path of ["/", "/robots.txt", "/practice", "/lessons/no-such-lesson"]) {
+    const vercel = await request.get(path, { headers: { host: "study-with-shabari.vercel.app" }, maxRedirects: 0 });
+    expect(vercel.headers()["x-robots-tag"], path).toBe("noindex");
+    const canonical = await request.get(path, { headers: { host: "studywithshabari.com" }, maxRedirects: 0 });
+    expect(canonical.headers()["x-robots-tag"], path).toBeUndefined();
+  }
+  // Served as usual, not redirected: until the DNS cutover the vercel.app URL is how the site is reached.
+  const home = await request.get("/", { headers: { host: "study-with-shabari.vercel.app" }, maxRedirects: 0 });
+  expect(home.status()).toBe(200);
+});
+
 test("security headers, robots and sitemap", async ({ request }) => {
   const res = await request.get("/");
   const h = res.headers();
