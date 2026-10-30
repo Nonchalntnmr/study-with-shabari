@@ -144,3 +144,78 @@ Every new sentence and question written for `/explore/signaling` is logged verba
 - Q3 stem: "A toxin blocks voltage-gated Ca²⁺ channels in the axon terminal. Which step is directly prevented?"
   - Explanation: "Ca²⁺ entering the terminal triggers vesicles to fuse with the membrane. Without it, the action potential still arrives, but no neurotransmitter is released."
 - Choices: "A smaller action potential fires", "A full-size action potential fires", "No action potential fires", "The neuron fires a burst of action potentials", "fires an action potential if it is strong enough", "cannot fire an action potential", "fires a larger action potential", "hyperpolarizes the membrane", "Depolarization of the axon by Na⁺ entry", "Reuptake of neurotransmitter", "Binding of neurotransmitter to its receptors", "Vesicle fusion and neurotransmitter release"
+
+
+## Stage 3: brain explorer (/explore/brain)
+
+Reuses Shabari's approved dopamine pathway lines (`lesson` in `src/lib/explore/brain-regions.ts`).
+Every new sentence written for `/explore/brain` is logged verbatim below:
+
+### Page heading and lead (`src/app/(site)/explore/brain/page.tsx`)
+
+- "Explore the brain, lobe by lobe and deep inside."
+- "Pick a lobe, cortical area, or deep structure to turn the 3D atlas, see what it does, and connect it to MCAT questions and dopamine pathways."
+
+### Region notes (`note` in `src/lib/explore/brain-regions.ts`)
+
+- "The frontal lobe handles planning, decision-making and voluntary movement."
+- "It contains the prefrontal cortex, the primary motor cortex and Broca's area."
+- "The parietal lobe processes body sensation and spatial orientation."
+- "Its front edge, the postcentral gyrus, is the primary somatosensory cortex."
+- "The temporal lobe processes sound and the meaning of language."
+- "It holds the primary auditory cortex and Wernicke's area."
+- "The hippocampus and amygdala lie deep in its inner (medial) part."
+- "The occipital lobe contains the primary visual cortex."
+- "It receives visual signals relayed through the thalamus."
+- "The insula is cortex folded deep inside the lateral sulcus, hidden by the frontal, parietal and temporal lobes."
+- "It contains the primary taste (gustatory) cortex."
+- "These gyri form a ring on the inner surface of each hemisphere."
+- "With the hippocampus and amygdala, they are part of the limbic system, which supports emotion and memory."
+- "Broca's area, in the left inferior frontal gyrus, is needed to produce speech."
+- "Damage causes Broca's (expressive) aphasia: slow, effortful speech, with comprehension largely spared."
+- "Wernicke's area, in the left posterior superior temporal gyrus, is needed to understand language."
+- "Damage causes Wernicke's (receptive) aphasia: fluent speech that makes little sense, with poor comprehension."
+- "A fiber tract, the arcuate fasciculus, links it to Broca's area."
+- "The prefrontal cortex supports executive function: planning, decision-making and impulse control."
+- "The primary motor cortex, on the precentral gyrus, starts voluntary movement."
+- "Each side controls the opposite side of the body, mapped as a motor homunculus."
+- "The primary somatosensory cortex, on the postcentral gyrus, receives touch, pain, temperature and body-position signals."
+- "It is mapped as a sensory homunculus, with the hands and face taking up the most space."
+- "The hippocampus forms new explicit (declarative) long-term memories."
+- "Damage to both sides causes anterograde amnesia: new facts and events can no longer be stored."
+- "The amygdala processes emotion, especially fear and aggression."
+- "It is needed for fear conditioning."
+- "The thalamus relays sensory signals to the cortex."
+- "Every sense except smell passes through it."
+- "The hypothalamus maintains homeostasis: hunger, thirst, body temperature and circadian rhythm."
+- "It controls the pituitary gland, linking the nervous and endocrine systems."
+- "The nucleus accumbens is part of the ventral striatum."
+- "The striatum (caudate, putamen and nucleus accumbens) is the main input to the basal ganglia."
+- "Huntington's disease damages the striatum, causing involuntary movements."
+- "The basal ganglia help start wanted movements and suppress unwanted ones."
+- "They include the striatum, the globus pallidus, the subthalamic nucleus and the substantia nigra."
+- "The substantia nigra is a midbrain nucleus that is part of the basal ganglia circuit."
+- "The atlas shows it as one structure; its dopamine neurons are in the part called the pars compacta."
+- "The VTA is a group of dopamine neurons in the midbrain, next to the substantia nigra."
+- "The corpus callosum is the largest bundle of fibers connecting the two hemispheres."
+- "Cutting it (split-brain surgery) stops the hemispheres from sharing information directly."
+- "The cerebellum coordinates movement, balance and posture."
+- "Damage causes ataxia: clumsy, poorly coordinated movement."
+- "The brainstem connects the brain to the spinal cord and controls automatic functions."
+- "It has three parts: the midbrain, the pons and the medulla oblongata."
+- "The midbrain holds the superior and inferior colliculi, which handle visual and auditory reflexes."
+- "It also contains the substantia nigra and the VTA."
+- "The pons relays signals between the cerebrum and the cerebellum."
+- "It also helps regulate breathing."
+- "The medulla oblongata controls heart rate, blood pressure and breathing."
+- "Reflexes such as swallowing, coughing, sneezing and vomiting are also controlled here."
+- "The atlas ends at the bottom of the medulla, so the spinal cord isn't shown."
+
+### Approximate boundary & lateralisation notes (`approximate` and `side` in `src/lib/explore/brain-regions.ts`)
+
+- "The atlas has no Wernicke's area label. It is shown as the superior temporal gyrus behind the front edge of Heschl's gyrus, plus the planum temporale."
+- "The atlas has no prefrontal label. It is shown as the frontal gyri in front of the precentral gyrus, which also include some premotor cortex."
+- "Shown as the whole precentral gyrus and the front of the paracentral lobule, because the atlas labels gyri, not cortical areas."
+- "Shown as the whole postcentral gyrus and the back of the paracentral lobule, because the atlas labels gyri, not cortical areas."
+- "The atlas doesn't outline the VTA. The markers show its approximate place, just inside each substantia nigra."
+- "Shown on the left hemisphere, where language is usually based."

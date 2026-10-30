@@ -12,6 +12,7 @@ const COLUMNS = [
       { href: "/practice", label: "Free practice test" },
       { href: "/resources", label: "Free notes" },
       { href: "/dopamine", label: "Free dopamine lesson" },
+      { href: "/explore/brain", label: "Explore the brain" },
       { href: "/explore/signaling", label: "Explore how neurons signal" },
     ],
   },
@@ -40,6 +41,7 @@ const COLUMNS = [
       { href: "/contact", label: "Send a message" },
       { href: "/privacy", label: "Privacy" },
       { href: "/terms", label: "Terms" },
+      { href: "/credits", label: "3D model credits" },
     ],
   },
 ];

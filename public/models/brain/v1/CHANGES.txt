@@ -1,0 +1,7 @@
+- Converted from the HRA brain-male v1.3 GLB (Allen Human Reference Atlas 3D meshes).
+- Corrected eight swapped mesh names per hemisphere (checked against the Allen voxel atlas by centroid and volume).
+- Mirrored left-right and rotated about 18 degrees so the left hemisphere is on the subject's left, superior is +Y and anterior is +Z; recentred; units stay metres.
+- Grouped atlas structures into display regions (one mesh per region and side; brainstem parts and corpus callosum join both sides).
+- Split the superior temporal gyrus at the anterior edge of Heschl's gyrus (the posterior part plus the planum temporale approximates Wernicke's area).
+- Dropped internal structures (white matter, ventricles, tracts, small nuclei) and the Visible Human optic chiasm.
+- Simplified (meshoptimizer), removed normals (recomputed in the browser), quantized positions (KHR_mesh_quantization) and recoloured.

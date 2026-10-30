@@ -1,0 +1,41 @@
+{
+  "source": {
+    "url": "https://cdn.humanatlas.io/digital-objects/ref-organ/brain-male/v1.3/assets/3d-vh-m-allen-brain.glb",
+    "sha256": "2b9ad5b53e40e9f0936da74f7be38d2eed15604e26358c3870a0ea13499b9a35"
+  },
+  "size": [
+    0.1364,
+    0.1436,
+    0.1717
+  ],
+  "vta": {
+    "L": [
+      0.00276,
+      -0.02133,
+      0.00135
+    ],
+    "R": [
+      -0.00409,
+      -0.02144,
+      0.00061
+    ]
+  },
+  "tiers": {
+    "mobile": {
+      "glb": "/models/brain/v1/brain-mobile.d128e43d.glb",
+      "gz": "/models/brain/v1/brain-mobile.d128e43d.glb.gz",
+      "bytes": 1038200,
+      "gzBytes": 782669,
+      "triangles": 100334,
+      "meshes": 48
+    },
+    "desktop": {
+      "glb": "/models/brain/v1/brain-desktop.d9c0e087.glb",
+      "gz": "/models/brain/v1/brain-desktop.d9c0e087.glb.gz",
+      "bytes": 2804368,
+      "gzBytes": 2198385,
+      "triangles": 276965,
+      "meshes": 48
+    }
+  }
+}
