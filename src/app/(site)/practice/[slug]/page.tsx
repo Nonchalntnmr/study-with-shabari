@@ -8,8 +8,11 @@ import { StartPracticeForm } from "@/components/site/start-practice-form";
 import { getPublishedExam, getPublishedExams } from "@/lib/public-data";
 import { AAMC_DISCLAIMER, sectionNames, type SectionCode } from "@/lib/site";
 
+// Cache Components fails the build on an empty list, and a fresh database has no published sets
+// (the samples wait in REVIEW). The placeholder renders the not-found page like any unknown slug.
 export async function generateStaticParams() {
-  return (await getPublishedExams()).map((e) => ({ slug: e.slug }));
+  const slugs = (await getPublishedExams()).map((e) => ({ slug: e.slug }));
+  return slugs.length ? slugs : [{ slug: "_none" }];
 }
 
 export async function generateMetadata({ params }: PageProps<"/practice/[slug]">): Promise<Metadata> {
