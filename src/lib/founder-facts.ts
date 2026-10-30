@@ -21,6 +21,7 @@ export const mcatScore = { total: 522, line: "522 MCAT — 132 B/B, 132 P/S, 131
 
 export const admittedTo = ["MIT", "Yale", "Columbia", "Brown", "Dartmouth", "Penn"] as const;
 export const admittedLine = "Admitted to MIT, Yale, Columbia, Brown, Dartmouth, and Penn (Benjamin Franklin Scholar)";
+export const scholarshipAdmissionsLine = "Also admitted with scholarships: Johns Hopkins (Hodson Trust Scholar, near full ride), Wake Forest (Carswell Scholar, full ride), UT Dallas (McDermott Scholar, full ride)";
 export const pennNote = "Benjamin Franklin Scholar";
 
 /** Every admission, with its honor, as listed in the 2026-10-30 update. */

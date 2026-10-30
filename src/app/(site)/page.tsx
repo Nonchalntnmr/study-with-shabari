@@ -1,22 +1,55 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import { Band, ButtonLink, H2, Lead, PaymentNote, TextLink, Wrap } from "@/components/b/primitives";
-import { Hero } from "@/components/b/hero";
+import { HeroPanels } from "@/components/b/hero";
+import "@/components/experience/experience.css";
+import { InstrumentStory } from "@/components/experience/instrument/instrument-story";
+import { instrumentSteps, instrumentWords } from "@/components/experience/instrument/instrument-content";
+import { specimenSteps, specimenStills } from "@/components/experience/specimen/specimen-content";
+import { SpecimenStory } from "@/components/experience/specimen/specimen-story";
+import { DAT_NOTE, synapseSet } from "@/components/experience/synapse/synapse-content";
+import { SynapseStory } from "@/components/experience/synapse/synapse-story";
+import { BookingAct, LearningAct } from "@/components/home/cinematic-acts";
+import { CinematicLead } from "@/components/home/cinematic-lead";
+import { MobileBookBar } from "@/components/home/mobile-book-bar";
 import { faqForVisitors, type Availability } from "@/lib/availability";
 import { bio, faq, mudzi, notes, research, teaching } from "@/lib/founder-facts";
 import { getAvailability } from "@/lib/public-data";
 
 export const metadata: Metadata = { alternates: { canonical: "/" } };
 
+// One continuous experience, in the founder's order: Specimen (the hero) → Synapse → 522 →
+// interactive learning → booking. Then the existing home sections, unchanged. The 3D scenes load
+// after first paint and idle; with WebGL off or reduced motion every act is told with stills.
 export default async function HomePage() {
   const availability = await getAvailability();
+  const synapse = synapseSet({ beats: ["made", "receptors", "cleared"], heroLevel: 2, priority: false });
   return (
     <>
-      <Hero />
+      <div className="experience exp-home">
+        <SpecimenStory lead={<CinematicLead />} steps={specimenSteps({ leadHero: true })} stills={specimenStills()} label="Dopamine, the specimen" />
+        <SynapseStory
+          lazy
+          label="Dopamine at the synapse"
+          steps={synapse.steps}
+          phases={synapse.phases}
+          stills={synapse.stills}
+          blockedStills={synapse.blockedStills}
+          blockedFigure={synapse.blockedFigure}
+          datNote={DAT_NOTE}
+        />
+        <InstrumentStory steps={instrumentSteps({ heroLevel: 2, book: false, headline: false })} words={instrumentWords} label="MCAT 522" replayable={false} />
+        <LearningAct />
+        <BookingAct />
+      </div>
+      <section aria-label="MCAT prep and college admissions" className="bg-white pt-16">
+        <HeroPanels />
+      </section>
       <FreeToStart availability={availability} />
       <MeetShabari />
       <Faq availability={availability} />
       <Closing />
+      <MobileBookBar />
     </>
   );
 }
