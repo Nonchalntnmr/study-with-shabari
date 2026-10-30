@@ -2,13 +2,12 @@ import { mkdirSync, writeFileSync } from "node:fs";
 import { homedir } from "node:os";
 import path from "node:path";
 import { expect, test, type Page } from "@playwright/test";
-import { choose, finishLesson, lessonKey } from "./helpers";
 
 // The vertical slice (docs/PRODUCT-DIRECTION.md, Amendment 1): a new visitor on a
-// phone arrives, sees why Shabari is credible, learns something real, gets one
-// wrong, understands why, gets the retest right, sees an honest result, and books.
-// Runs on the production build against the throwaway E2E database, where
-// scripts/e2e-server.sh has approved the dopamine lesson's AI drafts.
+// phone arrives, sees why Shabari is credible, learns something real in her free
+// dopamine lesson (founder update 2026-10-30), gets one wrong, sees why, gets the
+// next one right, and books. The lesson engine's own flow (confidence, misconception,
+// retest, result) is covered by lesson-visibility.spec.ts and the a11y lesson flow.
 
 // Against a real deployment (SMOKE_BASE_URL), the lesson can still be an unapproved draft, shown with its
 // badge on a protected preview, and the Calendly links may not be set yet, in which case booking shows its
@@ -68,21 +67,12 @@ async function firstTop(page: Page, text: string): Promise<number> {
   }, text);
 }
 
-const next = (page: Page, name: RegExp | string) => page.getByRole("link", { name }).click();
-
-async function answer(page: Page, label: string, confidence: "Sure" | "Unsure" | "Guessing") {
-  await choose(page, label);
-  await page.locator("label", { hasText: new RegExp(`^${confidence}$`) }).click();
-  await page.getByRole("button", { name: "Check answer" }).click();
-  await expect(page.getByTestId("reveal")).toBeVisible();
-}
-
 test.beforeAll(() => mkdirSync(SHOTS, { recursive: true }));
 test.afterAll(() => {
   writeFileSync(path.join(SHOTS, "report.json"), JSON.stringify({ ranAt: new Date().toISOString(), device: "iPhone 14 (Chromium emulation)", build: "next build + next start", results }, null, 2));
 });
 
-test("journey: homepage → credentials → lesson → miss, diagnose, retest → result → booking", async ({ page }) => {
+test("journey: homepage → credentials → free dopamine lesson → wrong, then right → booking", async ({ page }) => {
   test.setTimeout(180_000);
   const errors: string[] = [];
   page.on("pageerror", (e) => errors.push(e.message));
@@ -98,80 +88,40 @@ test("journey: homepage → credentials → lesson → miss, diagnose, retest �
 
   await step(page, 2, "credentials (522, MIT, majors) are in the first two screens", "credentials", async () => {
     const screens = 2 * page.viewportSize()!.height;
-    for (const text of ["522", "MIT", "Chemistry & Molecular Biology (Course 5-7) and Neuroscience (Course 9)"]) {
+    // The founder's 2026-10-30 hero subline names the majors without course numbers.
+    for (const text of ["522", "MIT", "Chemistry & Molecular Biology and Neuroscience"]) {
       expect(await firstTop(page, text), `"${text}" within the first two screens`).toBeLessThan(screens);
     }
   });
 
-  await step(page, 3, "goes to MCAT Prep and starts the dopamine lesson", "lesson-teach", async () => {
+  await step(page, 3, "goes to MCAT Prep and opens the free dopamine lesson", "lesson", async () => {
     await page.getByRole("link", { name: "Explore MCAT Prep" }).first().click();
     await expect(page).toHaveURL(/\/mcat$/);
-    const start = page.getByRole("link", { name: "Start the free lesson" });
-    await start.scrollIntoViewIfNeeded();
-    await start.click();
-    await expect(page.getByRole("heading", { level: 1, name: "Dopamine, read three ways" })).toBeVisible();
-    // Published, approved content: no draft badge, an honest AI note, nothing attributed to Shabari.
-    if (LIVE && (await page.getByTestId("draft-badge").count()) > 0) {
-      // A protected preview showing the unapproved draft says so plainly.
-      await expect(page.getByText(/drafted with AI and haven.t been reviewed yet/)).toBeVisible();
-    } else {
-      await expect(page.getByTestId("draft-badge")).toHaveCount(0);
-      await expect(page.getByText("Questions and explanations drafted with AI, then reviewed before publishing.")).toBeVisible();
-    }
-    await expect(page.getByText(/Shabari[’']s explanation/i)).toHaveCount(0);
-    await page.getByRole("button", { name: "Start the lesson" }).click();
-    await expect(page.getByTestId("step-count")).toHaveText("Step 1 of 13");
-    await expect(page.getByRole("heading", { level: 1 })).toHaveText("The amine's charge at body pH");
+    const open = page.getByRole("link", { name: "Read the free dopamine lesson" });
+    await open.scrollIntoViewIfNeeded();
+    await open.click();
+    await expect(page).toHaveURL(/\/dopamine$/);
+    await expect(page.getByRole("heading", { level: 1 })).toHaveText("Dopamine: One Molecule, Every MCAT Section");
   });
 
-  await step(page, 4, "answers the first question wrong on purpose, rating confidence first", "wrong-answer", async () => {
-    await next(page, "Continue");
-    await expect(page.getByRole("heading", { level: 1 })).toHaveText("Question 1 of 7");
-    // Checking without a confidence rating is refused: the rating comes before the reveal.
-    await choose(page, "A");
-    await page.getByRole("button", { name: "Check answer" }).click();
-    await expect(page.getByText("Rate how sure you are before you check.")).toBeVisible();
-    await expect(page.getByTestId("reveal")).toHaveCount(0);
-    await page.locator("label", { hasText: /^Sure$/ }).click();
-    await page.getByRole("button", { name: "Check answer" }).click();
-    await expect(page.getByTestId("reveal-verdict")).toHaveText("Not quite.");
-    await expect(page.getByText("You chose A and said you were sure. The answer is C.")).toBeVisible();
+  await step(page, 4, "answers the first question wrong and sees the right answer and why", "wrong-answer", async () => {
+    const q1 = page.locator("li", { has: page.getByText("The rate-limiting enzyme in dopamine synthesis is:") });
+    await q1.scrollIntoViewIfNeeded();
+    await q1.getByRole("button", { name: /DOPA decarboxylase/ }).click();
+    await expect(q1.getByRole("status")).toContainText("Not quite. The answer is B.");
+    await expect(q1.getByRole("status")).toContainText("Tyrosine hydroxylase converts tyrosine to L-DOPA");
   });
 
-  await step(page, 5, "the explanation names the misconception and the next step remediates it", "misconception-remediation", async () => {
-    await expect(page.getByTestId("misconception-name")).toHaveText("Treats the amine as neutral at physiological pH");
-    await expect(page.getByRole("heading", { name: "Why A is wrong" })).toBeVisible();
-    await expect(page.getByRole("heading", { name: "Why C is right" })).toBeVisible();
-    await next(page, "Continue");
-    await expect(page.getByTestId("remediation")).toBeVisible();
-    await expect(page.getByRole("heading", { level: 1 })).toHaveText("Treats the amine as neutral at physiological pH");
-    await expect(page.getByTestId("remediation-text")).toContainText("Compare the pH with the pKa first.");
+  await step(page, 5, "answers the next question right", "right-answer", async () => {
+    const q2 = page.locator("li", { has: page.getByText("Parkinson's patients are given L-DOPA instead of dopamine because:") });
+    await q2.scrollIntoViewIfNeeded();
+    await q2.getByRole("button", { name: /cannot cross the blood–brain barrier/ }).click();
+    await expect(q2.getByRole("status")).toContainText("Correct.");
   });
 
-  await step(page, 6, "answers the retest on the same idea correctly", "retest-correct", async () => {
-    await next(page, "Try the retest");
-    await expect(page.getByText("Chem/Phys retest: the same idea, a new question")).toBeVisible();
-    await answer(page, "C", "Unsure");
-    await expect(page.getByTestId("reveal-verdict")).toHaveText("Correct.");
-  });
-
-  await step(page, 7, "finishes the lesson; the result compares first try with retest", "result", async () => {
-    // The rest of the lesson: right answers, confident throughout.
-    await finishLesson(page, lessonKey().slice(2), "Sure");
-    await expect(page.getByRole("heading", { level: 1 })).toHaveText("What this lesson showed");
-    const row = page.locator('[data-testid="result-row"][data-concept="protonation"]');
-    await expect(row.getByTestId("first")).toHaveAttribute("data-correct", "false");
-    await expect(row.getByTestId("first")).toContainText("Wrong (A), sure");
-    await expect(row.getByTestId("retest")).toHaveAttribute("data-correct", "true");
-    await expect(page.getByTestId("misconceptions-hit")).toContainText("Treats the amine as neutral at physiological pH");
-    await expect(page.getByTestId("sure-wrong")).toContainText("The amine's charge at body pH");
-    // Honest: no percentages or score predictions from seven questions.
-    await expect(page.locator("main")).not.toContainText("%");
-    await row.scrollIntoViewIfNeeded();
-  });
-
-  await step(page, 8, "opens booking and sees the Calendly embed (stubbed)", "booking", async () => {
-    await page.getByRole("link", { name: "Book a free 15-min call" }).first().click();
+  await step(page, 6, "opens booking from the lesson and sees the Calendly embed (stubbed)", "booking", async () => {
+    // "Want to go deeper? Book a free 15-minute call." at the end of the lesson.
+    await page.getByRole("link", { name: "Book a free 15-min call" }).last().click();
     // The lesson is MCAT, so booking opens on the MCAT tab.
     await expect(page).toHaveURL(/\/book\?service=mcat$/);
     await expect(page.getByRole("tab", { name: "MCAT" })).toHaveAttribute("aria-selected", "true");
@@ -213,7 +163,7 @@ test("journey: admissions visitor: home → admissions → credentials → prici
     const pricing = page.locator("#admissions-pricing");
     await pricing.scrollIntoViewIfNeeded();
     await expect(pricing.getByText("Priced on your consult call")).toHaveCount(3);
-    await expect(pricing.getByText("Payment via Zelle. Details are sent after your consult call.", { exact: false })).toBeVisible();
+    await expect(pricing.getByText("Payment via Zelle after the consult call. No card checkout.", { exact: false })).toBeVisible();
   });
 
   await step(page, "A4", "books with the College Admissions toggle selected", "admissions-booking", async () => {

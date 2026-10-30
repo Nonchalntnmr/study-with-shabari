@@ -31,16 +31,16 @@ function ScoreBars() {
 
 export function Hero() {
   return (
-    <section aria-labelledby="hero-h" className="bg-white pt-12 sm:pt-20">
+    <section aria-labelledby="hero-h" className="bg-white pt-8 sm:pt-20">
       <Wrap>
         <div className="grid items-center gap-x-16 gap-y-10 lg:grid-cols-[1.15fr_0.85fr]">
           <div>
             <p className="text-[0.98rem] font-medium text-quiet">{heroEyebrow}</p>
-            <h1 id="hero-h" className="mt-5 text-[clamp(2.6rem,5vw,4.6rem)] leading-[1.02]">
+            <h1 id="hero-h" className="mt-4 text-[clamp(2.2rem,5vw,4.6rem)] leading-[1.02] sm:mt-5">
               {headline}
             </h1>
-            <p className="mt-7 max-w-[36rem] text-[1.125rem] leading-relaxed text-quiet">{heroSubline}</p>
-            <div className="mt-9 flex flex-wrap items-center gap-x-8 gap-y-4">
+            <p className="mt-5 max-w-[36rem] text-[1.125rem] leading-relaxed text-quiet sm:mt-7">{heroSubline}</p>
+            <div className="mt-7 flex flex-wrap items-center gap-x-8 gap-y-4 sm:mt-9">
               <ButtonLink href="/book">Book a free 15-min call</ButtonLink>
               <TextLink href="/mcat">Explore MCAT tutoring</TextLink>
             </div>

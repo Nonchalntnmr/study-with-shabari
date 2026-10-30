@@ -20,11 +20,16 @@ export const metadata: Metadata = {
   alternates: { canonical: "/admissions" },
 };
 
+// The six headline schools as set type; the three full-scholarship offers sit under the record card,
+// so the first screen on a phone still reaches the booking button.
+const headlineSchools = admissionsResults.slice(0, 6);
+const scholarshipOffers = admissionsResults.slice(6);
+
 /** School names as set type, each with its honor. No tiles, no logos. */
 function SchoolNames() {
   return (
     <ul aria-label="Admitted to" className="flex flex-wrap items-baseline gap-x-8 gap-y-2">
-      {admissionsResults.map((a) => (
+      {headlineSchools.map((a) => (
         <li key={a.school} className="font-display text-[clamp(1.5rem,2.4vw,2.1rem)] leading-tight text-hema">
           {a.school}
           {a.note && <span className="ml-2 font-sans text-[0.95rem] text-quiet">({a.note})</span>}
@@ -47,6 +52,21 @@ function RecordCard() {
         ))}
       </dl>
       <p className="mt-8 border-t border-hairline pt-5 text-[0.95rem] leading-relaxed text-quiet">{highSchool.disclaimer}</p>
+    </div>
+  );
+}
+
+function ScholarshipOffers() {
+  return (
+    <div className="mt-8">
+      <p className="text-[0.95rem] font-semibold text-hema">Also admitted, with scholarships</p>
+      <ul className="mt-3 grid gap-2">
+        {scholarshipOffers.map((a) => (
+          <li key={a.school} className="text-[1.0625rem] text-specimen">
+            <span className="font-display text-[1.3rem] text-hema">{a.school}</span> <span className="text-quiet">({a.note})</span>
+          </li>
+        ))}
+      </ul>
     </div>
   );
 }
@@ -91,7 +111,7 @@ export default function AdmissionsPage() {
           </div>
           <div className="mt-14 grid items-start gap-x-20 gap-y-14 lg:grid-cols-[1.1fr_0.9fr]">
             <div>
-              <h1 id="adm-h" className="max-w-[16ch] text-[clamp(2.6rem,4.8vw,4.4rem)] leading-[1.03]">
+              <h1 id="adm-h" className="max-w-[16ch] text-[clamp(2.2rem,4.8vw,4.4rem)] leading-[1.03]">
                 {admissionsHeadline}
               </h1>
               <div className="mt-10 flex flex-wrap items-center gap-x-8 gap-y-4">
@@ -99,7 +119,10 @@ export default function AdmissionsPage() {
                 <TextLink href="#help">What I help with</TextLink>
               </div>
             </div>
-            <RecordCard />
+            <div>
+              <RecordCard />
+              <ScholarshipOffers />
+            </div>
           </div>
         </Wrap>
       </section>
