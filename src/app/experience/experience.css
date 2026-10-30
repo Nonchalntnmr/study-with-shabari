@@ -1,0 +1,147 @@
+/* The /experience prototypes only. Ivory and navy; violet and teal stay inside scientific figures. */
+.experience {
+  --exp-header: 4rem;
+  --exp-ivory: #faf7f0;
+  --exp-paper: #f4eee2;
+  --exp-rule: #e4ddd0;
+  --exp-bar: rgb(250 247 240 / 0.9);
+  --exp-ink: #0b1f44;
+  --exp-quiet: #4a5160;
+  background: var(--exp-ivory);
+  color: #0f1b2d;
+}
+
+@media (min-width: 640px) {
+  .experience {
+    --exp-header: 4.5rem;
+  }
+}
+
+/* The museum spotlight behind the specimen. */
+.exp-spotlight {
+  background:
+    radial-gradient(60% 55% at 62% 46%, rgb(255 255 255 / 0.95) 0%, rgb(255 255 255 / 0.55) 38%, rgb(250 247 240 / 0) 70%),
+    linear-gradient(180deg, #fbf9f4 0%, #f5f0e6 100%);
+}
+@media (max-width: 767px) {
+  .exp-spotlight {
+    background:
+      radial-gradient(80% 45% at 50% 30%, rgb(255 255 255 / 0.95) 0%, rgb(255 255 255 / 0.5) 40%, rgb(250 247 240 / 0) 72%),
+      linear-gradient(180deg, #fbf9f4 0%, #f5f0e6 100%);
+  }
+}
+
+/* Scroll story: a sticky stage with the steps scrolling over it. */
+.exp-story-stage {
+  position: sticky;
+  top: var(--exp-header);
+  height: calc(100svh - var(--exp-header));
+}
+.exp-story-steps {
+  position: relative;
+  margin-top: calc(-1 * (100svh - var(--exp-header)));
+}
+.exp-step {
+  min-height: calc(100svh - var(--exp-header));
+}
+.exp-inline-figure {
+  display: none;
+}
+
+/* Reduced motion: no sticky stage, no scrubbing. Every beat becomes a plain section with its own
+   still figure. Decided in CSS, so the layout is right from the first paint. */
+@media (prefers-reduced-motion: reduce) {
+  .exp-story-stage {
+    display: none;
+  }
+  .exp-story-steps {
+    margin-top: 0;
+  }
+  .exp-step {
+    min-height: 0;
+  }
+  .exp-inline-figure {
+    display: block;
+  }
+  .exp-beat-nav {
+    display: none;
+  }
+}
+
+/* A step's caption card, legible over the scene. */
+.exp-panel {
+  background: rgb(250 247 240 / 0.94);
+  border: 1px solid var(--exp-rule);
+  box-shadow: 0 1px 0 rgb(11 31 68 / 0.03), 0 18px 40px -28px rgb(11 31 68 / 0.35);
+}
+@media (prefers-reduced-motion: reduce) {
+  .exp-panel {
+    box-shadow: none;
+    border: 0;
+    background: transparent;
+  }
+}
+
+/* Museum label typography. */
+.exp-label-caps {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+/* Paper, made in CSS: fine fibres, a soft grain and a warm wash. No image. */
+.exp-paper {
+  background-color: #f6f0e4;
+  background-image:
+    repeating-linear-gradient(93deg, rgb(120 96 60 / 0.035) 0 1px, transparent 1px 7px),
+    repeating-linear-gradient(-87deg, rgb(120 96 60 / 0.025) 0 1px, transparent 1px 11px),
+    radial-gradient(120% 80% at 20% 0%, rgb(255 255 255 / 0.7), transparent 60%),
+    radial-gradient(100% 70% at 100% 100%, rgb(214 196 160 / 0.25), transparent 65%);
+}
+
+.exp-focus:focus-visible,
+.experience :focus-visible {
+  outline: 3px solid #1f5bff;
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+
+/* Kinetic type: driven by --p (0..1) written straight to the style, so nothing re-renders. */
+.exp-kinetic {
+  will-change: transform, opacity;
+}
+@media (prefers-reduced-motion: reduce) {
+  .exp-kinetic {
+    transform: none !important;
+    opacity: 1 !important;
+    clip-path: none !important;
+    filter: none !important;
+  }
+}
+
+/* Phones: the stage holds the top half and the captions scroll up underneath it, so a caption
+   never covers the molecule. */
+@media (max-width: 767px) and (prefers-reduced-motion: no-preference) {
+  .exp-story-stage {
+    height: 50svh;
+    z-index: 10;
+    box-shadow: 0 1px 0 var(--exp-rule);
+  }
+  .exp-story-steps {
+    margin-top: 0;
+  }
+  .exp-step {
+    min-height: 62svh;
+  }
+  .exp-panel {
+    background: transparent;
+    border: 0;
+    box-shadow: none;
+    padding-left: 0;
+    padding-right: 0;
+  }
+  .exp-label-sub[data-phone="hide"] {
+    display: none;
+  }
+}
