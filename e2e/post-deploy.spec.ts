@@ -1,12 +1,43 @@
+import { readFileSync } from "node:fs";
 import { expect, test } from "@playwright/test";
 
 // Checks against a real deployment:
 //   SMOKE_BASE_URL=<deployment url> npx playwright test e2e/post-deploy.spec.ts
 // Deployment checks run against any URL (a protected preview needs VERCEL_AUTOMATION_BYPASS_SECRET).
+// SMOKE_TARGET=production marks a production deployment reached by its *.vercel.app URL.
 // Domain checks (HTTPS on the canonical host, the secondary-domain redirects) run only once
 // SMOKE_BASE_URL is the canonical domain, i.e. after the DNS cutover.
+// Nothing here writes to the database except one failed sign-in's rate-limit counter.
 const base = new URL(process.env.SMOKE_BASE_URL ?? "https://studywithshabari.com");
 const onCanonical = base.host === "studywithshabari.com";
+const production = onCanonical || process.env.SMOKE_TARGET === "production";
+
+const PAGES = ["/", "/mcat", "/admissions", "/research", "/practice", "/resources", "/pricing", "/about", "/testimonials", "/book", "/faq", "/contact", "/privacy", "/terms", "/login", "/signup"];
+
+// The answer-key detector from answer-key.spec.ts, reduced to what a guest can fetch without
+// starting an attempt: key fields in the HTML (which carries the RSC payload), and six-word phrases
+// from the hidden explanations and rationales.
+const KEY_FIELDS = /\\?"(isCorrect|rationale|explanation|correctChoiceId|correct)\\?"\s*:/;
+const words = (s: string) =>
+  s.replace(/&#x?[0-9a-f]+;|&[a-z]+;|\\u[0-9a-f]{4}|\\[nrt"]/gi, " ").replace(/[^A-Za-z]+/g, " ").trim().toLowerCase();
+type Q = { stem: string; explanation: string; choices: { text: string; rationale?: string }[] };
+const bank = JSON.parse(readFileSync("content/samples/sample-bank.json", "utf8"));
+const lesson = JSON.parse(readFileSync("content/lessons/dopamine.json", "utf8"));
+const questions: Q[] = [
+  ...bank.exams.flatMap((e: { items: ({ type: string; questions?: Q[] } & Q)[] }) => e.items.flatMap((i) => (i.type === "passage" ? i.questions! : [i]))),
+  ...lesson.questions,
+];
+const visible = words(questions.map((q) => [q.stem, ...q.choices.map((c) => c.text)].join(" ")).join(" "));
+const secrets = questions
+  .flatMap((q) => [q.explanation, ...q.choices.map((c) => c.rationale ?? "")])
+  .flatMap((text) => {
+    const w = words(text).split(" ");
+    for (let i = 0; i + 6 <= w.length; i++) {
+      const fp = w.slice(i, i + 6).join(" ");
+      if (w.slice(i, i + 6).every((x) => x.length > 1) && !visible.includes(fp)) return [fp];
+    }
+    return [];
+  });
 
 const REDIRECTS: [string, string][] = [
   ["http://studywithshabari.com/", "https://studywithshabari.com/"],
@@ -17,8 +48,9 @@ const REDIRECTS: [string, string][] = [
 ];
 
 test("deployment: served over HTTPS with the security headers", async ({ request }) => {
-  const res = await request.get("/");
-  expect(res.status()).toBe(200);
+  // Without redirects, so Vercel's login wall (a 302 to vercel.com) fails here instead of passing.
+  const res = await request.get("/", { maxRedirects: 0 });
+  expect(res.status(), "Deployment Protection answered: is VERCEL_AUTOMATION_BYPASS_SECRET right?").toBe(200);
   expect(res.url()).toMatch(/^https:\/\//);
   const h = res.headers();
   expect(h["strict-transport-security"]).toContain("max-age=");
@@ -35,8 +67,67 @@ test("deployment: the database answers the health check", async ({ request }) =>
 
 test("deployment: only the canonical production site may be indexed", async ({ request }) => {
   const robots = await (await request.get("/robots.txt")).text();
-  if (onCanonical) expect(robots).toMatch(/Allow: \//);
+  if (production) expect(robots).toMatch(/Allow: \//);
   else expect(robots).toMatch(/Disallow: \/\s*$/m);
+});
+
+test("deployment: every public page loads", async ({ request }) => {
+  for (const path of PAGES) {
+    const res = await request.get(path, { maxRedirects: 0 });
+    expect(res.status(), path).toBe(200);
+    expect(await res.text(), path).not.toMatch(/Application error|Internal Server Error/);
+  }
+});
+
+test("deployment: the home and MCAT pages render without client errors", async ({ page }) => {
+  const errors: string[] = [];
+  page.on("pageerror", (e) => errors.push(e.message));
+  for (const path of ["/", "/mcat"]) {
+    await page.goto(path);
+    await expect(page.locator("h1").first()).toBeVisible();
+  }
+  expect(errors).toEqual([]);
+});
+
+test("deployment: sign-in reaches the database and rejects a wrong password", async ({ page }) => {
+  await page.goto("/login");
+  await page.getByLabel("Email").fill(`smoke-${Date.now()}@example.invalid`);
+  await page.getByLabel("Password").fill("not-a-real-password-1");
+  await page.getByRole("button", { name: "Sign in" }).click();
+  await expect(page.getByText("That email and password don’t match.")).toBeVisible();
+  await expect(page).toHaveURL(/\/login/);
+  // Signed-out visitors are sent to sign-in from the dashboard.
+  await page.goto("/dashboard");
+  await expect(page).toHaveURL(/\/login/);
+});
+
+test("deployment: no answer key reaches a guest, and drafts stay hidden", async ({ request }) => {
+  expect(secrets.length).toBeGreaterThan(10);
+  const check = (where: string, body: string) => {
+    expect(body, `${where}: answer-key field`).not.toMatch(KEY_FIELDS);
+    const text = words(body);
+    expect(secrets.filter((fp) => text.includes(fp)), `${where}: explanation or rationale text`).toEqual([]);
+  };
+  const practice = await (await request.get("/practice")).text();
+  const sets = [...new Set([...practice.matchAll(/href="(\/practice\/[a-z0-9-]+)"/g)].map((m) => m[1]))];
+  for (const path of [...PAGES, ...sets]) check(path, await (await request.get(path)).text());
+
+  // The samples wait in REVIEW, so their pages aren't served.
+  expect((await request.get("/practice/cp-sample-set-1")).status()).toBe(404);
+  // The AI-drafted lesson: hidden in production, shown with the draft badge on a protected preview.
+  // The lesson page calls notFound() inside a Suspense boundary, after the 200 shell has streamed,
+  // so production answers 200 with the not-found page: check that nothing of the draft is in it.
+  const res = await request.get("/lessons/dopamine");
+  if (production) {
+    const html = await res.text();
+    expect(html).not.toContain("drafted with AI");
+    expect(html).not.toContain(lesson.lesson.title);
+    expect(res.status()).toBeLessThan(500);
+  } else if (res.status() === 200) {
+    const html = await res.text();
+    expect(html).toContain("drafted with AI");
+    check("/lessons/dopamine", html);
+  } else expect(res.status()).toBe(404);
 });
 
 test("16. canonical site is served over HTTPS with HSTS", async ({ request }) => {
