@@ -2,7 +2,7 @@ import { readFileSync } from "node:fs";
 import { beforeEach, describe, expect, it } from "vitest";
 import { importLesson } from "@/lib/lessons/import";
 import { publishLesson } from "@/lib/lessons/publish";
-import { answerLessonStep, findLesson, loadLessonAttempt, startLessonAttempt } from "@/lib/lessons/service";
+import { answerLessonStep, findLesson, loadLessonAttempt, startLessonAttempt, startPreviewAttempt } from "@/lib/lessons/service";
 import { lessonResult } from "@/lib/lessons/flow";
 import { isLocalTestDatabase } from "../../scripts/publish-lesson-fixture";
 import { db, resetData } from "../support/db";
@@ -97,6 +97,20 @@ describe("lessons", () => {
     await importLesson(db, lessonFile());
     await startLessonAttempt("dopamine", guest, true);
     expect(await db.funnelDaily.count()).toBe(0);
+  });
+
+  it("lets an admin play the current draft as a preview that only the admin role opens, and never counts it", async () => {
+    const { lessonId } = await importLesson(db, lessonFile());
+    const a = await admin();
+    const { id } = await startPreviewAttempt(lessonId, a.id);
+    const asAdmin = { userId: a.id, guestKeyHash: null, isAdmin: true };
+    expect((await loadLessonAttempt(id, asAdmin))?.mode).toBe("preview");
+    // The public lesson URLs load attempts without the admin role, so a draft preview doesn't open there.
+    expect(await loadLessonAttempt(id, { ...asAdmin, isAdmin: false })).toBeNull();
+    // Answering reports where the attempt lives, so the action can send the admin back to the preview.
+    expect(await answerLessonStep(id, asAdmin, { position: 1, choiceLabel: "A", confidence: "SURE", elapsedMs: 1 })).toEqual({ lessonId, mode: "preview" });
+    expect(await db.funnelDaily.count()).toBe(0);
+    await expect(startPreviewAttempt("no-such-lesson", a.id)).rejects.toThrow("not_found");
   });
 
   it("only lets the E2E fixture publish into a local test database", () => {
