@@ -6,8 +6,8 @@ import { safeCalendlyUrl } from "@/lib/calendly";
 import { consultPlatform, contactEmail } from "@/lib/site";
 
 export const metadata: Metadata = {
-  title: "Book a free 15-minute call",
-  description: `Pick a time for a free 15-minute${consultPlatform ? ` ${consultPlatform}` : ""} call about MCAT prep or college admissions.`,
+  title: "Book a free consult call",
+  description: `Pick a time for a free consult call${consultPlatform ? ` on ${consultPlatform}` : ""} about MCAT prep or college admissions.`,
   alternates: { canonical: "/book" },
 };
 
@@ -24,7 +24,7 @@ export default function BookPage() {
         <Wrap>
           <Kicker>Free consultation</Kicker>
           <h1 id="book-h" className="mt-4 text-[clamp(2.35rem,4.2vw,3.9rem)] leading-[1.04]">
-            Book a free <span className="whitespace-nowrap">15-minute</span> call.
+            Book a free consult call.
           </h1>
           <p className="mt-5 max-w-2xl text-[1.125rem] text-quiet">
             {consultPlatform ? `On ${consultPlatform}. ` : ""}Choose MCAT or College Admissions, then pick a time. Parents are welcome to join.

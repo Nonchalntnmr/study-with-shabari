@@ -5,7 +5,7 @@ import { founder, sessionPlatform } from "@/lib/site";
 import { FounderPortrait } from "./founder-portrait";
 import { ScoreInstrument } from "./score-instrument";
 
-export function PrimaryCta({ href = "/book", children = "Book a free 15-min call" }: { href?: string; children?: React.ReactNode }) {
+export function PrimaryCta({ href = "/book", children = "Book a free consult call" }: { href?: string; children?: React.ReactNode }) {
   return (
     <Link href={href} className="inline-flex h-12 items-center rounded-full bg-eosin px-6 text-[1rem] font-semibold text-white transition-colors hover:bg-eosin-ink">
       {children}
@@ -79,7 +79,7 @@ export function Founder() {
         </h2>
         <div className="mt-8 max-w-[62ch] space-y-5 text-[1.125rem] leading-relaxed text-specimen/90">
           <p>
-            I’m {founder.standing}, double majoring in {founder.majors}, and I’m headed to {founder.goal}.
+            I’m {founder.standing}, double majoring in {founder.majors}, and I’m premed.
           </p>
           <p>
             Studying for the MCAT taught me that content is only half of it: the other half is learning how the test asks questions. That’s what I
@@ -129,7 +129,7 @@ export function PricingTeaser() {
 export function FinalCta() {
   return (
     <section className="mx-auto flex min-h-[70svh] max-w-[1400px] flex-col items-start justify-center px-5 py-28 sm:px-8">
-      <h2 className="max-w-4xl text-[clamp(2.75rem,6vw,5.5rem)]">Not sure where to start? Start with fifteen minutes.</h2>
+      <h2 className="max-w-4xl text-[clamp(2.75rem,6vw,5.5rem)]">Not sure where to start? Start with a free consult call.</h2>
       <p className="mt-6 max-w-2xl text-[1.125rem] text-specimen/85">
         We’ll look at your timeline and scores, and you’ll leave with a next step whether or not we work together.
       </p>

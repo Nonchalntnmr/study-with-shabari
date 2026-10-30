@@ -6,7 +6,7 @@ test("1. homepage loads with founder facts and no errors", async ({ page }) => {
   await page.goto("/");
   await expect(page).toHaveTitle(/Study with Shabari/);
   // Founder spec: headline, two equal panels with their buttons, the booking call, the credibility strip.
-  await expect(page.getByRole("heading", { level: 1 })).toHaveText("I scored a 522 on the MCAT and got into MIT and 5 Ivies. Now I teach both.");
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText("MCAT tutoring and college admissions help, from someone who recently went through both.");
   await expect(page.getByText("522 MCAT — 132 B/B, 132 P/S, 131 C/P")).toBeVisible();
   await expect(page.getByText("Admitted to MIT, Yale, Columbia, Brown, Dartmouth, and Penn (Benjamin Franklin Scholar)")).toBeVisible();
   await expect(page.getByRole("link", { name: "Explore MCAT Prep" }).first()).toBeVisible();
@@ -39,19 +39,19 @@ test("2. main navigation reaches every section", async ({ page }) => {
     "About",
   ]);
   for (const [link, heading] of [
-    ["MCAT Prep", /Learn the MCAT from someone who teaches this material at MIT/],
-    ["College Admissions", /I got into MIT and 5 of 8 Ivies/],
+    ["MCAT Prep", /One-on-one MCAT tutoring from an MIT premed who scored a 522/],
+    ["College Admissions", /College admissions help, from someone who went through it recently/],
     ["Free Practice Test", /test day/],
     ["Free Notes", /My complete MCAT notes/],
     ["Research & Teaching", /Immunology, computational genomics/],
-    ["Pricing", /Every option starts with a free 15-minute call/],
+    ["Pricing", /Every option starts with a free consult call/],
     ["About", /Hi, I’m Shabari/],
   ] as const) {
     await page.getByRole("navigation", { name: "Main" }).getByRole("link", { name: link, exact: true }).click();
     await expect(page.getByRole("heading", { level: 1 })).toContainText(heading);
   }
   await page.getByRole("link", { name: "Book a Call", exact: true }).click();
-  await expect(page.getByRole("heading", { level: 1 })).toContainText("Book a free 15-minute call");
+  await expect(page.getByRole("heading", { level: 1 })).toContainText("Book a free consult call");
   // The old tutoring URL lands on the MCAT half.
   await page.goto("/mcat-tutoring");
   await expect(page).toHaveURL(/\/mcat$/);

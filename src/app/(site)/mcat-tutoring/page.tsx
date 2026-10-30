@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 };
 
 const steps = [
-  { title: "Free 15-minute call", body: "We talk through your timeline, scores and weak spots. You leave with a next step, whether or not we work together." },
+  { title: "Free consult call", body: "We talk through your timeline, scores and weak spots. You leave with a next step, whether or not we work together." },
   { title: "A plan around your test date", body: "We decide what to review, in what order, and how many practice passages to do each week." },
   { title: "Live 1:1 sessions on Zoom", body: "We work through the topics and question types you keep missing, and why the right answer is right." },
   { title: "Original practice", body: "Passage-based questions I write myself, so you’re not seeing the same third-party banks everyone else uses." },

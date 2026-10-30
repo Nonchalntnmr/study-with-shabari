@@ -3,7 +3,7 @@ import { z } from "zod";
 export const INQUIRY_KINDS = ["CONSULTATION", "TUTORING", "ADMISSIONS", "RESOURCES", "SUPPORT", "OTHER"] as const;
 
 export const KIND_LABELS: Record<(typeof INQUIRY_KINDS)[number], string> = {
-  CONSULTATION: "Free 15-minute consultation",
+  CONSULTATION: "Free consult call",
   TUTORING: "MCAT tutoring",
   ADMISSIONS: "Admissions advising",
   RESOURCES: "Notes and practice resources",

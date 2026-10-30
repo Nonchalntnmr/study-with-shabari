@@ -85,7 +85,7 @@ export async function importBank(db: PrismaClient, input: unknown, status: Conte
 
         for (const item of exam.items) {
           if (item.type === "passage") {
-            const data = { section: exam.section, title: item.title, body: item.body, source: item.source ?? null, status };
+            const data = { section: exam.section, title: item.title, body: item.body, source: item.source ?? null, figureText: item.figure ?? null, status };
             const passage = await tx.passage.upsert({
               where: { externalId: item.id },
               create: { externalId: item.id, ...data },
@@ -104,6 +104,7 @@ export async function importBank(db: PrismaClient, input: unknown, status: Conte
           section: exam.section,
           timeLimitSec: exam.timeLimitMinutes * 60,
           isSample: exam.isSample,
+          underReview: exam.underReview,
           status,
           publishedAt: status === "PUBLISHED" ? new Date() : null,
         };

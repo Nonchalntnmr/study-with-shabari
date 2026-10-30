@@ -20,7 +20,7 @@ export const contactEmail =
 export const sessionPlatform = "Zoom";
 
 /**
- * Where the free 15-minute call happens, as the booking pages promise it. Null while Calendly's
+ * Where the free consult call happens, as the booking pages promise it. Null while Calendly's
  * "initial consult" event has no location: checked 2026-10-30 in Calendly's own event data, so a
  * booking doesn't create a Zoom meeting yet. Set it to "Zoom" once that event has Zoom attached.
  */
@@ -34,7 +34,6 @@ export const founder = {
   standing: "a senior at MIT",
   // As written in docs/FOUNDER-SPEC.md (MIT Class of 2027).
   majors: "Chemistry & Molecular Biology (Course 5-7) and Neuroscience (Course 9)",
-  goal: "medical school, with plastic surgery as the goal",
   mcat: {
     taken: "January 2026",
     total: 522,

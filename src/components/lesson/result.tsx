@@ -144,7 +144,7 @@ export async function LessonResult({ attempt: a, base }: { attempt: LoadedAttemp
           </p>
         )}
         <div className="mt-7 flex flex-wrap items-center gap-x-8 gap-y-4">
-          <ButtonLink href="/book?service=mcat">Book a free 15-min call</ButtonLink>
+          <ButtonLink href="/book?service=mcat">Book a free consult call</ButtonLink>
           {practice && <TextLink href="/practice">Try a full free practice set</TextLink>}
         </div>
       </section>

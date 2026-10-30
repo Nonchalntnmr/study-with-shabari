@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
 import { Band, H2, Kicker, Rows, Wrap } from "@/components/b/primitives";
-import { honors, mudzi, publications, research, teaching } from "@/lib/founder-facts";
+import { honors, mentoring, mudzi, publications, research, teaching, writing } from "@/lib/founder-facts";
 
 export const metadata: Metadata = {
   title: "Research & Teaching",
-  description: "Research at the Ragon Institute, MIT CSAIL, Beth Israel Lahey Health and MGH; publications; MIT teaching; honors; and the Mudzi Cooking Project.",
+  description: "Research at the Ragon Institute, MIT CSAIL, Beth Israel Lahey Health, the Utah Health Policy Project and NASA L'SPACE; publications; teaching and mentoring; honors; and the Mudzi Cooking Project.",
   alternates: { canonical: "/research" },
 };
 
@@ -41,7 +41,16 @@ export default function ResearchPage() {
             <li key={p.title} className="grid gap-1 py-5 sm:grid-cols-[9rem_1fr] sm:gap-8">
               <span className="text-[0.95rem] font-semibold tabular-nums text-quiet">{p.when}</span>
               <span className="text-[1.0625rem] text-specimen">
-                {p.title}, <span className="text-quiet">{p.venue}</span>
+                {"url" in p ? (
+                  <a href={p.url} className="underline decoration-hairline underline-offset-4 hover:decoration-hema" rel="noopener noreferrer" target="_blank">
+                    {p.title}
+                    <span className="sr-only"> (opens in a new tab)</span>
+                  </a>
+                ) : (
+                  p.title
+                )}
+                , <span className="text-quiet">{p.venue}</span>
+                {"authorship" in p && <span className="text-quiet"> · {p.authorship}</span>}
               </span>
             </li>
           ))}
@@ -51,8 +60,10 @@ export default function ResearchPage() {
       <Band labelledBy="teach-h">
         <div className="grid gap-14 lg:grid-cols-2">
           <div>
-            <H2 id="teach-h">Teaching</H2>
-            <Rows items={teaching} className="mt-8" />
+            <H2 id="teach-h">Teaching & mentoring</H2>
+            <Rows items={[...teaching, ...mentoring.filter((m) => !teaching.includes(m))]} className="mt-8" />
+            <h3 className="mt-12 text-[1.6rem]">Writing</h3>
+            <p className="mt-4 max-w-[62ch] text-[1.0625rem] leading-relaxed text-specimen/85">{writing}</p>
           </div>
           <div>
             <h2 className="text-[clamp(2rem,3.4vw,3rem)]">Honors</h2>

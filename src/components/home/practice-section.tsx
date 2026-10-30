@@ -8,7 +8,7 @@ const item = exam.items[0] as (typeof exam.items)[number] & { questions: { id: s
 const q = item.questions[1];
 const total = exam.items.reduce((n, i) => n + ("questions" in i && Array.isArray(i.questions) ? i.questions.length : 1), 0);
 
-const passage = { id: item.id, title: item.title, paragraphs: splitParagraphs(item.body), source: null, figures: [] };
+const passage = { id: item.id, title: item.title, paragraphs: splitParagraphs(item.body), source: null, figureText: null, figures: [] };
 const question: PreviewQuestion = {
   setTitle: exam.title,
   setSlug: exam.slug,

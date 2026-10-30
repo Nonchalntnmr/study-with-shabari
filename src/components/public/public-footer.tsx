@@ -11,7 +11,7 @@ const COLUMNS = [
       { href: "/mcat", label: "MCAT tutoring" },
       { href: "/practice", label: "Free practice test" },
       { href: "/resources", label: "Free notes" },
-      { href: "/mcat#lesson", label: "Free interactive lesson" },
+      { href: "/dopamine", label: "Free dopamine lesson" },
     ],
   },
   {

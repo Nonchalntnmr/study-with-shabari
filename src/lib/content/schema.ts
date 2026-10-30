@@ -41,6 +41,8 @@ export const passageItemSchema = z.object({
   title: z.string().trim().min(1),
   body: z.string().trim().min(1),
   source: z.string().trim().optional(),
+  /** A figure described in text (a table, a blot), shown as a caption box under the passage. */
+  figure: z.string().trim().min(1).optional(),
   questions: z.array(questionSchema).min(1),
 });
 
@@ -53,6 +55,8 @@ export const examSchema = z.object({
   section: sectionEnum,
   timeLimitMinutes: z.number().int().min(1).max(600),
   isSample: z.boolean().default(false),
+  /** Published before Shabari has reviewed it; the practice pages say so. */
+  underReview: z.boolean().default(false),
   items: z.array(z.union([passageItemSchema, discreteItemSchema])).min(1),
 });
 

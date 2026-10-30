@@ -4,7 +4,7 @@ import { expect, test, type APIRequestContext } from "@playwright/test";
 // have no link (src/lib/availability.ts). The test reads what is actually open from the site itself,
 // so it holds locally (samples published) and on production (nothing approved yet):
 //   SMOKE_BASE_URL=https://studywithshabari.com npx playwright test --project post-deploy
-const PAGES = ["/", "/mcat", "/admissions", "/practice", "/resources", "/faq", "/pricing", "/about", "/research", "/testimonials", "/book", "/contact", "/does-not-exist"];
+const PAGES = ["/", "/mcat", "/dopamine", "/admissions", "/practice", "/resources", "/faq", "/pricing", "/about", "/research", "/testimonials", "/book", "/contact", "/does-not-exist"];
 
 const html = async (request: APIRequestContext, path: string) => (await request.get(path)).text();
 
@@ -40,8 +40,9 @@ test("links promise only the practice, lesson and notes that are open", async ({
     if (!notesOpen) expect(links.filter((a) => /open the notes/i.test(a.text)), `${path}: notes CTA`).toEqual([]);
   }
 
-  // Once something is open, its way in is there too.
+  // Once something is open, its way in is there too. The home page features Shabari's own free
+  // lesson at /dopamine, which is always open, rather than the lesson engine's lessons.
   const home = anchors(await html(request, "/"));
   if (practiceOpen) expect(home.some((a) => a.href === "/practice")).toBe(true);
-  if (lessonOpen) expect(home.some((a) => a.href.startsWith("/lessons/"))).toBe(true);
+  expect(home.some((a) => a.href === "/dopamine")).toBe(true);
 });

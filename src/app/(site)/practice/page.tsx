@@ -4,6 +4,7 @@ import Link from "next/link";
 import { Suspense } from "react";
 import { ResumeList } from "@/components/site/resume-list";
 import { clearGuestHistory } from "@/lib/auth/actions";
+import { ReviewNotice, REVIEW_LABEL } from "@/components/site/review-notice";
 import { Container, PageIntro } from "@/components/site/section";
 import { getPublishedExams } from "@/lib/public-data";
 import { AAMC_DISCLAIMER, sectionNames, sectionShort, type SectionCode } from "@/lib/site";
@@ -21,7 +22,7 @@ export default async function PracticePage() {
     <>
       <PageIntro eyebrow="Practice" title="Practice like it’s test day.">
         {exams.length > 0
-          ? "Original passage-style questions I wrote, with full explanations. Start anywhere. No account needed."
+          ? "Original passage-style questions with full explanations. Start anywhere. No account needed."
           : "Original passage-style questions with full explanations, free and with no account needed. The first sets open here once they’ve been reviewed."}
       </PageIntro>
       <section className="py-14">
@@ -29,6 +30,7 @@ export default async function PracticePage() {
           <Suspense fallback={null}>
             <ResumeList />
           </Suspense>
+          {exams.some((e) => e.underReview) && <ReviewNotice />}
           {exams.length === 0 ? (
             <p className="text-lg text-muted-foreground">New practice sets are on the way. Check back soon.</p>
           ) : (
@@ -43,6 +45,7 @@ export default async function PracticePage() {
                       <li key={e.slug}>
                         <Link href={`/practice/${e.slug}`} className="group block h-full rounded-2xl border bg-white p-6 transition hover:border-navy/40 hover:shadow-md">
                           <h3 className="text-lg font-semibold group-hover:text-blue">{e.title}</h3>
+                          {e.underReview && <p className="mt-1 text-xs font-medium text-amber-800">{REVIEW_LABEL}</p>}
                           <p className="mt-2 text-sm text-muted-foreground">{e.description}</p>
                           <p className="mt-4 flex flex-wrap gap-4 text-xs text-muted-foreground">
                             <span className="flex items-center gap-1.5">

@@ -1,0 +1,1182 @@
+[
+ {
+  "id": "FL1-PS-001",
+  "section": "PS",
+  "passage_id": "FL1-PS-P01",
+  "passage_title": "Remembering a Word List",
+  "passage": "Participants heard lists of 15 unrelated words at one word per 2 seconds and then wrote down as many as they could recall in any order. In Condition A, recall began immediately. In Condition B, participants counted backward by threes for 30 seconds before recall. In Condition A, recall was highest for the first few and last few words. In Condition B, recall stayed high for the first few words but fell for the last few.",
+  "figure_description": null,
+  "stem": "Better recall of the first words in both conditions is called the:",
+  "choices": [
+   "Recency effect",
+   "Primacy effect",
+   "Spacing effect",
+   "Testing effect"
+  ],
+  "answer": 1,
+  "explanation": "Early items get more rehearsal and are transferred into long-term memory: the primacy effect.",
+  "topic": "6B – Memory",
+  "difficulty": "easy",
+  "reviewed": false
+ },
+ {
+  "id": "FL1-PS-002",
+  "section": "PS",
+  "passage_id": "FL1-PS-P01",
+  "passage_title": "Remembering a Word List",
+  "passage": null,
+  "figure_description": null,
+  "stem": "The counting task in Condition B eliminated the:",
+  "choices": [
+   "Primacy effect, by blocking long-term storage",
+   "Recency effect, by displacing items from short-term memory",
+   "Serial position curve entirely",
+   "Spacing effect"
+  ],
+  "answer": 1,
+  "explanation": "Recent items are held in short-term memory, and a 30-second distractor displaces them. Primacy items in long-term memory are unaffected.",
+  "topic": "6B – Memory",
+  "difficulty": "medium",
+  "reviewed": false
+ },
+ {
+  "id": "FL1-PS-003",
+  "section": "PS",
+  "passage_id": "FL1-PS-P01",
+  "passage_title": "Remembering a Word List",
+  "passage": null,
+  "figure_description": null,
+  "stem": "The typical capacity of short-term memory is about:",
+  "choices": [
+   "2 ± 1 items",
+   "7 ± 2 items",
+   "15 ± 5 items",
+   "Unlimited"
+  ],
+  "answer": 1,
+  "explanation": "Miller's classic estimate is 7 ± 2 items, which can be extended with chunking.",
+  "topic": "6B – Memory",
+  "difficulty": "easy",
+  "reviewed": false
+ },
+ {
+  "id": "FL1-PS-004",
+  "section": "PS",
+  "passage_id": "FL1-PS-P01",
+  "passage_title": "Remembering a Word List",
+  "passage": null,
+  "figure_description": null,
+  "stem": "Participants told to think about each word's meaning recalled more words. This supports:",
+  "choices": [
+   "Levels-of-processing theory",
+   "Decay theory",
+   "Retroactive interference",
+   "The serial position effect"
+  ],
+  "answer": 0,
+  "explanation": "Deeper (semantic) processing produces more durable encoding than shallow processing: the levels-of-processing framework.",
+  "topic": "6B – Memory encoding",
+  "difficulty": "medium",
+  "reviewed": false
+ },
+ {
+  "id": "FL1-PS-005",
+  "section": "PS",
+  "passage_id": "FL1-PS-P01",
+  "passage_title": "Remembering a Word List",
+  "passage": null,
+  "figure_description": null,
+  "stem": "A patient with bilateral hippocampal damage would most likely show:",
+  "choices": [
+   "Inability to recall childhood memories",
+   "Inability to form new explicit long-term memories",
+   "Loss of procedural skills like bike riding",
+   "Impaired short-term memory span"
+  ],
+  "answer": 1,
+  "explanation": "Hippocampal damage causes anterograde amnesia for declarative memory (as in patient H.M.). Older memories, procedural memory, and digit span are relatively spared.",
+  "topic": "6B – Biological bases of memory",
+  "difficulty": "medium",
+  "reviewed": false
+ },
+ {
+  "id": "FL1-PS-006",
+  "section": "PS",
+  "passage_id": "FL1-PS-P02",
+  "passage_title": "Who Helps in an Emergency?",
+  "passage": "In a study, participants completed a survey alone, with two confederates, or with five confederates. Smoke began pouring through a vent. Confederates were instructed to ignore the smoke. The percentage of participants who reported the smoke within 4 minutes was 75% alone, 38% with two confederates, and 10% with five confederates.",
+  "figure_description": null,
+  "stem": "The decline in reporting as group size grew best illustrates:",
+  "choices": [
+   "Social facilitation",
+   "The bystander effect",
+   "Group polarization",
+   "Social loafing"
+  ],
+  "answer": 1,
+  "explanation": "People are less likely to help when others are present: the bystander effect.",
+  "topic": "7A / 8C – Social behavior",
+  "difficulty": "easy",
+  "reviewed": false
+ },
+ {
+  "id": "FL1-PS-007",
+  "section": "PS",
+  "passage_id": "FL1-PS-P02",
+  "passage_title": "Who Helps in an Emergency?",
+  "passage": null,
+  "figure_description": null,
+  "stem": "Participants who saw calm confederates concluded there was no emergency. This reflects:",
+  "choices": [
+   "Pluralistic ignorance",
+   "The fundamental attribution error",
+   "Deindividuation",
+   "The foot-in-the-door technique"
+  ],
+  "answer": 0,
+  "explanation": "When each person privately doubts but sees others looking unconcerned, everyone wrongly concludes nothing is wrong: pluralistic ignorance, a form of informational social influence.",
+  "topic": "8C – Social influence",
+  "difficulty": "medium",
+  "reviewed": false
+ },
+ {
+  "id": "FL1-PS-008",
+  "section": "PS",
+  "passage_id": "FL1-PS-P02",
+  "passage_title": "Who Helps in an Emergency?",
+  "passage": null,
+  "figure_description": null,
+  "stem": "In this study, the number of confederates is the:",
+  "choices": [
+   "Dependent variable",
+   "Independent variable",
+   "Confounding variable",
+   "Control variable"
+  ],
+  "answer": 1,
+  "explanation": "Researchers manipulated group size, so it is the independent variable. Reporting rate is the dependent variable.",
+  "topic": "Research methods",
+  "difficulty": "easy",
+  "reviewed": false
+ },
+ {
+  "id": "FL1-PS-009",
+  "section": "PS",
+  "passage_id": "FL1-PS-P02",
+  "passage_title": "Who Helps in an Emergency?",
+  "passage": null,
+  "figure_description": null,
+  "stem": "Which action by someone needing help would most reduce the bystander effect?",
+  "choices": [
+   "Shouting for help to the crowd generally",
+   "Pointing to one person and asking them directly",
+   "Waiting quietly",
+   "Leaving the area"
+  ],
+  "answer": 1,
+  "explanation": "Singling out one person removes diffusion of responsibility, because that person now clearly owns the responsibility to act.",
+  "topic": "8C – Social behavior",
+  "difficulty": "easy",
+  "reviewed": false
+ },
+ {
+  "id": "FL1-PS-010",
+  "section": "PS",
+  "passage_id": "FL1-PS-P03",
+  "passage_title": "Sleep in Medical Residents",
+  "passage": "Researchers recorded EEGs in medical residents sleeping after a normal workday and after a 28-hour shift. After the extended shift, residents entered REM sleep sooner and spent a greater proportion of the night in REM. Separately, residents working night shifts showed disrupted secretion of a hormone that normally rises in darkness.",
+  "figure_description": null,
+  "stem": "EEG delta waves dominate during:",
+  "choices": [
+   "Stage N1",
+   "Stage N2",
+   "Stage N3",
+   "REM sleep"
+  ],
+  "answer": 2,
+  "explanation": "Stage N3 (slow-wave sleep) is characterized by high-amplitude, low-frequency delta waves. N2 shows sleep spindles and K-complexes.",
+  "topic": "6A – Sleep",
+  "difficulty": "easy",
+  "reviewed": false
+ },
+ {
+  "id": "FL1-PS-011",
+  "section": "PS",
+  "passage_id": "FL1-PS-P03",
+  "passage_title": "Sleep in Medical Residents",
+  "passage": null,
+  "figure_description": null,
+  "stem": "Which feature characterizes REM sleep?",
+  "choices": [
+   "Delta waves and muscle tone",
+   "Beta-like EEG activity with skeletal muscle atonia",
+   "Sleep spindles",
+   "Sleepwalking"
+  ],
+  "answer": 1,
+  "explanation": "REM shows an EEG resembling wakefulness, vivid dreaming, rapid eye movements, and paralysis of most skeletal muscles. Sleepwalking occurs in N3.",
+  "topic": "6A – Sleep",
+  "difficulty": "easy",
+  "reviewed": false
+ },
+ {
+  "id": "FL1-PS-012",
+  "section": "PS",
+  "passage_id": "FL1-PS-P03",
+  "passage_title": "Sleep in Medical Residents",
+  "passage": null,
+  "figure_description": null,
+  "stem": "The increased REM after the 28-hour shift is called:",
+  "choices": [
+   "REM rebound",
+   "Sleep apnea",
+   "Narcolepsy",
+   "Circadian phase delay"
+  ],
+  "answer": 0,
+  "explanation": "After REM deprivation, the body compensates by entering REM sooner and spending more time in it: REM rebound.",
+  "topic": "6A – Sleep",
+  "difficulty": "easy",
+  "reviewed": false
+ },
+ {
+  "id": "FL1-PS-013",
+  "section": "PS",
+  "passage_id": "FL1-PS-P03",
+  "passage_title": "Sleep in Medical Residents",
+  "passage": null,
+  "figure_description": null,
+  "stem": "The hormone that rises in darkness is secreted by the:",
+  "choices": [
+   "Pituitary gland",
+   "Pineal gland",
+   "Adrenal medulla",
+   "Thyroid gland"
+  ],
+  "answer": 1,
+  "explanation": "The pineal gland secretes melatonin in darkness under control of the suprachiasmatic nucleus.",
+  "topic": "6A – Circadian rhythms",
+  "difficulty": "easy",
+  "reviewed": false
+ },
+ {
+  "id": "FL1-PS-014",
+  "section": "PS",
+  "passage_id": "FL1-PS-P04",
+  "passage_title": "First-Generation College Students",
+  "passage": "A sociologist interviewed first-generation college students, whose parents did not attend college. Many reported not knowing how to use office hours, network with professors, or apply for research positions, while classmates from college-educated families learned these norms at home. Despite this, many students said success depends only on hard work and talent.",
+  "figure_description": null,
+  "stem": "A first-generation student who becomes a physician is experiencing:",
+  "choices": [
+   "Intragenerational downward mobility",
+   "Intergenerational upward mobility",
+   "Horizontal mobility",
+   "Social reproduction"
+  ],
+  "answer": 1,
+  "explanation": "Moving to a higher social position than one's parents is intergenerational upward mobility.",
+  "topic": "10A – Social class and mobility",
+  "difficulty": "easy",
+  "reviewed": false
+ },
+ {
+  "id": "FL1-PS-015",
+  "section": "PS",
+  "passage_id": "FL1-PS-P04",
+  "passage_title": "First-Generation College Students",
+  "passage": null,
+  "figure_description": null,
+  "stem": "Familiarity with norms such as using office hours is an example of:",
+  "choices": [
+   "Economic capital",
+   "Cultural capital",
+   "Human capital",
+   "Social capital"
+  ],
+  "answer": 1,
+  "explanation": "Bourdieu's cultural capital is non-financial knowledge, skills, and dispositions that confer advantage. Social capital refers to networks of relationships.",
+  "topic": "9B / 10A – Social stratification",
+  "difficulty": "medium",
+  "reviewed": false
+ },
+ {
+  "id": "FL1-PS-016",
+  "section": "PS",
+  "passage_id": "FL1-PS-P04",
+  "passage_title": "First-Generation College Students",
+  "passage": null,
+  "figure_description": null,
+  "stem": "The students' belief that success depends only on effort and talent reflects:",
+  "choices": [
+   "Meritocracy",
+   "Anomie",
+   "Bureaucracy",
+   "Relative deprivation"
+  ],
+  "answer": 0,
+  "explanation": "A meritocracy is a system in which advancement is based on individual merit. The passage suggests unequal cultural capital complicates that belief.",
+  "topic": "10A – Social stratification",
+  "difficulty": "easy",
+  "reviewed": false
+ },
+ {
+  "id": "FL1-PS-017",
+  "section": "PS",
+  "passage_id": "FL1-PS-P04",
+  "passage_title": "First-Generation College Students",
+  "passage": null,
+  "figure_description": null,
+  "stem": "When children of college-educated parents are advantaged in reaching the same status, inequality persists through:",
+  "choices": [
+   "Social reproduction",
+   "Social mobility",
+   "Assimilation",
+   "Globalization"
+  ],
+  "answer": 0,
+  "explanation": "Social reproduction is the transmission of social inequality across generations through structures such as cultural capital and education.",
+  "topic": "10A – Social inequality",
+  "difficulty": "medium",
+  "reviewed": false
+ },
+ {
+  "id": "FL1-PS-018",
+  "section": "PS",
+  "passage_id": "FL1-PS-P04",
+  "passage_title": "First-Generation College Students",
+  "passage": null,
+  "figure_description": null,
+  "stem": "In Max Weber's view of stratification, 'status' refers to:",
+  "choices": [
+   "Wealth and income",
+   "Social prestige and honor",
+   "Political power",
+   "Educational credentials only"
+  ],
+  "answer": 1,
+  "explanation": "Weber separated class (economic position), status (prestige), and party (power).",
+  "topic": "9B – Social theory",
+  "difficulty": "medium",
+  "reviewed": false
+ },
+ {
+  "id": "FL1-PS-019",
+  "section": "PS",
+  "passage_id": "FL1-PS-P05",
+  "passage_title": "Engineered to Keep You Playing",
+  "passage": "A mobile game awards rare items unpredictably after some number of loot-box openings, sometimes after 2 openings, sometimes after 30. A separate in-game reward arrives exactly every 24 hours. Researchers noticed that when the rare-item feature was removed, many players opened loot boxes even more frequently for a short time before stopping.",
+  "figure_description": null,
+  "stem": "The loot-box rewards follow which reinforcement schedule?",
+  "choices": [
+   "Fixed-ratio",
+   "Variable-ratio",
+   "Fixed-interval",
+   "Variable-interval"
+  ],
+  "answer": 1,
+  "explanation": "Rewards depend on a varying number of responses: variable-ratio, the schedule most resistant to extinction (like slot machines).",
+  "topic": "7C – Operant conditioning",
+  "difficulty": "easy",
+  "reviewed": false
+ },
+ {
+  "id": "FL1-PS-020",
+  "section": "PS",
+  "passage_id": "FL1-PS-P05",
+  "passage_title": "Engineered to Keep You Playing",
+  "passage": null,
+  "figure_description": null,
+  "stem": "The daily reward produces which response pattern?",
+  "choices": [
+   "A steady, high rate",
+   "A scalloped pattern with more responding near the reward time",
+   "No responding",
+   "Responses only after punishment"
+  ],
+  "answer": 1,
+  "explanation": "Fixed-interval schedules produce a scallop: responding drops after reinforcement and increases as the next reward time nears.",
+  "topic": "7C – Operant conditioning",
+  "difficulty": "medium",
+  "reviewed": false
+ },
+ {
+  "id": "FL1-PS-021",
+  "section": "PS",
+  "passage_id": "FL1-PS-P05",
+  "passage_title": "Engineered to Keep You Playing",
+  "passage": null,
+  "figure_description": null,
+  "stem": "The temporary increase in opening after the feature was removed is a(n):",
+  "choices": [
+   "Spontaneous recovery",
+   "Extinction burst",
+   "Generalization",
+   "Shaping"
+  ],
+  "answer": 1,
+  "explanation": "When reinforcement stops, behavior often briefly intensifies before declining: an extinction burst.",
+  "topic": "7C – Operant conditioning",
+  "difficulty": "medium",
+  "reviewed": false
+ },
+ {
+  "id": "FL1-PS-022",
+  "section": "PS",
+  "passage_id": "FL1-PS-P05",
+  "passage_title": "Engineered to Keep You Playing",
+  "passage": null,
+  "figure_description": null,
+  "stem": "A player's parents stop nagging once homework is done, and homework completion increases. This is:",
+  "choices": [
+   "Positive reinforcement",
+   "Negative reinforcement",
+   "Positive punishment",
+   "Negative punishment"
+  ],
+  "answer": 1,
+  "explanation": "Removing an aversive stimulus (nagging) to increase a behavior is negative reinforcement.",
+  "topic": "7C – Operant conditioning",
+  "difficulty": "easy",
+  "reviewed": false
+ },
+ {
+  "id": "FL1-PS-023",
+  "section": "PS",
+  "passage_id": "FL1-PS-P06",
+  "passage_title": "Children's Thinking",
+  "passage": "A developmental psychologist tested children of different ages. A 7-month-old stopped searching when a toy was hidden under a blanket. A 4-year-old said a tall, thin glass held more juice than a short, wide glass with the same amount. The 4-year-old also assumed the researcher could see the same picture she saw, even though it faced away from him.",
+  "figure_description": null,
+  "stem": "By the end of which Piagetian stage does the infant develop object permanence?",
+  "choices": [
+   "Sensorimotor",
+   "Preoperational",
+   "Concrete operational",
+   "Formal operational"
+  ],
+  "answer": 0,
+  "explanation": "Object permanence develops during the sensorimotor stage (birth to ~2 years).",
+  "topic": "6C – Cognitive development",
+  "difficulty": "easy",
+  "reviewed": false
+ },
+ {
+  "id": "FL1-PS-024",
+  "section": "PS",
+  "passage_id": "FL1-PS-P06",
+  "passage_title": "Children's Thinking",
+  "passage": null,
+  "figure_description": null,
+  "stem": "The 4-year-old's juice error shows a lack of:",
+  "choices": [
+   "Object permanence",
+   "Conservation",
+   "Abstract reasoning",
+   "Attachment"
+  ],
+  "answer": 1,
+  "explanation": "Conservation, understanding that quantity is unchanged by shape, emerges in the concrete operational stage (~7–11 years).",
+  "topic": "6C – Cognitive development",
+  "difficulty": "easy",
+  "reviewed": false
+ },
+ {
+  "id": "FL1-PS-025",
+  "section": "PS",
+  "passage_id": "FL1-PS-P06",
+  "passage_title": "Children's Thinking",
+  "passage": null,
+  "figure_description": null,
+  "stem": "Assuming the researcher sees what she sees is:",
+  "choices": [
+   "Egocentrism",
+   "Animism",
+   "Reversibility",
+   "Accommodation"
+  ],
+  "answer": 0,
+  "explanation": "Preoperational children struggle to take others' perspectives: egocentrism.",
+  "topic": "6C – Cognitive development",
+  "difficulty": "easy",
+  "reviewed": false
+ },
+ {
+  "id": "FL1-PS-026",
+  "section": "PS",
+  "passage_id": "FL1-PS-P06",
+  "passage_title": "Children's Thinking",
+  "passage": null,
+  "figure_description": null,
+  "stem": "A child who calls all four-legged animals 'dog,' then learns cats are different and creates a new category, is showing:",
+  "choices": [
+   "Assimilation",
+   "Accommodation",
+   "Conservation",
+   "Habituation"
+  ],
+  "answer": 1,
+  "explanation": "Modifying or creating a schema to fit new information is accommodation. Fitting new information into an existing schema is assimilation.",
+  "topic": "6C – Cognitive development",
+  "difficulty": "medium",
+  "reviewed": false
+ },
+ {
+  "id": "FL1-PS-027",
+  "section": "PS",
+  "passage_id": "FL1-PS-P07",
+  "passage_title": "Stress Before an Exam",
+  "passage": "Students preparing for a high-stakes exam reported high stress. Salivary cortisol was elevated in the weeks before the exam, and students reported more colds. One student made a detailed study schedule and met with a tutor; another spent evenings watching TV to avoid thinking about the exam.",
+  "figure_description": null,
+  "stem": "The correct sequence of the HPA axis response is:",
+  "choices": [
+   "ACTH → CRH → cortisol",
+   "CRH → ACTH → cortisol",
+   "Cortisol → ACTH → CRH",
+   "Epinephrine → CRH → ACTH"
+  ],
+  "answer": 1,
+  "explanation": "The hypothalamus releases CRH, the anterior pituitary releases ACTH, and the adrenal cortex releases cortisol.",
+  "topic": "6A / 3B – Stress physiology",
+  "difficulty": "easy",
+  "reviewed": false
+ },
+ {
+  "id": "FL1-PS-028",
+  "section": "PS",
+  "passage_id": "FL1-PS-P07",
+  "passage_title": "Stress Before an Exam",
+  "passage": null,
+  "figure_description": null,
+  "stem": "The increase in colds is best explained by cortisol's effect of:",
+  "choices": [
+   "Enhancing immune function",
+   "Suppressing immune function",
+   "Lowering blood glucose",
+   "Increasing melatonin"
+  ],
+  "answer": 1,
+  "explanation": "Chronically elevated cortisol is immunosuppressive. It also raises blood glucose.",
+  "topic": "6B – Stress and health",
+  "difficulty": "easy",
+  "reviewed": false
+ },
+ {
+  "id": "FL1-PS-029",
+  "section": "PS",
+  "passage_id": "FL1-PS-P07",
+  "passage_title": "Stress Before an Exam",
+  "passage": null,
+  "figure_description": null,
+  "stem": "Prolonged stress leading to depleted resources corresponds to which stage of Selye's general adaptation syndrome?",
+  "choices": [
+   "Alarm",
+   "Resistance",
+   "Exhaustion",
+   "Appraisal"
+  ],
+  "answer": 2,
+  "explanation": "The GAS stages are alarm, resistance, and exhaustion. Exhaustion follows prolonged stress and increases illness vulnerability.",
+  "topic": "6B – Stress",
+  "difficulty": "easy",
+  "reviewed": false
+ },
+ {
+  "id": "FL1-PS-030",
+  "section": "PS",
+  "passage_id": "FL1-PS-P07",
+  "passage_title": "Stress Before an Exam",
+  "passage": null,
+  "figure_description": null,
+  "stem": "The student who made a study schedule and met with a tutor is using:",
+  "choices": [
+   "Emotion-focused coping",
+   "Problem-focused coping",
+   "Avoidance coping",
+   "Defense mechanisms"
+  ],
+  "answer": 1,
+  "explanation": "Directly tackling the source of stress is problem-focused coping. Watching TV to avoid thinking is avoidance.",
+  "topic": "6B – Coping",
+  "difficulty": "easy",
+  "reviewed": false
+ },
+ {
+  "id": "FL1-PS-031",
+  "section": "PS",
+  "passage_id": "FL1-PS-P08",
+  "passage_title": "Smartphones and Attention",
+  "passage": "Researchers randomly assigned 120 college students to leave their silenced phone on the desk, in their bag, or in another room. Participants then completed a working-memory task. Scores were highest in the other-room condition, and the difference was statistically significant (p = 0.02). A research assistant who knew each participant's condition scored the open-ended portion of the task.",
+  "figure_description": null,
+  "stem": "The independent variable is:",
+  "choices": [
+   "Working-memory score",
+   "Phone location",
+   "Participants' age",
+   "Statistical significance"
+  ],
+  "answer": 1,
+  "explanation": "Phone location is manipulated; working-memory score is the measured dependent variable.",
+  "topic": "Research methods",
+  "difficulty": "easy",
+  "reviewed": false
+ },
+ {
+  "id": "FL1-PS-032",
+  "section": "PS",
+  "passage_id": "FL1-PS-P08",
+  "passage_title": "Smartphones and Attention",
+  "passage": null,
+  "figure_description": null,
+  "stem": "Random assignment allows the researchers to:",
+  "choices": [
+   "Generalize to all adults",
+   "Infer that phone location caused the score differences",
+   "Eliminate the need for a control group",
+   "Guarantee statistical significance"
+  ],
+  "answer": 1,
+  "explanation": "Random assignment distributes participant differences evenly across groups, supporting causal inference (internal validity). Generalization depends on sampling.",
+  "topic": "Research methods",
+  "difficulty": "medium",
+  "reviewed": false
+ },
+ {
+  "id": "FL1-PS-033",
+  "section": "PS",
+  "passage_id": "FL1-PS-P08",
+  "passage_title": "Smartphones and Attention",
+  "passage": null,
+  "figure_description": null,
+  "stem": "The scoring procedure most threatens validity through:",
+  "choices": [
+   "Experimenter bias",
+   "Selection bias",
+   "Attrition",
+   "The Hawthorne effect"
+  ],
+  "answer": 0,
+  "explanation": "A scorer who knows the conditions may unconsciously score in line with the hypothesis. Blinding the scorer would fix this.",
+  "topic": "Research methods",
+  "difficulty": "medium",
+  "reviewed": false
+ },
+ {
+  "id": "FL1-PS-034",
+  "section": "PS",
+  "passage_id": "FL1-PS-P08",
+  "passage_title": "Smartphones and Attention",
+  "passage": null,
+  "figure_description": null,
+  "stem": "Using only college students primarily limits:",
+  "choices": [
+   "Internal validity",
+   "External validity",
+   "Reliability",
+   "Construct validity"
+  ],
+  "answer": 1,
+  "explanation": "A narrow sample limits generalizability to other populations, which is external validity.",
+  "topic": "Research methods",
+  "difficulty": "easy",
+  "reviewed": false
+ },
+ {
+  "id": "FL1-PS-035",
+  "section": "PS",
+  "passage_id": "FL1-PS-P08",
+  "passage_title": "Smartphones and Attention",
+  "passage": null,
+  "figure_description": null,
+  "stem": "p = 0.02 means:",
+  "choices": [
+   "There is a 2% chance the hypothesis is false",
+   "If the null hypothesis were true, results this extreme would occur about 2% of the time",
+   "The effect is large",
+   "98% of participants showed the effect"
+  ],
+  "answer": 1,
+  "explanation": "A p-value is the probability of data at least this extreme assuming the null is true. It is not the probability that the hypothesis is false and says nothing about effect size.",
+  "topic": "Research methods / statistics",
+  "difficulty": "hard",
+  "reviewed": false
+ },
+ {
+  "id": "FL1-PS-036",
+  "section": "PS",
+  "passage_id": "FL1-PS-P09",
+  "passage_title": "Labels and Identity",
+  "passage": "A teenager was arrested once for shoplifting. Afterward, teachers treated him as a 'troublemaker,' and he began skipping school and spending time with others who had been in trouble. He described feeling that people now saw him only as a criminal. At work, he acted polished in front of customers but relaxed with coworkers in the break room.",
+  "figure_description": null,
+  "stem": "The idea that being labeled deviant led to further deviance reflects:",
+  "choices": [
+   "Strain theory",
+   "Labeling theory",
+   "Differential association only",
+   "Conflict theory"
+  ],
+  "answer": 1,
+  "explanation": "Labeling theory holds that a deviant label can push someone toward a deviant identity and further (secondary) deviance.",
+  "topic": "9B / 8A – Deviance",
+  "difficulty": "easy",
+  "reviewed": false
+ },
+ {
+  "id": "FL1-PS-037",
+  "section": "PS",
+  "passage_id": "FL1-PS-P09",
+  "passage_title": "Labels and Identity",
+  "passage": null,
+  "figure_description": null,
+  "stem": "Being seen only as a criminal suggests 'criminal' has become his:",
+  "choices": [
+   "Ascribed status",
+   "Master status",
+   "Achieved role",
+   "Role strain"
+  ],
+  "answer": 1,
+  "explanation": "A master status overshadows a person's other statuses and dominates how others see them.",
+  "topic": "8A / 9A – Self and identity",
+  "difficulty": "easy",
+  "reviewed": false
+ },
+ {
+  "id": "FL1-PS-038",
+  "section": "PS",
+  "passage_id": "FL1-PS-P09",
+  "passage_title": "Labels and Identity",
+  "passage": null,
+  "figure_description": null,
+  "stem": "His polished behavior with customers versus the break room illustrates:",
+  "choices": [
+   "Dramaturgical analysis (front stage vs back stage)",
+   "Role conflict",
+   "Cognitive dissonance",
+   "The looking-glass self"
+  ],
+  "answer": 0,
+  "explanation": "Goffman's dramaturgy compares social life to a performance: front stage for an audience, back stage where people relax.",
+  "topic": "8B – Self-presentation",
+  "difficulty": "easy",
+  "reviewed": false
+ },
+ {
+  "id": "FL1-PS-039",
+  "section": "PS",
+  "passage_id": "FL1-PS-P09",
+  "passage_title": "Labels and Identity",
+  "passage": null,
+  "figure_description": null,
+  "stem": "Teachers' expectations that he would cause trouble, leading to his misbehavior, is a:",
+  "choices": [
+   "Self-fulfilling prophecy",
+   "Halo effect",
+   "Just-world bias",
+   "Stereotype threat"
+  ],
+  "answer": 0,
+  "explanation": "An expectation that elicits behavior confirming it is a self-fulfilling prophecy.",
+  "topic": "8B – Social perception",
+  "difficulty": "easy",
+  "reviewed": false
+ },
+ {
+  "id": "FL1-PS-040",
+  "section": "PS",
+  "passage_id": "FL1-PS-P09",
+  "passage_title": "Labels and Identity",
+  "passage": null,
+  "figure_description": null,
+  "stem": "Goffman described a stigmatized trait as producing a:",
+  "choices": [
+   "Looking-glass self",
+   "Spoiled identity",
+   "Generalized other",
+   "Reference group"
+  ],
+  "answer": 1,
+  "explanation": "Goffman called stigma an attribute that discredits a person, reducing them to a 'spoiled identity.'",
+  "topic": "8A – Identity / stigma",
+  "difficulty": "medium",
+  "reviewed": false
+ },
+ {
+  "id": "FL1-PS-041",
+  "section": "PS",
+  "passage_id": "FL1-PS-P10",
+  "passage_title": "Neighborhood and Health",
+  "passage": "A public health team compared two neighborhoods in the same city. Neighborhood A had high incomes, grocery stores, and parks. Neighborhood B had lower incomes, convenience stores but no full-service grocery store, and higher air pollution. Life expectancy differed by 12 years. Health also improved step by step across income levels, not just between the richest and poorest.",
+  "figure_description": null,
+  "stem": "Income, food access, and pollution are examples of:",
+  "choices": [
+   "Social determinants of health",
+   "Genetic predispositions",
+   "Health behaviors only",
+   "Medicalization"
+  ],
+  "answer": 0,
+  "explanation": "Social determinants of health are the conditions in which people are born, live, and work that shape health.",
+  "topic": "10A – Health disparities",
+  "difficulty": "easy",
+  "reviewed": false
+ },
+ {
+  "id": "FL1-PS-042",
+  "section": "PS",
+  "passage_id": "FL1-PS-P10",
+  "passage_title": "Neighborhood and Health",
+  "passage": null,
+  "figure_description": null,
+  "stem": "An area lacking full-service grocery stores is often called a:",
+  "choices": [
+   "Food desert",
+   "Health care deserts only",
+   "Gentrified area",
+   "Ghetto"
+  ],
+  "answer": 0,
+  "explanation": "A food desert is an area with limited access to affordable, nutritious food.",
+  "topic": "10A – Health disparities",
+  "difficulty": "easy",
+  "reviewed": false
+ },
+ {
+  "id": "FL1-PS-043",
+  "section": "PS",
+  "passage_id": "FL1-PS-P10",
+  "passage_title": "Neighborhood and Health",
+  "passage": null,
+  "figure_description": null,
+  "stem": "Health improving at each step up the income ladder is called the:",
+  "choices": [
+   "Social gradient in health",
+   "Healthy immigrant effect",
+   "Inverse care law",
+   "Hawthorne effect"
+  ],
+  "answer": 0,
+  "explanation": "The social gradient describes a stepwise relationship between socioeconomic position and health across the whole spectrum.",
+  "topic": "10A – Health disparities",
+  "difficulty": "medium",
+  "reviewed": false
+ },
+ {
+  "id": "FL1-PS-044",
+  "section": "PS",
+  "passage_id": "FL1-PS-P10",
+  "passage_title": "Neighborhood and Health",
+  "passage": null,
+  "figure_description": null,
+  "stem": "If zoning policies placed polluting factories mainly in Neighborhood B, this would exemplify:",
+  "choices": [
+   "Individual discrimination",
+   "Institutional discrimination",
+   "Prejudice",
+   "Stereotyping"
+  ],
+  "answer": 1,
+  "explanation": "Discrimination embedded in policies and institutions, rather than individual attitudes, is institutional discrimination (here, environmental injustice).",
+  "topic": "9B / 10A – Discrimination",
+  "difficulty": "medium",
+  "reviewed": false
+ },
+ {
+  "id": "FL1-PS-045",
+  "section": "PS",
+  "passage_id": null,
+  "passage_title": null,
+  "passage": null,
+  "figure_description": null,
+  "stem": "According to Maslow, which needs must be met first?",
+  "choices": [
+   "Esteem",
+   "Belonging",
+   "Physiological",
+   "Self-actualization"
+  ],
+  "answer": 2,
+  "explanation": "Maslow's hierarchy starts with physiological needs, followed by safety, belonging, esteem, and self-actualization.",
+  "topic": "7A – Motivation",
+  "difficulty": "easy",
+  "reviewed": false
+ },
+ {
+  "id": "FL1-PS-046",
+  "section": "PS",
+  "passage_id": null,
+  "passage_title": null,
+  "passage": null,
+  "figure_description": null,
+  "stem": "A smoker who knows smoking is harmful says 'my grandpa smoked and lived to 95.' This reduces:",
+  "choices": [
+   "Cognitive dissonance",
+   "Social loafing",
+   "Groupthink",
+   "Learned helplessness"
+  ],
+  "answer": 0,
+  "explanation": "Holding conflicting beliefs and behaviors creates discomfort (dissonance), which people reduce by changing beliefs or justifying behavior.",
+  "topic": "7B – Attitudes",
+  "difficulty": "easy",
+  "reviewed": false
+ },
+ {
+  "id": "FL1-PS-047",
+  "section": "PS",
+  "passage_id": null,
+  "passage_title": null,
+  "passage": null,
+  "figure_description": null,
+  "stem": "The minimum stimulus intensity detected 50% of the time is the:",
+  "choices": [
+   "Difference threshold",
+   "Absolute threshold",
+   "Just-noticeable difference",
+   "Sensory adaptation point"
+  ],
+  "answer": 1,
+  "explanation": "The absolute threshold is the lowest intensity detected half the time. The difference threshold (JND) is the smallest detectable change.",
+  "topic": "6A – Sensation",
+  "difficulty": "easy",
+  "reviewed": false
+ },
+ {
+  "id": "FL1-PS-048",
+  "section": "PS",
+  "passage_id": null,
+  "passage_title": null,
+  "passage": null,
+  "figure_description": null,
+  "stem": "Damage to Broca's area most likely causes:",
+  "choices": [
+   "Fluent but meaningless speech",
+   "Effortful, halting speech with relatively intact comprehension",
+   "Inability to recognize faces",
+   "Loss of hearing"
+  ],
+  "answer": 1,
+  "explanation": "Broca's (expressive) aphasia impairs speech production. Wernicke's aphasia produces fluent but nonsensical speech.",
+  "topic": "6B – Language and the brain",
+  "difficulty": "easy",
+  "reviewed": false
+ },
+ {
+  "id": "FL1-PS-049",
+  "section": "PS",
+  "passage_id": null,
+  "passage_title": null,
+  "passage": null,
+  "figure_description": null,
+  "stem": "According to Erikson, the central crisis of adolescence is:",
+  "choices": [
+   "Trust vs mistrust",
+   "Identity vs role confusion",
+   "Intimacy vs isolation",
+   "Industry vs inferiority"
+  ],
+  "answer": 1,
+  "explanation": "Erikson's adolescent stage is identity vs role confusion. Intimacy vs isolation follows in young adulthood.",
+  "topic": "8A – Identity development",
+  "difficulty": "easy",
+  "reviewed": false
+ },
+ {
+  "id": "FL1-PS-050",
+  "section": "PS",
+  "passage_id": null,
+  "passage_title": null,
+  "passage": null,
+  "figure_description": null,
+  "stem": "A cohesive team ignores warnings and makes a poor decision to preserve harmony. This is:",
+  "choices": [
+   "Groupthink",
+   "Group polarization",
+   "Social facilitation",
+   "Deindividuation"
+  ],
+  "answer": 0,
+  "explanation": "Groupthink is prioritizing consensus over critical evaluation, which leads to poor decisions.",
+  "topic": "7A / 8C – Group behavior",
+  "difficulty": "easy",
+  "reviewed": false
+ },
+ {
+  "id": "FL1-PS-051",
+  "section": "PS",
+  "passage_id": null,
+  "passage_title": null,
+  "passage": null,
+  "figure_description": null,
+  "stem": "Durkheim used 'anomie' to describe:",
+  "choices": [
+   "A lack of clear social norms",
+   "Extreme poverty",
+   "Strict religious rules",
+   "Rapid population growth"
+  ],
+  "answer": 0,
+  "explanation": "Anomie is a breakdown of social norms that leaves individuals without guidance, which Durkheim linked to suicide rates.",
+  "topic": "9B – Social theory",
+  "difficulty": "easy",
+  "reviewed": false
+ },
+ {
+  "id": "FL1-PS-052",
+  "section": "PS",
+  "passage_id": null,
+  "passage_title": null,
+  "passage": null,
+  "figure_description": null,
+  "stem": "A skilled pianist plays better in front of an audience. This is:",
+  "choices": [
+   "Social loafing",
+   "Social facilitation",
+   "Deindividuation",
+   "Bystander effect"
+  ],
+  "answer": 1,
+  "explanation": "The presence of others improves performance on well-learned or simple tasks and impairs it on complex or new tasks.",
+  "topic": "8C – Social influence",
+  "difficulty": "easy",
+  "reviewed": false
+ },
+ {
+  "id": "FL1-PS-053",
+  "section": "PS",
+  "passage_id": null,
+  "passage_title": null,
+  "passage": null,
+  "figure_description": null,
+  "stem": "Searching only for evidence that supports one's existing belief is:",
+  "choices": [
+   "Confirmation bias",
+   "Hindsight bias",
+   "Availability heuristic",
+   "Belief perseverance"
+  ],
+  "answer": 0,
+  "explanation": "Confirmation bias is seeking or favoring information that confirms prior beliefs.",
+  "topic": "6B – Cognition",
+  "difficulty": "easy",
+  "reviewed": false
+ },
+ {
+  "id": "FL1-PS-054",
+  "section": "PS",
+  "passage_id": null,
+  "passage_title": null,
+  "passage": null,
+  "figure_description": null,
+  "stem": "The mesolimbic dopamine pathway is most associated with:",
+  "choices": [
+   "Motor control",
+   "Reward and reinforcement",
+   "Hormone release",
+   "Visual processing"
+  ],
+  "answer": 1,
+  "explanation": "The mesolimbic pathway (ventral tegmental area to nucleus accumbens) mediates reward and is implicated in addiction. The nigrostriatal pathway controls movement.",
+  "topic": "6B / 7C – Biology of behavior",
+  "difficulty": "medium",
+  "reviewed": false
+ },
+ {
+  "id": "FL1-PS-055",
+  "section": "PS",
+  "passage_id": null,
+  "passage_title": null,
+  "passage": null,
+  "figure_description": null,
+  "stem": "Which is a positive symptom of schizophrenia?",
+  "choices": [
+   "Flat affect",
+   "Social withdrawal",
+   "Hallucinations",
+   "Avolition"
+  ],
+  "answer": 2,
+  "explanation": "Positive symptoms add abnormal experiences, such as hallucinations and delusions. Negative symptoms are deficits, such as flat affect and avolition.",
+  "topic": "7A – Psychological disorders",
+  "difficulty": "easy",
+  "reviewed": false
+ },
+ {
+  "id": "FL1-PS-056",
+  "section": "PS",
+  "passage_id": null,
+  "passage_title": null,
+  "passage": null,
+  "figure_description": null,
+  "stem": "Symbolic interactionism focuses on:",
+  "choices": [
+   "Large-scale social structures",
+   "How individuals create meaning through everyday interaction",
+   "Class conflict over resources",
+   "How institutions maintain stability"
+  ],
+  "answer": 1,
+  "explanation": "Symbolic interactionism is a micro-level theory about meaning made through interaction and symbols. Conflict theory and functionalism are macro-level.",
+  "topic": "9B – Sociological theory",
+  "difficulty": "easy",
+  "reviewed": false
+ },
+ {
+  "id": "FL1-PS-057",
+  "section": "PS",
+  "passage_id": null,
+  "passage_title": null,
+  "passage": null,
+  "figure_description": null,
+  "stem": "In the demographic transition model, stage 2 is marked by:",
+  "choices": [
+   "High birth and death rates",
+   "Falling death rates with high birth rates",
+   "Low birth and death rates",
+   "Falling birth rates with low death rates"
+  ],
+  "answer": 1,
+  "explanation": "Stage 2 sees death rates drop from better sanitation and medicine while birth rates stay high, producing rapid population growth.",
+  "topic": "9B – Demographics",
+  "difficulty": "medium",
+  "reviewed": false
+ },
+ {
+  "id": "FL1-PS-058",
+  "section": "PS",
+  "passage_id": null,
+  "passage_title": null,
+  "passage": null,
+  "figure_description": null,
+  "stem": "In signal detection theory, saying a tone was present when it was not is a:",
+  "choices": [
+   "Hit",
+   "Miss",
+   "False alarm",
+   "Correct rejection"
+  ],
+  "answer": 2,
+  "explanation": "A false alarm is a 'yes' response with no signal. A hit is a 'yes' with a signal; a miss is a 'no' with a signal.",
+  "topic": "6A – Sensation",
+  "difficulty": "easy",
+  "reviewed": false
+ },
+ {
+  "id": "FL1-PS-059",
+  "section": "PS",
+  "passage_id": null,
+  "passage_title": null,
+  "passage": null,
+  "figure_description": null,
+  "stem": "The James–Lange theory holds that:",
+  "choices": [
+   "Emotion and arousal occur at the same time",
+   "Physiological arousal comes first and is interpreted as emotion",
+   "Cognitive labeling of arousal produces emotion",
+   "Emotion causes physiological arousal"
+  ],
+  "answer": 1,
+  "explanation": "James–Lange: we feel afraid because we notice our body trembling. Cannon–Bard says they occur simultaneously; Schachter–Singer adds cognitive labeling.",
+  "topic": "6C – Emotion",
+  "difficulty": "medium",
+  "reviewed": false
+ }
+]

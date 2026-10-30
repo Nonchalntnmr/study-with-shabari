@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import { Band, ButtonLink, H2, Kicker, Rows, TextLink, Wrap } from "@/components/b/primitives";
-import { bio, identity, mudzi, teaching } from "@/lib/founder-facts";
+import { bio, education, highSchool, identity, mcatScore, mudzi, teaching } from "@/lib/founder-facts";
 
 export const metadata: Metadata = {
   title: "About Shabari",
@@ -31,12 +31,23 @@ export default function AboutPage() {
             <p className="mt-3 text-[1.0625rem] text-quiet">{identity.degree}.</p>
             <p className="mt-8 max-w-[62ch] text-[1.1875rem] leading-relaxed text-specimen/90">{bio}</p>
             <div className="mt-10 flex flex-wrap items-center gap-x-8 gap-y-4">
-              <ButtonLink href="/book">Book a free 15-min call</ButtonLink>
+              <ButtonLink href="/book">Book a free consult call</ButtonLink>
               <TextLink href="/research">Research & Teaching</TextLink>
             </div>
           </div>
         </Wrap>
       </section>
+      <Band labelledBy="about-edu-h">
+        <H2 id="about-edu-h">Education</H2>
+        <Rows
+          className="mt-8"
+          items={[
+            education[0],
+            `${education[1]}: ${highSchool.stats.map((s) => (s.label === "IB Diploma" ? `${s.label} ${s.value}` : `${s.value} ${s.label}`)).join(", ")}`,
+            `MCAT: ${mcatScore.total}, ${mcatScore.taken} (${mcatScore.sections.BB} Bio/Biochem, ${mcatScore.sections.PS} Psych/Soc, ${mcatScore.sections.CP} Chem/Phys)`,
+          ]}
+        />
+      </Band>
       <Band tone="mist" labelledBy="about-teach-h">
         <div className="grid gap-14 lg:grid-cols-2">
           <div>

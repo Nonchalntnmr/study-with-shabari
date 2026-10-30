@@ -1,4 +1,6 @@
 import { beforeEach, describe, expect, it } from "vitest";
+import { readFileSync } from "node:fs";
+import { convertFullLength } from "@/lib/content/fl-convert";
 import { importBank } from "@/lib/content/import";
 import { db, resetData, sampleBank, seedSampleBank } from "../support/db";
 
@@ -34,6 +36,18 @@ describe("content import", () => {
     expect(after).toEqual(before);
     expect(await db.question.count()).toBe(24);
     expect((await db.question.findUniqueOrThrow({ where: { externalId: "cp-q-free-fall" } })).stem).toBe("Edited stem");
+  });
+
+  it("imports FL1 in review, with its passage captions", async () => {
+    const source = ["cp", "bb", "ps"].flatMap((s) => JSON.parse(readFileSync(`content/questions/fl1-${s}.json`, "utf8")));
+    const { bank } = convertFullLength("fl1", source);
+    expect(await importBank(db, bank, "REVIEW")).toMatchObject({ exams: 3, passages: 30, questions: 177, status: "REVIEW" });
+    const exams = await db.exam.findMany({ where: { slug: { startsWith: "fl1-" } }, select: { slug: true, status: true, timeLimitSec: true } });
+    expect(exams.map((e) => [e.slug, e.status, e.timeLimitSec]).sort()).toEqual([["fl1-bb", "REVIEW", 5700], ["fl1-cp", "REVIEW", 5700], ["fl1-ps", "REVIEW", 5700]]);
+    expect(await db.question.count({ where: { externalId: { startsWith: "fl1-" }, status: { not: "REVIEW" } } })).toBe(0);
+    const p = await db.passage.findUniqueOrThrow({ where: { externalId: "fl1-cp-p01" } });
+    expect(p.figureText).toMatch(/^Table 1: \[S\] \(mM\) vs v0/);
+    expect((await db.passage.findUniqueOrThrow({ where: { externalId: "fl1-cp-p02" } })).figureText).toBeNull();
   });
 
   it("writes nothing when the file is invalid", async () => {

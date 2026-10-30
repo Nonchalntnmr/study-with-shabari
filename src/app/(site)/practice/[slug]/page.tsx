@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { Suspense } from "react";
 import { ResumeList } from "@/components/site/resume-list";
 import { Container } from "@/components/site/section";
+import { ReviewNotice } from "@/components/site/review-notice";
 import { StartPracticeForm } from "@/components/site/start-practice-form";
 import { getPublishedExam, getPublishedExams } from "@/lib/public-data";
 import { AAMC_DISCLAIMER, sectionNames, type SectionCode } from "@/lib/site";
@@ -39,6 +40,7 @@ export default async function ExamDetailPage({ params }: PageProps<"/practice/[s
       <p className="mt-6 text-xs font-semibold uppercase tracking-[0.14em] text-blue">{sectionNames[exam.section as SectionCode]}</p>
       <h1 className="mt-3 text-4xl font-semibold tracking-[-0.03em]">{exam.title}</h1>
       <p className="mt-4 text-lg text-muted-foreground">{exam.description}</p>
+      {exam.underReview && <ReviewNotice className="mt-6" />}
       <dl className="mt-8 grid grid-cols-3 divide-x rounded-2xl border bg-white text-center">
         {[
           ["Questions", exam.questionCount],

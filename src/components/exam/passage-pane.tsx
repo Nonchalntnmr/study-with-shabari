@@ -27,6 +27,11 @@ export const PassagePane = forwardRef<HTMLDivElement, { passage: RunnerPassage; 
           </p>
         ))}
       </div>
+      {passage.figureText && (
+        <figure data-testid="passage-figure-text" className="mt-5 rounded-lg border border-hairline bg-mist/60 px-4 py-3 font-sans text-sm leading-relaxed text-specimen">
+          <figcaption>{passage.figureText}</figcaption>
+        </figure>
+      )}
       {passage.figures.map((f) => (
         <figure key={f.id} className="mt-5">
           {/* eslint-disable-next-line @next/next/no-img-element -- uploaded diagrams of unknown size */}
