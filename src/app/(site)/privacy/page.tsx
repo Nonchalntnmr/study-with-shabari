@@ -5,6 +5,9 @@ import { contactEmail, founder } from "@/lib/site";
 
 export const metadata: Metadata = { title: "Privacy policy", alternates: { canonical: "/privacy" } };
 
+// Fixed at build time, like the widget itself (src/components/site/chat-widget.tsx).
+const chatOn = Boolean(process.env.NEXT_PUBLIC_IONOS_CHAT_AGENT_ID?.trim());
+
 export default function PrivacyPage() {
   return (
     <>
@@ -59,10 +62,21 @@ export default function PrivacyPage() {
               Vercel hosts the site. Like any web host it keeps its own short-lived request logs (the page address, browser type and IP
               address), for one hour to one day depending on the hosting plan. Supabase hosts the database and uploaded images.
             </li>
-            <li>Fonts and images are served from this site, so reading a page doesn’t contact Google or any other outside service.</li>
+            <li>
+              Fonts and images are served from this site, so reading a page doesn’t contact Google or any other outside service
+              {chatOn ? ", apart from the chat assistant below" : ""}.
+            </li>
             <li>IONOS provides the domains and, once set up, the email account used to reply to you.</li>
             <li>Calendly handles booking, and is loaded only on the booking page, under Calendly’s own privacy policy.</li>
-            <li>If the on-site chat assistant is turned on, it is provided by IONOS, and conversations are handled under IONOS’s terms.</li>
+            {chatOn ? (
+              <li>
+                The on-site chat assistant is provided by IONOS. Its button loads from IONOS (ionos.ai-voicereceptionist.com) on the
+                public pages, never on practice tests, lessons in progress, sign-in or account pages, and what you type into it is handled
+                under IONOS’s terms. Don’t share anything in the chat that you wouldn’t put in an email.
+              </li>
+            ) : (
+              <li>If the on-site chat assistant is turned on, it is provided by IONOS, and conversations are handled under IONOS’s terms.</li>
+            )}
             <li>If error monitoring is turned on, Sentry receives technical error reports.</li>
           </ul>
           <p>Your data is never sold or used for advertising.</p>
