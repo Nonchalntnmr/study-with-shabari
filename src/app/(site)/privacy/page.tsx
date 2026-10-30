@@ -12,7 +12,7 @@ export default function PrivacyPage() {
   return (
     <>
       <PageIntro eyebrow="Legal" title="Privacy policy">
-        Effective October 29, 2026. Plain language: what this site stores, why, and how to get it deleted.
+        Effective October 30, 2026. Plain language: what this site stores, why, and how to get it deleted.
       </PageIntro>
       <Container className="max-w-3xl py-14">
         <Prose>
