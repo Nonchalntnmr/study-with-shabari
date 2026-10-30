@@ -282,3 +282,10 @@
     line-height: inherit;
   }
 }
+
+/* The IONOS chat bubble (a closed shadow root on <ai-voicereceptionist>) floats above the page. While
+   a menu or dialog is open (Radix locks scrolling and marks the body), it would sit on top of that
+   menu's last links on a phone, so it steps aside until the menu closes. */
+body[data-scroll-locked] > ai-voicereceptionist {
+  display: none !important;
+}
