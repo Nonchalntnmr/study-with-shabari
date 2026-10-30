@@ -1,6 +1,8 @@
 import "server-only";
 import { cacheLife, cacheTag } from "next/cache";
 import { db } from "@/lib/db";
+import { previewAllowed } from "@/lib/lessons/preview";
+import type { LessonSnapshot } from "@/lib/lessons/snapshot";
 
 // Published content for the public pages. Cached into the static shell and
 // refreshed within minutes; admin mutations call `updateTag(PUBLIC_TAGS.x)`
@@ -12,6 +14,7 @@ export const PUBLIC_TAGS = {
   resources: "public:resources",
   exams: "public:exams",
   testimonials: "public:testimonials",
+  lessons: "public:lessons",
 } as const;
 
 export async function getPublishedPlans() {
@@ -93,3 +96,25 @@ export async function getPublishedTestimonials() {
 export type PublicExam = Awaited<ReturnType<typeof getPublishedExams>>[number];
 export type PublicResource = Awaited<ReturnType<typeof getPublishedResources>>[number];
 export type PublicPlan = Awaited<ReturnType<typeof getPublishedPlans>>[number];
+
+/**
+ * The lesson the homepage invites visitors into. Students only ever get an
+ * approved version; an unapproved draft appears only where previews are allowed
+ * (local development and preview deployments), flagged as a draft.
+ */
+export async function getFeaturedLesson(slug = "dopamine") {
+  "use cache";
+  cacheLife("minutes");
+  cacheTag(PUBLIC_TAGS.lessons);
+  const lesson = await db.lesson.findUnique({
+    where: { slug },
+    select: { slug: true, title: true, summary: true, status: true, publishedVersion: { select: { snapshot: true } }, _count: { select: { steps: { where: { questionId: { not: null } } } } } },
+  });
+  if (!lesson || lesson.status === "ARCHIVED") return null;
+  const published = lesson.publishedVersion?.snapshot as unknown as LessonSnapshot | undefined;
+  if (published) {
+    return { slug, title: published.title, summary: published.summary, questions: published.steps.filter((s) => s.question).length, draft: false };
+  }
+  if (!previewAllowed(false)) return null;
+  return { slug, title: lesson.title, summary: lesson.summary, questions: lesson._count.steps, draft: true };
+}

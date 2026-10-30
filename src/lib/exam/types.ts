@@ -29,12 +29,18 @@ export type RunnerResponse = {
   eliminatedChoiceIds: string[];
   flagged: boolean;
   timeSpentMs: number;
+  /** When the student last changed the answer, on the server's clock (ms). 0 when unknown. */
+  changedAt: number;
 };
 
 export type RunnerState = {
   attemptId: string;
   exam: { title: string; section: string; slug: string };
   mode: "TIMED" | "UNTIMED";
+  /** A retest of the questions missed in an earlier attempt. */
+  isRetest: boolean;
+  /** The deadline passed while this browser may hold unsaved answers: deliver them and submit. */
+  deliverOnly: boolean;
   startedAt: string;
   deadlineAt: string | null;
   serverNow: string;
@@ -44,6 +50,11 @@ export type RunnerState = {
   responses: Record<string, RunnerResponse>;
   highlights: Record<string, HighlightRange[]>;
 };
+
+export type SubmitResult =
+  | { status: "submitted"; autoSubmitted: boolean }
+  /** A timeout submit arrived before the server's deadline: keep going, re-anchored to this time. */
+  | { status: "not_expired"; deadlineAt: string; serverNow: string };
 
 export type SyncResult =
   | { ok: true; status: "IN_PROGRESS"; serverNow: string; deadlineAt: string | null }

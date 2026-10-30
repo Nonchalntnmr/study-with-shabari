@@ -1,13 +1,12 @@
 "use client";
 
 import Link from "next/link";
-import { useActionState } from "react";
+import { useActionState, useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { requestPasswordReset, resetPassword, type ResetState } from "@/lib/auth/actions";
 import { PASSWORD_MIN_LENGTH } from "@/lib/auth/password-rules";
-import { useSearchParam } from "@/lib/use-client-value";
 
 export function ForgotPasswordForm() {
   const [state, action, pending] = useActionState<ResetState, FormData>(requestPasswordReset, null);
@@ -27,7 +26,18 @@ export function ForgotPasswordForm() {
 }
 
 export function ResetPasswordForm() {
-  const token = useSearchParam("token");
+  // The link carries the token in the fragment, which never reaches the server or hosting
+  // logs. Read it once into memory, then strip it from the address bar and history so it
+  // can't leak through a later screenshot, a shared URL or an error report of location.href.
+  const [token, setToken] = useState<string | null>(null);
+  useEffect(() => {
+    const t = new URLSearchParams(window.location.hash.slice(1)).get("token");
+    if (!t) return;
+    // The fragment only exists in the browser, so reading it has to happen after hydration.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setToken(t);
+    window.history.replaceState(window.history.state, "", window.location.pathname + window.location.search);
+  }, []);
   const [state, action, pending] = useActionState<ResetState, FormData>(resetPassword, null);
   return (
     <form action={action} className="space-y-5">

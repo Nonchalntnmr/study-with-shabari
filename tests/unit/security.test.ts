@@ -24,6 +24,26 @@ describe("safeNextPath", () => {
     expect(safeNextPath("/\\evil.example")).toBe("/dashboard");
     expect(safeNextPath("https://evil.example")).toBe("/dashboard");
     expect(safeNextPath(undefined, "/admin")).toBe("/admin");
+    expect(safeNextPath("/exam/abc?x=1#q3")).toBe("/exam/abc?x=1#q3");
+  });
+
+  it("rejects tricks that parse into another origin", () => {
+    // Browsers strip TAB/CR/LF and read "\" as "/": each of these would land on //evil.example.
+    const bad = [
+      "/\t/evil.example/x", // TAB
+      "/\r\n/evil.example", // CR LF
+      "/\n/evil.example", // LF
+      "/\\evil.example", // backslash
+      "\\evil.example",
+      "/\u0000/evil", // NUL
+      "///evil.example", // protocol-relative
+      "javascript:alert(1)",
+    ];
+    for (const b of bad) {
+      expect(safeNextPath(b), JSON.stringify(b)).toBe("/dashboard");
+    }
+    // Percent-encoded characters stay inside the path and are harmless.
+    expect(safeNextPath("/%2F%2Fevil.example")).toBe("/%2F%2Fevil.example");
   });
 });
 

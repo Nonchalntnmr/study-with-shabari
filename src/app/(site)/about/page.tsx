@@ -1,48 +1,60 @@
 import type { Metadata } from "next";
-import { CtaBand } from "@/components/site/cta-band";
-import { ScoreReport } from "@/components/site/score-report";
-import { Container, PageIntro } from "@/components/site/section";
-import { founder } from "@/lib/site";
+import Image from "next/image";
+import { Band, ButtonLink, H2, Kicker, Rows, TextLink, Wrap } from "@/components/b/primitives";
+import { bio, identity, mudzi, teaching } from "@/lib/founder-facts";
 
 export const metadata: Metadata = {
   title: "About Shabari",
-  description: `${founder.name} is ${founder.standing} who scored ${founder.mcat.total} on the MCAT in ${founder.mcat.taken}.`,
+  description: bio,
   alternates: { canonical: "/about" },
 };
 
 export default function AboutPage() {
   return (
     <>
-      <PageIntro eyebrow="About" title={<>Hi, I’m {founder.shortName}.</>} />
-      <section className="py-16 sm:py-20">
-        <Container className="grid gap-12 lg:grid-cols-[1.4fr_1fr]">
-          <div className="space-y-5 text-lg leading-relaxed text-ink/85">
-            <p>
-              I’m {founder.standing}, double majoring in {founder.majors}, and I’m headed to {founder.goal}.
-            </p>
-            <p>
-              I took the MCAT in {founder.mcat.taken} and scored a {founder.mcat.total}. Studying taught me that content is only half of
-              it: the other half is learning how the test asks questions. That’s what I focus on with students, and why I write my own
-              practice questions instead of recycling the same third-party banks.
-            </p>
-            <p>
-              I’ve taught MIT chemistry recitations, written expert-level biology questions, and done research in genomics, immunology,
-              and surgical AI. I like explaining hard things simply.
-            </p>
-            <ul className="grid gap-3 pt-4 sm:grid-cols-2">
-              {[`${founder.mcat.total} MCAT (132 B/B, 132 P/S)`, `${founder.school} ${founder.majors.replace(" and ", " + ")}`, ...founder.experience].map((f) => (
-                <li key={f} className="border-l-[3px] border-mark pl-3 text-base">
-                  {f}
-                </li>
-              ))}
-            </ul>
+      <section aria-labelledby="about-h" className="bg-white pb-20 pt-10 sm:pb-28 sm:pt-16">
+        <Wrap className="grid items-start gap-12 lg:grid-cols-[0.85fr_1.15fr] lg:gap-20">
+          <Image
+            src="/images/shabari-portrait.jpg"
+            alt="Shabari Shankar"
+            width={700}
+            height={875}
+            priority
+            sizes="(min-width: 1024px) 38vw, 90vw"
+            className="h-auto w-full max-w-[32rem] rounded-2xl"
+          />
+          <div>
+            <Kicker>About</Kicker>
+            <h1 id="about-h" className="mt-4 text-[clamp(2.35rem,4.2vw,3.9rem)] leading-[1.04]">
+              Hi, I’m Shabari.
+            </h1>
+            <p className="mt-3 text-[1.0625rem] text-quiet">{identity.degree}.</p>
+            <p className="mt-8 max-w-[62ch] text-[1.1875rem] leading-relaxed text-specimen/90">{bio}</p>
+            <div className="mt-10 flex flex-wrap items-center gap-x-8 gap-y-4">
+              <ButtonLink href="/book">Book a free 15-min call</ButtonLink>
+              <TextLink href="/research">Research & Teaching</TextLink>
+            </div>
           </div>
-          <div className="lg:pt-2">
-            <ScoreReport />
-          </div>
-        </Container>
+        </Wrap>
       </section>
-      <CtaBand />
+      <Band tone="mist" labelledBy="about-teach-h">
+        <div className="grid gap-14 lg:grid-cols-2">
+          <div>
+            <H2 id="about-teach-h">Teaching</H2>
+            <Rows items={teaching} className="mt-8" />
+          </div>
+          <div>
+            <h2 className="text-[clamp(2rem,3.4vw,3rem)]">{mudzi.name}</h2>
+            <p className="mt-6 text-[1.0625rem] leading-relaxed text-specimen/85">{mudzi.body}</p>
+            <p className="mt-4 text-[1.0625rem] text-specimen/85">
+              {mudzi.figures.map((f) => `${f.value} ${f.label}`).join(", ")}. {mudzi.more}
+            </p>
+          </div>
+        </div>
+      </Band>
+      <Wrap className="py-8">
+        <p className="text-sm text-quiet">Independent tutoring and consulting. Not affiliated with or endorsed by MIT.</p>
+      </Wrap>
     </>
   );
 }

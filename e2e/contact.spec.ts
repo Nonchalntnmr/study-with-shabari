@@ -29,6 +29,15 @@ test("17. contact form validates, stores the inquiry, and never sends from an un
   const card = page.locator("li", { hasText: email });
   await expect(card).toContainText("Jordan Prospect");
   await expect(card).toContainText("not configured");
+
+  // Deleting on request removes the message and the email records that hold the address.
+  await card.getByRole("button", { name: "Delete" }).click();
+  await expect(card.getByRole("status")).toContainText("Tick the box");
+  await card.getByLabel(/Delete this message/).check();
+  await card.getByRole("button", { name: "Delete" }).click();
+  await expect(page.locator("li", { hasText: email })).toHaveCount(0);
+  expect(await sql(`SELECT 1 FROM "Inquiry" WHERE email = $1`, [email])).toEqual([]);
+  expect(await sql(`SELECT 1 FROM "EmailMessage" WHERE "to" = $1`, [email])).toEqual([]);
 });
 
 test("contact form honeypot drops bot submissions", async ({ page }) => {

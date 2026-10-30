@@ -2,7 +2,9 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import { Suspense } from "react";
+import { ClearAttemptBackup } from "@/components/exam/clear-backup";
 import { ResultsQuestions } from "@/components/exam/results-view";
+import { RetestForm } from "@/components/exam/retest-form";
 import { SiteFooter } from "@/components/site/site-footer";
 import { SiteHeader } from "@/components/site/site-header";
 import { Button } from "@/components/ui/button";
@@ -68,10 +70,19 @@ async function Results({ attemptId }: { attemptId: string }) {
         <p className="mt-6 text-xs text-muted-foreground">
           This is percent correct on original practice questions, not an MCAT scaled score.
         </p>
-        <div className="mt-6 flex flex-wrap gap-3">
+        {r.retestOf && (
+          <p className="mt-4 text-sm" data-testid="retest-of">
+            Retest of an earlier attempt, which had {r.retestOf.correctCount ?? 0} of {r.retestOf.totalCount ?? 0} right.{" "}
+            <Link href={`/exam/${r.retestOf.id}/results`} className="text-blue hover:underline">
+              See the original
+            </Link>
+          </p>
+        )}
+        <div className="mt-6 flex flex-wrap items-start gap-3">
           <Button asChild className="h-10 px-4">
             <Link href="/practice">More practice</Link>
           </Button>
+          {out.isOwner && r.correct < r.total && <RetestForm attemptId={r.attemptId} missed={r.total - r.correct} />}
           {user ? (
             <Button asChild variant="outline" className="h-10 px-4">
               <Link href="/dashboard/analytics">See your progress</Link>
@@ -107,7 +118,28 @@ async function Results({ attemptId }: { attemptId: string }) {
         </section>
       )}
 
+      {r.retests.length > 0 && (
+        <section aria-labelledby="retests-h">
+          <h2 id="retests-h" className="mb-3 text-2xl font-semibold">
+            Retests of this set
+          </h2>
+          <ul className="divide-y rounded-2xl border bg-white text-sm" data-testid="retest-history">
+            {r.retests.map((x) => (
+              <li key={x.id} className="flex items-center justify-between px-5 py-3">
+                <span>
+                  {x.correctCount ?? 0} of {x.totalCount ?? 0} right
+                </span>
+                <Link href={`/exam/${x.id}/results`} className="text-blue hover:underline">
+                  Review
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
+
       <ResultsQuestions results={r} />
+      {out.isOwner && <ClearAttemptBackup attemptId={r.attemptId} />}
       <p className="text-xs text-muted-foreground">{AAMC_DISCLAIMER}</p>
     </div>
   );

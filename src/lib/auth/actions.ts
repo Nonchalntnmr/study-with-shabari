@@ -2,6 +2,7 @@
 
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
+import { after } from "next/server";
 import { z } from "zod";
 import { db } from "@/lib/db";
 import { audit } from "@/lib/security/audit";
@@ -106,6 +107,7 @@ export async function updateProfile(_prev: AccountState, formData: FormData): Pr
 /** Permanently deletes the account and everything attached to it (sessions, attempts, answers). */
 export async function deleteAccount(_prev: AccountState, formData: FormData): Promise<AccountState> {
   const user = await requireUser("/dashboard/account");
+  if (!(await rateLimit(`pw-verify:${user.id}`, 10, 900)).ok) return { error: "Too many tries. Wait 15 minutes and try again." };
   const row = await db.user.findUniqueOrThrow({ where: { id: user.id }, select: { passwordHash: true, role: true } });
   if (!(await verifyPassword(String(formData.get("password") ?? ""), row.passwordHash))) {
     return { error: "That password isn’t right." };
@@ -120,10 +122,13 @@ export async function deleteAccount(_prev: AccountState, formData: FormData): Pr
   redirect("/?account=deleted");
 }
 
-/** Lets a guest wipe the practice history stored against this browser. */
+/** Lets a guest wipe the practice and lesson history stored against this browser. */
 export async function clearGuestHistory(): Promise<void> {
   const guestKeyHash = await getGuestKeyHash();
-  if (guestKeyHash) await db.attempt.deleteMany({ where: { guestKeyHash, userId: null } });
+  if (guestKeyHash) {
+    await db.attempt.deleteMany({ where: { guestKeyHash, userId: null } });
+    await db.lessonAttempt.deleteMany({ where: { guestKeyHash, userId: null } });
+  }
   (await cookies()).delete(GUEST_COOKIE);
   redirect("/practice?cleared=1");
 }
@@ -132,12 +137,14 @@ export async function changePassword(_prev: AccountState, formData: FormData): P
   const user = await requireUser("/dashboard/account");
   const parsed = z.object({ current: z.string().max(200), next: password }).safeParse({ current: formData.get("current"), next: formData.get("next") });
   if (!parsed.success) return { error: parsed.error.issues[0]?.message ?? "Check the form." };
+  if (!(await rateLimit(`pw-verify:${user.id}`, 10, 900)).ok) return { error: "Too many tries. Wait 15 minutes and try again." };
   const row = await db.user.findUniqueOrThrow({ where: { id: user.id }, select: { passwordHash: true } });
   if (!(await verifyPassword(parsed.data.current, row.passwordHash))) return { error: "Your current password isn’t right." };
   const token = (await cookies()).get(SESSION_COOKIE)?.value;
   await db.user.update({ where: { id: user.id }, data: { passwordHash: await hashPassword(parsed.data.next) } });
-  // Keep this browser signed in; sign out every other device.
+  // Keep this browser signed in; sign out every other device, and void any reset links in flight.
   await db.session.deleteMany({ where: { userId: user.id, ...(token ? { NOT: { tokenHash: sha256(token) } } : {}) } });
+  await db.passwordResetToken.deleteMany({ where: { userId: user.id } });
   await audit({ id: user.id, email: user.email }, "user.password_change", "User", user.id);
   return { ok: "Password changed. Other devices were signed out." };
 }
@@ -157,17 +164,22 @@ export async function requestPasswordReset(_prev: ResetState, formData: FormData
   ]);
   const done: ResetState = { ok: "If an account uses that email, a reset link is on its way. It works for one hour." };
   if (!byIp.ok || !byEmail.ok) return done;
-  const user = await db.user.findUnique({ where: { email: parsed.data.email }, select: { id: true } });
-  if (user) {
+  // After the response, so how long the reply takes doesn't reveal whether the account exists.
+  const address = parsed.data.email;
+  after(async () => {
+    const user = await db.user.findUnique({ where: { email: address }, select: { id: true } });
+    if (!user) return;
     const token = await createResetToken(user.id);
-    await sendEmail({ template: "password-reset", to: parsed.data.email, ...passwordResetEmail(`${siteUrl}/reset-password?token=${token}`) });
-  }
+    await sendEmail({ template: "password-reset", to: address, ...passwordResetEmail(`${siteUrl}/reset-password#token=${token}`) });
+  });
   return done;
 }
 
 export async function resetPassword(_prev: ResetState, formData: FormData): Promise<ResetState> {
   const parsed = z.object({ token: z.string().min(20).max(200), next: password }).safeParse({ token: formData.get("token"), next: formData.get("next") });
   if (!parsed.success) return { error: parsed.error.issues[0]?.message ?? "Check the form." };
+  const limit = await rateLimit(`reset-submit:${await clientIpKey()}`, 20, 3600);
+  if (!limit.ok) return { error: "Too many attempts from this network. Try again in a while." };
   const userId = await consumeResetToken(parsed.data.token, parsed.data.next);
   if (!userId) return { error: "This reset link is invalid or has expired. Request a new one." };
   await audit(null, "user.password_reset", "User", userId);

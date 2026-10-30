@@ -19,7 +19,7 @@ export default async function PracticePage() {
   const sections = (["CP", "BB", "PS", "CARS"] as SectionCode[]).filter((s) => exams.some((e) => e.section === s));
   return (
     <>
-      <PageIntro eyebrow="Practice" title={<>Practice like it’s <span className="hl">test day</span>.</>}>
+      <PageIntro eyebrow="Practice" title="Practice like it’s test day.">
         Original passage-style questions I wrote, with full explanations. Start anywhere. No account needed.
       </PageIntro>
       <section className="py-14">
@@ -62,7 +62,7 @@ export default async function PracticePage() {
             <p className="max-w-3xl">{AAMC_DISCLAIMER}</p>
             <form action={clearGuestHistory}>
               <button type="submit" className="underline underline-offset-2 hover:text-navy">
-                Clear guest practice history on this browser
+                Clear guest practice and lesson history on this browser
               </button>
             </form>
           </div>

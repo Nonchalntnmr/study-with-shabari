@@ -19,8 +19,10 @@ export default defineConfig({
   projects: live
     ? [{ name: "post-deploy", testMatch: /post-deploy\.spec\.ts/, use: { ...devices["Desktop Chrome"] } }]
     : [
-        { name: "desktop", testIgnore: /post-deploy\.spec\.ts/, use: { ...devices["Desktop Chrome"] } },
-        { name: "mobile", testMatch: /mobile\.spec\.ts/, use: { ...devices["Pixel 7"] } },
+        { name: "desktop", testIgnore: /(post-deploy|journey-mobile)\.spec\.ts/, use: { ...devices["Desktop Chrome"] } },
+        { name: "mobile", testMatch: /(^|\/)mobile\.spec\.ts/, use: { ...devices["Pixel 7"] } },
+        // iPhone 14 viewport, touch and user agent, rendered in Chromium (WebKit isn't installed here).
+        { name: "journey", testMatch: /journey-mobile\.spec\.ts/, use: { ...devices["iPhone 14"], browserName: "chromium" } },
       ],
   webServer: live
     ? undefined

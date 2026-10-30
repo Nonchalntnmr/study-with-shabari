@@ -6,30 +6,34 @@ import { toast } from "sonner";
 import { formatClock } from "@/lib/exam/timing";
 
 /**
- * Display only: the server owns the deadline. `serverOffsetMs` corrects for a
- * wrong device clock (server time minus device time when the exam loaded).
+ * Display only: the server owns the deadline. `serverTime` is the server's clock
+ * as the runner tracks it (last sync plus monotonic time), so a wrong or
+ * changing device clock can neither shorten nor stretch the attempt. Reaching
+ * zero asks the server to end it; the server checks its own deadline.
  */
 export function ExamClock({
   deadlineAt,
   startedAt,
-  serverOffsetMs,
+  serverTime,
   onExpire,
 }: {
   deadlineAt: string | null;
   startedAt: string;
-  serverOffsetMs: number;
+  serverTime: () => number;
   onExpire: () => void;
 }) {
-  const [now, setNow] = useState(() => Date.now() + serverOffsetMs);
+  const [now, setNow] = useState(() => Date.parse(startedAt));
   const [hidden, setHidden] = useState(false);
   const warned = useRef<Set<number>>(new Set());
   const expired = useRef(false);
   const deadline = deadlineAt ? Date.parse(deadlineAt) : null;
 
   useEffect(() => {
-    const t = setInterval(() => setNow(Date.now() + serverOffsetMs), 500);
+    const tick = () => setNow(serverTime());
+    tick();
+    const t = setInterval(tick, 500);
     return () => clearInterval(t);
-  }, [serverOffsetMs]);
+  }, [serverTime]);
 
   useEffect(() => {
     if (deadline === null) return;

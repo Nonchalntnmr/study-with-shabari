@@ -22,8 +22,8 @@ export default function TutoringPage() {
   return (
     <>
       <PageIntro eyebrow="MCAT tutoring" title={<>1:1 help on the three <span className="hl">science sections</span>.</>}>
-        I scored {founder.mcat.sections.BB} in Bio/Biochem, {founder.mcat.sections.PS} in Psych/Soc and {founder.mcat.sections.CP} in
-        Chem/Phys. I tutor all three.
+        I scored {founder.mcat.sections.CP} in Chem/Phys, {founder.mcat.sections.BB} in Bio/Biochem and {founder.mcat.sections.PS} in
+        Psych/Soc. I tutor all three.
       </PageIntro>
 
       <section className="py-20">

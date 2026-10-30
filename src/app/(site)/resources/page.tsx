@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 export default function ResourcesPage() {
   return (
     <>
-      <PageIntro eyebrow="Free resources" title={<>My study notes, <span className="hl">free</span>.</>}>
+      <PageIntro eyebrow="Free MCAT notes" title="My complete MCAT notes. Free, no signup.">
         These are the content-review docs I made while studying: everything condensed into one place per section. No email required.
       </PageIntro>
       <section className="py-16">

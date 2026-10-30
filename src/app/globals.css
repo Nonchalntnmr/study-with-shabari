@@ -10,6 +10,26 @@
   --font-heading: var(--font-geist);
   --font-reading: var(--font-atkinson);
   --font-mono: var(--font-geist-mono);
+  --font-display: var(--font-newsreader);
+  --font-body: var(--font-schibsted);
+
+  /* Public site, Concept B (PRODUCT-DIRECTION.md, Amendment 3): white, navy and electric blue.
+     The names come from the earlier H&E palette and are kept so every public page follows the
+     remap: slide = page white, hema = navy, eosin = electric blue, specimen = ink. Purple and
+     teal are reserved for scientific visuals (atoms, pathway lines, diagrams). */
+  --color-slide: #ffffff;
+  --color-slide-deep: #f4f7fb;
+  --color-mist: #f4f7fb;
+  --color-hema: #0b1f44;
+  --color-eosin: #1f5bff;
+  --color-eosin-ink: #1747d1;
+  --color-specimen: #0f1b2d;
+  --color-fixative: #0e8f8a;
+  --color-fixative-ink: #0b6e6a;
+  --color-quiet: #4a5568;
+  --color-hairline: #e2e8f0;
+  --color-sci-purple: #6a4fd6;
+  --color-sci-teal: #0e9f9a;
 
   /* brand */
   --color-navy: var(--navy);
@@ -201,4 +221,64 @@
 }
 @utility animate-rise {
   animation: sws-rise 0.6s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+
+/* Public-page base styles live in the base layer so Tailwind utilities (text-white, font-*) always win. */
+@layer base {
+  /* Public pages only. Exam, dashboard and admin keep the calmer app palette. */
+  .public {
+    --background: #ffffff;
+    --foreground: #0f1b2d;
+    --card: #ffffff;
+    --card-foreground: #0f1b2d;
+    --popover: #ffffff;
+    --popover-foreground: #0f1b2d;
+    --primary: #1f5bff;
+    --primary-foreground: #ffffff;
+    --secondary: #f4f7fb;
+    --secondary-foreground: #0b1f44;
+    --muted: #f4f7fb;
+    --muted-foreground: #4a5568;
+    --accent: #eef3ff;
+    --accent-foreground: #0b1f44;
+    --border: #e2e8f0;
+    --input: #cbd5e1;
+    --ring: #1f5bff;
+    background: var(--background);
+    color: var(--foreground);
+    font-family: var(--font-schibsted), ui-sans-serif, system-ui, sans-serif;
+    font-size: 1.0625rem;
+    line-height: 1.55;
+  }
+  /* :where() keeps this at element specificity, so an explicit colour or font utility always wins. */
+  /* Amendment 4: editorial serif display (Newsreader, optical sizes) over a refined sans text face
+     (Schibsted Grotesk). The exam keeps Atkinson Hyperlegible. */
+  :where(.public) :is(h1, h2, h3) {
+    font-family: var(--font-newsreader), Georgia, serif;
+    font-optical-sizing: auto;
+    color: #0b1f44;
+    font-weight: 430;
+    letter-spacing: -0.018em;
+    line-height: 1.04;
+  }
+  :where(.public) h3 {
+    font-weight: 480;
+    letter-spacing: -0.01em;
+    line-height: 1.18;
+  }
+  .public :focus-visible {
+    outline-color: #1f5bff;
+  }
+  .public a:not([class]) {
+    color: #1f5bff;
+  }
+
+  /* Exam software embedded on public pages keeps the exam's own type. */
+  :where(.public) .exam-surface :is(h1, h2, h3) {
+    font-family: inherit;
+    color: inherit;
+    font-weight: inherit;
+    letter-spacing: normal;
+    line-height: inherit;
+  }
 }

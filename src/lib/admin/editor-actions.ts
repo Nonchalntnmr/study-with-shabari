@@ -11,6 +11,7 @@ import { audit } from "@/lib/security/audit";
 import { UploadError, storeImage } from "@/lib/storage";
 import type { ActionResult } from "./actions";
 import { contiguityProblem, ctaHrefProblem, httpsUrlProblem, insertPosition, moveItem, parseFeatures, slugProblem } from "./editor-rules";
+import { pinVersionsWithRetry } from "@/lib/exam/versions";
 import { questionPublishProblems } from "./rules";
 
 // Every export is a public POST endpoint: each re-checks admin, validates, audits.
@@ -81,7 +82,7 @@ export async function saveQuestion(_prev: ActionResult | null, formData: FormDat
   const existing = d.id
     ? await db.question.findUnique({
         where: { id: d.id },
-        select: { status: true, figureId: true, section: true, passageId: true, choices: { where: { isCorrect: true }, select: { label: true } }, _count: { select: { examItems: true } } },
+        select: { status: true, figureId: true, section: true, passageId: true, authoredBy: true, reviewedById: true, choices: { where: { isCorrect: true }, select: { label: true } }, _count: { select: { examItems: true } } },
       })
     : null;
   if (d.id && !existing) return fail("Question not found.");
@@ -104,7 +105,7 @@ export async function saveQuestion(_prev: ActionResult | null, formData: FormDat
   if (wrongSection.length) return fail(`Topic “${wrongSection[0].name}” belongs to another section.`);
 
   if (existing?.status === "PUBLISHED") {
-    const problems = questionPublishProblems({ stem: d.stem, explanation: d.explanation, choices });
+    const problems = questionPublishProblems({ stem: d.stem, explanation: d.explanation, choices, authoredBy: existing.authoredBy, reviewedById: existing.reviewedById });
     if (topics.length === 0) problems.push("Tag at least one topic.");
     if (problems.length) return fail(`This question is published, so it must stay complete: ${problems.join(" ")}`);
   }
@@ -154,7 +155,11 @@ export async function saveQuestion(_prev: ActionResult | null, formData: FormDat
     // A changed answer key is legitimate (fixing a mistake) but must be traceable.
     ...(previousKey && previousKey !== d.correct ? { answerKeyChanged: { from: previousKey, to: d.correct } } : {}),
   });
-  if (existing?.status === "PUBLISHED") updateTag(PUBLIC_TAGS.exams);
+  if (existing?.status === "PUBLISHED") {
+    // An edit to live content is a new approved version; attempts already started keep theirs.
+    await pinVersionsWithRetry(db, [questionId], { createdById: admin.id, reviewedById: admin.id });
+    updateTag(PUBLIC_TAGS.exams);
+  }
   revalidatePath("/admin/content");
   if (!d.id) redirect(`/admin/questions/${questionId}?created=1`);
   revalidatePath(`/admin/questions/${questionId}`);

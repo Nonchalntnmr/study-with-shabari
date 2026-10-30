@@ -12,25 +12,25 @@ export async function PlanCards() {
       {plans.map((plan) => (
         <article
           key={plan.slug}
-          className={cn(
-            "flex flex-col rounded-2xl border bg-white p-7",
-            plan.featured && "border-navy shadow-[0_18px_40px_-20px_rgba(16,37,75,0.45)] ring-1 ring-navy lg:-my-3 lg:py-10",
-          )}
+          className={cn("flex flex-col rounded-2xl border border-hairline bg-white p-8", plan.featured && "border-eosin/60 ring-1 ring-eosin/50")}
         >
-          {plan.featured && <p className="mb-3 w-fit rounded-full bg-sky px-2.5 py-1 text-xs font-semibold text-navy">Most complete</p>}
-          <h3 className="text-lg font-semibold">{plan.name}</h3>
-          <p className="mt-3 text-4xl font-semibold tracking-[-0.03em] text-navy">{plan.priceLabel}</p>
+          <h3 className="text-[1.4rem]">{plan.name}</h3>
+          <p className="mt-4 font-display text-[2.4rem] leading-tight text-hema">{plan.priceLabel}</p>
           {plan.detail && <p className="mt-1 text-sm text-muted-foreground">{plan.detail}</p>}
           <ul className="mt-6 flex-1 space-y-3 text-sm">
             {plan.features.map((f) => (
               <li key={f} className="flex gap-2.5">
-                <Check className="mt-0.5 size-4 shrink-0 text-blue" aria-hidden />
+                <Check className="mt-1 size-4 shrink-0 text-eosin" aria-hidden />
                 <span>{f}</span>
               </li>
             ))}
           </ul>
           {plan.note && <p className="mt-5 text-xs text-muted-foreground">{plan.note}</p>}
-          <Button asChild variant={plan.featured ? "default" : "outline"} className="mt-6 h-11 text-sm">
+          <Button
+            asChild
+            variant={plan.featured ? "default" : "outline"}
+            className={cn("mt-8 h-12 rounded-full text-[0.95rem]", plan.featured ? "bg-eosin font-semibold text-white hover:bg-eosin-ink" : "border-hema/30 bg-transparent text-hema")}
+          >
             <Link href={plan.ctaHref}>{plan.ctaLabel}</Link>
           </Button>
         </article>

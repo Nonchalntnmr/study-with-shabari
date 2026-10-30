@@ -56,6 +56,10 @@ const nextConfig: NextConfig = {
     // Vercel caps function request bodies at 4.5 MB, so this can't usefully go higher.
     serverActions: { bodySizeLimit: "4.5mb" },
   },
+  // Concept B: the MCAT half lives at /mcat.
+  async redirects() {
+    return [{ source: "/mcat-tutoring", destination: "/mcat", permanent: true }];
+  },
   async headers() {
     return [{ source: "/:path*", headers: securityHeaders }];
   },

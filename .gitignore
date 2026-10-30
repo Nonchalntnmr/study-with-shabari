@@ -61,3 +61,4 @@ skills-lock.json
 /blob-report/
 /playwright/.cache/
 /.next-e2e-admin/
+/.next-preview/
