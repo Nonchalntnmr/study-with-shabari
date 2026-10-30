@@ -20,9 +20,10 @@ export NEXT_DIST_DIR="${NEXT_DIST_DIR:-.next-e2e}"
 
 psql "$E2E_DB_URL" -q -c "DROP SCHEMA IF EXISTS public CASCADE; CREATE SCHEMA public;"
 npx prisma migrate deploy >/dev/null
-npx tsx prisma/seed.ts --publish-samples >/dev/null
 # FL1 as production shows it: published before Shabari's review, labelled "being reviewed by Shabari".
+# Imported before the seed, so the samples stay newest on the admin lists' first page.
 npx tsx scripts/import-content.ts content/exams/fl1.json --status PUBLISHED >/dev/null
+npx tsx prisma/seed.ts --publish-samples >/dev/null
 ADMIN_PASSWORD="e2e-admin-password-123" npx tsx scripts/create-admin.ts admin@e2e.test "E2E Admin" >/dev/null
 # The seed imports lessons as unpublished AI drafts; approve the dopamine lesson here, in this throwaway database only.
 npx tsx scripts/publish-lesson-fixture.ts dopamine admin@e2e.test >/dev/null

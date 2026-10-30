@@ -40,7 +40,7 @@ test("admin authors a passage question with a figure, builds and publishes an ex
   }
   await page.getByRole("radio", { name: "C is correct" }).check();
   await box("Explanation").fill("Resistors in series add, so R doubles and the current halves by Ohm's law.");
-  await page.getByRole("checkbox", { name: "Circuits" }).check();
+  await page.getByRole("checkbox", { name: "Circuits", exact: true }).check();
   await page.locator("#q-figure").setInputFiles({ name: "circuit.png", mimeType: "image/png", buffer: PNG });
   await box("Alt text").fill(alt);
   await page.getByRole("button", { name: "Create draft question" }).click();
