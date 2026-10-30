@@ -164,7 +164,7 @@ function Synapse({ store, onPhase }: { store: StoryStore; onPhase: (phase: numbe
     return Array.from({ length: 8 }, () => ({ y: GEOMETRY.pore.y + lerp(-1.6, 1.6, r()), x0: lerp(-0.4, 0.2, r()), x1: lerp(-2.0, -1.5, r()) }));
   }, []);
 
-  const phaseRef = useRef(0);
+  const phaseRef = useRef(phaseOf(store.progress, store.marks, store.phases));
 
   useLayoutEffect(() => {
     // Vesicles: a disc of lumen plus its membrane ring, both from one instanced sphere squashed in z.

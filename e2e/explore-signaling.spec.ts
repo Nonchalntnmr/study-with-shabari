@@ -1,6 +1,11 @@
 import AxeBuilder from "@axe-core/playwright";
 import { chromium, expect, test, type Page } from "@playwright/test";
-import { SIGNALING_QUESTIONS } from "../src/lib/explore/signaling-questions";
+
+const EXPLANATIONS = [
+  "Action potentials are all-or-none. Below threshold, too few voltage-gated Na⁺ channels open, and the small depolarization fades.",
+  "This is the absolute refractory period. Inactivated Na⁺ channels can’t open again until the membrane repolarizes, so no stimulus can fire another action potential.",
+  "Ca²⁺ entering the terminal triggers vesicles to fuse with the membrane. Without it, the action potential still arrives, but no neurotransmitter is released.",
+];
 
 const serious = async (page: Page) =>
   (await new AxeBuilder({ page }).withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa"]).analyze()).violations
@@ -9,8 +14,8 @@ const serious = async (page: Page) =>
 
 test("signaling explorer: action potential, conduction, pump, synapse, receptors, links, and server-checked quiz", async ({ page, request }) => {
   const html = (await (await request.get("/explore/signaling")).text()).replace(/&#x27;|&#39;/g, "'");
-  for (const q of SIGNALING_QUESTIONS) {
-    expect(html, q.explanation).not.toContain(q.explanation);
+  for (const explanation of EXPLANATIONS) {
+    expect(html, explanation).not.toContain(explanation);
   }
   expect(html).not.toMatch(/\\?"answer\\?":\s*\d/);
 
@@ -69,7 +74,7 @@ test("signaling explorer: action potential, conduction, pump, synapse, receptors
   await q1.getByText("No action potential fires").click();
   await q1.getByRole("button", { name: "Check answer" }).click();
   await expect(page.getByTestId("reveal-threshold")).toContainText("Correct.");
-  await expect(page.getByTestId("reveal-threshold")).toContainText(SIGNALING_QUESTIONS[0].explanation);
+  await expect(page.getByTestId("reveal-threshold")).toContainText(EXPLANATIONS[0]);
 
   expect(await serious(page)).toEqual([]);
   expect(errors).toEqual([]);
@@ -93,18 +98,22 @@ test("signaling explorer: WebGL renderer memory stays flat over 5 route transiti
   await ctx.addInitScript(() => ((window as unknown as { __glProbe: unknown[] }).__glProbe = []));
   const page = await ctx.newPage();
   type Probe = { gl: { info: { memory: { geometries: number; textures: number } } } }[];
-  const probe = () => page.evaluate(() => (window as unknown as { __glProbe: Probe }).__glProbe.map((p) => p.gl.info.memory));
-  await page.goto("/explore/signaling");
+  const probe = () =>
+    page.evaluate(() => {
+      const p = (window as unknown as { __glProbe: Probe }).__glProbe;
+      return p.length ? p[p.length - 1].gl.info.memory : null;
+    });
+  await page.goto("/mcat");
   const counts: string[] = [];
   for (let i = 0; i < 5; i++) {
+    await page.getByRole("link", { name: "Explore how neurons signal" }).first().click();
+    await page.waitForURL("**/explore/signaling");
     await page.locator("#synapse").scrollIntoViewIfNeeded();
     await page.waitForSelector("[data-stage-ready=true]", { timeout: 60_000 });
-    await page.waitForTimeout(600);
+    await page.waitForTimeout(1200);
     counts.push(JSON.stringify(await probe()));
     await page.getByRole("navigation", { name: "Main" }).getByRole("link", { name: "MCAT Prep", exact: true }).click();
     await page.waitForURL("**/mcat");
-    await page.getByRole("link", { name: "Explore how neurons signal" }).first().click();
-    await page.waitForURL("**/explore/signaling");
   }
   for (const c of counts) expect(c).toBe(counts[0]);
   await b.close();

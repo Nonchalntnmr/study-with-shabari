@@ -121,8 +121,8 @@ export function ConductionExplorer() {
   return (
     <div className="grid gap-8 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)] lg:gap-14" data-explorer="conduction">
       <div className="min-w-0 space-y-5">
-        <label className="flex cursor-pointer items-center gap-3">
-          <input type="checkbox" role="switch" checked={myelin} onChange={(e) => toggle(e.target.checked)} className="peer sr-only" />
+        <label className="relative flex cursor-pointer items-center gap-3">
+          <input type="checkbox" role="switch" checked={myelin} onChange={(e) => toggle(e.target.checked)} className="peer absolute inset-0 z-10 cursor-pointer opacity-0" />
           <span aria-hidden className="relative h-7 w-12 shrink-0 rounded-full bg-hema/20 transition-colors peer-checked:bg-hema peer-focus-visible:outline-3 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-eosin peer-focus-visible:outline">
             <span className={`absolute top-1 size-5 rounded-full bg-white shadow transition-all motion-reduce:transition-none ${myelin ? "left-6" : "left-1"}`} />
           </span>
