@@ -10,6 +10,9 @@ export function safeCalendlyUrl(raw: string | undefined): string | null {
     if (url.protocol !== "https:") return null;
     if (url.hostname !== "calendly.com" && url.hostname !== "www.calendly.com") return null;
     if (url.pathname.length < 2) return null;
+    // www.calendly.com redirects to calendly.com, the only origin the CSP lets the page frame
+    // and the only one the embed accepts booking messages from.
+    url.hostname = "calendly.com";
     url.searchParams.set("hide_gdpr_banner", "1");
     return url.toString();
   } catch {

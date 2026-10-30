@@ -50,10 +50,52 @@ Supabase was not touched.
   are verified by magic bytes. Imports are validated before any write.
 - **Database:** RLS is on for every table, including `QuestionVersion` (integration test "is enabled on every
   table"), so Supabase's Data API roles see nothing.
-- **Headers:** a strict CSP (third parties limited to Calendly, IONOS and Sentry hosts), plus HSTS on HTTPS,
-  `frame-ancestors 'none'`, `nosniff` and a referrer policy (E2E "security headers").
+- **Headers:** a CSP built per deployment (`src/lib/csp.ts`), plus HSTS on HTTPS, `frame-ancestors 'none'`,
+  `nosniff` and a referrer policy (E2E "security headers"). It is an allow-list CSP, not a strict
+  (nonce- or hash-based) one: `script-src` still has `'unsafe-inline'`, see "Content-Security-Policy" below.
 - **Errors:** production error pages show a digest only. The app has no `console` logging (see
   `PRIVACY-REVIEW.md`).
+
+## Content-Security-Policy (2026-10-30)
+
+What the policy allows, from `src/lib/csp.ts`:
+
+- **Third parties only when configured.** The IONOS chat hosts (script, connect, frame) only when
+  `NEXT_PUBLIC_IONOS_CHAT_AGENT_ID` is set. Sentry only when `NEXT_PUBLIC_SENTRY_DSN` is set, and then only the
+  DSN's own ingest host. Supabase Storage images only from the `SUPABASE_URL` project host. `frame-src` is
+  `https://calendly.com` alone (www links are rewritten to it by `safeCalendlyUrl`). next.config.ts is evaluated at
+  build time, so changing one of these variables needs a redeploy.
+- **`script-src-attr 'none'`** blocks inline event-handler attributes. The rendered HTML has none, and the only
+  `setAttribute("on…")` in the client bundles is React's feature test, which modern browsers never reach.
+- **Checked:** E2E `csp.spec.ts` records every `securitypolicyviolation` in our document on `/`, `/mcat`, `/login`,
+  `/book` (both tabs) and three admin pages, and expects none. A live check framed
+  `https://calendly.com/shabarishankar` under the production policy and opened an event type: no violations in our
+  document. Its nested reCAPTCHA and Stripe frames fall under Calendly's own CSP, not ours.
+
+**Why `script-src` keeps `'unsafe-inline'` (no nonce).** A nonce-based `script-src` was tried for the
+request-time routes (`/admin`, `/dashboard`, `/exam`, `/login`, `/signup`, `/reset-password`) on a production
+build:
+
+- Next.js applies a nonce only to what it renders for the request. Every route here is partially prerendered
+  (Cache Components): the static shell, including the root layout, is built ahead of time, so it is served without
+  one.
+- On `/login`, `/admin`, `/admin/lessons`, `/admin/users` and `/dashboard`, 17 to 19 of the 24 to 32 `<script>`
+  tags had no nonce. Among them are two inline bootstrap scripts: the Turbopack runtime (`<script id="_R_">`) and
+  React's `$RT` timing script.
+- With `script-src 'self' 'nonce-…'` enforced on `/login`, Chromium blocked those two inline scripts and the page
+  never hydrated. Adding `'strict-dynamic'` also blocked the 15 nonce-less chunk scripts.
+- `/exam/[attemptId]` was the exception under `next start`: its shell was rendered per request, so every script got
+  the nonce. But the build records a prerendered fallback shell for that route, which Vercel's CDN can serve as is.
+  A nonce there would hold or break depending on which one is served, so it wasn't adopted for one route either.
+- Next.js's CSP guide says the same: nonces need fully dynamic rendering, and Partial Prerendering is incompatible
+  with them. With Cache Components that would mean giving up the static shell on these routes, and the root
+  layout's.
+- Hashes don't fit either. The inline payload scripts change per render, and the experimental `sri` option covers
+  external files only.
+
+So `'unsafe-inline'` stays. The mitigations: no `'unsafe-eval'` in production, `script-src-attr 'none'`,
+`object-src 'none'`, `base-uri 'self'`, `form-action 'self'`, React's escaping of all rendered text, and no
+`dangerouslySetInnerHTML` of user input. Revisit if Next.js starts applying nonces when it serves a prerendered shell.
 
 ## Launch checks that need the Vercel or Supabase dashboards
 

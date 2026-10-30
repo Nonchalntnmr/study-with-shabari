@@ -117,7 +117,7 @@ real-link check is still owed (see Open items).
 **The IONOS chat** renders only when `NEXT_PUBLIC_IONOS_CHAT_AGENT_ID` is set, and it isn't set here. It stays
 hidden on the exam, admin, dashboard, login, signup and account pages. It is now also hidden during a lesson
 attempt (`src/components/site/chat-widget.tsx`). When it's switched on, re-run this spec with the agent id set to
-list its hosts. The CSP allows `ionos.ai-voicereceptionist.com`.
+list its hosts. The CSP allows `ionos.ai-voicereceptionist.com` only when `NEXT_PUBLIC_IONOS_CHAT_AGENT_ID` is set.
 
 **Sentry** made no requests (no DSN).
 
