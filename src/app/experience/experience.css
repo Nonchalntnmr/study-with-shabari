@@ -4,7 +4,8 @@
   --exp-ivory: #faf7f0;
   --exp-paper: #f4eee2;
   --exp-rule: #e4ddd0;
-  --exp-bar: rgb(250 247 240 / 0.9);
+  /* Opaque: WebKit doesn't always blur behind sticky bars, and scrolled text must never show through. */
+  --exp-bar: rgb(250 247 240);
   --exp-ink: #0b1f44;
   --exp-quiet: #4a5160;
   background: var(--exp-ivory);
