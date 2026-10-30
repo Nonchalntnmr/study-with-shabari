@@ -1,3 +1,7 @@
+"use client";
+
+// A client component only so the RSC payload carries its props (beat, datBlocked), not its markup.
+// It is still server-rendered into the HTML.
 import { CAMP_MAX, GEOMETRY, STORED_PER_VESICLE, campCounts, fusion, particleAt, particlePlans, siteOf } from "@/lib/experience/synapse-choreography";
 import { seeded } from "@/lib/experience/timeline";
 
