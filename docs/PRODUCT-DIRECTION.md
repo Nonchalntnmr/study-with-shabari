@@ -221,3 +221,68 @@ audit) can continue in parallel.
 ### Still in force
 AI-written content stays unpublished until Shabari approves it. No invented testimonials, outcomes or endorsements.
 No logos of MIT, Ivies, AAMC or prep companies. Keep disclaimers. No public deploy, DNS or spending without confirmation.
+
+---
+
+## Amendment 4 (founder, 10:34): DECISION B — approve Concept B with required refinements
+
+Direction approved. Do not revert to a generic white-and-blue template and do not discard the cinematic work.
+Work on `redesign/concept-b`. Commit autonomously. **Do not merge** until every item below passes **and** the CD
+visual review of the reshoots is done (stop after the reshoot and wait for the CD go-ahead). No public deploy.
+
+1. **Editorial typography:** elegant serif display headlines (Newsreader or a better-suited refined serif on white),
+   refined sans body (Schibsted Grotesk), stronger hierarchy, more whitespace. Exam stays Atkinson.
+2. **De-card:** remove unnecessary bordered boxes, repeated checkmark lists and excess blue pill buttons. Keep cards only
+   where structural: pricing, the score display, the record card. One primary blue button per screen; secondary actions
+   become text links. School names on Admissions are plain set type, not boxed tiles. Use whitespace, large photography
+   (her portrait) and asymmetric compositions.
+3. **Two personalities, one system:**
+   - **MCAT** = scientific and interactive: the molecule, the explorer, data, the score instrument.
+   - **Admissions** = premium personal advisory: writing, mentoring and guidance at the centre; warmer editorial layout,
+     pull-quote-scale typography for the writing credentials, her photo, generous text measure. Same tokens, different composition.
+4. **Preserve** the dopamine explorer, the lesson and learning loop, the exam engine, and all privacy/security work.
+5. **Wording:** "B.S. candidate, MIT Class of 2027" everywhere a degree is mentioned (never "B.S. in …" alone).
+6. **"Published in The BMJ" → "BMJ Rapid Responses"** in the credibility strip and anywhere else; the publications list
+   keeps the spec's titles with the category "Rapid Response, The BMJ".
+7. **Verify claims:** every score, award, research claim and school name must match `docs/FOUNDER-SPEC.md` exactly.
+   The record card gets explicit labels and context: "My high school record (founder-reported)": "Unweighted GPA"
+   only if the spec says so (it says "4.00/4.00 GPA", so label it "GPA 4.00/4.00"), SAT, ACT, "IB Diploma 40/45".
+   Add a line: "Shared as background on my own application. Admissions outcomes vary and nothing here is a guarantee."
+   No implied guarantees or institutional endorsements. Record in `docs/VERIFY.md` that these are founder-reported and
+   that no supporting documents have been seen (we only have the spec).
+8. **Release blocker: historical grading integrity.** Editing a published question must never change a completed
+   attempt's results, review or explanations. Snapshot at submission (or version questions) and read results from the
+   snapshot. Regression tests: edit the correct choice, the text and the explanation of a published question after a student
+   submits, then assert the old results and review are unchanged, and that in-progress attempts behave as documented.
+9. **Answer-key exposure:** audit every API route, server action, RSC payload and page for correct answers, `isCorrect`,
+   rationales or explanations sent before submission (practice, exam, lesson, admin preview, homepage). Add tests that
+   fetch the payloads as a student and as a guest and assert no key fields are present pre-submission.
+10. **Reshoot** desktop 1440 and mobile 390 previews (first screen and full page) of home, MCAT and Admissions into
+    `.local/shots/concept-b/v2/` from the production build, run the full suite (lint, tsc, unit, integration, Playwright
+    with axe and privacy), update PREVIEW-NOTES.md, then **stop for CD review**.
+
+Deliver the previews, test evidence and a list of remaining blockers.
+
+---
+
+## CD review of Concept B v2 (2026-10-29 18:35): APPROVED for merge
+
+v2 meets all ten Amendment 4 items: editorial serif display, de-carded hairline layouts, one primary button per screen,
+distinct MCAT (scientific) and Admissions (warm editorial, prizes beside the portrait) personalities, the correct wording,
+the founder-reported record card with its disclaimer, and grading-integrity and answer-key tests green
+(eslint and tsc clean; vitest 166; Playwright 66 passed, 1 skipped by design).
+
+Next, in order:
+1. Merge `redesign/concept-b` into `main` with a normal merge commit (no force, no rebase of shared history; keep all branches).
+   Re-run the full suite on `main`.
+2. **Vercel (founder has a Pro account):** run `npx vercel link` from the main checkout. It needs one browser approval
+   from the founder, so tell him when it's waiting. Create a project, Next.js preset, region iad1 per vercel.json.
+   Write `docs/VERCEL-ENV.md`: every variable, which environment it's for, and where its value comes from. **Never print
+   secret values.** Set non-secret variables with the CLI. The founder pastes the secret ones (database URLs with the new
+   password, `DATABASE_SSL_CA`, `AUTH_SECRET`, Supabase service key) in the Vercel dashboard. `DATABASE_URL` on Vercel = the
+   transaction pooler (6543, `pgbouncer=true`), `DIRECT_URL` = the session pooler (5432).
+3. **Supabase migrations:** the founder rotated the DB password. `.env` and `.env.supabase.local` now hold a
+   `[NEW-PASSWORD]` placeholder that the founder fills in. Once it's filled, apply the pending migrations (M2 question
+   versions etc.) through the gated path in `docs/STAGING.md`: additive only, show the plan first, no reset or drop.
+4. Deploy a **preview** (not production) of `main`, run `SMOKE_BASE_URL=<preview url> npx playwright test e2e/post-deploy.spec.ts`
+   plus the two journeys against it, and report the preview URL. **No production deploy and no DNS change** until the founder approves.
