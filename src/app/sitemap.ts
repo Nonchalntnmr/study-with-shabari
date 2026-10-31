@@ -3,7 +3,7 @@ import { getPublishedExams } from "@/lib/public-data";
 import { CANONICAL_HOST } from "@/lib/site";
 
 const ORIGIN = `https://${CANONICAL_HOST}`;
-const PAGES = ["", "/mcat", "/dopamine", "/admissions", "/research", "/practice", "/resources", "/pricing", "/about", "/testimonials", "/book", "/faq", "/contact", "/privacy", "/terms"];
+const PAGES = ["", "/mcat", "/dopamine", "/explore/signaling", "/admissions", "/research", "/practice", "/resources", "/pricing", "/about", "/testimonials", "/book", "/faq", "/contact", "/privacy", "/terms"];
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const exams = await getPublishedExams();
